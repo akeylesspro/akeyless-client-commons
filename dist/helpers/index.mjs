@@ -748,6 +748,24 @@ var query_document_by_conditions = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+// src/helpers/global.ts
+var calculateBearing = function(startLat, startLng, endLat, endLng) {
+    if (startLat === endLat || startLng === endLng) {
+        return 0;
+    }
+    if (startLat === void 0 || startLng === void 0 || endLat === void 0 || endLng === void 0) {
+        return 0;
+    }
+    var startLatRad = startLat * Math.PI / 180;
+    var startLngRad = startLng * Math.PI / 180;
+    var endLatRad = endLat * Math.PI / 180;
+    var endLngRad = endLng * Math.PI / 180;
+    var dLon = endLngRad - startLngRad;
+    var y = Math.sin(dLon) * Math.cos(endLatRad);
+    var x = Math.cos(startLatRad) * Math.sin(endLatRad) - Math.sin(startLatRad) * Math.cos(endLatRad) * Math.cos(dLon);
+    var bearing = Math.atan2(y, x) * 180 / Math.PI;
+    return (bearing + 360) % 360;
+};
 // src/helpers/forms.ts
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");
@@ -868,4 +886,4 @@ var useStoreValues = function(store, keys) {
     });
     return result;
 };
-export { add_document, auth, collections, createSelectors, db, delete_document, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
