@@ -1,0 +1,74 @@
+{
+    "name": "akeyless-client-commons",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "powershell -ExecutionPolicy Bypass -File ./ps/build.ps1",
+        "uc": "npm i git+https://github.com/akeylesspro/akeyless-types-commons.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "akeyless-types-commons": "github:akeylesspro/akeyless-types-commons",
+        "exceljs": "^4.4.0",
+        "file-saver": "^2.0.5",
+        "firebase": "^11.0.1",
+        "moment": "^2.30.1",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-spinners": "^0.14.1",
+        "zustand": "^5.0.0"
+    },
+    "devDependencies": {
+        "@swc/core": "^1.7.36",
+        "@types/react": "^18.3.11",
+        "@types/react-dom": "^18.3.1",
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.47",
+        "tailwindcss": "^3.4.14",
+        "tsup": "^8.3.0",
+        "typescript": "^5.6.3"
+    },
+    "exports": {
+        "./assets": {
+            "import": "./dist/assets/index.mjs",
+            "require": "./dist/assets/index.js"
+        },
+        "./components": {
+            "import": "./dist/components/index.mjs",
+            "require": "./dist/components/index.js"
+        },
+        "./helpers": {
+            "import": "./dist/helpers/index.mjs",
+            "require": "./dist/helpers/index.js"
+        },
+        "./hooks": {
+            "import": "./dist/hooks/index.mjs",
+            "require": "./dist/hooks/index.js"
+        },
+        "./types": {
+            "import": "./dist/types/index.mjs",
+            "require": "./dist/types/index.js"
+        }
+    },
+    "typesVersions": {
+        "*": {
+            "assets": [
+                "./dist/assets/index.d.ts"
+            ],
+            "components": [
+                "./dist/components/index.d.ts"
+            ],
+            "helpers": [
+                "./dist/helpers/index.d.ts"
+            ],
+            "hooks": [
+                "./dist/hooks/index.d.ts"
+            ],
+            "types": [
+                "./dist/types/index.d.ts"
+            ]
+        }
+    }
+}
