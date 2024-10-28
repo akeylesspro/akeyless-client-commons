@@ -353,7 +353,6 @@ var initApp = function() {
     var firebaseConfig = {
         apiKey: import_meta.env.VITE_API_KEY,
         authDomain: import_meta.env.VITE_AUTH_DOMAIN,
-        databaseURL: import_meta.env.VITE_DATABASE_URL,
         projectId: import_meta.env.VITE_PROJECT_ID,
         storageBucket: import_meta.env.VITE_STORAGE_BUCKET,
         messagingSenderId: import_meta.env.VITE_MESSAGING_SENDER_ID,

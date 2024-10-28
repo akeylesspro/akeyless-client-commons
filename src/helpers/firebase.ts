@@ -24,7 +24,6 @@ const initApp = () => {
     const firebaseConfig = {
         apiKey: import.meta.env.VITE_API_KEY as string,
         authDomain: import.meta.env.VITE_AUTH_DOMAIN as string,
-        databaseURL: import.meta.env.VITE_DATABASE_URL as string,
         projectId: import.meta.env.VITE_PROJECT_ID as string,
         storageBucket: import.meta.env.VITE_STORAGE_BUCKET as string,
         messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID as string,
@@ -35,6 +34,7 @@ const initApp = () => {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    log
     return { db, auth };
 };
 // Initialize app
