@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import moment from "moment";
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 
@@ -34,7 +34,7 @@ const initApp = () => {
     try {
         const app = initializeApp(firebaseConfig);
         console.log("app", app);
-        const auth = getAuth(app);
+        const auth = initializeAuth(app);
         const db = getFirestore(app);
         console.log({ auth, db });
         return { db, auth };
