@@ -30,14 +30,10 @@ const initApp = () => {
         messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
         appId: import.meta.env.VITE_APP_ID,
     };
-    console.log("firebaseConfig", firebaseConfig);
-
     try {
         const app: FirebaseApp = initializeApp(firebaseConfig);
-        console.log("app", app);
         const auth: Auth = getAuth(app);
         const db: Firestore = getFirestore(app);
-        console.log({ auth, db });
         return { db, auth };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);

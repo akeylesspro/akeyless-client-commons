@@ -198,16 +198,10 @@ var initApp = function() {
         messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
         appId: import.meta.env.VITE_APP_ID
     };
-    console.log("firebaseConfig", firebaseConfig);
     try {
         var app = initializeApp(firebaseConfig);
-        console.log("app", app);
         var auth2 = getAuth(app);
         var db2 = getFirestore(app);
-        console.log({
-            auth: auth2,
-            db: db2
-        });
         return {
             db: db2,
             auth: auth2
