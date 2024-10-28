@@ -741,6 +741,7 @@ var initApp = function() {
     };
     console.log("firebaseConfig", firebaseConfig);
     var app = initializeApp(firebaseConfig);
+    console.log("app", app);
     var auth2 = getAuth(app);
     var db2 = getFirestore(app);
     console.log({

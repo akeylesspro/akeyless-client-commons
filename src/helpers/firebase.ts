@@ -32,9 +32,11 @@ const initApp = () => {
     console.log("firebaseConfig", firebaseConfig);
 
     const app = initializeApp(firebaseConfig);
+    console.log("app", app);
+
     const auth = getAuth(app);
     const db = getFirestore(app);
-    console.log({auth, db});
+    console.log({ auth, db });
 
     return { db, auth };
 };
