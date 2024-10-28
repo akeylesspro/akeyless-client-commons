@@ -175,11 +175,10 @@ function _ts_generator(thisArg, body) {
         };
     }
 }
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where } from "firebase/firestore";
 import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { initializeAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
     var cn = car_number;

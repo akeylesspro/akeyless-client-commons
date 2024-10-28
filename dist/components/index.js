@@ -1141,11 +1141,10 @@ var Loader = function(param) {
 var import_react4 = require("react");
 var import_moment2 = __toESM(require("moment"));
 // src/helpers/firebase.ts
-var import_firestore = require("firebase/firestore");
 var import_moment = __toESM(require("moment"));
 var import_app = require("firebase/app");
 var import_auth = require("firebase/auth");
-var import_firestore2 = require("firebase/firestore");
+var import_firestore = require("firebase/firestore");
 var import_meta = {};
 var initApp = function() {
     var firebaseConfig = {
@@ -1161,7 +1160,7 @@ var initApp = function() {
         var app = (0, import_app.initializeApp)(firebaseConfig);
         console.log("app", app);
         var auth2 = (0, import_auth.initializeAuth)(app);
-        var db2 = (0, import_firestore2.getFirestore)(app);
+        var db2 = (0, import_firestore.getFirestore)(app);
         console.log({
             auth: auth2,
             db: db2

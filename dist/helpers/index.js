@@ -333,11 +333,10 @@ __export(helpers_exports, {
 });
 module.exports = __toCommonJS(helpers_exports);
 // src/helpers/firebase.ts
-var import_firestore = require("firebase/firestore");
 var import_moment = __toESM(require("moment"));
 var import_app = require("firebase/app");
 var import_auth = require("firebase/auth");
-var import_firestore2 = require("firebase/firestore");
+var import_firestore = require("firebase/firestore");
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
     var cn = car_number;
@@ -363,7 +362,7 @@ var initApp = function() {
         var app = (0, import_app.initializeApp)(firebaseConfig);
         console.log("app", app);
         var auth2 = (0, import_auth.initializeAuth)(app);
-        var db2 = (0, import_firestore2.getFirestore)(app);
+        var db2 = (0, import_firestore.getFirestore)(app);
         console.log({
             auth: auth2,
             db: db2

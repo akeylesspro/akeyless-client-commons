@@ -1,3 +1,6 @@
+import moment from "moment";
+import { initializeApp, FirebaseApp } from "firebase/app";
+import { Auth, initializeAuth } from "firebase/auth";
 import {
     addDoc,
     collection,
@@ -13,11 +16,9 @@ import {
     DocumentSnapshot,
     CollectionReference,
     WhereFilterOp,
+    Firestore,
+    getFirestore,
 } from "firebase/firestore";
-import moment from "moment";
-import { initializeApp } from "firebase/app";
-import { initializeAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 
 const initApp = () => {
@@ -32,10 +33,10 @@ const initApp = () => {
     console.log("firebaseConfig", firebaseConfig);
 
     try {
-        const app = initializeApp(firebaseConfig);
+        const app: FirebaseApp = initializeApp(firebaseConfig);
         console.log("app", app);
-        const auth = initializeAuth(app);
-        const db = getFirestore(app);
+        const auth: Auth = initializeAuth(app);
+        const db: Firestore = getFirestore(app);
         console.log({ auth, db });
         return { db, auth };
     } catch (error) {

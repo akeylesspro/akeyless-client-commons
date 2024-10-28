@@ -725,11 +725,10 @@ import { jsx as jsx6 } from "react/jsx-runtime";
 import { useState as useState2 } from "react";
 import moment2 from "moment";
 // src/helpers/firebase.ts
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where } from "firebase/firestore";
 import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { initializeAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
 var initApp = function() {
     var firebaseConfig = {
         apiKey: import.meta.env.VITE_API_KEY,
