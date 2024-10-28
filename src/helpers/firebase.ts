@@ -22,24 +22,28 @@ import { formatCarNumber } from "./cars";
 
 const initApp = () => {
     const firebaseConfig = {
-        apiKey: import.meta.env.VITE_API_KEY as string,
-        authDomain: import.meta.env.VITE_AUTH_DOMAIN as string,
-        projectId: import.meta.env.VITE_PROJECT_ID as string,
-        storageBucket: import.meta.env.VITE_STORAGE_BUCKET as string,
-        messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID as string,
-        appId: import.meta.env.VITE_APP_ID as string,
+        apiKey: import.meta.env.VITE_API_KEY,
+        authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+        projectId: import.meta.env.VITE_PROJECT_ID,
+        storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: import.meta.env.VITE_APP_ID,
     };
     console.log("firebaseConfig", firebaseConfig);
 
-    const app = initializeApp(firebaseConfig);
-    console.log("app", app);
-
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    console.log({ auth, db });
-
-    return { db, auth };
+    try {
+        const app = initializeApp(firebaseConfig);
+        console.log("app", app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        console.log({ auth, db });
+        return { db, auth };
+    } catch (error) {
+        console.error("Failed to initialize Firebase app:", error);
+        return { db: null, auth: null };
+    }
 };
+
 // Initialize app
 export const { db, auth } = initApp();
 

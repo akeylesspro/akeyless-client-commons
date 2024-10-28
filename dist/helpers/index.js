@@ -359,18 +359,26 @@ var initApp = function() {
         appId: import_meta.env.VITE_APP_ID
     };
     console.log("firebaseConfig", firebaseConfig);
-    var app = (0, import_app.initializeApp)(firebaseConfig);
-    console.log("app", app);
-    var auth2 = (0, import_auth.getAuth)(app);
-    var db2 = (0, import_firestore2.getFirestore)(app);
-    console.log({
-        auth: auth2,
-        db: db2
-    });
-    return {
-        db: db2,
-        auth: auth2
-    };
+    try {
+        var app = (0, import_app.initializeApp)(firebaseConfig);
+        console.log("app", app);
+        var auth2 = (0, import_auth.getAuth)(app);
+        var db2 = (0, import_firestore2.getFirestore)(app);
+        console.log({
+            auth: auth2,
+            db: db2
+        });
+        return {
+            db: db2,
+            auth: auth2
+        };
+    } catch (error) {
+        console.error("Failed to initialize Firebase app:", error);
+        return {
+            db: null,
+            auth: null
+        };
+    }
 };
 var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
 var collections = {
