@@ -823,6 +823,7 @@ var initApp = function() {
         messagingSenderId: import_meta.env.VITE_MESSAGING_SENDER_ID,
         appId: import_meta.env.VITE_APP_ID
     };
+    console.log("firebaseConfig", firebaseConfig);
     var app = (0, import_app.initializeApp)(firebaseConfig);
     var auth2 = (0, import_auth.getAuth)(app);
     var db2 = (0, import_firestore2.getFirestore)(app);
