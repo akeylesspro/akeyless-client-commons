@@ -1,6 +1,6 @@
 import moment from "moment";
 import { initializeApp, FirebaseApp } from "firebase/app";
-import { Auth, initializeAuth } from "firebase/auth";
+import { Auth, getAuth } from "firebase/auth";
 import {
     addDoc,
     collection,
@@ -35,7 +35,7 @@ const initApp = () => {
     try {
         const app: FirebaseApp = initializeApp(firebaseConfig);
         console.log("app", app);
-        const auth: Auth = initializeAuth(app);
+        const auth: Auth = getAuth(app);
         const db: Firestore = getFirestore(app);
         console.log({ auth, db });
         return { db, auth };

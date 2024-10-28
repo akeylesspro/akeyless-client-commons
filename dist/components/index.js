@@ -1159,7 +1159,7 @@ var initApp = function() {
     try {
         var app = (0, import_app.initializeApp)(firebaseConfig);
         console.log("app", app);
-        var auth2 = (0, import_auth.initializeAuth)(app);
+        var auth2 = (0, import_auth.getAuth)(app);
         var db2 = (0, import_firestore.getFirestore)(app);
         console.log({
             auth: auth2,

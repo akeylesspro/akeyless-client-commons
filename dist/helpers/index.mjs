@@ -177,7 +177,7 @@ function _ts_generator(thisArg, body) {
 }
 import moment from "moment";
 import { initializeApp } from "firebase/app";
-import { initializeAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
@@ -202,7 +202,7 @@ var initApp = function() {
     try {
         var app = initializeApp(firebaseConfig);
         console.log("app", app);
-        var auth2 = initializeAuth(app);
+        var auth2 = getAuth(app);
         var db2 = getFirestore(app);
         console.log({
             auth: auth2,
