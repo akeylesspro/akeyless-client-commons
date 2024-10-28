@@ -16,8 +16,8 @@ import {
 } from "firebase/firestore";
 import moment from "moment";
 import { initializeApp, FirebaseApp } from "firebase/app";
-import { getAuth, Auth } from "firebase/auth";
-import { getFirestore, Firestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 
 // Initialize app
@@ -32,8 +32,8 @@ const firebaseConfig = {
 };
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
-export const db: Firestore = getFirestore(app);
-export const auth: Auth = getAuth(app);
+export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 interface Collections {
     clients: CollectionReference<DocumentData>;
