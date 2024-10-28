@@ -1,10 +1,10 @@
-import * as _firebase_firestore from '@firebase/firestore';
 import * as _firebase_auth from '@firebase/auth';
+import * as _firebase_firestore from '@firebase/firestore';
 import { Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
 import React from 'react';
 
-declare const auth: _firebase_auth.Auth;
 declare const db: _firebase_firestore.Firestore;
+declare const auth: _firebase_auth.Auth;
 interface Collections {
     clients: CollectionReference<DocumentData>;
     sites: CollectionReference<DocumentData>;

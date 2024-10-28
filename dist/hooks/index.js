@@ -813,18 +813,25 @@ var import_app = require("firebase/app");
 var import_auth = require("firebase/auth");
 var import_firestore2 = require("firebase/firestore");
 var import_meta = {};
-var firebaseConfig = {
-    apiKey: import_meta.env.VITE_API_KEY,
-    authDomain: import_meta.env.VITE_AUTH_DOMAIN,
-    databaseURL: import_meta.env.VITE_DATABASE_URL,
-    projectId: import_meta.env.VITE_PROJECT_ID,
-    storageBucket: import_meta.env.VITE_STORAGE_BUCKET,
-    messagingSenderId: import_meta.env.VITE_MESSAGING_SENDER_ID,
-    appId: import_meta.env.VITE_APP_ID
+var initApp = function() {
+    var firebaseConfig = {
+        apiKey: import_meta.env.VITE_API_KEY,
+        authDomain: import_meta.env.VITE_AUTH_DOMAIN,
+        databaseURL: import_meta.env.VITE_DATABASE_URL,
+        projectId: import_meta.env.VITE_PROJECT_ID,
+        storageBucket: import_meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: import_meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: import_meta.env.VITE_APP_ID
+    };
+    var app = (0, import_app.initializeApp)(firebaseConfig);
+    var auth2 = (0, import_auth.getAuth)(app);
+    var db2 = (0, import_firestore2.getFirestore)(app);
+    return {
+        db: db2,
+        auth: auth2
+    };
 };
-var app = (0, import_app.initializeApp)(firebaseConfig);
-var auth = (0, import_auth.getAuth)(app);
-var db = (0, import_firestore2.getFirestore)(app);
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
 var collections = {
     clients: (0, import_firestore.collection)(db, "nx-clients"),
     sites: (0, import_firestore.collection)(db, "nx-sites"),

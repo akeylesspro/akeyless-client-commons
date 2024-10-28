@@ -20,20 +20,24 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 
-// Initialize app
-const firebaseConfig = {
-    apiKey: import.meta.env.VITE_API_KEY as string,
-    authDomain: import.meta.env.VITE_AUTH_DOMAIN as string,
-    databaseURL: import.meta.env.VITE_DATABASE_URL as string,
-    projectId: import.meta.env.VITE_PROJECT_ID as string,
-    storageBucket: import.meta.env.VITE_STORAGE_BUCKET as string,
-    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID as string,
-    appId: import.meta.env.VITE_APP_ID as string,
-};
+const initApp = () => {
+    const firebaseConfig = {
+        apiKey: import.meta.env.VITE_API_KEY as string,
+        authDomain: import.meta.env.VITE_AUTH_DOMAIN as string,
+        databaseURL: import.meta.env.VITE_DATABASE_URL as string,
+        projectId: import.meta.env.VITE_PROJECT_ID as string,
+        storageBucket: import.meta.env.VITE_STORAGE_BUCKET as string,
+        messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID as string,
+        appId: import.meta.env.VITE_APP_ID as string,
+    };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    return { db, auth };
+};
+// Initialize app
+export const { db, auth } = initApp();
 
 interface Collections {
     clients: CollectionReference<DocumentData>;

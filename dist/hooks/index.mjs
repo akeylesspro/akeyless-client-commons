@@ -730,18 +730,25 @@ import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-var firebaseConfig = {
-    apiKey: import.meta.env.VITE_API_KEY,
-    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-    databaseURL: import.meta.env.VITE_DATABASE_URL,
-    projectId: import.meta.env.VITE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_APP_ID
+var initApp = function() {
+    var firebaseConfig = {
+        apiKey: import.meta.env.VITE_API_KEY,
+        authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+        databaseURL: import.meta.env.VITE_DATABASE_URL,
+        projectId: import.meta.env.VITE_PROJECT_ID,
+        storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: import.meta.env.VITE_APP_ID
+    };
+    var app = initializeApp(firebaseConfig);
+    var auth2 = getAuth(app);
+    var db2 = getFirestore(app);
+    return {
+        db: db2,
+        auth: auth2
+    };
 };
-var app = initializeApp(firebaseConfig);
-var auth = getAuth(app);
-var db = getFirestore(app);
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
 var collections = {
     clients: collection(db, "nx-clients"),
     sites: collection(db, "nx-sites"),
