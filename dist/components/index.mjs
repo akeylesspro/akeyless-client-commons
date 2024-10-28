@@ -1018,53 +1018,7 @@ var Loader = function(param) {
 };
 // src/components/forms/forms.tsx
 import { useState as useState3 } from "react";
-import moment2 from "moment";
-// src/helpers/firebase.ts
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where } from "firebase/firestore";
 import moment from "moment";
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-var firebaseConfig = {
-    apiKey: import.meta.env.VITE_API_KEY,
-    authDomain: import.meta.env.VITE_AUTH_DOMAIN,
-    databaseURL: import.meta.env.VITE_DATABASE_URL,
-    projectId: import.meta.env.VITE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_APP_ID
-};
-var app = initializeApp(firebaseConfig);
-var db = getFirestore(app);
-var auth = getAuth(app);
-var collections = {
-    clients: collection(db, "nx-clients"),
-    sites: collection(db, "nx-sites"),
-    cars: collection(db, "units"),
-    users: collection(db, "nx-users"),
-    lastLocations: collection(db, "last_locations"),
-    ermEvents: collection(db, "erm_events_general"),
-    erm2Events: collection(db, "erm2_events_general"),
-    ruptelaEvents: collection(db, "ruptela_events_general"),
-    polygons: collection(db, "nx-polygons"),
-    polygonEvents: collection(db, "polygon_events"),
-    polygonCars: collection(db, "polygon_cars"),
-    canbus: collection(db, "erm_canbus_parameters"),
-    states: collection(db, "erm_states"),
-    app_pro_commands_queue: collection(db, "app_pro_commands_queue"),
-    trips: collection(db, "erm2_trip"),
-    tripsDetails: collection(db, "erm2_trip_details"),
-    audit: collection(db, "nx-audit"),
-    nx_settings: collection(db, "nx-settings"),
-    settings: collection(db, "settings"),
-    translations: collection(db, "nx-translations"),
-    nx_cars: collection(db, "nx-cars"),
-    boards: collection(db, "boards"),
-    protection_types: collection(db, "protectionTypes"),
-    board_types: collection(db, "boardTypes"),
-    charge_capacities: collection(db, "nx-charge-capacities")
-};
-var fire_base_TIME_TEMP = Timestamp.now();
 // src/helpers/forms.ts
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");
@@ -1507,7 +1461,7 @@ var DatePicker = function(param) {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "from",
-                        defaultValue: defaultFrom || moment2(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
+                        defaultValue: defaultFrom || moment(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
                     })
                 ]
             }),
@@ -1520,7 +1474,7 @@ var DatePicker = function(param) {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "to",
-                        defaultValue: defaultTo || moment2(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
+                        defaultValue: defaultTo || moment(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
                     })
                 ]
             }),
