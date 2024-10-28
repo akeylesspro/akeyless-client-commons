@@ -1038,6 +1038,10 @@ var initApp = function() {
     var app = initializeApp(firebaseConfig);
     var auth2 = getAuth(app);
     var db2 = getFirestore(app);
+    console.log({
+        auth: auth2,
+        db: db2
+    });
     return {
         db: db2,
         auth: auth2
