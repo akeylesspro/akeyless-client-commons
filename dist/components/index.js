@@ -1139,7 +1139,54 @@ var Loader = function(param) {
 };
 // src/components/forms/forms.tsx
 var import_react4 = require("react");
+var import_moment2 = __toESM(require("moment"));
+// src/helpers/firebase.ts
+var import_firestore = require("firebase/firestore");
 var import_moment = __toESM(require("moment"));
+var import_app = require("firebase/app");
+var import_auth = require("firebase/auth");
+var import_firestore2 = require("firebase/firestore");
+var import_meta = {};
+var firebaseConfig = {
+    apiKey: import_meta.env.VITE_API_KEY,
+    authDomain: import_meta.env.VITE_AUTH_DOMAIN,
+    databaseURL: import_meta.env.VITE_DATABASE_URL,
+    projectId: import_meta.env.VITE_PROJECT_ID,
+    storageBucket: import_meta.env.VITE_STORAGE_BUCKET,
+    messagingSenderId: import_meta.env.VITE_MESSAGING_SENDER_ID,
+    appId: import_meta.env.VITE_APP_ID
+};
+var app = (0, import_app.initializeApp)(firebaseConfig);
+var auth = (0, import_auth.getAuth)(app);
+var db = (0, import_firestore2.getFirestore)(app);
+var collections = {
+    clients: (0, import_firestore.collection)(db, "nx-clients"),
+    sites: (0, import_firestore.collection)(db, "nx-sites"),
+    cars: (0, import_firestore.collection)(db, "units"),
+    users: (0, import_firestore.collection)(db, "nx-users"),
+    lastLocations: (0, import_firestore.collection)(db, "last_locations"),
+    ermEvents: (0, import_firestore.collection)(db, "erm_events_general"),
+    erm2Events: (0, import_firestore.collection)(db, "erm2_events_general"),
+    ruptelaEvents: (0, import_firestore.collection)(db, "ruptela_events_general"),
+    polygons: (0, import_firestore.collection)(db, "nx-polygons"),
+    polygonEvents: (0, import_firestore.collection)(db, "polygon_events"),
+    polygonCars: (0, import_firestore.collection)(db, "polygon_cars"),
+    canbus: (0, import_firestore.collection)(db, "erm_canbus_parameters"),
+    states: (0, import_firestore.collection)(db, "erm_states"),
+    app_pro_commands_queue: (0, import_firestore.collection)(db, "app_pro_commands_queue"),
+    trips: (0, import_firestore.collection)(db, "erm2_trip"),
+    tripsDetails: (0, import_firestore.collection)(db, "erm2_trip_details"),
+    audit: (0, import_firestore.collection)(db, "nx-audit"),
+    nx_settings: (0, import_firestore.collection)(db, "nx-settings"),
+    settings: (0, import_firestore.collection)(db, "settings"),
+    translations: (0, import_firestore.collection)(db, "nx-translations"),
+    nx_cars: (0, import_firestore.collection)(db, "nx-cars"),
+    boards: (0, import_firestore.collection)(db, "boards"),
+    protection_types: (0, import_firestore.collection)(db, "protectionTypes"),
+    board_types: (0, import_firestore.collection)(db, "boardTypes"),
+    charge_capacities: (0, import_firestore.collection)(db, "nx-charge-capacities")
+};
+var fire_base_TIME_TEMP = import_firestore.Timestamp.now();
 // src/helpers/forms.ts
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");
@@ -1582,7 +1629,7 @@ var DatePicker = function(param) {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "from",
-                        defaultValue: defaultFrom || (0, import_moment.default)(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
+                        defaultValue: defaultFrom || (0, import_moment2.default)(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
                     })
                 ]
             }),
@@ -1595,7 +1642,7 @@ var DatePicker = function(param) {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "to",
-                        defaultValue: defaultTo || (0, import_moment.default)(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
+                        defaultValue: defaultTo || (0, import_moment2.default)(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
                     })
                 ]
             }),

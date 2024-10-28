@@ -1,22 +1,22 @@
-echo "=> Starting build process..."
-echo "------------------- Building assets... -------------------"
+Write-Output "=> Starting build process..."
+Write-Output "------------------- Building assets... -------------------"
 tsup src/assets/index.ts --format "esm,cjs" --dts --out-dir dist/assets
-echo "------------------- Assets have been built successfully! -------------------"
+Write-Output "------------------- Assets have been built successfully! -------------------"
 
-echo "------------------- Building components... -------------------"
+Write-Output "------------------- Building components... -------------------"
 tsup src/components/index.ts --format "esm,cjs" --dts --out-dir dist/components
-echo "------------------- Components have been built successfully! -------------------"
+Write-Output "------------------- Components have been built successfully! -------------------"
 
-echo "------------------- Building helpers... -------------------"
+Write-Output "------------------- Building helpers... -------------------"
 tsup src/helpers/index.ts --format "esm,cjs" --dts --out-dir dist/helpers
-echo "------------------- Helpers have been built successfully! -------------------"
+Write-Output "------------------- Helpers have been built successfully! -------------------"
 
-echo "------------------- Building hooks... -------------------"
+Write-Output "------------------- Building hooks... -------------------"
 tsup src/hooks/index.ts --format "esm,cjs" --dts --out-dir dist/hooks
-echo "------------------- Hooks have been built successfully! -------------------"
+Write-Output "------------------- Hooks have been built successfully! -------------------"
 
-echo "------------------- Building types... -------------------"
+Write-Output "------------------- Building types... -------------------"
 tsup src/types/index.ts --format "esm,cjs" --dts --out-dir dist/types
-echo "------------------- Types have been built successfully! -------------------"
+Write-Output "------------------- Types have been built successfully! -------------------"
 
-echo "=> Build process successfully completed!"
+Write-Output "=> Build process successfully completed!"
