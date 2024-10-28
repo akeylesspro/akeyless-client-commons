@@ -1,10 +1,10 @@
 Write-Output "=> Starting build process..."
 Write-Output "------------------- Building assets... -------------------"
-tsup src/assets/index.ts --format "esm,cjs" --dts --out-dir dist/assets
+tsup src/assets/index.tsx --format "esm,cjs" --dts --out-dir dist/assets
 Write-Output "------------------- Assets have been built successfully! -------------------"
 
 Write-Output "------------------- Building components... -------------------"
-tsup src/components/index.ts --format "esm,cjs" --dts --out-dir dist/components
+tsup src/components/index.tsx --format "esm,cjs" --dts --out-dir dist/components
 Write-Output "------------------- Components have been built successfully! -------------------"
 
 Write-Output "------------------- Building helpers... -------------------"

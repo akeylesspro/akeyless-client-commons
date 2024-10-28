@@ -10,7 +10,7 @@
     "author": "",
     "license": "ISC",
     "description": "",
-    "dependencies": {
+    "peerDependencies": {
         "akeyless-types-commons": "github:akeylesspro/akeyless-types-commons",
         "exceljs": "^4.4.0",
         "file-saver": "^2.0.5",

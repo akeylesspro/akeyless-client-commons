@@ -49,7 +49,7 @@ var __toCommonJS = function(mod) {
         value: true
     }), mod);
 };
-// src/assets/index.ts
+// src/assets/index.tsx
 var assets_exports = {};
 __export(assets_exports, {
     GreenVSvg: function() {

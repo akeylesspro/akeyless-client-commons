@@ -10,6 +10,12 @@ function _array_with_holes(arr) {
 function _array_without_holes(arr) {
     if (Array.isArray(arr)) return _array_like_to_array(arr);
 }
+function _assert_this_initialized(self) {
+    if (self === void 0) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self;
+}
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -39,6 +45,29 @@ function _async_to_generator(fn) {
         });
     };
 }
+function _call_super(_this, derived, args) {
+    derived = _get_prototype_of(derived);
+    return _possible_constructor_return(_this, _is_native_reflect_construct() ? Reflect.construct(derived, args || [], _get_prototype_of(_this).constructor) : derived.apply(_this, args));
+}
+function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -51,6 +80,25 @@ function _define_property(obj, key, value) {
         obj[key] = value;
     }
     return obj;
+}
+function _get_prototype_of(o) {
+    _get_prototype_of = Object.setPrototypeOf ? Object.getPrototypeOf : function getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _get_prototype_of(o);
+}
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            writable: true,
+            configurable: true
+        }
+    });
+    if (superClass) _set_prototype_of(subClass, superClass);
 }
 function _iterable_to_array(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
@@ -124,6 +172,19 @@ function _object_spread_props(target, source) {
     }
     return target;
 }
+function _possible_constructor_return(self, call) {
+    if (call && (_type_of(call) === "object" || typeof call === "function")) {
+        return call;
+    }
+    return _assert_this_initialized(self);
+}
+function _set_prototype_of(o, p) {
+    _set_prototype_of = Object.setPrototypeOf || function setPrototypeOf(o, p) {
+        o.__proto__ = p;
+        return o;
+    };
+    return _set_prototype_of(o, p);
+}
 function _sliced_to_array(arr, i) {
     return _array_with_holes(arr) || _iterable_to_array_limit(arr, i) || _unsupported_iterable_to_array(arr, i) || _non_iterable_rest();
 }
@@ -141,6 +202,14 @@ function _unsupported_iterable_to_array(o, minLen) {
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _array_like_to_array(o, minLen);
+}
+function _is_native_reflect_construct() {
+    try {
+        var result = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+    } catch (_) {}
+    return (_is_native_reflect_construct = function() {
+        return !!result;
+    })();
 }
 function _ts_generator(thisArg, body) {
     var f, y, t, g, _ = {
@@ -295,7 +364,7 @@ var __toCommonJS = function(mod) {
         value: true
     }), mod);
 };
-// src/components/index.ts
+// src/components/index.tsx
 var components_exports = {};
 __export(components_exports, {
     Checkbox: function() {
@@ -306,6 +375,9 @@ __export(components_exports, {
     },
     DatePicker: function() {
         return DatePicker;
+    },
+    ErrorBoundary: function() {
+        return ErrorBoundary;
     },
     ExportToExcel: function() {
         return ExportToExcel;
@@ -1673,11 +1745,69 @@ var DatePicker = function(param) {
         ]
     });
 };
+// src/components/ErrorBoundary.tsx
+var import_react5 = __toESM(require("react"));
+var import_jsx_runtime8 = require("react/jsx-runtime");
+var ErrorBoundary = /*#__PURE__*/ function(_import_react5_default_Component) {
+    "use strict";
+    _inherits(ErrorBoundary, _import_react5_default_Component);
+    function ErrorBoundary(props) {
+        _class_call_check(this, ErrorBoundary);
+        var _this;
+        _this = _call_super(this, ErrorBoundary, [
+            props
+        ]);
+        _this.state = {
+            hasError: false,
+            error: null,
+            errorInfo: null
+        };
+        return _this;
+    }
+    _create_class(ErrorBoundary, [
+        {
+            key: "componentDidCatch",
+            value: function componentDidCatch(error, errorInfo) {
+                console.error("Error:", error);
+                console.log("Error Info:", errorInfo);
+                this.setState({
+                    errorInfo: errorInfo
+                });
+            }
+        },
+        {
+            key: "render",
+            value: function render() {
+                if (this.state.hasError) {
+                    return this.props.fallback || /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                        className: "full center",
+                        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h1", {
+                            children: "\u05DE\u05E9\u05D4\u05D5 \u05D4\u05E9\u05EA\u05D1\u05E9...."
+                        })
+                    });
+                }
+                return this.props.children;
+            }
+        }
+    ], [
+        {
+            key: "getDerivedStateFromError",
+            value: function getDerivedStateFromError(error) {
+                return {
+                    hasError: true,
+                    error: error
+                };
+            }
+        }
+    ]);
+    return ErrorBoundary;
+}(import_react5.default.Component);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
     Checkbox: Checkbox,
     ConfirmForm: ConfirmForm,
     DatePicker: DatePicker,
+    ErrorBoundary: ErrorBoundary,
     ExportToExcel: ExportToExcel,
     Filter: Filter,
     InputContainer: InputContainer,

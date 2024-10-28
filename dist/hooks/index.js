@@ -10,6 +10,12 @@ function _array_with_holes(arr) {
 function _array_without_holes(arr) {
     if (Array.isArray(arr)) return _array_like_to_array(arr);
 }
+function _assert_this_initialized(self) {
+    if (self === void 0) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self;
+}
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -39,6 +45,29 @@ function _async_to_generator(fn) {
         });
     };
 }
+function _call_super(_this, derived, args) {
+    derived = _get_prototype_of(derived);
+    return _possible_constructor_return(_this, _is_native_reflect_construct() ? Reflect.construct(derived, args || [], _get_prototype_of(_this).constructor) : derived.apply(_this, args));
+}
+function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
 function _define_property(obj, key, value) {
     if (key in obj) {
         Object.defineProperty(obj, key, {
@@ -51,6 +80,25 @@ function _define_property(obj, key, value) {
         obj[key] = value;
     }
     return obj;
+}
+function _get_prototype_of(o) {
+    _get_prototype_of = Object.setPrototypeOf ? Object.getPrototypeOf : function getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+    };
+    return _get_prototype_of(o);
+}
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, {
+        constructor: {
+            value: subClass,
+            writable: true,
+            configurable: true
+        }
+    });
+    if (superClass) _set_prototype_of(subClass, superClass);
 }
 function _iterable_to_array(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
@@ -124,6 +172,19 @@ function _object_spread_props(target, source) {
     }
     return target;
 }
+function _possible_constructor_return(self, call) {
+    if (call && (_type_of(call) === "object" || typeof call === "function")) {
+        return call;
+    }
+    return _assert_this_initialized(self);
+}
+function _set_prototype_of(o, p) {
+    _set_prototype_of = Object.setPrototypeOf || function setPrototypeOf(o, p) {
+        o.__proto__ = p;
+        return o;
+    };
+    return _set_prototype_of(o, p);
+}
 function _sliced_to_array(arr, i) {
     return _array_with_holes(arr) || _iterable_to_array_limit(arr, i) || _unsupported_iterable_to_array(arr, i) || _non_iterable_rest();
 }
@@ -141,6 +202,14 @@ function _unsupported_iterable_to_array(o, minLen) {
     if (n === "Object" && o.constructor) n = o.constructor.name;
     if (n === "Map" || n === "Set") return Array.from(n);
     if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _array_like_to_array(o, minLen);
+}
+function _is_native_reflect_construct() {
+    try {
+        var result = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+    } catch (_) {}
+    return (_is_native_reflect_construct = function() {
+        return !!result;
+    })();
 }
 function _ts_generator(thisArg, body) {
     var f, y, t, g, _ = {
@@ -321,7 +390,7 @@ module.exports = __toCommonJS(hooks_exports);
 // src/hooks/global.ts
 var useSomeHook = function() {};
 // src/hooks/table.ts
-var import_react4 = require("react");
+var import_react5 = require("react");
 // src/components/Checkboxes.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
 // src/components/tables/utils.tsx
@@ -868,10 +937,67 @@ var collections = {
 var fire_base_TIME_TEMP = import_firestore.Timestamp.now();
 // src/components/forms/forms.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
+// src/components/ErrorBoundary.tsx
+var import_react4 = __toESM(require("react"));
+var import_jsx_runtime8 = require("react/jsx-runtime");
+var ErrorBoundary = /*#__PURE__*/ function(_import_react4_default_Component) {
+    "use strict";
+    _inherits(ErrorBoundary, _import_react4_default_Component);
+    function ErrorBoundary(props) {
+        _class_call_check(this, ErrorBoundary);
+        var _this;
+        _this = _call_super(this, ErrorBoundary, [
+            props
+        ]);
+        _this.state = {
+            hasError: false,
+            error: null,
+            errorInfo: null
+        };
+        return _this;
+    }
+    _create_class(ErrorBoundary, [
+        {
+            key: "componentDidCatch",
+            value: function componentDidCatch(error, errorInfo) {
+                console.error("Error:", error);
+                console.log("Error Info:", errorInfo);
+                this.setState({
+                    errorInfo: errorInfo
+                });
+            }
+        },
+        {
+            key: "render",
+            value: function render() {
+                if (this.state.hasError) {
+                    return this.props.fallback || /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                        className: "full center",
+                        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h1", {
+                            children: "\u05DE\u05E9\u05D4\u05D5 \u05D4\u05E9\u05EA\u05D1\u05E9...."
+                        })
+                    });
+                }
+                return this.props.children;
+            }
+        }
+    ], [
+        {
+            key: "getDerivedStateFromError",
+            value: function getDerivedStateFromError(error) {
+                return {
+                    hasError: true,
+                    error: error
+                };
+            }
+        }
+    ]);
+    return ErrorBoundary;
+}(import_react4.default.Component);
 // src/hooks/table.ts
 var import_zustand = require("zustand");
 var useTableContext = function() {
-    var context = (0, import_react4.useContext)(TableContext);
+    var context = (0, import_react5.useContext)(TableContext);
     if (!context) {
         throw new Error("useTableContext must be used within a Table component");
     }
@@ -882,15 +1008,15 @@ var useFilter = function(param) {
     var initFilter = filterableColumns.reduce(function(acc, col) {
         return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
     }, {});
-    var _ref = _sliced_to_array((0, import_react4.useState)(initFilter), 2), filters = _ref[0], setFilters = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react4.useState)(""), 2), filterPopupsDisplay = _ref1[0], setFilterPopupsDisplay = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react5.useState)(initFilter), 2), filters = _ref[0], setFilters = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react5.useState)(""), 2), filterPopupsDisplay = _ref1[0], setFilterPopupsDisplay = _ref1[1];
     var filterOptions = filterableColumns.reduce(function(acc, col) {
         acc[col.dataKey] = Array.from(new Set(data.map(function(item) {
             return item[col.dataKey];
         })));
         return acc;
     }, {});
-    (0, import_react4.useEffect)(function() {
+    (0, import_react5.useEffect)(function() {
         var filtered = dataToRender;
         if (includeSearch) {
             filtered = data.filter(function(item) {
@@ -958,8 +1084,8 @@ var useFilter = function(param) {
     };
 };
 var useSort = function() {
-    var _ref = _sliced_to_array((0, import_react4.useState)(null), 2), sortColumn = _ref[0], setSortColumn = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react4.useState)(null), 2), sortOrder = _ref1[0], setSortOrder = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react5.useState)(null), 2), sortColumn = _ref[0], setSortColumn = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react5.useState)(null), 2), sortOrder = _ref1[0], setSortOrder = _ref1[1];
     var handleSort = function(columnIndex) {
         var newSortOrder = "asc";
         if (sortColumn === columnIndex && sortOrder === "asc") {
@@ -975,7 +1101,7 @@ var useSort = function() {
     };
 };
 var useSearch = function() {
-    var _ref = _sliced_to_array((0, import_react4.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
+    var _ref = _sliced_to_array((0, import_react5.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
     var handleSearch = function(e) {
         setSearchQuery(e.target.value);
     };
