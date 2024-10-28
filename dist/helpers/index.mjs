@@ -899,4 +899,29 @@ var useStoreValues = function(store, keys) {
     });
     return result;
 };
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+var isInternational = function(phone_number) {
+    return phone_number.startsWith("+");
+};
+var isInternationalIsraelPhone = function(phone_number) {
+    return phone_number.startsWith("+9725");
+};
+var local_israel_phone_format = function(international_number) {
+    return international_number.replace("+972", "0");
+};
+var international_israel_phone_format = function(phone) {
+    var validNumber = phone.slice(1, phone.length);
+    return "+972".concat(validNumber);
+};
+var displayFormatPhoneNumber = function(phoneNumber) {
+    if (isInternational(phoneNumber)) {
+        var phoneNumberObject = parsePhoneNumberFromString(phoneNumber);
+        if (!phoneNumberObject) {
+            return phoneNumber;
+        }
+        return phoneNumberObject.formatInternational().replace(/\s/g, "-");
+    }
+    return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+};
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };

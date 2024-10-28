@@ -261,6 +261,9 @@ __export(helpers_exports, {
     delete_document: function() {
         return delete_document;
     },
+    displayFormatPhoneNumber: function() {
+        return displayFormatPhoneNumber;
+    },
     extractAlertsData: function() {
         return extractAlertsData;
     },
@@ -302,6 +305,18 @@ __export(helpers_exports, {
     },
     handlePaste: function() {
         return handlePaste;
+    },
+    international_israel_phone_format: function() {
+        return international_israel_phone_format;
+    },
+    isInternational: function() {
+        return isInternational;
+    },
+    isInternationalIsraelPhone: function() {
+        return isInternationalIsraelPhone;
+    },
+    local_israel_phone_format: function() {
+        return local_israel_phone_format;
     },
     query_document: function() {
         return query_document;
@@ -1058,6 +1073,31 @@ var useStoreValues = function(store, keys) {
     });
     return result;
 };
+// src/helpers/phoneNumber.ts
+var import_libphonenumber_js = require("libphonenumber-js");
+var isInternational = function(phone_number) {
+    return phone_number.startsWith("+");
+};
+var isInternationalIsraelPhone = function(phone_number) {
+    return phone_number.startsWith("+9725");
+};
+var local_israel_phone_format = function(international_number) {
+    return international_number.replace("+972", "0");
+};
+var international_israel_phone_format = function(phone) {
+    var validNumber = phone.slice(1, phone.length);
+    return "+972".concat(validNumber);
+};
+var displayFormatPhoneNumber = function(phoneNumber) {
+    if (isInternational(phoneNumber)) {
+        var phoneNumberObject = (0, import_libphonenumber_js.parsePhoneNumberFromString)(phoneNumber);
+        if (!phoneNumberObject) {
+            return phoneNumber;
+        }
+        return phoneNumberObject.formatInternational().replace(/\s/g, "-");
+    }
+    return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
     add_document: add_document,
@@ -1067,6 +1107,7 @@ var useStoreValues = function(store, keys) {
     createSelectors: createSelectors,
     db: db,
     delete_document: delete_document,
+    displayFormatPhoneNumber: displayFormatPhoneNumber,
     extractAlertsData: extractAlertsData,
     extractBoardsData: extractBoardsData,
     extractCanbusData: extractCanbusData,
@@ -1081,6 +1122,10 @@ var useStoreValues = function(store, keys) {
     handleChange: handleChange,
     handleInvalid: handleInvalid,
     handlePaste: handlePaste,
+    international_israel_phone_format: international_israel_phone_format,
+    isInternational: isInternational,
+    isInternationalIsraelPhone: isInternationalIsraelPhone,
+    local_israel_phone_format: local_israel_phone_format,
     query_document: query_document,
     query_document_by_conditions: query_document_by_conditions,
     query_documents: query_documents,

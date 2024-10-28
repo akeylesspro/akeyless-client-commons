@@ -852,6 +852,8 @@ var collections = {
     charge_capacities: collection(db, "nx-charge-capacities")
 };
 var fire_base_TIME_TEMP = Timestamp.now();
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/components/forms/forms.tsx
 import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 // src/components/ErrorBoundary.tsx

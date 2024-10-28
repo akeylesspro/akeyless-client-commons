@@ -120,4 +120,12 @@ declare const useStoreValues: <T extends object>(store: {
 
 declare const formatCarNumber: (car_number: string) => string;
 
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
+type ConvertFunction = (input: string) => string;
+type CheckFunction = (input: string) => boolean;
+declare const isInternational: CheckFunction;
+declare const isInternationalIsraelPhone: CheckFunction;
+declare const local_israel_phone_format: ConvertFunction;
+declare const international_israel_phone_format: ConvertFunction;
+declare const displayFormatPhoneNumber: ConvertFunction;
+
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
