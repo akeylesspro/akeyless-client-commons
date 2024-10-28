@@ -1,6 +1,6 @@
 import "./index.css";
 export * from "./Checkboxes";
-export * from "./tables";
+export * from "./table";
 export * from "./loaders";
 export * from "./forms";
 export * from "./ErrorBoundary";

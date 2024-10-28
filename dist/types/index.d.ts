@@ -83,6 +83,7 @@ interface FilterProps {
 }
 
 type Direction = "rtl" | "ltr";
+type SetState<T> = (updater: ((prev: T) => T) | T) => void;
 
 interface BaseElementProps {
     name: string;
@@ -143,4 +144,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, InputContainerProps, InputElement, ModularFormProps, SelectContainerProps, SelectElement, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, InputContainerProps, InputElement, ModularFormProps, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };

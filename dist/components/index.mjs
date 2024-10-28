@@ -354,7 +354,7 @@ var Checkbox = function(param) {
         ]
     });
 };
-// src/components/tables/utils.tsx
+// src/components/table/utils.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { memo, useMemo } from "react";
@@ -582,8 +582,10 @@ var exportToExcelSvg = function() {
         ]
     });
 };
+// src/hooks/global.ts
+import { useEffect } from "react";
 // src/hooks/table.ts
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect as useEffect2, useState } from "react";
 import { create } from "zustand";
 var useTableContext = function() {
     var context = useContext(TableContext);
@@ -605,7 +607,7 @@ var useFilter = function(param) {
         })));
         return acc;
     }, {});
-    useEffect(function() {
+    useEffect2(function() {
         var filtered = dataToRender;
         if (includeSearch) {
             filtered = data.filter(function(item) {
@@ -699,7 +701,9 @@ var useSearch = function() {
         handleSearch: handleSearch
     };
 };
-// src/components/tables/utils.tsx
+// src/hooks/WebWorker.ts
+import { useCallback, useEffect as useEffect3, useRef } from "react";
+// src/components/table/utils.tsx
 import { Fragment as Fragment2, jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
@@ -983,7 +987,7 @@ var Summary = memo(function(props) {
         ]
     });
 });
-// src/components/tables/Table.tsx
+// src/components/table/Table.tsx
 import { createContext, useState as useState2 } from "react";
 import { jsx as jsx5, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
@@ -1679,4 +1683,4 @@ var ErrorBoundary = /*#__PURE__*/ function(_React3_Component) {
     ]);
     return ErrorBoundary;
 }(React3.Component);
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };

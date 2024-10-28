@@ -175,20 +175,4 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-interface ErrorBoundaryProps {
-    fallback?: React$1.ReactNode;
-    children: React$1.ReactNode;
-}
-interface ErrorBoundaryState {
-    hasError: boolean;
-    error: Error | null;
-    errorInfo: React$1.ErrorInfo | null;
-}
-declare class ErrorBoundary extends React$1.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps);
-    static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState>;
-    componentDidCatch(error: Error, errorInfo: React$1.ErrorInfo): void;
-    render(): string | number | boolean | react_jsx_runtime.JSX.Element | Iterable<React$1.ReactNode>;
-}
-
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };

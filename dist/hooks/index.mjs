@@ -306,12 +306,21 @@ function _ts_generator(thisArg, body) {
         };
     }
 }
-var useSomeHook = function() {};
+import { useEffect } from "react";
+function useSafeEffect(callback, dependencies, error_message) {
+    useEffect(function() {
+        try {
+            callback();
+        } catch (error) {
+            console.error(error_message || "Error in useEffect:", error);
+        }
+    }, dependencies);
+}
 // src/hooks/table.ts
-import { useContext as useContext2, useEffect as useEffect2, useState as useState3 } from "react";
+import { useContext as useContext2, useEffect as useEffect3, useState as useState3 } from "react";
 // src/components/Checkboxes.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
-// src/components/tables/utils.tsx
+// src/components/table/utils.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { memo, useMemo } from "react";
@@ -499,7 +508,7 @@ var exportToExcelSvg = function() {
         ]
     });
 };
-// src/components/tables/utils.tsx
+// src/components/table/utils.tsx
 import { Fragment as Fragment2, jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
@@ -783,7 +792,7 @@ var Summary = memo(function(props) {
         ]
     });
 });
-// src/components/tables/Table.tsx
+// src/components/table/Table.tsx
 import { createContext, useState } from "react";
 import { jsx as jsx5, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
@@ -935,7 +944,7 @@ var useFilter = function(param) {
         })));
         return acc;
     }, {});
-    useEffect2(function() {
+    useEffect3(function() {
         var filtered = dataToRender;
         if (includeSearch) {
             filtered = data.filter(function(item) {
@@ -1034,4 +1043,6 @@ var useCreateTableStore = function() {
         return {};
     });
 };
-export { useCreateTableStore, useFilter, useSearch, useSomeHook, useSort, useTableContext };
+// src/hooks/WebWorker.ts
+import { useCallback, useEffect as useEffect4, useRef } from "react";
+export { useCreateTableStore, useFilter, useSafeEffect, useSearch, useSort, useTableContext };

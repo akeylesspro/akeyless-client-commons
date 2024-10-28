@@ -2,7 +2,7 @@ import * as zustand from 'zustand';
 import { TObject } from 'akeyless-types-commons';
 import { Dispatch, SetStateAction, ReactNode } from 'react';
 
-declare const useSomeHook: () => void;
+declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
 
 interface FilterableColumn {
     header: string;
@@ -100,4 +100,4 @@ declare const useSearch: () => {
 };
 declare const useCreateTableStore: () => zustand.UseBoundStore<zustand.StoreApi<any>>;
 
-export { useCreateTableStore, useFilter, useSearch, useSomeHook, useSort, useTableContext };
+export { useCreateTableStore, useFilter, useSafeEffect, useSearch, useSort, useTableContext };

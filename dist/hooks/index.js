@@ -373,11 +373,11 @@ __export(hooks_exports, {
     useFilter: function() {
         return useFilter;
     },
+    useSafeEffect: function() {
+        return useSafeEffect;
+    },
     useSearch: function() {
         return useSearch;
-    },
-    useSomeHook: function() {
-        return useSomeHook;
     },
     useSort: function() {
         return useSort;
@@ -388,15 +388,24 @@ __export(hooks_exports, {
 });
 module.exports = __toCommonJS(hooks_exports);
 // src/hooks/global.ts
-var useSomeHook = function() {};
+var import_react = require("react");
+function useSafeEffect(callback, dependencies, error_message) {
+    (0, import_react.useEffect)(function() {
+        try {
+            callback();
+        } catch (error) {
+            console.error(error_message || "Error in useEffect:", error);
+        }
+    }, dependencies);
+}
 // src/hooks/table.ts
-var import_react5 = require("react");
+var import_react6 = require("react");
 // src/components/Checkboxes.tsx
 var import_jsx_runtime = require("react/jsx-runtime");
-// src/components/tables/utils.tsx
+// src/components/table/utils.tsx
 var import_exceljs = __toESM(require("exceljs"));
 var import_file_saver = require("file-saver");
-var import_react = require("react");
+var import_react2 = require("react");
 // src/assets/svg.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
 // src/assets/table.tsx
@@ -581,7 +590,7 @@ var exportToExcelSvg = function() {
         ]
     });
 };
-// src/components/tables/utils.tsx
+// src/components/table/utils.tsx
 var import_jsx_runtime4 = require("react/jsx-runtime");
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
@@ -617,9 +626,9 @@ var TableCell = function(param) {
         children: value
     });
 };
-var TableHead = (0, import_react.memo)(function(props) {
+var TableHead = (0, import_react2.memo)(function(props) {
     var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sort_label = _useTableContext.sort_label;
-    var sortDisplay = (0, import_react.useMemo)(function() {
+    var sortDisplay = (0, import_react2.useMemo)(function() {
         return Boolean(sortKeys.length);
     }, [
         sortKeys
@@ -659,7 +668,7 @@ var TableHead = (0, import_react.memo)(function(props) {
         })
     });
 });
-var TableBody = (0, import_react.memo)(function(props) {
+var TableBody = (0, import_react2.memo)(function(props) {
     var _useTableContext = useTableContext(), handleFilterClick = _useTableContext.handleFilterClick, onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("tbody", {
         onClick: function() {
@@ -672,7 +681,7 @@ var TableBody = (0, import_react.memo)(function(props) {
         })
     });
 });
-var Filter = (0, import_react.memo)(function(param) {
+var Filter = (0, import_react2.memo)(function(param) {
     var filterableColumn = param.filterableColumn, index = param.index;
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
     var _useTableContext = useTableContext(), lang = _useTableContext.lang, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, filterLabel = _useTableContext.filterLabel;
@@ -737,7 +746,7 @@ var Filter = (0, import_react.memo)(function(param) {
         ]
     });
 });
-var ExportToExcel = (0, import_react.memo)(function(props) {
+var ExportToExcel = (0, import_react2.memo)(function(props) {
     var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, export_excel_label = _useTableContext.export_excel_label;
     var addPropertiesToExcel = function(properties) {
         var newData = _to_consumable_array(dataToRender);
@@ -817,7 +826,7 @@ var ExportToExcel = (0, import_react.memo)(function(props) {
         children: exportToExcelSvg()
     });
 });
-var Search = (0, import_react.memo)(function(props) {
+var Search = (0, import_react2.memo)(function(props) {
     var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("input", {
         className: "w-40 border-black border-[1px] px-2 rounded-md ".concat(searchInputClassName),
@@ -828,7 +837,7 @@ var Search = (0, import_react.memo)(function(props) {
         style: searchInputStyle
     });
 });
-var Summary = (0, import_react.memo)(function(props) {
+var Summary = (0, import_react2.memo)(function(props) {
     var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender;
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", {
         style: summaryContainerStyle,
@@ -865,15 +874,15 @@ var Summary = (0, import_react.memo)(function(props) {
         ]
     });
 });
-// src/components/tables/Table.tsx
-var import_react2 = require("react");
+// src/components/table/Table.tsx
+var import_react3 = require("react");
 var import_jsx_runtime5 = require("react/jsx-runtime");
-var TableContext = (0, import_react2.createContext)(null);
+var TableContext = (0, import_react3.createContext)(null);
 // src/components/loaders.tsx
 var import_react_spinners = require("react-spinners");
 var import_jsx_runtime6 = require("react/jsx-runtime");
 // src/components/forms/forms.tsx
-var import_react3 = require("react");
+var import_react4 = require("react");
 var import_moment2 = __toESM(require("moment"));
 // src/helpers/firebase.ts
 var import_moment = __toESM(require("moment"));
@@ -940,11 +949,11 @@ var import_libphonenumber_js = require("libphonenumber-js");
 // src/components/forms/forms.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
 // src/components/ErrorBoundary.tsx
-var import_react4 = __toESM(require("react"));
+var import_react5 = __toESM(require("react"));
 var import_jsx_runtime8 = require("react/jsx-runtime");
-var ErrorBoundary = /*#__PURE__*/ function(_import_react4_default_Component) {
+var ErrorBoundary = /*#__PURE__*/ function(_import_react5_default_Component) {
     "use strict";
-    _inherits(ErrorBoundary, _import_react4_default_Component);
+    _inherits(ErrorBoundary, _import_react5_default_Component);
     function ErrorBoundary(props) {
         _class_call_check(this, ErrorBoundary);
         var _this;
@@ -995,11 +1004,11 @@ var ErrorBoundary = /*#__PURE__*/ function(_import_react4_default_Component) {
         }
     ]);
     return ErrorBoundary;
-}(import_react4.default.Component);
+}(import_react5.default.Component);
 // src/hooks/table.ts
 var import_zustand = require("zustand");
 var useTableContext = function() {
-    var context = (0, import_react5.useContext)(TableContext);
+    var context = (0, import_react6.useContext)(TableContext);
     if (!context) {
         throw new Error("useTableContext must be used within a Table component");
     }
@@ -1010,15 +1019,15 @@ var useFilter = function(param) {
     var initFilter = filterableColumns.reduce(function(acc, col) {
         return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
     }, {});
-    var _ref = _sliced_to_array((0, import_react5.useState)(initFilter), 2), filters = _ref[0], setFilters = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react5.useState)(""), 2), filterPopupsDisplay = _ref1[0], setFilterPopupsDisplay = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react6.useState)(initFilter), 2), filters = _ref[0], setFilters = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react6.useState)(""), 2), filterPopupsDisplay = _ref1[0], setFilterPopupsDisplay = _ref1[1];
     var filterOptions = filterableColumns.reduce(function(acc, col) {
         acc[col.dataKey] = Array.from(new Set(data.map(function(item) {
             return item[col.dataKey];
         })));
         return acc;
     }, {});
-    (0, import_react5.useEffect)(function() {
+    (0, import_react6.useEffect)(function() {
         var filtered = dataToRender;
         if (includeSearch) {
             filtered = data.filter(function(item) {
@@ -1086,8 +1095,8 @@ var useFilter = function(param) {
     };
 };
 var useSort = function() {
-    var _ref = _sliced_to_array((0, import_react5.useState)(null), 2), sortColumn = _ref[0], setSortColumn = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react5.useState)(null), 2), sortOrder = _ref1[0], setSortOrder = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react6.useState)(null), 2), sortColumn = _ref[0], setSortColumn = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react6.useState)(null), 2), sortOrder = _ref1[0], setSortOrder = _ref1[1];
     var handleSort = function(columnIndex) {
         var newSortOrder = "asc";
         if (sortColumn === columnIndex && sortOrder === "asc") {
@@ -1103,7 +1112,7 @@ var useSort = function() {
     };
 };
 var useSearch = function() {
-    var _ref = _sliced_to_array((0, import_react5.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
+    var _ref = _sliced_to_array((0, import_react6.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
     var handleSearch = function(e) {
         setSearchQuery(e.target.value);
     };
@@ -1117,12 +1126,14 @@ var useCreateTableStore = function() {
         return {};
     });
 };
+// src/hooks/WebWorker.ts
+var import_react7 = require("react");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
     useCreateTableStore: useCreateTableStore,
     useFilter: useFilter,
+    useSafeEffect: useSafeEffect,
     useSearch: useSearch,
-    useSomeHook: useSomeHook,
     useSort: useSort,
     useTableContext: useTableContext
 });
