@@ -2,7 +2,7 @@ import { useState } from "react";
 import moment from "moment";
 import { useValidation } from "../../helpers";
 import { GreenVSvg, RedXSvg } from "../../assets";
-import { Loader } from "../loaders";
+import { Loader } from "../utils";
 import { ConfirmFormProps, DatePickerProps, InputContainerProps, ModularFormProps, SelectContainerProps } from "../../types";
 
 export const InputContainer = ({
