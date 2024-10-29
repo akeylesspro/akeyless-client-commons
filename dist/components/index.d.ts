@@ -35,6 +35,8 @@ interface LoaderProps {
 }
 declare const Loader: React$1.FC<LoaderProps>;
 
+type Direction = "rtl" | "ltr";
+
 interface FilterableColumn {
     header: string;
     dataKey: string;
@@ -97,17 +99,15 @@ interface TableProps {
     sortLabel?: string;
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
-    lang: "en" | "he";
+    direction?: Direction;
 }
 interface FilterProps {
     index: number;
     filterableColumn: FilterableColumn;
 }
 
-type Direction = "rtl" | "ltr";
-
 interface BaseElementProps {
-    name: string;
+    name?: string;
     labelContent: string;
     defaultValue?: string;
     required?: boolean;
@@ -117,9 +117,9 @@ interface BaseElementProps {
 }
 interface InputElement extends BaseElementProps {
     type: "input";
-    validationType?: string;
-    inputType: string;
+    inputType?: string;
     validationName?: string;
+    validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 interface SelectElement extends BaseElementProps {
@@ -138,7 +138,7 @@ type FormElement = InputElement | SelectElement;
 interface ModularFormProps {
     submitFunction?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements?: FormElement[];
-    headerContent?: string;
+    headerContent?: JSX.Element;
     buttonContent?: string;
     formClassName?: string;
     headerClassName?: string;
@@ -146,7 +146,7 @@ interface ModularFormProps {
 }
 interface ConfirmFormProps {
     onV: () => Promise<void>;
-    onX: () => Promise<void>;
+    onX: () => Promise<void> | (() => void);
     headline?: string;
     direction?: Direction;
 }
@@ -185,7 +185,7 @@ declare const TableProvider: (props: TableProps & {
 }) => react_jsx_runtime.JSX.Element;
 declare const Table: (props: TableProps) => react_jsx_runtime.JSX.Element;
 
-declare const InputContainer: ({ name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, validationType, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
+declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
 declare const ConfirmForm: ({ onV, onX, headline, direction }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;

@@ -1,5 +1,6 @@
 import { TObject } from "akeyless-types-commons";
 import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Direction } from "../types";
 
 interface FilterableColumn {
     header: string;
@@ -63,7 +64,7 @@ export interface TableProps {
     sortLabel?: string;
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
-    lang: "en" | "he";
+    direction?: Direction;
 }
 
 export interface FilterProps {

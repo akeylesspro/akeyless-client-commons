@@ -1,7 +1,7 @@
 import { Direction } from "../types";
 
 export interface BaseElementProps {
-    name: string;
+    name?: string;
     labelContent: string;
     defaultValue?: string;
     required?: boolean;
@@ -12,9 +12,9 @@ export interface BaseElementProps {
 
 export interface InputElement extends BaseElementProps {
     type: "input";
-    validationType?: string;
-    inputType: string;
+    inputType?: string;
     validationName?: string;
+    validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
@@ -27,12 +27,12 @@ export interface SelectElement extends BaseElementProps {
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 
-type FormElement = InputElement | SelectElement;
+export type FormElement = InputElement | SelectElement;
 
 export interface ModularFormProps {
     submitFunction?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements?: FormElement[];
-    headerContent?: string;
+    headerContent?: JSX.Element;
     buttonContent?: string;
     formClassName?: string;
     headerClassName?: string;
@@ -41,7 +41,7 @@ export interface ModularFormProps {
 
 export interface ConfirmFormProps {
     onV: () => Promise<void>;
-    onX: () => Promise<void>;
+    onX: () => Promise<void> | (() => void);
     headline?: string;
     direction?: Direction;
 }

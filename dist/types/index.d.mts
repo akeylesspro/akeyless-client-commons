@@ -1,6 +1,9 @@
 import { TObject } from 'akeyless-types-commons';
 import { Dispatch, SetStateAction, ReactNode } from 'react';
 
+type Direction = "rtl" | "ltr";
+type SetState<T> = (updater: ((prev: T) => T) | T) => void;
+
 interface FilterableColumn {
     header: string;
     dataKey: string;
@@ -75,18 +78,15 @@ interface TableProps {
     sortLabel?: string;
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
-    lang: "en" | "he";
+    direction?: Direction;
 }
 interface FilterProps {
     index: number;
     filterableColumn: FilterableColumn;
 }
 
-type Direction = "rtl" | "ltr";
-type SetState<T> = (updater: ((prev: T) => T) | T) => void;
-
 interface BaseElementProps {
-    name: string;
+    name?: string;
     labelContent: string;
     defaultValue?: string;
     required?: boolean;
@@ -96,9 +96,9 @@ interface BaseElementProps {
 }
 interface InputElement extends BaseElementProps {
     type: "input";
-    validationType?: string;
-    inputType: string;
+    inputType?: string;
     validationName?: string;
+    validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 interface SelectElement extends BaseElementProps {
@@ -117,7 +117,7 @@ type FormElement = InputElement | SelectElement;
 interface ModularFormProps {
     submitFunction?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements?: FormElement[];
-    headerContent?: string;
+    headerContent?: JSX.Element;
     buttonContent?: string;
     formClassName?: string;
     headerClassName?: string;
@@ -125,7 +125,7 @@ interface ModularFormProps {
 }
 interface ConfirmFormProps {
     onV: () => Promise<void>;
-    onX: () => Promise<void>;
+    onX: () => Promise<void> | (() => void);
     headline?: string;
     direction?: Direction;
 }
@@ -144,4 +144,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, InputContainerProps, InputElement, ModularFormProps, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };

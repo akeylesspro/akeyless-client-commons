@@ -13,10 +13,10 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         headers,
         optionalElement,
         keysToRender = [],
-        lang = "en",
+        direction = "ltr",
         onRowClick = (data) => {},
         // container styles props
-        containerStyle = {},
+        containerStyle,
         containerClassName = "",
         tableContainerClass = "",
         tableContainerStyle = {},
@@ -68,6 +68,11 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     });
     const providerValues = {
         ...props,
+        //
+        direction,
+        keysToRender,
+        filterableColumns,
+        //
         sortColumn,
         sortOrder,
         handleSort,
@@ -116,7 +121,7 @@ export const Table = (props: TableProps) => {
             <div style={tableContainerStyle} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
                 <table style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />
-                    <TableBody render={false}/>
+                    <TableBody render={false} />
                 </table>
             </div>
             {/* summary */}

@@ -4,6 +4,8 @@ import { Dispatch, SetStateAction, ReactNode } from 'react';
 
 declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
 
+type Direction = "rtl" | "ltr";
+
 interface FilterableColumn {
     header: string;
     dataKey: string;
@@ -78,7 +80,7 @@ interface TableProps {
     sortLabel?: string;
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
-    lang: "en" | "he";
+    direction?: Direction;
 }
 
 declare const useTableContext: () => TableProps & TableProviderType;
