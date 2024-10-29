@@ -1214,7 +1214,7 @@ var handleInvalid = function(e, requireError) {
 };
 var handleChange = function(e) {
     e.target.setCustomValidity("");
-    var validation = e.target.getAttribute("data-validation");
+    var validation = e.target.getAttribute("dataValidation");
     if (validation === "text") {
         var cleanedValue = e.target.value.replace(/[^a-zA-Zא-ת\- ]/g, "");
         e.target.value = cleanedValue;
@@ -1250,7 +1250,7 @@ var handleChange = function(e) {
     }
 };
 var handlePaste = function(e) {
-    var validation = e.currentTarget.getAttribute("data-validation");
+    var validation = e.currentTarget.getAttribute("dataValidation");
     var pasteData = e.clipboardData.getData("text");
     if (validation === "text") {
         pasteData = pasteData.replace(/[^a-zA-Zא-ת\- ]/g, "");
@@ -1283,7 +1283,7 @@ var useValidation = function(validationType, requireError) {
         onInvalid: function(e) {
             return handleInvalid(e, requireError);
         },
-        "data-validation": validationType
+        "dataValidation": validationType
     };
 };
 // src/helpers/phoneNumber.ts

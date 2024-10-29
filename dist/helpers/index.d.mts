@@ -109,7 +109,7 @@ declare const useValidation: (validationType: string, requireError?: string) => 
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
     onInvalid: (e: React.InvalidEvent<HTMLInputElement>) => void;
-    "data-validation": string;
+    dataValidation: string;
 };
 
 declare const setState: <T>(updater: T | ((state: T) => T), set: (fn: (state: any) => any) => void, stateName: string) => void;

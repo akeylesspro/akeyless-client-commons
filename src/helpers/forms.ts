@@ -6,7 +6,7 @@ export const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>, requireEr
 
 export const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.setCustomValidity("");
-    const validation = e.target.getAttribute("data-validation");
+    const validation = e.target.getAttribute("dataValidation");
     if (validation === "text") {
         const cleanedValue = e.target.value.replace(/[^a-zA-Zא-ת\- ]/g, "");
         e.target.value = cleanedValue;
@@ -43,7 +43,7 @@ export const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 export const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const validation = e.currentTarget.getAttribute("data-validation");
+    const validation = e.currentTarget.getAttribute("dataValidation");
     let pasteData = e.clipboardData.getData("text");
 
     if (validation === "text") {
@@ -77,6 +77,6 @@ export const useValidation = (validationType: string, requireError?: string) => 
         onChange: handleChange,
         onPaste: handlePaste,
         onInvalid: (e: React.InvalidEvent<HTMLInputElement>) => handleInvalid(e, requireError),
-        "data-validation": validationType,
+        "dataValidation": validationType,
     };
 };
