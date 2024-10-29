@@ -936,7 +936,7 @@ var TableCell = function(param) {
     });
 };
 var TableHead = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sort_label = _useTableContext.sort_label;
+    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
     var sortDisplay = (0, import_react5.useMemo)(function() {
         return Boolean(sortKeys.length);
     }, [
@@ -951,7 +951,7 @@ var TableHead = (0, import_react5.memo)(function(props) {
                     return col.header === header;
                 });
                 return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("th", {
-                    title: sortDisplay ? "".concat(sort_label, " ").concat(header) : header,
+                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
                     className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
                     children: [
@@ -1056,7 +1056,7 @@ var Filter = (0, import_react5.memo)(function(param) {
     });
 });
 var ExportToExcel = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, export_excel_label = _useTableContext.export_excel_label;
+    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
     var addPropertiesToExcel = function(properties) {
         var newData = _to_consumable_array(dataToRender);
         var newHeaders = _to_consumable_array(headers);
@@ -1130,7 +1130,7 @@ var ExportToExcel = (0, import_react5.memo)(function(props) {
     }();
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", {
         onClick: onExportExcelClick,
-        title: export_excel_label,
+        title: exportExcelLabel,
         className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
         children: exportToExcelSvg()
     });
@@ -1193,9 +1193,9 @@ var TableProvider = function(props) {
     containerStyle, containerStyle = _props_containerStyle === void 0 ? {} : _props_containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
     headerStyle, headerStyle = _props_headerStyle === void 0 ? {} : _props_headerStyle, headerCellStyle = props.headerCellStyle, _props_searchInputStyle = props.searchInputStyle, searchInputStyle = _props_searchInputStyle === void 0 ? {} : _props_searchInputStyle, _props_searchInputClassName = props.searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, // search
     includeSearch = props.includeSearch, _props_searchPlaceHolder = props.searchPlaceHolder, searchPlaceHolder = _props_searchPlaceHolder === void 0 ? "Search in table ..." : _props_searchPlaceHolder, // sort
-    sortKeys = props.sortKeys, _props_sort_label = props.sort_label, sort_label = _props_sort_label === void 0 ? "Sort by" : _props_sort_label, _props_filterableColumns = props.// filter
+    sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
     filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
-    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_export_excel_label = props.export_excel_label, export_excel_label = _props_export_excel_label === void 0 ? "Export to excel" : _props_export_excel_label, excelFileName = props.excelFileName, // summary
+    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
     sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle;
     var _ref = _sliced_to_array((0, import_react6.useState)(data), 2), dataToRender = _ref[0], setDataToRender = _ref[1];
     var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort;

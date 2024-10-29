@@ -33,14 +33,14 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         searchPlaceHolder = "Search in table ...",
         // sort
         sortKeys,
-        sort_label = "Sort by",
+        sortLabel = "Sort by",
         // filter
         filterableColumns = [],
         filterLabel = "Filter by",
         // export to excel
         exportToExcelKeys,
         dataToAddToExcelTable,
-        export_excel_label = "Export to excel",
+        exportExcelLabel = "Export to excel",
         excelFileName,
         // summary
         sumColumns,

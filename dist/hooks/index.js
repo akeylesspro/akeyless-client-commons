@@ -687,7 +687,7 @@ var TableCell = function(param) {
     });
 };
 var TableHead = (0, import_react3.memo)(function(props) {
-    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sort_label = _useTableContext.sort_label;
+    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
     var sortDisplay = (0, import_react3.useMemo)(function() {
         return Boolean(sortKeys.length);
     }, [
@@ -702,7 +702,7 @@ var TableHead = (0, import_react3.memo)(function(props) {
                     return col.header === header;
                 });
                 return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("th", {
-                    title: sortDisplay ? "".concat(sort_label, " ").concat(header) : header,
+                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
                     className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
                     children: [
@@ -807,7 +807,7 @@ var Filter = (0, import_react3.memo)(function(param) {
     });
 });
 var ExportToExcel = (0, import_react3.memo)(function(props) {
-    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, export_excel_label = _useTableContext.export_excel_label;
+    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
     var addPropertiesToExcel = function(properties) {
         var newData = _to_consumable_array(dataToRender);
         var newHeaders = _to_consumable_array(headers);
@@ -881,7 +881,7 @@ var ExportToExcel = (0, import_react3.memo)(function(props) {
     }();
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", {
         onClick: onExportExcelClick,
-        title: export_excel_label,
+        title: exportExcelLabel,
         className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
         children: exportToExcelSvg()
     });

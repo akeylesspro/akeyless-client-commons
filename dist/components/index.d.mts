@@ -94,8 +94,8 @@ interface TableProps {
     summaryRowStyle?: React.CSSProperties;
     summaryLabel?: string;
     filterLabel?: string;
-    sort_label?: string;
-    export_excel_label?: string;
+    sortLabel?: string;
+    exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
     lang: "en" | "he";
 }

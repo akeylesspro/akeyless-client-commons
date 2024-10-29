@@ -46,7 +46,7 @@ export const TableHead = memo((props: any) => {
         sortKeys,
         sortOrder,
         filterableColumns = [],
-        sort_label,
+        sortLabel,
     } = useTableContext();
     const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys.length), [sortKeys]);
     return (
@@ -56,7 +56,7 @@ export const TableHead = memo((props: any) => {
                     const filterableColumn = filterableColumns.find((col) => col.header === header);
                     return (
                         <th
-                            title={sortDisplay ? `${sort_label} ${header}` : header}
+                            title={sortDisplay ? `${sortLabel} ${header}` : header}
                             style={headerCellStyle}
                             key={index}
                             className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
@@ -135,7 +135,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
 });
 
 export const ExportToExcel = memo((props: any) => {
-    const { exportToExcelKeys, dataToAddToExcelTable, excelFileName, dataToRender, headers, sumColumns, export_excel_label } = useTableContext();
+    const { exportToExcelKeys, dataToAddToExcelTable, excelFileName, dataToRender, headers, sumColumns, exportExcelLabel } = useTableContext();
     const addPropertiesToExcel = (properties: { key: string; value: any; header: string }[]) => {
         let newData = [...dataToRender];
         let newHeaders = [...headers];
@@ -178,7 +178,7 @@ export const ExportToExcel = memo((props: any) => {
         }
     };
     return (
-        <button onClick={onExportExcelClick} title={export_excel_label} className="px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]">
+        <button onClick={onExportExcelClick} title={exportExcelLabel} className="px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]">
             {exportToExcelSvg()}
         </button>
     );
