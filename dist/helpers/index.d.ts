@@ -32,7 +32,7 @@ interface Collections {
     charge_capacities: CollectionReference<DocumentData>;
 }
 declare const collections: Collections;
-declare const fire_base_TIME_TEMP: Timestamp;
+declare const fire_base_TIME_TEMP: typeof Timestamp.now;
 declare const extractAlertsData: (doc: DocumentSnapshot<DocumentData>) => {
     timestamp_seconds: any;
     timestamp_ui: string;

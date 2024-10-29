@@ -1000,7 +1000,7 @@ var collections = {
     board_types: (0, import_firestore.collection)(db, "boardTypes"),
     charge_capacities: (0, import_firestore.collection)(db, "nx-charge-capacities")
 };
-var fire_base_TIME_TEMP = import_firestore.Timestamp.now();
+var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/components/forms/index.tsx

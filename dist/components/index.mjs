@@ -1212,7 +1212,7 @@ var collections = {
     board_types: collection(db, "boardTypes"),
     charge_capacities: collection(db, "nx-charge-capacities")
 };
-var fire_base_TIME_TEMP = Timestamp.now();
+var fire_base_TIME_TEMP = Timestamp.now;
 // src/helpers/forms.ts
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");

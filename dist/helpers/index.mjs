@@ -242,7 +242,7 @@ var collections = {
     board_types: collection(db, "boardTypes"),
     charge_capacities: collection(db, "nx-charge-capacities")
 };
-var fire_base_TIME_TEMP = Timestamp.now();
+var fire_base_TIME_TEMP = Timestamp.now;
 var extractAlertsData = function(doc2) {
     var data = doc2.data();
     var car_number = data.car_number, timestamp = data.timestamp;

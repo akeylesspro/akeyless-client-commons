@@ -101,7 +101,7 @@ export const collections: Collections = {
 };
 
 // Timestamp
-export const fire_base_TIME_TEMP = Timestamp.now();
+export const fire_base_TIME_TEMP = Timestamp.now;
 
 // Data extraction functions
 export const extractAlertsData = (doc: DocumentSnapshot<DocumentData>) => {

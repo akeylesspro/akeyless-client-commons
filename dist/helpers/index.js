@@ -416,7 +416,7 @@ var collections = {
     board_types: (0, import_firestore.collection)(db, "boardTypes"),
     charge_capacities: (0, import_firestore.collection)(db, "nx-charge-capacities")
 };
-var fire_base_TIME_TEMP = import_firestore.Timestamp.now();
+var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
 var extractAlertsData = function(doc2) {
     var data = doc2.data();
     var car_number = data.car_number, timestamp = data.timestamp;
