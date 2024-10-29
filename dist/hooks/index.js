@@ -881,7 +881,7 @@ var TableContext = (0, import_react3.createContext)(null);
 // src/components/loaders.tsx
 var import_react_spinners = require("react-spinners");
 var import_jsx_runtime6 = require("react/jsx-runtime");
-// src/components/forms/forms.tsx
+// src/components/forms/index.tsx
 var import_react4 = require("react");
 var import_moment2 = __toESM(require("moment"));
 // src/helpers/firebase.ts
@@ -946,7 +946,7 @@ var collections = {
 var fire_base_TIME_TEMP = import_firestore.Timestamp.now();
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
-// src/components/forms/forms.tsx
+// src/components/forms/index.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
 // src/components/ErrorBoundary.tsx
 var import_react5 = __toESM(require("react"));

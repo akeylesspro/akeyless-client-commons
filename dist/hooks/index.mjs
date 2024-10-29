@@ -799,7 +799,7 @@ var TableContext = createContext(null);
 // src/components/loaders.tsx
 import { ClipLoader } from "react-spinners";
 import { jsx as jsx6 } from "react/jsx-runtime";
-// src/components/forms/forms.tsx
+// src/components/forms/index.tsx
 import { useState as useState2 } from "react";
 import moment2 from "moment";
 // src/helpers/firebase.ts
@@ -863,7 +863,7 @@ var collections = {
 var fire_base_TIME_TEMP = Timestamp.now();
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
-// src/components/forms/forms.tsx
+// src/components/forms/index.tsx
 import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 // src/components/ErrorBoundary.tsx
 import React3 from "react";
