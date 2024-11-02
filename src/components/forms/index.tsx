@@ -6,7 +6,7 @@ import { Loader } from "../utils";
 import { ConfirmFormProps, DatePickerProps, InputContainerProps, ModularFormProps, SelectContainerProps } from "../../types";
 
 export const InputContainer = ({
-    validationError ,
+    validationError,
     name = "",
     inputType = "text",
     labelContent = "",

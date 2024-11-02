@@ -85,11 +85,12 @@ export const useFilter = ({
         handleFilterClick,
     };
 };
+type SortOptions = "asc" | "desc";
 export const useSort = () => {
     const [sortColumn, setSortColumn] = useState<number | null>(null);
-    const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
+    const [sortOrder, setSortOrder] = useState<SortOptions | null>(null);
     const handleSort = (columnIndex: number) => {
-        let newSortOrder: "asc" | "desc" = "asc";
+        let newSortOrder: SortOptions = "asc";
         if (sortColumn === columnIndex && sortOrder === "asc") {
             newSortOrder = "desc";
         }

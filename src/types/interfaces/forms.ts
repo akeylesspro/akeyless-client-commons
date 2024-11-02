@@ -39,7 +39,7 @@ export interface ModularFormProps {
     direction?: Direction;
 }
 export interface ConfirmFormProps {
-    onV: () => Promise<void>;
+    onV: () => Promise<void> | void;
     onX: () => Promise<void> | void;
     headline?: string;
     direction?: Direction;

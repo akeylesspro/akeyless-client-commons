@@ -91,9 +91,10 @@ declare const useFilter: ({ data, dataToRender, setDataToRender, filterableColum
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
 };
+type SortOptions = "asc" | "desc";
 declare const useSort: () => {
     sortColumn: number;
-    sortOrder: "asc" | "desc";
+    sortOrder: SortOptions;
     handleSort: (columnIndex: number) => void;
 };
 declare const useSearch: () => {

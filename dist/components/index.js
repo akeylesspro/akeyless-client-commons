@@ -1285,13 +1285,14 @@ var import_auth = require("firebase/auth");
 var import_firestore = require("firebase/firestore");
 var import_meta = {};
 var initApp = function() {
+    var _process_env, _process_env1, _process_env2, _process_env3, _process_env4, _process_env5;
     var firebaseConfig = {
-        apiKey: import_meta.env.VITE_API_KEY,
-        authDomain: import_meta.env.VITE_AUTH_DOMAIN,
-        projectId: import_meta.env.VITE_PROJECT_ID,
-        storageBucket: import_meta.env.VITE_STORAGE_BUCKET,
-        messagingSenderId: import_meta.env.VITE_MESSAGING_SENDER_ID,
-        appId: import_meta.env.VITE_APP_ID
+        apiKey: ((_process_env = process.env) === null || _process_env === void 0 ? void 0 : _process_env.NEXT_PUBLIC_API_KEY) || import_meta.env.VITE_API_KEY,
+        authDomain: ((_process_env1 = process.env) === null || _process_env1 === void 0 ? void 0 : _process_env1.NEXT_PUBLIC_AUTH_DOMAIN) || import_meta.env.VITE_AUTH_DOMAIN,
+        projectId: ((_process_env2 = process.env) === null || _process_env2 === void 0 ? void 0 : _process_env2.NEXT_PUBLIC_PROJECT_ID) || import_meta.env.VITE_PROJECT_ID,
+        storageBucket: ((_process_env3 = process.env) === null || _process_env3 === void 0 ? void 0 : _process_env3.NEXT_PUBLIC_STORAGE_BUCKET) || import_meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: ((_process_env4 = process.env) === null || _process_env4 === void 0 ? void 0 : _process_env4.NEXT_PUBLIC_MESSAGING_SENDER_ID) || import_meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: ((_process_env5 = process.env) === null || _process_env5 === void 0 ? void 0 : _process_env5.NEXT_PUBLIC_APP_ID) || import_meta.env.VITE_APP_ID
     };
     try {
         var app = (0, import_app.initializeApp)(firebaseConfig);

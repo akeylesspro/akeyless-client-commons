@@ -145,7 +145,7 @@ interface ModularFormProps {
     direction?: Direction;
 }
 interface ConfirmFormProps {
-    onV: () => Promise<void>;
+    onV: () => Promise<void> | void;
     onX: () => Promise<void> | void;
     headline?: string;
     direction?: Direction;
