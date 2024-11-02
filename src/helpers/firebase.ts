@@ -21,15 +21,15 @@ import {
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 
-
 const initApp = () => {
+    const isNodeEnv = typeof process !== "undefined" && process.env;
     const firebaseConfig = {
-        apiKey: process.env?.NEXT_PUBLIC_API_KEY || import.meta.env.VITE_API_KEY,
-        authDomain: process.env?.NEXT_PUBLIC_AUTH_DOMAIN || import.meta.env.VITE_AUTH_DOMAIN,
-        projectId: process.env?.NEXT_PUBLIC_PROJECT_ID || import.meta.env.VITE_PROJECT_ID,
-        storageBucket: process.env?.NEXT_PUBLIC_STORAGE_BUCKET || import.meta.env.VITE_STORAGE_BUCKET,
-        messagingSenderId: process.env?.NEXT_PUBLIC_MESSAGING_SENDER_ID || import.meta.env.VITE_MESSAGING_SENDER_ID,
-        appId: process.env?.NEXT_PUBLIC_APP_ID || import.meta.env.VITE_APP_ID,
+        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
+        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
+        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
+        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID,
     };
     try {
         const app: FirebaseApp = initializeApp(firebaseConfig);
