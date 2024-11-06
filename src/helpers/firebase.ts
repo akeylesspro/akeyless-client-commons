@@ -46,6 +46,7 @@ const initApp = () => {
 export const { db, auth } = initApp();
 
 interface Collections {
+    [key: string]: CollectionReference<DocumentData>;
     clients: CollectionReference<DocumentData>;
     sites: CollectionReference<DocumentData>;
     cars: CollectionReference<DocumentData>;
@@ -269,7 +270,13 @@ export const delete_document = async (collection_path: string, doc_id: string) =
     }
 };
 
-export const query_document = async (collection_path: string, field_name: string, operator: WhereFilterOp, value: any, ignore_log = false) => {
+export const query_document = async (
+    collection_path: string,
+    field_name: string,
+    operator: WhereFilterOp,
+    value: any,
+    ignore_log = false
+): Promise<null | { id: string }> => {
     try {
         const q = query(collection(db, collection_path), where(field_name, operator, value));
         const query_snapshot = await getDocs(q);
