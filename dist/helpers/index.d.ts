@@ -1,10 +1,12 @@
 import { Auth } from 'firebase/auth';
 import { Firestore, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
+import { TObject } from 'akeyless-types-commons';
 import React from 'react';
 
 declare const db: Firestore;
 declare const auth: Auth;
 interface Collections {
+    [key: string]: CollectionReference<DocumentData>;
     clients: CollectionReference<DocumentData>;
     sites: CollectionReference<DocumentData>;
     cars: CollectionReference<DocumentData>;
@@ -82,9 +84,7 @@ declare const get_document_by_id: (collection_path: string, doc_id: string) => P
 declare const set_document: (collection_path: string, doc_id: string, data: DocumentData) => Promise<boolean>;
 declare const add_document: (collection_path: string, data: DocumentData, include_id?: boolean) => Promise<boolean>;
 declare const delete_document: (collection_path: string, doc_id: string) => Promise<boolean>;
-declare const query_document: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any, ignore_log?: boolean) => Promise<{
-    id: string;
-}>;
+declare const query_document: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any, ignore_log?: boolean) => Promise<null | TObject<any>>;
 declare const query_documents: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any) => Promise<{
     id: string;
 }[]>;

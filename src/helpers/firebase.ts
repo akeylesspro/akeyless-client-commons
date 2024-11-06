@@ -20,6 +20,7 @@ import {
     getFirestore,
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
+import { TObject } from "akeyless-types-commons";
 
 const initApp = () => {
     const isNodeEnv = typeof process !== "undefined" && process.env;
@@ -276,7 +277,7 @@ export const query_document = async (
     operator: WhereFilterOp,
     value: any,
     ignore_log = false
-): Promise<null | { id: string }> => {
+): Promise<null | TObject<any>> => {
     try {
         const q = query(collection(db, collection_path), where(field_name, operator, value));
         const query_snapshot = await getDocs(q);
