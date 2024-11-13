@@ -717,6 +717,12 @@ var useFilter = function(param) {
     ]);
     var handleFilterChange = function(dataKey, value) {
         var newFilters = _object_spread({}, filters);
+        console.log("data from filter", {
+            filters: filters,
+            newFilters: newFilters,
+            dataKey: dataKey,
+            value: value
+        });
         if (newFilters[dataKey].includes(value)) {
             newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
                 return item !== value;

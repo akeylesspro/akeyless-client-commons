@@ -58,6 +58,8 @@ export const useFilter = ({
 
     const handleFilterChange = (dataKey: string, value: string) => {
         const newFilters = { ...filters };
+        console.log("data from filter", {filters,newFilters,dataKey,value});
+        
         if (newFilters[dataKey].includes(value)) {
             newFilters[dataKey] = newFilters[dataKey].filter((item) => item !== value);
         } else {
