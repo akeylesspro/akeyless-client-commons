@@ -15,7 +15,7 @@ export const TableRow = ({ item }: { item: TObject<any> }) => {
     const { rowStyles, cellStyle, keysToRender, onRowClick } = useTableContext();
 
     return (
-        <tr onClick={() => onRowClick?.(item)} style={rowStyles}>
+        <tr onClick={() => onRowClick && onRowClick(item)} style={rowStyles}>
             {keysToRender.map((key, index) => (
                 <TableCell key={index} value={item[key]} />
             ))}

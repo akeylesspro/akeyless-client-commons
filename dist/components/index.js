@@ -917,7 +917,7 @@ var TableRow = function(param) {
     var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
     return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tr", {
         onClick: function() {
-            return onRowClick === null || onRowClick === void 0 ? void 0 : onRowClick(item);
+            return onRowClick && onRowClick(item);
         },
         style: rowStyles,
         children: keysToRender.map(function(key, index) {
