@@ -580,7 +580,7 @@ var TableRow = function(param) {
     var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
     return /* @__PURE__ */ jsx6("tr", {
         onClick: function() {
-            return onRowClick(item);
+            return onRowClick === null || onRowClick === void 0 ? void 0 : onRowClick(item);
         },
         style: rowStyles,
         children: keysToRender.map(function(key, index) {
