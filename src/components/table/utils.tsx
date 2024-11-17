@@ -5,6 +5,7 @@ import { emptyFilterSvg, exportToExcelSvg, slashFilterSvg, sortSvg } from "../..
 import { FilterProps } from "../../types";
 import { useTableContext } from "../../hooks";
 import { TObject } from "akeyless-types-commons";
+import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -15,24 +16,24 @@ export const TableRow = ({ item }: { item: TObject<any> }) => {
     const { rowStyles, cellStyle, keysToRender, onRowClick } = useTableContext();
 
     return (
-        <tr onClick={() => onRowClick && onRowClick(item)} style={rowStyles}>
+        <TableRowSCN onClick={() => onRowClick && onRowClick(item)} style={rowStyles}>
             {keysToRender.map((key, index) => (
                 <TableCell key={index} value={item[key]} />
             ))}
-        </tr>
+        </TableRowSCN>
     );
 };
 
 export const TableCell = ({ value }: { value: any }) => {
     const { cellStyle } = useTableContext();
     return (
-        <td
+        <TableCellSCN
             title={["string", "number", "boolean"].includes(typeof value) ? value : ""}
             style={cellStyle}
             className="chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center"
         >
             {value}
-        </td>
+        </TableCellSCN>
     );
 };
 
@@ -50,12 +51,12 @@ export const TableHead = memo((props: any) => {
     } = useTableContext();
     const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys.length), [sortKeys]);
     return (
-        <thead className="bg-gray-50 sticky top-0">
-            <tr style={headerStyle}>
+        <TableHeaderSCN className="bg-gray-50 sticky top-0">
+            <TableRowSCN style={headerStyle}>
                 {headers.map((header, index) => {
                     const filterableColumn = filterableColumns.find((col) => col.header === header);
                     return (
-                        <th
+                        <TableHeadSCN
                             title={sortDisplay ? `${sortLabel} ${header}` : header}
                             style={headerCellStyle}
                             key={index}
@@ -69,22 +70,22 @@ export const TableHead = memo((props: any) => {
                             {sortDisplay && sortColumn === index && (sortOrder === "asc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
                             {/* filter */}
                             {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
-                        </th>
+                        </TableHeadSCN>
                     );
                 })}
-            </tr>
-        </thead>
+            </TableRowSCN>
+        </TableHeaderSCN>
     );
 });
 
 export const TableBody = memo((props: any) => {
     const { handleFilterClick, onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
     return (
-        <tbody onClick={() => handleFilterClick("")}>
+        <TableBodySCN onClick={() => handleFilterClick("")}>
             {dataToRender.map((item, index) => (
                 <TableRow key={index} item={item} />
             ))}
-        </tbody>
+        </TableBodySCN>
     );
 });
 

@@ -938,8 +938,104 @@ var useSearch = function() {
 };
 // src/hooks/WebWorker.ts
 var import_react4 = require("react");
-// src/components/table/utils.tsx
+// src/components/ui/table.tsx
+var React2 = __toESM(require("react"));
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
+// src/components/ui/table.tsx
 var import_jsx_runtime6 = require("react/jsx-runtime");
+var TableSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+        className: "relative w-full overflow-auto",
+        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("table", _object_spread({
+            ref: ref,
+            className: cn("w-full caption-bottom text-sm", className)
+        }, props))
+    });
+});
+TableSCN.displayName = "TableSCN";
+var TableHeaderSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("thead", _object_spread({
+        ref: ref,
+        className: cn("[&_tr]:border-b", className)
+    }, props));
+});
+TableHeaderSCN.displayName = "TableHeaderSCN";
+var TableBodySCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tbody", _object_spread({
+        ref: ref,
+        className: cn("[&_tr:last-child]:border-0", className)
+    }, props));
+});
+TableBodySCN.displayName = "TableBodySCN";
+var TableFooterSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tfoot", _object_spread({
+        ref: ref,
+        className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)
+    }, props));
+});
+TableFooterSCN.displayName = "TableFooterSCN";
+var TableRowSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tr", _object_spread({
+        ref: ref,
+        className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className)
+    }, props));
+});
+TableRowSCN.displayName = "TableRowSCN";
+var TableHeadSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("th", _object_spread({
+        ref: ref,
+        className: cn("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
+    }, props));
+});
+TableHeadSCN.displayName = "TableHeadSCN";
+var TableCellSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("td", _object_spread({
+        ref: ref,
+        className: cn("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
+    }, props));
+});
+TableCellSCN.displayName = "TableCellSCN";
+var TableCaptionSCN = React2.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("caption", _object_spread({
+        ref: ref,
+        className: cn("mt-4 text-sm text-muted-foreground", className)
+    }, props));
+});
+TableCaptionSCN.displayName = "TableCaptionSCN";
+// src/components/table/utils.tsx
+var import_jsx_runtime7 = require("react/jsx-runtime");
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
     var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -948,13 +1044,13 @@ var getFixedNumber = function() {
 var TableRow = function(param) {
     var item = param.item;
     var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tr", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableRowSCN, {
         onClick: function() {
             return onRowClick && onRowClick(item);
         },
         style: rowStyles,
         children: keysToRender.map(function(key, index) {
-            return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TableCell, {
+            return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableCell, {
                 value: item[key]
             }, index);
         })
@@ -963,7 +1059,7 @@ var TableRow = function(param) {
 var TableCell = function(param) {
     var value = param.value;
     var cellStyle = useTableContext().cellStyle;
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("td", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableCellSCN, {
         title: [
             "string",
             "number",
@@ -981,32 +1077,32 @@ var TableHead = (0, import_react5.memo)(function(props) {
     }, [
         sortKeys
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("thead", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableHeaderSCN, {
         className: "bg-gray-50 sticky top-0",
-        children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tr", {
+        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableRowSCN, {
             style: headerStyle,
             children: headers.map(function(header, index) {
                 var filterableColumn = filterableColumns.find(function(col) {
                     return col.header === header;
                 });
-                return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("th", {
+                return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(TableHeadSCN, {
                     title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
                     className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
                     children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                             className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
                             onClick: function() {
                                 return sortDisplay && handleSort(index);
                             },
                             children: header
                         }),
-                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
+                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
                             children: sortSvg()
-                        }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
+                        }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
                             children: sortSvg(true)
                         })),
-                        filterableColumn && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Filter, {
+                        filterableColumn && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Filter, {
                             filterableColumn: filterableColumn,
                             index: index
                         })
@@ -1018,12 +1114,12 @@ var TableHead = (0, import_react5.memo)(function(props) {
 });
 var TableBody = (0, import_react5.memo)(function(props) {
     var _useTableContext = useTableContext(), handleFilterClick = _useTableContext.handleFilterClick, onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("tbody", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableBodySCN, {
         onClick: function() {
             return handleFilterClick("");
         },
         children: dataToRender.map(function(item, index) {
-            return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(TableRow, {
+            return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableRow, {
                 item: item
             }, index);
         })
@@ -1034,43 +1130,43 @@ var Filter = (0, import_react5.memo)(function(param) {
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(import_jsx_runtime6.Fragment, {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(import_jsx_runtime7.Fragment, {
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", {
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
                 title: filterLabel + " " + filterableColumn.header,
                 className: "absolute top-1 right-1 text-[12px]",
                 onClick: function() {
                     return handleFilterClick(filterableColumn.dataKey);
                 },
-                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
-                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
+                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
+                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
                         children: slashFilterSvg(true)
-                    }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
+                    }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
                         children: emptyFilterSvg(true)
                     })
-                }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
-                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
+                }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
+                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
                         children: slashFilterSvg()
-                    }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, {
+                    }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
                         children: emptyFilterSvg()
                     })
                 })
             }),
-            filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", {
+            filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
                 className: "absolute z-10 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 bg-white p-1 flex flex-col items-center gap-2 shadow"),
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+                    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                         className: "text-start border-black border-b-[1px] w-[90%]",
                         children: filterLabel + " " + filterableColumn.header
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+                    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                         className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
                         children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
                             var _filters_filterableColumn_dataKey;
-                            return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", {
+                            return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
                                 className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
                                 children: [
-                                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", {
+                                    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", {
                                         type: "checkbox",
                                         className: "cursor-pointer",
                                         checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
@@ -1078,7 +1174,7 @@ var Filter = (0, import_react5.memo)(function(param) {
                                             return handleFilterChange(filterableColumn.dataKey, option);
                                         }
                                     }),
-                                    /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", {
+                                    /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
                                         className: "flex-1 text-start px-2",
                                         onClick: function() {
                                             return handleFilterChange(filterableColumn.dataKey, option);
@@ -1167,7 +1263,7 @@ var ExportToExcel = (0, import_react5.memo)(function(props) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
         onClick: onExportExcelClick,
         title: exportExcelLabel,
         className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
@@ -1176,7 +1272,7 @@ var ExportToExcel = (0, import_react5.memo)(function(props) {
 });
 var Search = (0, import_react5.memo)(function(props) {
     var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", {
         className: "w-40 border-black border-[1px] px-2 rounded-md ".concat(searchInputClassName),
         type: "text",
         placeholder: searchPlaceHolder,
@@ -1187,15 +1283,15 @@ var Search = (0, import_react5.memo)(function(props) {
 });
 var Summary = (0, import_react5.memo)(function(props) {
     var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender;
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
         style: summaryContainerStyle,
         className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                 style: summaryLabelStyle,
                 children: summaryLabel
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                 style: summaryRowStyle,
                 className: "flex gap-3",
                 children: sumColumns.map(function(val) {
@@ -1203,16 +1299,16 @@ var Summary = (0, import_react5.memo)(function(props) {
                         return acc + Number(v[val.dataKey]) || 0;
                     }, 0);
                     var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", {
+                    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
                         className: "flex gap-1 justify-start",
                         children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+                            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                                 children: val.label
                             }),
-                            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", {
+                            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", {
                                 children: ":"
                             }),
-                            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", {
+                            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
                                 children: val.ui ? val.ui(sum_value) : sum_value
                             })
                         ]
@@ -1224,103 +1320,6 @@ var Summary = (0, import_react5.memo)(function(props) {
 });
 // src/components/table/Table.tsx
 var import_react6 = require("react");
-// src/components/ui/table.tsx
-var React3 = __toESM(require("react"));
-// src/lib/utils.ts
-var import_clsx = require("clsx");
-var import_tailwind_merge = require("tailwind-merge");
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
-}
-// src/components/ui/table.tsx
-var import_jsx_runtime7 = require("react/jsx-runtime");
-var TableSCN = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-        className: "relative w-full overflow-auto",
-        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("table", _object_spread({
-            ref: ref,
-            className: cn("w-full caption-bottom text-sm", className)
-        }, props))
-    });
-});
-TableSCN.displayName = "Table";
-var TableHeader = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("thead", _object_spread({
-        ref: ref,
-        className: cn("[&_tr]:border-b", className)
-    }, props));
-});
-TableHeader.displayName = "TableHeader";
-var TableBody2 = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tbody", _object_spread({
-        ref: ref,
-        className: cn("[&_tr:last-child]:border-0", className)
-    }, props));
-});
-TableBody2.displayName = "TableBody";
-var TableFooter = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tfoot", _object_spread({
-        ref: ref,
-        className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)
-    }, props));
-});
-TableFooter.displayName = "TableFooter";
-var TableRow2 = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tr", _object_spread({
-        ref: ref,
-        className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className)
-    }, props));
-});
-TableRow2.displayName = "TableRow";
-var TableHead2 = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("th", _object_spread({
-        ref: ref,
-        className: cn("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
-    }, props));
-});
-TableHead2.displayName = "TableHead";
-var TableCell2 = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("td", _object_spread({
-        ref: ref,
-        className: cn("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
-    }, props));
-});
-TableCell2.displayName = "TableCell";
-var TableCaption = React3.forwardRef(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("caption", _object_spread({
-        ref: ref,
-        className: cn("mt-4 text-sm text-muted-foreground", className)
-    }, props));
-});
-TableCaption.displayName = "TableCaption";
-// src/components/table/Table.tsx
 var import_jsx_runtime8 = require("react/jsx-runtime");
 var TableContext = (0, import_react6.createContext)(null);
 var TableProvider = function(props) {

@@ -510,6 +510,9 @@ body {
 .w-9 {
   width: 2.25rem;
 }
+.w-\[100px\] {
+  width: 100px;
+}
 .w-\[125px\] {
   width: 125px;
 }
@@ -782,6 +785,9 @@ body {
 }
 .text-center {
   text-align: center;
+}
+.text-right {
+  text-align: right;
 }
 .text-start {
   text-align: start;
