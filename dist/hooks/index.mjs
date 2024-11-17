@@ -881,7 +881,104 @@ var Summary = memo(function(props) {
 });
 // src/components/table/Table.tsx
 import { createContext, useState } from "react";
-import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+// src/components/ui/table.tsx
+import * as React3 from "react";
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
+// src/components/ui/table.tsx
+import { jsx as jsx7 } from "react/jsx-runtime";
+var TableSCN = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("div", {
+        className: "relative w-full overflow-auto",
+        children: /* @__PURE__ */ jsx7("table", _object_spread({
+            ref: ref,
+            className: cn("w-full caption-bottom text-sm", className)
+        }, props))
+    });
+});
+TableSCN.displayName = "Table";
+var TableHeader = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("thead", _object_spread({
+        ref: ref,
+        className: cn("[&_tr]:border-b", className)
+    }, props));
+});
+TableHeader.displayName = "TableHeader";
+var TableBody2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("tbody", _object_spread({
+        ref: ref,
+        className: cn("[&_tr:last-child]:border-0", className)
+    }, props));
+});
+TableBody2.displayName = "TableBody";
+var TableFooter = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("tfoot", _object_spread({
+        ref: ref,
+        className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)
+    }, props));
+});
+TableFooter.displayName = "TableFooter";
+var TableRow2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("tr", _object_spread({
+        ref: ref,
+        className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className)
+    }, props));
+});
+TableRow2.displayName = "TableRow";
+var TableHead2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("th", _object_spread({
+        ref: ref,
+        className: cn("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
+    }, props));
+});
+TableHead2.displayName = "TableHead";
+var TableCell2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("td", _object_spread({
+        ref: ref,
+        className: cn("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
+    }, props));
+});
+TableCell2.displayName = "TableCell";
+var TableCaption = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx7("caption", _object_spread({
+        ref: ref,
+        className: cn("mt-4 text-sm text-muted-foreground", className)
+    }, props));
+});
+TableCaption.displayName = "TableCaption";
+// src/components/table/Table.tsx
+import { jsx as jsx8, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 // src/components/forms/index.tsx
 import { useState as useState2 } from "react";
@@ -949,22 +1046,12 @@ var fire_base_TIME_TEMP = Timestamp.now;
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/components/forms/index.tsx
-import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs6 } from "react/jsx-runtime";
 // src/components/ui/button.tsx
-import * as React4 from "react";
+import * as React5 from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
-// src/lib/utils.ts
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return twMerge(clsx(inputs));
-}
-// src/components/ui/button.tsx
-import { jsx as jsx9 } from "react/jsx-runtime";
+import { jsx as jsx10 } from "react/jsx-runtime";
 var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
     variants: {
         variant: {
@@ -987,7 +1074,7 @@ var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespa
         size: "default"
     }
 });
-var Button = React4.forwardRef(function(_param, ref) {
+var Button = React5.forwardRef(function(_param, ref) {
     var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
         "className",
         "variant",
@@ -995,7 +1082,7 @@ var Button = React4.forwardRef(function(_param, ref) {
         "asChild"
     ]);
     var Comp = asChild ? Slot : "button";
-    return /* @__PURE__ */ jsx9(Comp, _object_spread({
+    return /* @__PURE__ */ jsx10(Comp, _object_spread({
         className: cn(buttonVariants({
             variant: variant,
             size: size,

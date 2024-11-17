@@ -963,7 +963,104 @@ var Summary = (0, import_react3.memo)(function(props) {
 });
 // src/components/table/Table.tsx
 var import_react4 = require("react");
+// src/components/ui/table.tsx
+var React3 = __toESM(require("react"));
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
+// src/components/ui/table.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
+var TableSCN = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+        className: "relative w-full overflow-auto",
+        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("table", _object_spread({
+            ref: ref,
+            className: cn("w-full caption-bottom text-sm", className)
+        }, props))
+    });
+});
+TableSCN.displayName = "Table";
+var TableHeader = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("thead", _object_spread({
+        ref: ref,
+        className: cn("[&_tr]:border-b", className)
+    }, props));
+});
+TableHeader.displayName = "TableHeader";
+var TableBody2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tbody", _object_spread({
+        ref: ref,
+        className: cn("[&_tr:last-child]:border-0", className)
+    }, props));
+});
+TableBody2.displayName = "TableBody";
+var TableFooter = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tfoot", _object_spread({
+        ref: ref,
+        className: cn("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", className)
+    }, props));
+});
+TableFooter.displayName = "TableFooter";
+var TableRow2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tr", _object_spread({
+        ref: ref,
+        className: cn("border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted", className)
+    }, props));
+});
+TableRow2.displayName = "TableRow";
+var TableHead2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("th", _object_spread({
+        ref: ref,
+        className: cn("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
+    }, props));
+});
+TableHead2.displayName = "TableHead";
+var TableCell2 = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("td", _object_spread({
+        ref: ref,
+        className: cn("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)
+    }, props));
+});
+TableCell2.displayName = "TableCell";
+var TableCaption = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("caption", _object_spread({
+        ref: ref,
+        className: cn("mt-4 text-sm text-muted-foreground", className)
+    }, props));
+});
+TableCaption.displayName = "TableCaption";
+// src/components/table/Table.tsx
+var import_jsx_runtime8 = require("react/jsx-runtime");
 var TableContext = (0, import_react4.createContext)(null);
 // src/components/forms/index.tsx
 var import_react5 = require("react");
@@ -1032,22 +1129,12 @@ var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/components/forms/index.tsx
-var import_jsx_runtime8 = require("react/jsx-runtime");
+var import_jsx_runtime9 = require("react/jsx-runtime");
 // src/components/ui/button.tsx
-var React4 = __toESM(require("react"));
+var React5 = __toESM(require("react"));
 var import_react_slot = require("@radix-ui/react-slot");
 var import_class_variance_authority = require("class-variance-authority");
-// src/lib/utils.ts
-var import_clsx = require("clsx");
-var import_tailwind_merge = require("tailwind-merge");
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
-}
-// src/components/ui/button.tsx
-var import_jsx_runtime9 = require("react/jsx-runtime");
+var import_jsx_runtime10 = require("react/jsx-runtime");
 var buttonVariants = (0, import_class_variance_authority.cva)("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
     variants: {
         variant: {
@@ -1070,7 +1157,7 @@ var buttonVariants = (0, import_class_variance_authority.cva)("inline-flex items
         size: "default"
     }
 });
-var Button = React4.forwardRef(function(_param, ref) {
+var Button = React5.forwardRef(function(_param, ref) {
     var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
         "className",
         "variant",
@@ -1078,7 +1165,7 @@ var Button = React4.forwardRef(function(_param, ref) {
         "asChild"
     ]);
     var Comp = asChild ? import_react_slot.Slot : "button";
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Comp, _object_spread({
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Comp, _object_spread({
         className: cn(buttonVariants({
             variant: variant,
             size: size,
