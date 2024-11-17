@@ -16,7 +16,7 @@ export const TableRow = ({ item }: { item: TObject<any> }) => {
     const { rowStyles, cellStyle, keysToRender, onRowClick } = useTableContext();
 
     return (
-        <TableRowSCN onClick={() => onRowClick && onRowClick(item)} style={rowStyles}>
+        <TableRowSCN className="hover:bg-[#424242] hover:text-[#fff]" onClick={() => onRowClick && onRowClick(item)} style={rowStyles}>
             {keysToRender.map((key, index) => (
                 <TableCell key={index} value={item[key]} />
             ))}
@@ -81,7 +81,7 @@ export const TableHead = memo((props: any) => {
 export const TableBody = memo((props: any) => {
     const { handleFilterClick, onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
     return (
-        <TableBodySCN onClick={() => handleFilterClick("")}>
+        <TableBodySCN  onClick={() => handleFilterClick("")}>
             {dataToRender.map((item, index) => (
                 <TableRow key={index} item={item} />
             ))}

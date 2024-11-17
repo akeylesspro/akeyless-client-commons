@@ -1045,6 +1045,7 @@ var TableRow = function(param) {
     var item = param.item;
     var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
     return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableRowSCN, {
+        className: "hover:bg-[#424242] hover:text-[#fff]",
         onClick: function() {
             return onRowClick && onRowClick(item);
         },

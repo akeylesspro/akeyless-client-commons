@@ -510,9 +510,6 @@ body {
 .w-9 {
   width: 2.25rem;
 }
-.w-\[100px\] {
-  width: 100px;
-}
 .w-\[125px\] {
   width: 125px;
 }
@@ -786,9 +783,6 @@ body {
 .text-center {
   text-align: center;
 }
-.text-right {
-  text-align: right;
-}
 .text-start {
   text-align: start;
 }
@@ -980,6 +974,10 @@ body {
 .placeholder\:text-muted-foreground::placeholder {
   color: hsl(var(--muted-foreground));
 }
+.hover\:bg-\[\#424242\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(66 66 66 / var(--tw-bg-opacity));
+}
 .hover\:bg-\[\#547f22\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(84 127 34 / var(--tw-bg-opacity));
@@ -1008,6 +1006,10 @@ body {
 }
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(var(--secondary) / 0.8);
+}
+.hover\:text-\[\#fff\]:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 .hover\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));
