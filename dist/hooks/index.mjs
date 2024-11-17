@@ -172,6 +172,33 @@ function _object_spread_props(target, source) {
     }
     return target;
 }
+function _object_without_properties(source, excluded) {
+    if (source == null) return {};
+    var target = _object_without_properties_loose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for(i = 0; i < sourceSymbolKeys.length; i++){
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+function _object_without_properties_loose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
 function _possible_constructor_return(self, call) {
     if (call && (_type_of(call) === "object" || typeof call === "function")) {
         return call;
@@ -923,6 +950,61 @@ var fire_base_TIME_TEMP = Timestamp.now;
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/components/forms/index.tsx
 import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
+// src/components/ui/button.tsx
+import * as React4 from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva } from "class-variance-authority";
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
+// src/components/ui/button.tsx
+import { jsx as jsx9 } from "react/jsx-runtime";
+var buttonVariants = cva("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
+    variants: {
+        variant: {
+            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground",
+            link: "text-primary underline-offset-4 hover:underline"
+        },
+        size: {
+            default: "h-9 px-4 py-2",
+            sm: "h-8 rounded-md px-3 text-xs",
+            lg: "h-10 rounded-md px-8",
+            icon: "h-9 w-9"
+        }
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default"
+    }
+});
+var Button = React4.forwardRef(function(_param, ref) {
+    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
+        "className",
+        "variant",
+        "size",
+        "asChild"
+    ]);
+    var Comp = asChild ? Slot : "button";
+    return /* @__PURE__ */ jsx9(Comp, _object_spread({
+        className: cn(buttonVariants({
+            variant: variant,
+            size: size,
+            className: className
+        })),
+        ref: ref
+    }, props));
+});
+Button.displayName = "Button";
 // src/hooks/table.ts
 import { create } from "zustand";
 var useTableContext = function() {

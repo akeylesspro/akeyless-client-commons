@@ -172,6 +172,33 @@ function _object_spread_props(target, source) {
     }
     return target;
 }
+function _object_without_properties(source, excluded) {
+    if (source == null) return {};
+    var target = _object_without_properties_loose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for(i = 0; i < sourceSymbolKeys.length; i++){
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+function _object_without_properties_loose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
 function _possible_constructor_return(self, call) {
     if (call && (_type_of(call) === "object" || typeof call === "function")) {
         return call;
@@ -367,6 +394,9 @@ var __toCommonJS = function(mod) {
 // src/components/index.tsx
 var components_exports = {};
 __export(components_exports, {
+    Button: function() {
+        return Button;
+    },
     Checkbox: function() {
         return Checkbox;
     },
@@ -423,6 +453,9 @@ __export(components_exports, {
     },
     TableRow: function() {
         return TableRow;
+    },
+    buttonVariants: function() {
+        return buttonVariants;
     },
     getFixedNumber: function() {
         return getFixedNumber;
@@ -1820,8 +1853,64 @@ var DatePicker = function(param) {
         ]
     });
 };
+// src/components/ui/button.tsx
+var React4 = __toESM(require("react"));
+var import_react_slot = require("@radix-ui/react-slot");
+var import_class_variance_authority = require("class-variance-authority");
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
+// src/components/ui/button.tsx
+var import_jsx_runtime9 = require("react/jsx-runtime");
+var buttonVariants = (0, import_class_variance_authority.cva)("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
+    variants: {
+        variant: {
+            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground",
+            link: "text-primary underline-offset-4 hover:underline"
+        },
+        size: {
+            default: "h-9 px-4 py-2",
+            sm: "h-8 rounded-md px-3 text-xs",
+            lg: "h-10 rounded-md px-8",
+            icon: "h-9 w-9"
+        }
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default"
+    }
+});
+var Button = React4.forwardRef(function(_param, ref) {
+    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
+        "className",
+        "variant",
+        "size",
+        "asChild"
+    ]);
+    var Comp = asChild ? import_react_slot.Slot : "button";
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Comp, _object_spread({
+        className: cn(buttonVariants({
+            variant: variant,
+            size: size,
+            className: className
+        })),
+        ref: ref
+    }, props));
+});
+Button.displayName = "Button";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+    Button: Button,
     Checkbox: Checkbox,
     ConfirmForm: ConfirmForm,
     DatePicker: DatePicker,
@@ -1841,5 +1930,6 @@ var DatePicker = function(param) {
     TableHead: TableHead,
     TableProvider: TableProvider,
     TableRow: TableRow,
+    buttonVariants: buttonVariants,
     getFixedNumber: getFixedNumber
 });
