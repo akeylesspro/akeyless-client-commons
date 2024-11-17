@@ -87,7 +87,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     };
     return (
         <TableContext.Provider value={providerValues}>
-            <div className={`flex flex-col gap-2  ${containerClassName}`} style={containerStyle}>
+            <div className={`flex flex-col gap-2 ${containerClassName}`} style={containerStyle}>
                 {props.children}
             </div>
         </TableContext.Provider>

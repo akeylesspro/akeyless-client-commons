@@ -1115,7 +1115,7 @@ var TableProvider = function(props) {
     return /* @__PURE__ */ jsx7(TableContext.Provider, {
         value: providerValues,
         children: /* @__PURE__ */ jsx7("div", {
-            className: "flex flex-col gap-2  ".concat(containerClassName),
+            className: "flex flex-col gap-2 ".concat(containerClassName),
             style: containerStyle,
             children: props.children
         })

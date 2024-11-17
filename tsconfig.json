@@ -1,6 +1,10 @@
 {
     "compilerOptions": {
         "target": "ES5",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        },
         "module": "ESNext",
         "jsx": "react-jsx",
         "declaration": true,
