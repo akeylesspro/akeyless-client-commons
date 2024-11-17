@@ -1135,3 +1135,4 @@ var useCreateTableStore = function() {
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect4, useRef } from "react";
 export { useCreateTableStore, useFilter, useSafeEffect, useSearch, useSort, useTableContext };
+//# sourceMappingURL=index.mjs.map

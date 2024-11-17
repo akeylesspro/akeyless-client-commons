@@ -2,7 +2,7 @@
     "name": "akeyless-client-commons",
     "version": "1.0.0",
     "scripts": {
-        "build": "powershell -ExecutionPolicy Bypass -File ./ps/build.ps1",
+        "build": "tsup",
         "deploy": "npm run build && git add . && git commit -am 'build' && git push origin main",
         "uc": "npm i git+https://github.com/akeylesspro/akeyless-types-commons.git"
     },
