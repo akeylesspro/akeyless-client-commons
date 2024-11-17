@@ -81,7 +81,7 @@ export const TableHead = memo((props: any) => {
 export const TableBody = memo((props: any) => {
     const { handleFilterClick, onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
     return (
-        <TableBodySCN  onClick={() => handleFilterClick("")}>
+        <TableBodySCN onClick={() => handleFilterClick("")}>
             {dataToRender.map((item, index) => (
                 <TableRow key={index} item={item} />
             ))}

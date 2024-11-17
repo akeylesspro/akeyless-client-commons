@@ -394,9 +394,6 @@ var __toCommonJS = function(mod) {
 // src/components/index.tsx
 var components_exports = {};
 __export(components_exports, {
-    Button: function() {
-        return Button;
-    },
     Checkbox: function() {
         return Checkbox;
     },
@@ -453,9 +450,6 @@ __export(components_exports, {
     },
     TableRow: function() {
         return TableRow;
-    },
-    buttonVariants: function() {
-        return buttonVariants;
     },
     getFixedNumber: function() {
         return getFixedNumber;
@@ -1950,54 +1944,8 @@ var DatePicker = function(param) {
         ]
     });
 };
-// src/components/ui/button.tsx
-var React5 = __toESM(require("react"));
-var import_react_slot = require("@radix-ui/react-slot");
-var import_class_variance_authority = require("class-variance-authority");
-var import_jsx_runtime10 = require("react/jsx-runtime");
-var buttonVariants = (0, import_class_variance_authority.cva)("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
-    variants: {
-        variant: {
-            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-            ghost: "hover:bg-accent hover:text-accent-foreground",
-            link: "text-primary underline-offset-4 hover:underline"
-        },
-        size: {
-            default: "h-9 px-4 py-2",
-            sm: "h-8 rounded-md px-3 text-xs",
-            lg: "h-10 rounded-md px-8",
-            icon: "h-9 w-9"
-        }
-    },
-    defaultVariants: {
-        variant: "default",
-        size: "default"
-    }
-});
-var Button = React5.forwardRef(function(_param, ref) {
-    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
-        "className",
-        "variant",
-        "size",
-        "asChild"
-    ]);
-    var Comp = asChild ? import_react_slot.Slot : "button";
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Comp, _object_spread({
-        className: cn(buttonVariants({
-            variant: variant,
-            size: size,
-            className: className
-        })),
-        ref: ref
-    }, props));
-});
-Button.displayName = "Button";
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-    Button: Button,
     Checkbox: Checkbox,
     ConfirmForm: ConfirmForm,
     DatePicker: DatePicker,
@@ -2017,7 +1965,6 @@ Button.displayName = "Button";
     TableHead: TableHead,
     TableProvider: TableProvider,
     TableRow: TableRow,
-    buttonVariants: buttonVariants,
     getFixedNumber: getFixedNumber
 });
 //# sourceMappingURL=index.js.map
