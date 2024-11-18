@@ -121,7 +121,7 @@ export const Table = (props: TableProps) => {
             </div>
             {/* table */}
             <div style={{ ...tableContainerStyle, direction: direction }} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
-                <TableSCN style={tableStyle} className="min-w-full text-sm font-light relative">
+                <TableSCN style={tableStyle} className="min-w-full text-sm font-light">
                     <TableHead />
                     <TableBody render={false} />
                 </TableSCN>

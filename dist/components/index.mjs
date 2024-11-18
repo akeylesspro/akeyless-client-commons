@@ -949,7 +949,7 @@ var TableHead = memo(function(props) {
         sortKeys
     ]);
     return /* @__PURE__ */ jsx7("thead", {
-        className: "bg-gray-50 sticky top-0",
+        className: "bg-gray-50 sticky top-0 z-10",
         children: /* @__PURE__ */ jsx7(TableRowSCN, {
             style: headerStyle,
             children: headers.map(function(header, index) {
@@ -1275,7 +1275,7 @@ var Table = function(props) {
                 className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass),
                 children: /* @__PURE__ */ jsxs5(TableSCN, {
                     style: tableStyle,
-                    className: "min-w-full text-sm font-light relative",
+                    className: "min-w-full text-sm font-light",
                     children: [
                         /* @__PURE__ */ jsx8(TableHead, {}),
                         /* @__PURE__ */ jsx8(TableBody, {

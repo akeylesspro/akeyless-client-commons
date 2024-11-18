@@ -51,7 +51,7 @@ export const TableHead = memo((props: any) => {
     } = useTableContext();
     const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys.length), [sortKeys]);
     return (
-        <thead className="bg-gray-50 sticky top-0">
+        <thead className="bg-gray-50 sticky top-0 z-10">
             <TableRowSCN style={headerStyle}>
                 {headers.map((header, index) => {
                     const filterableColumn = filterableColumns.find((col) => col.header === header);
