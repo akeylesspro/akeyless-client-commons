@@ -3,7 +3,10 @@
         "target": "ES5",
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./*"]
+            "@/components/*": ["src/components/*"],
+            "@/components/ui/*": ["src/components/ui/*"],
+            "@/lib/*": ["src/lib/*"],
+            "@/hooks/*": ["src/hooks/*"]
         },
         "module": "ESNext",
         "jsx": "react-jsx",

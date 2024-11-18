@@ -3,6 +3,7 @@ import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody } from "
 import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
 import { useFilter, useSort, useSearch } from "../../hooks";
+import { TableSCN } from "../ui/table";
 
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
@@ -119,10 +120,10 @@ export const Table = (props: TableProps) => {
             </div>
             {/* table */}
             <div style={tableContainerStyle} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
-                <table style={tableStyle} className="min-w-full text-sm font-light relative">
+                <TableSCN style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />
                     <TableBody render={false} />
-                </table>
+                </TableSCN>
             </div>
             {/* summary */}
             {sumColumns && <Summary render={false} />}
