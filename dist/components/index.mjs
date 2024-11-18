@@ -948,36 +948,38 @@ var TableHead = memo(function(props) {
     }, [
         sortKeys
     ]);
-    return /* @__PURE__ */ jsx7(TableRowSCN, {
-        className: "sticky top-0 bg-gray-500 ",
-        style: headerStyle,
-        children: headers.map(function(header, index) {
-            var filterableColumn = filterableColumns.find(function(col) {
-                return col.header === header;
-            });
-            return /* @__PURE__ */ jsxs4(TableHeadSCN, {
-                title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
-                style: headerCellStyle,
-                className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
-                children: [
-                    /* @__PURE__ */ jsx7("div", {
-                        className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
-                        onClick: function() {
-                            return sortDisplay && handleSort(index);
-                        },
-                        children: header
-                    }),
-                    sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx7(Fragment2, {
-                        children: sortSvg()
-                    }) : /* @__PURE__ */ jsx7(Fragment2, {
-                        children: sortSvg(true)
-                    })),
-                    filterableColumn && /* @__PURE__ */ jsx7(Filter, {
-                        filterableColumn: filterableColumn,
-                        index: index
-                    })
-                ]
-            }, index);
+    return /* @__PURE__ */ jsx7("thead", {
+        className: "bg-gray-50 sticky top-0",
+        children: /* @__PURE__ */ jsx7(TableRowSCN, {
+            style: headerStyle,
+            children: headers.map(function(header, index) {
+                var filterableColumn = filterableColumns.find(function(col) {
+                    return col.header === header;
+                });
+                return /* @__PURE__ */ jsxs4(TableHeadSCN, {
+                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
+                    style: headerCellStyle,
+                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
+                    children: [
+                        /* @__PURE__ */ jsx7("div", {
+                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
+                            onClick: function() {
+                                return sortDisplay && handleSort(index);
+                            },
+                            children: header
+                        }),
+                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx7(Fragment2, {
+                            children: sortSvg()
+                        }) : /* @__PURE__ */ jsx7(Fragment2, {
+                            children: sortSvg(true)
+                        })),
+                        filterableColumn && /* @__PURE__ */ jsx7(Filter, {
+                            filterableColumn: filterableColumn,
+                            index: index
+                        })
+                    ]
+                }, index);
+            })
         })
     });
 });

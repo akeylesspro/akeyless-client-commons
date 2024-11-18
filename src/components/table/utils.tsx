@@ -51,28 +51,30 @@ export const TableHead = memo((props: any) => {
     } = useTableContext();
     const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys.length), [sortKeys]);
     return (
-        <TableRowSCN className="sticky top-0 bg-gray-500 " style={headerStyle}>
-            {headers.map((header, index) => {
-                const filterableColumn = filterableColumns.find((col) => col.header === header);
-                return (
-                    <TableHeadSCN
-                        title={sortDisplay ? `${sortLabel} ${header}` : header}
-                        style={headerCellStyle}
-                        key={index}
-                        className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
-                    >
-                        {/* header value */}
-                        <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
-                            {header}
-                        </div>
-                        {/* sort */}
-                        {sortDisplay && sortColumn === index && (sortOrder === "asc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
-                        {/* filter */}
-                        {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
-                    </TableHeadSCN>
-                );
-            })}
-        </TableRowSCN>
+        <thead className="bg-gray-50 sticky top-0">
+            <TableRowSCN style={headerStyle}>
+                {headers.map((header, index) => {
+                    const filterableColumn = filterableColumns.find((col) => col.header === header);
+                    return (
+                        <TableHeadSCN
+                            title={sortDisplay ? `${sortLabel} ${header}` : header}
+                            style={headerCellStyle}
+                            key={index}
+                            className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
+                        >
+                            {/* header value */}
+                            <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
+                                {header}
+                            </div>
+                            {/* sort */}
+                            {sortDisplay && sortColumn === index && (sortOrder === "asc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
+                            {/* filter */}
+                            {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
+                        </TableHeadSCN>
+                    );
+                })}
+            </TableRowSCN>
+        </thead>
     );
 });
 

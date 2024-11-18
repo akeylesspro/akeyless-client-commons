@@ -687,9 +687,9 @@ body {
 .bg-destructive {
   background-color: hsl(var(--destructive));
 }
-.bg-gray-500 {
+.bg-gray-50 {
   --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 .bg-muted\/50 {
   background-color: hsl(var(--muted) / 0.5);
