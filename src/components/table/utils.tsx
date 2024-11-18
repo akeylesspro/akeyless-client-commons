@@ -200,10 +200,13 @@ export const Search = memo((props: any) => {
 });
 
 export const Summary = memo((props: any) => {
-    const { summaryContainerStyle, summaryLabelStyle, summaryLabel, summaryRowStyle, sumColumns, dataToRender } = useTableContext();
+    const { summaryContainerStyle, summaryLabelStyle, summaryLabel, summaryRowStyle, sumColumns, dataToRender, direction } = useTableContext();
 
     return (
-        <div style={summaryContainerStyle} className="w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold">
+        <div
+            style={{ ...summaryContainerStyle, direction: direction }}
+            className="w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold"
+        >
             <div style={summaryLabelStyle}>{summaryLabel}</div>
             <div style={summaryRowStyle} className="flex gap-3">
                 {sumColumns.map((val) => {

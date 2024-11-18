@@ -940,9 +940,11 @@ var Search = memo(function(props) {
     });
 });
 var Summary = memo(function(props) {
-    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender;
+    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
     return /* @__PURE__ */ jsxs4("div", {
-        style: summaryContainerStyle,
+        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
+            direction: direction
+        }),
         className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
         children: [
             /* @__PURE__ */ jsx7("div", {

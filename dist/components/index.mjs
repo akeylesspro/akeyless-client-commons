@@ -1153,9 +1153,11 @@ var Search = memo(function(props) {
     });
 });
 var Summary = memo(function(props) {
-    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender;
+    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
     return /* @__PURE__ */ jsxs4("div", {
-        style: summaryContainerStyle,
+        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
+            direction: direction
+        }),
         className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
         children: [
             /* @__PURE__ */ jsx7("div", {
@@ -1246,10 +1248,13 @@ var TableProvider = function(props) {
     });
 };
 var Table = function(props) {
-    var _props_containerStyle = props.containerStyle, containerStyle = _props_containerStyle === void 0 ? {} : _props_containerStyle, optionalElement = props.optionalElement, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns;
+    var _props_containerStyle = props.containerStyle, containerStyle = _props_containerStyle === void 0 ? {} : _props_containerStyle, optionalElement = props.optionalElement, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction;
     return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
             /* @__PURE__ */ jsxs5("div", {
+                style: {
+                    direction: direction
+                },
                 className: "flex justify-start gap-2 ",
                 children: [
                     includeSearch && /* @__PURE__ */ jsx8(Search, {
@@ -1262,7 +1267,9 @@ var Table = function(props) {
                 ]
             }),
             /* @__PURE__ */ jsx8("div", {
-                style: tableContainerStyle,
+                style: _object_spread_props(_object_spread({}, tableContainerStyle), {
+                    direction: direction
+                }),
                 className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass),
                 children: /* @__PURE__ */ jsxs5(TableSCN, {
                     style: tableStyle,

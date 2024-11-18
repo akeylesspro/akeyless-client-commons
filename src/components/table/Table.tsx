@@ -106,11 +106,12 @@ export const Table = (props: TableProps) => {
         includeSearch,
         exportToExcelKeys,
         sumColumns,
+        direction,
     } = props;
     return (
         <TableProvider {...props}>
             {/* container header */}
-            <div className="flex justify-start gap-2 ">
+            <div style={{ direction: direction }} className="flex justify-start gap-2 ">
                 {/* search */}
                 {includeSearch && <Search render={false} />}
                 {/* export to excel */}
@@ -119,7 +120,7 @@ export const Table = (props: TableProps) => {
                 {optionalElement && optionalElement}
             </div>
             {/* table */}
-            <div style={tableContainerStyle} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
+            <div style={{ ...tableContainerStyle, direction: direction }} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
                 <TableSCN style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />
                     <TableBody render={false} />
