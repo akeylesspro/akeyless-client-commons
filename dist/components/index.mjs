@@ -829,7 +829,7 @@ var TableSCN = React2.forwardRef(function(_param, ref) {
         className: "relative w-full overflow-auto",
         children: /* @__PURE__ */ jsx6("table", _object_spread({
             ref: ref,
-            className: cn("w-full caption-bottom text-sm", className)
+            className: cn("w-full caption-bottom text-sm relative", className)
         }, props))
     });
 });
