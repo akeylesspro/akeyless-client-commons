@@ -736,7 +736,7 @@ var TableHead = memo(function(props) {
         sortKeys
     ]);
     return /* @__PURE__ */ jsx7(TableRowSCN, {
-        className: "sticky top-0 bg-gray-50 ",
+        className: "sticky top-0 bg-gray-500 ",
         style: headerStyle,
         children: headers.map(function(header, index) {
             var filterableColumn = filterableColumns.find(function(col) {
