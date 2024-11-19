@@ -51,14 +51,14 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         summaryRowStyle = {},
     } = props;
     // rendered data
-    const [dataToRender, setDataToRender] = useState<TObject<any>[]>(data);
+    // const [dataToRender, setDataToRender] = useState<TObject<any>[]>(data);
     //
     const { sortColumn, sortOrder, handleSort } = useSort();
     const { searchQuery, handleSearch } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick } = useFilter({
         data,
-        dataToRender,
-        setDataToRender,
+        // dataToRender,
+        // setDataToRender,
         filterableColumns,
         includeSearch,
         searchQuery,
@@ -67,28 +67,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         keysToRender,
         sortKeys,
     });
-    const providerValues = {
-        ...props,
-        //
-        direction,
-        keysToRender,
-        filterableColumns,
-        //
-        sortColumn,
-        sortOrder,
-        handleSort,
-        searchQuery,
-        handleSearch,
-        dataToRender,
-        filters,
-        filterPopupsDisplay,
-        filterOptions,
-        handleFilterChange,
-        handleFilterClick,
-    };
 
-
-    const test = useMemo(() => {
+    const dataToRender = useMemo(() => {
         let filtered = dataToRender;
         if (includeSearch) {
             filtered = data.filter((item) => keysToRender.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
@@ -112,7 +92,25 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         return filtered;
     }, [searchQuery, sortColumn, sortOrder, filters, data]);
 
-
+    const providerValues = {
+        ...props,
+        //
+        direction,
+        keysToRender,
+        filterableColumns,
+        //
+        sortColumn,
+        sortOrder,
+        handleSort,
+        searchQuery,
+        handleSearch,
+        dataToRender,
+        filters,
+        filterPopupsDisplay,
+        filterOptions,
+        handleFilterChange,
+        handleFilterClick,
+    };
 
     return (
         <TableContext.Provider value={providerValues}>
