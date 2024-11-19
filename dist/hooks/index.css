@@ -665,6 +665,10 @@ body {
 .border-transparent {
   border-color: transparent;
 }
+.bg-\[\#282828\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(40 40 40 / var(--tw-bg-opacity));
+}
 .bg-\[\#52d66b\] {
   --tw-bg-opacity: 1;
   background-color: rgb(82 214 107 / var(--tw-bg-opacity));
@@ -686,10 +690,6 @@ body {
 }
 .bg-destructive {
   background-color: hsl(var(--destructive));
-}
-.bg-gray-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 .bg-muted\/50 {
   background-color: hsl(var(--muted) / 0.5);
