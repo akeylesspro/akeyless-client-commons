@@ -1,5 +1,5 @@
 import { TObject } from 'akeyless-types-commons';
-import { Dispatch, SetStateAction, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type Direction = "rtl" | "ltr";
 type SetState<T> = (updater: ((prev: T) => T) | T) => void;
@@ -24,8 +24,6 @@ interface TableProviderType {
 }
 interface UseFilterProps {
     data: Record<string, any>[];
-    dataToRender: Record<string, any>[];
-    setDataToRender: Dispatch<SetStateAction<Record<string, any>[]>>;
     filterableColumns: FilterableColumn[];
     includeSearch?: boolean;
     searchQuery: string;

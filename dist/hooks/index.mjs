@@ -317,7 +317,7 @@ function useSafeEffect(callback, dependencies, error_message) {
     }, dependencies);
 }
 // src/hooks/table.ts
-import { useContext as useContext2, useEffect as useEffect3, useState as useState3 } from "react";
+import { useContext as useContext2, useState as useState3 } from "react";
 // src/components/utils/Checkboxes.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 // src/components/utils/ErrorBoundary.tsx
@@ -856,7 +856,7 @@ var Summary = memo(function(props) {
     });
 });
 // src/components/table/Table.tsx
-import { createContext, useState } from "react";
+import { createContext, useMemo as useMemo2 } from "react";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 // src/components/forms/index.tsx
@@ -936,7 +936,9 @@ var useTableContext = function() {
     return context;
 };
 var useFilter = function(param) {
-    var data = param.data, dataToRender = param.dataToRender, setDataToRender = param.setDataToRender, filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
+    var data = param.data, // dataToRender,
+    // setDataToRender,
+    filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
     var initFilter = filterableColumns.reduce(function(acc, col) {
         return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
     }, {});
@@ -948,42 +950,6 @@ var useFilter = function(param) {
         })));
         return acc;
     }, {});
-    useEffect3(function() {
-        var filtered = dataToRender;
-        if (includeSearch) {
-            filtered = data.filter(function(item) {
-                return keysToRender.some(function(key) {
-                    var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                });
-            });
-        }
-        if (filterableColumns.length > 0) {
-            Object.keys(filters).forEach(function(key) {
-                if (filters[key].length > 0) {
-                    filtered = filtered.filter(function(item) {
-                        return filters[key].includes(item[key]);
-                    });
-                }
-            });
-        }
-        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length)) {
-            filtered = filtered.sort(function(a, b) {
-                var aValue = a[sortKeys[sortColumn]];
-                var bValue = b[sortKeys[sortColumn]];
-                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-                return 0;
-            });
-        }
-        setDataToRender(filtered);
-    }, [
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        filters,
-        data
-    ]);
     var handleFilterChange = function(dataKey, value) {
         var newFilters = _object_spread({}, filters);
         console.log("data from filter", {

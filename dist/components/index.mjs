@@ -429,7 +429,7 @@ var Loader = function(param) {
 // src/components/table/utils.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { memo, useMemo } from "react";
+import { memo, useMemo as useMemo2 } from "react";
 // src/assets/svg.tsx
 import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var RedXSvg = function(param) {
@@ -657,7 +657,7 @@ var exportToExcelSvg = function() {
 // src/hooks/global.ts
 import { useEffect } from "react";
 // src/hooks/table.ts
-import { useContext, useEffect as useEffect2, useState } from "react";
+import { useContext, useState } from "react";
 import { create } from "zustand";
 var useTableContext = function() {
     var context = useContext(TableContext);
@@ -667,7 +667,9 @@ var useTableContext = function() {
     return context;
 };
 var useFilter = function(param) {
-    var data = param.data, dataToRender = param.dataToRender, setDataToRender = param.setDataToRender, filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
+    var data = param.data, // dataToRender,
+    // setDataToRender,
+    filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
     var initFilter = filterableColumns.reduce(function(acc, col) {
         return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
     }, {});
@@ -679,42 +681,6 @@ var useFilter = function(param) {
         })));
         return acc;
     }, {});
-    useEffect2(function() {
-        var filtered = dataToRender;
-        if (includeSearch) {
-            filtered = data.filter(function(item) {
-                return keysToRender.some(function(key) {
-                    var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                });
-            });
-        }
-        if (filterableColumns.length > 0) {
-            Object.keys(filters).forEach(function(key) {
-                if (filters[key].length > 0) {
-                    filtered = filtered.filter(function(item) {
-                        return filters[key].includes(item[key]);
-                    });
-                }
-            });
-        }
-        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length)) {
-            filtered = filtered.sort(function(a, b) {
-                var aValue = a[sortKeys[sortColumn]];
-                var bValue = b[sortKeys[sortColumn]];
-                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-                return 0;
-            });
-        }
-        setDataToRender(filtered);
-    }, [
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        filters,
-        data
-    ]);
     var handleFilterChange = function(dataKey, value) {
         var newFilters = _object_spread({}, filters);
         console.log("data from filter", {
@@ -820,7 +786,7 @@ var TableCell = function(param) {
 };
 var TableHead = memo(function(props) {
     var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
-    var sortDisplay = useMemo(function() {
+    var sortDisplay = useMemo2(function() {
         return Boolean(sortKeys.length);
     }, [
         sortKeys
@@ -1069,7 +1035,7 @@ var Summary = memo(function(props) {
     });
 });
 // src/components/table/Table.tsx
-import { createContext, useState as useState2 } from "react";
+import { createContext, useMemo as useMemo3 } from "react";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 var TableProvider = function(props) {
@@ -1082,13 +1048,12 @@ var TableProvider = function(props) {
     filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
     exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
     sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle;
-    var _useState2 = _sliced_to_array(useState2(data), 2), dataToRender = _useState2[0], setDataToRender = _useState2[1];
     var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort;
     var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch;
     var _useFilter = useFilter({
         data: data,
-        dataToRender: dataToRender,
-        setDataToRender: setDataToRender,
+        // dataToRender,
+        // setDataToRender,
         filterableColumns: filterableColumns,
         includeSearch: includeSearch,
         searchQuery: searchQuery,
@@ -1097,6 +1062,42 @@ var TableProvider = function(props) {
         keysToRender: keysToRender,
         sortKeys: sortKeys
     }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick;
+    var dataToRender = useMemo3(function() {
+        var filtered = dataToRender;
+        if (includeSearch) {
+            filtered = data.filter(function(item) {
+                return keysToRender.some(function(key) {
+                    var _item_key;
+                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                });
+            });
+        }
+        if (filterableColumns.length > 0) {
+            Object.keys(filters).forEach(function(key) {
+                if (filters[key].length > 0) {
+                    filtered = filtered.filter(function(item) {
+                        return filters[key].includes(item[key]);
+                    });
+                }
+            });
+        }
+        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length)) {
+            filtered = filtered.sort(function(a, b) {
+                var aValue = a[sortKeys[sortColumn]];
+                var bValue = b[sortKeys[sortColumn]];
+                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+                return 0;
+            });
+        }
+        return filtered;
+    }, [
+        searchQuery,
+        sortColumn,
+        sortOrder,
+        filters,
+        data
+    ]);
     var providerValues = _object_spread_props(_object_spread({}, props), {
         //
         direction: direction,

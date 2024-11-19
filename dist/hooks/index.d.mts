@@ -1,6 +1,6 @@
 import * as zustand from 'zustand';
 import { TObject } from 'akeyless-types-commons';
-import { Dispatch, SetStateAction, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
 
@@ -26,8 +26,6 @@ interface TableProviderType {
 }
 interface UseFilterProps {
     data: Record<string, any>[];
-    dataToRender: Record<string, any>[];
-    setDataToRender: Dispatch<SetStateAction<Record<string, any>[]>>;
     filterableColumns: FilterableColumn[];
     includeSearch?: boolean;
     searchQuery: string;
@@ -84,7 +82,7 @@ interface TableProps {
 }
 
 declare const useTableContext: () => TableProps & TableProviderType;
-declare const useFilter: ({ data, dataToRender, setDataToRender, filterableColumns, includeSearch, searchQuery, keysToRender, sortColumn, sortOrder, sortKeys, }: UseFilterProps) => {
+declare const useFilter: ({ data, filterableColumns, includeSearch, searchQuery, keysToRender, sortColumn, sortOrder, sortKeys, }: UseFilterProps) => {
     filters: TObject<string[]>;
     filterPopupsDisplay: string;
     filterOptions: Record<string, any[]>;
