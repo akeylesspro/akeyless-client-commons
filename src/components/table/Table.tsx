@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody } from "./utils";
 import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
@@ -86,6 +86,34 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         handleFilterChange,
         handleFilterClick,
     };
+
+
+    const test = useMemo(() => {
+        let filtered = dataToRender;
+        if (includeSearch) {
+            filtered = data.filter((item) => keysToRender.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
+        }
+        if (filterableColumns.length > 0) {
+            Object.keys(filters).forEach((key) => {
+                if (filters[key].length > 0) {
+                    filtered = filtered.filter((item) => filters[key].includes(item[key]));
+                }
+            });
+        }
+        if (sortColumn !== null && sortOrder !== null && sortKeys?.length) {
+            filtered = filtered.sort((a, b) => {
+                const aValue = a[sortKeys[sortColumn]];
+                const bValue = b[sortKeys[sortColumn]];
+                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+                return 0;
+            });
+        }
+        return filtered;
+    }, [searchQuery, sortColumn, sortOrder, filters, data]);
+
+
+
     return (
         <TableContext.Provider value={providerValues}>
             <div className={`flex flex-col gap-2 ${containerClassName}`} style={{ ...containerStyle, direction: direction }}>

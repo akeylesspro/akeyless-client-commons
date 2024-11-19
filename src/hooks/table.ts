@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { TableContext } from "../components";
 import { TObject } from "akeyless-types-commons";
 import { UseFilterProps } from "../types";
@@ -56,10 +56,12 @@ export const useFilter = ({
         setDataToRender(filtered);
     }, [searchQuery, sortColumn, sortOrder, filters, data]);
 
+    
+
     const handleFilterChange = (dataKey: string, value: string) => {
         const newFilters = { ...filters };
-        console.log("data from filter", {filters,newFilters,dataKey,value});
-        
+        console.log("data from filter", { filters, newFilters, dataKey, value });
+
         if (newFilters[dataKey].includes(value)) {
             newFilters[dataKey] = newFilters[dataKey].filter((item) => item !== value);
         } else {
