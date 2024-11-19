@@ -826,7 +826,7 @@ var TableHead = memo(function(props) {
         sortKeys
     ]);
     return /* @__PURE__ */ jsx6("thead", {
-        className: "bg-gray-50 sticky top-0",
+        className: "bg-gray-500 sticky top-0 ",
         children: /* @__PURE__ */ jsx6("tr", {
             style: headerStyle,
             children: headers.map(function(header, index) {
