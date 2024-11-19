@@ -25,12 +25,6 @@ interface TableProviderType {
 interface UseFilterProps {
     data: Record<string, any>[];
     filterableColumns: FilterableColumn[];
-    includeSearch?: boolean;
-    searchQuery: string;
-    keysToRender: string[];
-    sortColumn: number | null;
-    sortOrder: "asc" | "desc" | null;
-    sortKeys: string[];
 }
 interface TableProps {
     data: Record<string, any>[];

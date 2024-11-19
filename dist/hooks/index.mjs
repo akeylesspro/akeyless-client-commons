@@ -688,7 +688,7 @@ var Filter = memo(function(param) {
                 })
             }),
             filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "absolute z-10 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                className: "absolute z-10 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                 children: [
                     /* @__PURE__ */ jsx6("div", {
                         className: "text-start border-black border-b-[1px] w-[90%]",
@@ -936,9 +936,7 @@ var useTableContext = function() {
     return context;
 };
 var useFilter = function(param) {
-    var data = param.data, // dataToRender,
-    // setDataToRender,
-    filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
+    var data = param.data, filterableColumns = param.filterableColumns;
     var initFilter = filterableColumns.reduce(function(acc, col) {
         return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
     }, {});

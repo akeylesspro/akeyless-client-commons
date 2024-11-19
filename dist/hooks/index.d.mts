@@ -27,12 +27,6 @@ interface TableProviderType {
 interface UseFilterProps {
     data: Record<string, any>[];
     filterableColumns: FilterableColumn[];
-    includeSearch?: boolean;
-    searchQuery: string;
-    keysToRender: string[];
-    sortColumn: number | null;
-    sortOrder: "asc" | "desc" | null;
-    sortKeys: string[];
 }
 interface TableProps {
     data: Record<string, any>[];
@@ -82,7 +76,7 @@ interface TableProps {
 }
 
 declare const useTableContext: () => TableProps & TableProviderType;
-declare const useFilter: ({ data, filterableColumns, includeSearch, searchQuery, keysToRender, sortColumn, sortOrder, sortKeys, }: UseFilterProps) => {
+declare const useFilter: ({ data, filterableColumns, }: UseFilterProps) => {
     filters: TObject<string[]>;
     filterPopupsDisplay: string;
     filterOptions: Record<string, any[]>;
