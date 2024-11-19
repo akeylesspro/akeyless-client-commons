@@ -949,7 +949,7 @@ var TableHead = memo(function(props) {
         sortKeys
     ]);
     return /* @__PURE__ */ jsx7("thead", {
-        className: "bg-gray-50 sticky top-0 z-10",
+        className: "bg-gray-50 sticky top-0 z-30",
         children: /* @__PURE__ */ jsx7(TableRowSCN, {
             style: headerStyle,
             children: headers.map(function(header, index) {
