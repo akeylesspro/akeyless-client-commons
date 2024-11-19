@@ -15,15 +15,8 @@ export const useTableContext = () => {
 
 export const useFilter = ({
     data,
-    // dataToRender,
-    // setDataToRender,
     filterableColumns,
-    includeSearch,
-    searchQuery,
-    keysToRender,
-    sortColumn,
-    sortOrder,
-    sortKeys,
+
 }: UseFilterProps) => {
     const initFilter = filterableColumns.reduce((acc, col) => ({ ...acc, [col.dataKey]: [] }), {});
     const [filters, setFilters] = useState<TObject<string[]>>(initFilter);
@@ -32,31 +25,7 @@ export const useFilter = ({
         acc[col.dataKey] = Array.from(new Set(data.map((item) => item[col.dataKey])));
         return acc;
     }, {});
-    // useEffect(() => {
-    //     let filtered = dataToRender;
-    //     if (includeSearch) {
-    //         filtered = data.filter((item) => keysToRender.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
-    //     }
-    //     if (filterableColumns.length > 0) {
-    //         Object.keys(filters).forEach((key) => {
-    //             if (filters[key].length > 0) {
-    //                 filtered = filtered.filter((item) => filters[key].includes(item[key]));
-    //             }
-    //         });
-    //     }
-    //     if (sortColumn !== null && sortOrder !== null && sortKeys?.length) {
-    //         filtered = filtered.sort((a, b) => {
-    //             const aValue = a[sortKeys[sortColumn]];
-    //             const bValue = b[sortKeys[sortColumn]];
-    //             if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-    //             if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-    //             return 0;
-    //         });
-    //     }
-    //     setDataToRender(filtered);
-    // }, [searchQuery, sortColumn, sortOrder, filters, data]);
 
-    
 
     const handleFilterChange = (dataKey: string, value: string) => {
         const newFilters = { ...filters };

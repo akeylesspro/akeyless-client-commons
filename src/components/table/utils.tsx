@@ -51,7 +51,7 @@ export const TableHead = memo((props: any) => {
     } = useTableContext();
     const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys.length), [sortKeys]);
     return (
-        <thead  className="bg-[#282828] text-white sticky top-0">
+        <thead className="bg-[#282828] text-white sticky top-0">
             <tr style={headerStyle}>
                 {headers.map((header, index) => {
                     const filterableColumn = filterableColumns.find((col) => col.header === header);
@@ -111,7 +111,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
             {filterPopupsDisplay === filterableColumn.dataKey && (
                 <div
                     className={`absolute z-10 top-1 ${displayRight ? "right-[-165px]" : "left-[-80px]"}
-                              w-40 h-32 bg-white p-1 flex flex-col items-center gap-2 shadow`}
+                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
                 >
                     <div className="text-start border-black border-b-[1px] w-[90%]">{filterLabel + " " + filterableColumn.header}</div>
                     <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">

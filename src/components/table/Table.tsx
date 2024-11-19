@@ -51,21 +51,12 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         summaryRowStyle = {},
     } = props;
     // rendered data
-    // const [dataToRender, setDataToRender] = useState<TObject<any>[]>(data);
-    //
+
     const { sortColumn, sortOrder, handleSort } = useSort();
     const { searchQuery, handleSearch } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick } = useFilter({
         data,
-        // dataToRender,
-        // setDataToRender,
         filterableColumns,
-        includeSearch,
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        keysToRender,
-        sortKeys,
     });
 
     const dataToRender = useMemo(() => {

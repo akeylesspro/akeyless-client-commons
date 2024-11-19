@@ -22,15 +22,7 @@ export interface TableProviderType {
 }
 export interface UseFilterProps {
     data: Record<string, any>[];
-    // dataToRender: Record<string, any>[];
-    // setDataToRender: Dispatch<SetStateAction<Record<string, any>[]>>;
     filterableColumns: FilterableColumn[];
-    includeSearch?: boolean;
-    searchQuery: string;
-    keysToRender: string[];
-    sortColumn: number | null;
-    sortOrder: "asc" | "desc" | null;
-    sortKeys: string[];
 }
 export interface TableProps {
     data: Record<string, any>[];
