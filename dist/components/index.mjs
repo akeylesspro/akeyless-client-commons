@@ -1152,7 +1152,7 @@ var Table = function(props) {
                 className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass),
                 children: /* @__PURE__ */ jsxs5("table", {
                     style: tableStyle,
-                    className: "min-w-full text-sm font-light",
+                    className: "min-w-full text-sm font-light relative",
                     children: [
                         /* @__PURE__ */ jsx7(TableHead, {}),
                         /* @__PURE__ */ jsx7(TableBody, {
