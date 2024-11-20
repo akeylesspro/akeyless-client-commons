@@ -490,7 +490,7 @@ var sortSvg = function(upside_down) {
             " ",
             /* @__PURE__ */ jsxs3("g", {
                 transform: "translate(0.000000,1536.000000) scale(0.100000,-0.100000)",
-                fill: "#000000",
+                fill: "#fff",
                 stroke: "none",
                 children: [
                     " ",
@@ -517,7 +517,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs3("g", {
                     transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -540,7 +540,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs3("g", {
                     transform: "translate(0.000000,300.000000) scale(0.050000,-0.050000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -570,7 +570,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs3("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -600,7 +600,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs3("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
