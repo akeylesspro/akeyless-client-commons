@@ -8,3 +8,9 @@ export function useSafeEffect(callback: () => void, dependencies: any[], error_m
         }
     }, dependencies);
 }
+export const useDocumentTitle = (title: string) => {
+    useEffect(() => {
+        document.title = title;
+    }, []);
+    return null;
+};

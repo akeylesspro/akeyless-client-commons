@@ -3,6 +3,7 @@ import { TObject } from 'akeyless-types-commons';
 import { ReactNode } from 'react';
 
 declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
+declare const useDocumentTitle: (title: string) => any;
 
 type Direction = "rtl" | "ltr";
 
@@ -95,4 +96,4 @@ declare const useSearch: () => {
 };
 declare const useCreateTableStore: () => zustand.UseBoundStore<zustand.StoreApi<any>>;
 
-export { useCreateTableStore, useFilter, useSafeEffect, useSearch, useSort, useTableContext };
+export { useCreateTableStore, useDocumentTitle, useFilter, useSafeEffect, useSearch, useSort, useTableContext };

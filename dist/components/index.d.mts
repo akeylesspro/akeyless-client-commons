@@ -2,10 +2,6 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import React$1, { SetStateAction, ReactNode } from 'react';
 import { TObject } from 'akeyless-types-commons';
 
-declare function ChangeDocumentTitle({ title }: {
-    title?: string;
-}): react_jsx_runtime.JSX.Element;
-
 interface CheckBoxProps {
     id: string;
     checked: boolean;
@@ -195,4 +191,4 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-export { ChangeDocumentTitle, Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
