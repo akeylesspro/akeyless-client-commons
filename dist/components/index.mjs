@@ -902,6 +902,26 @@ var Filter = memo(function(param) {
         ]
     });
 });
+var MaxRowsLabel = memo(function(props) {
+    var _useTableContext = useTableContext(), data = _useTableContext.data, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows;
+    return /* @__PURE__ */ jsxs4("div", {
+        className: "flex justify-start items-center gap-3 h-10",
+        children: [
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel1
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRows
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel2
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: data.length
+            })
+        ]
+    });
+});
 var ExportToExcel = memo(function(props) {
     var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
     var addPropertiesToExcel = function(properties) {
@@ -1045,7 +1065,8 @@ var TableProvider = function(props) {
     sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
     filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
     exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
-    sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle;
+    sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
+    maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
     var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort;
     var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch;
     var _useFilter = useFilter({
@@ -1089,11 +1110,12 @@ var TableProvider = function(props) {
         data
     ]);
     var providerValues = _object_spread_props(_object_spread({}, props), {
-        //
+        // props with default values
         direction: direction,
         keysToRender: keysToRender,
         filterableColumns: filterableColumns,
-        //
+        maxRows: maxRows,
+        // states and functions
         sortColumn: sortColumn,
         sortOrder: sortOrder,
         handleSort: handleSort,
@@ -1118,7 +1140,7 @@ var TableProvider = function(props) {
     });
 };
 var Table = function(props) {
-    var _props_containerStyle = props.containerStyle, containerStyle = _props_containerStyle === void 0 ? {} : _props_containerStyle, optionalElement = props.optionalElement, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction;
+    var _props_containerStyle = props.containerStyle, containerStyle = _props_containerStyle === void 0 ? {} : _props_containerStyle, optionalElement = props.optionalElement, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
     return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
             /* @__PURE__ */ jsxs5("div", {
@@ -1133,6 +1155,7 @@ var Table = function(props) {
                     exportToExcelKeys && /* @__PURE__ */ jsx7(ExportToExcel, {
                         render: false
                     }),
+                    maxRowsLabel1 && maxRowsLabel2 && /* @__PURE__ */ jsx7(MaxRowsLabel, {}),
                     optionalElement && optionalElement
                 ]
             }),
@@ -1696,5 +1719,5 @@ var DatePicker = function(param) {
         ]
     });
 };
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
 //# sourceMappingURL=index.mjs.map

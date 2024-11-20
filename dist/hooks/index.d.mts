@@ -74,6 +74,9 @@ interface TableProps {
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
     direction?: Direction;
+    maxRows?: number;
+    maxRowsLabel1?: string;
+    maxRowsLabel2?: string;
 }
 
 declare const useTableContext: () => TableProps & TableProviderType;

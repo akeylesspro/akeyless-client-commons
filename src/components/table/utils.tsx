@@ -135,6 +135,18 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     );
 });
 
+export const MaxRowsLabel = memo((props: any) => {
+    const { data, maxRowsLabel1, maxRowsLabel2, maxRows } = useTableContext();
+    return (
+        <div className="flex justify-start items-center gap-3 h-10">
+            <div>{maxRowsLabel1}</div>
+            <div>{maxRows}</div>
+            <div>{maxRowsLabel2}</div>
+            <div>{data.length}</div>
+        </div>
+    );
+});
+
 export const ExportToExcel = memo((props: any) => {
     const { exportToExcelKeys, dataToAddToExcelTable, excelFileName, dataToRender, headers, sumColumns, exportExcelLabel } = useTableContext();
     const addPropertiesToExcel = (properties: { key: string; value: any; header: string }[]) => {

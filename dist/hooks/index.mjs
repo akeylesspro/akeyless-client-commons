@@ -731,6 +731,26 @@ var Filter = memo(function(param) {
         ]
     });
 });
+var MaxRowsLabel = memo(function(props) {
+    var _useTableContext = useTableContext(), data = _useTableContext.data, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows;
+    return /* @__PURE__ */ jsxs4("div", {
+        className: "flex justify-start items-center gap-3 h-10",
+        children: [
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel1
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRows
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel2
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: data.length
+            })
+        ]
+    });
+});
 var ExportToExcel = memo(function(props) {
     var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
     var addPropertiesToExcel = function(properties) {

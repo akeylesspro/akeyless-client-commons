@@ -100,6 +100,9 @@ interface TableProps {
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
     direction?: Direction;
+    maxRows?: number;
+    maxRowsLabel1?: string;
+    maxRowsLabel2?: string;
 }
 interface FilterProps {
     index: number;
@@ -175,6 +178,7 @@ declare const TableCell: ({ value }: {
 declare const TableHead: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 declare const TableBody: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 declare const Filter: React$1.NamedExoticComponent<FilterProps>;
+declare const MaxRowsLabel: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 declare const ExportToExcel: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 declare const Search: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 declare const Summary: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
@@ -191,4 +195,4 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };

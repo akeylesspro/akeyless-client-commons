@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody } from "./utils";
+import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./utils";
 import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
 import { useFilter, useSort, useSearch } from "../../hooks";
@@ -49,6 +49,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         summaryContainerStyle = {},
         summaryLabelStyle = {},
         summaryRowStyle = {},
+        //  max rows
+        maxRows = data.length,
     } = props;
     // rendered data
 
@@ -85,11 +87,12 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
     const providerValues = {
         ...props,
-        //
+        // props with default values
         direction,
         keysToRender,
         filterableColumns,
-        //
+        maxRows,
+        // states and functions
         sortColumn,
         sortOrder,
         handleSort,
@@ -124,6 +127,8 @@ export const Table = (props: TableProps) => {
         exportToExcelKeys,
         sumColumns,
         direction,
+        maxRowsLabel1,
+        maxRowsLabel2
     } = props;
     return (
         <TableProvider {...props}>
@@ -133,6 +138,8 @@ export const Table = (props: TableProps) => {
                 {includeSearch && <Search render={false} />}
                 {/* export to excel */}
                 {exportToExcelKeys && <ExportToExcel render={false} />}
+                {/* max rows */}
+                {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
                 {/* optional element */}
                 {optionalElement && optionalElement}
             </div>
