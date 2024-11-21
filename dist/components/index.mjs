@@ -1085,21 +1085,22 @@ var TableProvider = function(props) {
     var dataToRender = useMemo3(function() {
         var filtered = data;
         if (includeSearch) {
-            filtered = data.filter(function(item) {
-                return Object.keys(data).some(function(key) {
-                    var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                });
-            });
-        }
-        if (filterableColumns.length > 0) {
             var allKeys = filtered.reduce(function(keys, obj) {
                 Object.keys(obj).forEach(function(key) {
                     return keys.add(key);
                 });
                 return keys;
             }, /* @__PURE__ */ new Set());
-            Array.from(allKeys).forEach(function(key) {
+            console.log(Array.from(allKeys));
+            filtered = data.filter(function(item) {
+                return Array.from(allKeys).some(function(key) {
+                    var _item_key;
+                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                });
+            });
+        }
+        if (filterableColumns.length > 0) {
+            Object.keys(filters).forEach(function(key) {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter(function(item) {
                         return filters[key].includes(item[key]);
