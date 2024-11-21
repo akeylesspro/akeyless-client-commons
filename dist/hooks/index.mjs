@@ -608,7 +608,7 @@ var TableRow = function(param) {
 };
 var TableCell = function(param) {
     var value = param.value;
-    var cellStyle = useTableContext().cellStyle;
+    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
     return /* @__PURE__ */ jsx6("td", {
         title: [
             "string",
@@ -616,7 +616,7 @@ var TableCell = function(param) {
             "boolean"
         ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
         style: cellStyle,
-        className: "chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center",
+        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
         children: value
     });
 };

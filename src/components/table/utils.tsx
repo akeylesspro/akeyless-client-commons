@@ -26,12 +26,12 @@ export const TableRow = ({ item }: { item: TObject<any> }) => {
 };
 
 export const TableCell = ({ value }: { value: any }) => {
-    const { cellStyle } = useTableContext();
+    const { cellStyle, cellClassName } = useTableContext();
     return (
         <td
             title={["string", "number", "boolean"].includes(typeof value) ? value : ""}
             style={cellStyle}
-            className="chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center"
+            className={cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || "")}
         >
             {value}
         </td>

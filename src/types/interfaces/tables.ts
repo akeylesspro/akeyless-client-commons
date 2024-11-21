@@ -42,6 +42,7 @@ export interface TableProps {
     headerStyle?: React.CSSProperties;
     headerCellStyle?: React.CSSProperties;
     cellStyle?: React.CSSProperties;
+    cellClassName?: string;
     filterableColumns?: { header: string; dataKey: string; ui?: (value: any) => ReactNode }[];
     sortKeys?: string[];
     exportToExcelKeys?: string[];
