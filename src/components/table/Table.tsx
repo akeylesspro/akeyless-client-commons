@@ -118,11 +118,11 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
 export const Table = (props: TableProps) => {
     const {
-        containerHeaderClassName = "",
+        containerHeaderClassName,
         optionalElement,
-        tableContainerClass = "",
-        tableContainerStyle = {},
-        tableStyle = {},
+        tableContainerClass,
+        tableContainerStyle,
+        tableStyle,
         includeSearch,
         exportToExcelKeys,
         sumColumns,
@@ -133,7 +133,7 @@ export const Table = (props: TableProps) => {
     return (
         <TableProvider {...props}>
             {/* container header */}
-            <div style={{ direction: direction }} className={cn("flex justify-start gap-2", containerHeaderClassName)}>
+            <div style={{ direction: direction }} className={cn("flex justify-start gap-2", containerHeaderClassName || "")}>
                 {/* search */}
                 {includeSearch && <Search render={false} />}
                 {/* export to excel */}
@@ -144,7 +144,10 @@ export const Table = (props: TableProps) => {
                 {optionalElement && optionalElement}
             </div>
             {/* table */}
-            <div style={{ ...tableContainerStyle, direction: direction }} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
+            <div
+                style={{ ...(tableContainerStyle || {}), direction: direction }}
+                className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass || ""}`}
+            >
                 <table style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />
                     <TableBody render={false} />

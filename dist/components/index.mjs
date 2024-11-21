@@ -874,7 +874,7 @@ var Filter = memo(function(param) {
                 })
             }),
             filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "absolute z-10 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                 children: [
                     /* @__PURE__ */ jsx6("div", {
                         className: "text-start border-black border-b-[1px] w-[90%]",
@@ -1149,14 +1149,14 @@ var TableProvider = function(props) {
     });
 };
 var Table = function(props) {
-    var _props_containerHeaderClassName = props.containerHeaderClassName, containerHeaderClassName = _props_containerHeaderClassName === void 0 ? "" : _props_containerHeaderClassName, optionalElement = props.optionalElement, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
+    var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
     return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
             /* @__PURE__ */ jsxs5("div", {
                 style: {
                     direction: direction
                 },
-                className: cn("flex justify-start gap-2", containerHeaderClassName),
+                className: cn("flex justify-start gap-2", containerHeaderClassName || ""),
                 children: [
                     includeSearch && /* @__PURE__ */ jsx7(Search, {
                         render: false
@@ -1169,10 +1169,10 @@ var Table = function(props) {
                 ]
             }),
             /* @__PURE__ */ jsx7("div", {
-                style: _object_spread_props(_object_spread({}, tableContainerStyle), {
+                style: _object_spread_props(_object_spread({}, tableContainerStyle || {}), {
                     direction: direction
                 }),
-                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass),
+                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
                 children: /* @__PURE__ */ jsxs5("table", {
                     style: tableStyle,
                     className: "min-w-full text-sm font-light relative",
