@@ -67,8 +67,6 @@ export const useSort = () => {
         let newSortOrder: SortOptions = "asc";
         if (sortColumn === columnIndex && sortOrder === "asc") {
             newSortOrder = "desc";
-        } else if (sortColumn === columnIndex && sortOrder === "desc") {
-            newSortOrder = null;
         }
         setSortColumn(columnIndex);
         setSortOrder(newSortOrder);

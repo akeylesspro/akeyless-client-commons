@@ -1057,8 +1057,6 @@ var useSort = function() {
         var newSortOrder = "asc";
         if (sortColumn === columnIndex && sortOrder === "asc") {
             newSortOrder = "desc";
-        } else if (sortColumn === columnIndex && sortOrder === "desc") {
-            newSortOrder = null;
         }
         setSortColumn(columnIndex);
         setSortOrder(newSortOrder);
