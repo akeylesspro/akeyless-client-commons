@@ -6,6 +6,7 @@ import { FilterProps } from "../../types";
 import { useTableContext } from "../../hooks";
 import { TObject } from "akeyless-types-commons";
 import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
+import { cn } from "@/lib/utils";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -136,11 +137,11 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
 });
 
 export const MaxRowsLabel = memo((props: any) => {
-    const { data, maxRowsLabel1, maxRowsLabel2, maxRows } = useTableContext();
+    const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, maxRowsContainerClassName } = useTableContext();
     return (
-        <div className="flex justify-start items-center gap-3 h-10">
+        <div className={cn("flex justify-start items-center gap-3", maxRowsContainerClassName || "")}>
             <div>{maxRowsLabel1}</div>
-            <div>{maxRows}</div>
+            <div>{maxRows > dataToRender.length ? dataToRender.length : maxRows}</div>
             <div>{maxRowsLabel2}</div>
             <div>{data.length}</div>
         </div>

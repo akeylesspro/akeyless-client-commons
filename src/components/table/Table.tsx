@@ -4,6 +4,7 @@ import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
 import { useFilter, useSort, useSearch } from "../../hooks";
 import { TableSCN } from "../ui/table";
+import { cn } from "@/lib/utils";
 
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
@@ -28,8 +29,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         headerStyle = {},
         headerCellStyle,
         searchInputStyle = {},
-        searchInputClassName = "",
         // search
+        searchInputClassName = "",
         includeSearch,
         searchPlaceHolder = "Search in table ...",
         // sort
@@ -62,7 +63,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     });
 
     const dataToRender = useMemo(() => {
-        let filtered = dataToRender;
+        let filtered = data;
         if (includeSearch) {
             filtered = data.filter((item) => keysToRender.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
         }
@@ -82,7 +83,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
                 return 0;
             });
         }
-        return filtered;
+        return filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
     }, [searchQuery, sortColumn, sortOrder, filters, data]);
 
     const providerValues = {
@@ -117,9 +118,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
 export const Table = (props: TableProps) => {
     const {
-        containerStyle = {},
+        containerHeaderClassName = "",
         optionalElement,
-        containerClassName = "",
         tableContainerClass = "",
         tableContainerStyle = {},
         tableStyle = {},
@@ -128,12 +128,12 @@ export const Table = (props: TableProps) => {
         sumColumns,
         direction,
         maxRowsLabel1,
-        maxRowsLabel2
+        maxRowsLabel2,
     } = props;
     return (
         <TableProvider {...props}>
             {/* container header */}
-            <div style={{ direction: direction }} className="flex justify-start gap-2 ">
+            <div style={{ direction: direction }} className={cn("flex justify-start gap-2", containerHeaderClassName)}>
                 {/* search */}
                 {includeSearch && <Search render={false} />}
                 {/* export to excel */}

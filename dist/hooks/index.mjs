@@ -574,6 +574,15 @@ var exportToExcelSvg = function() {
         ]
     });
 };
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
 // src/components/table/utils.tsx
 import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
 var getFixedNumber = function() {
@@ -732,15 +741,15 @@ var Filter = memo(function(param) {
     });
 });
 var MaxRowsLabel = memo(function(props) {
-    var _useTableContext = useTableContext(), data = _useTableContext.data, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows;
+    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
     return /* @__PURE__ */ jsxs4("div", {
-        className: "flex justify-start items-center gap-3 h-10",
+        className: cn("flex justify-start items-center gap-3", maxRowsContainerClassName || ""),
         children: [
             /* @__PURE__ */ jsx6("div", {
                 children: maxRowsLabel1
             }),
             /* @__PURE__ */ jsx6("div", {
-                children: maxRows
+                children: maxRows > dataToRender.length ? dataToRender.length : maxRows
             }),
             /* @__PURE__ */ jsx6("div", {
                 children: maxRowsLabel2

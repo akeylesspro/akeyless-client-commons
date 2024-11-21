@@ -36,6 +36,7 @@ interface TableProps {
     optionalElement?: ReactNode;
     containerStyle?: React.CSSProperties;
     containerClassName?: string;
+    containerHeaderClassName?: string;
     includeSearch?: boolean;
     searchInputStyle?: React.CSSProperties;
     searchInputClassName?: string;
@@ -77,6 +78,7 @@ interface TableProps {
     maxRows?: number;
     maxRowsLabel1?: string;
     maxRowsLabel2?: string;
+    maxRowsContainerClassName?: string;
 }
 
 declare const useTableContext: () => TableProps & TableProviderType;
