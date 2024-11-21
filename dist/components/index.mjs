@@ -1086,7 +1086,7 @@ var TableProvider = function(props) {
         var filtered = data;
         if (includeSearch) {
             filtered = data.filter(function(item) {
-                return keysToRender.some(function(key) {
+                return Object.keys(data).some(function(key) {
                     var _item_key;
                     return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
                 });
@@ -1156,7 +1156,7 @@ var Table = function(props) {
                 style: {
                     direction: direction
                 },
-                className: cn("flex justify-start gap-2", containerHeaderClassName || ""),
+                className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
                 children: [
                     includeSearch && /* @__PURE__ */ jsx7(Search, {
                         render: false

@@ -65,7 +65,9 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     const dataToRender = useMemo(() => {
         let filtered = data;
         if (includeSearch) {
-            filtered = data.filter((item) => keysToRender.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
+            filtered = data.filter((item) =>
+                Object.keys(data).some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase()))
+            );
         }
         if (filterableColumns.length > 0) {
             Object.keys(filters).forEach((key) => {
@@ -133,7 +135,7 @@ export const Table = (props: TableProps) => {
     return (
         <TableProvider {...props}>
             {/* container header */}
-            <div style={{ direction: direction }} className={cn("flex justify-start gap-2", containerHeaderClassName || "")}>
+            <div style={{ direction: direction }} className={cn("flex justify-start items-center gap-2", containerHeaderClassName || "")}>
                 {/* search */}
                 {includeSearch && <Search render={false} />}
                 {/* export to excel */}
