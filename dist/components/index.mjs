@@ -1093,7 +1093,13 @@ var TableProvider = function(props) {
             });
         }
         if (filterableColumns.length > 0) {
-            Object.keys(filters).forEach(function(key) {
+            var allKeys = filtered.reduce(function(keys, obj) {
+                Object.keys(obj).forEach(function(key) {
+                    return keys.add(key);
+                });
+                return keys;
+            }, /* @__PURE__ */ new Set());
+            Array.from(allKeys).forEach(function(key) {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter(function(item) {
                         return filters[key].includes(item[key]);

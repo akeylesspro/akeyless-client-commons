@@ -70,7 +70,11 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
             );
         }
         if (filterableColumns.length > 0) {
-            Object.keys(filters).forEach((key) => {
+            const allKeys = filtered.reduce<Set<string>>((keys, obj) => {
+                Object.keys(obj).forEach((key) => keys.add(key));
+                return keys;
+            }, new Set<string>());
+            Array.from(allKeys).forEach((key) => {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter((item) => filters[key].includes(item[key]));
                 }
