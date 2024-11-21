@@ -61,20 +61,21 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         data,
         filterableColumns,
     });
-
-    const dataToRender = useMemo(() => {
-        let filtered = data;
-        if (includeSearch) {
-            const allKeys = filtered.reduce<Set<string>>((keys, obj) => {
+    const allKeys = useMemo(() => {
+        return Array.from(
+            data.reduce<Set<string>>((keys, obj) => {
                 Object.keys(obj).forEach((key) => keys.add(key));
                 return keys;
-            }, new Set<string>());
-            console.log(Array.from(allKeys));
-
-            filtered = data.filter((item) =>
-                Array.from(allKeys).some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase()))
-            );
+            }, new Set<string>())
+        );
+    }, [data]);
+    const dataToRender = useMemo(() => {
+        let filtered = data;
+        // search
+        if (includeSearch && searchQuery.length > 0) {
+            filtered = data.filter((item) => allKeys.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
         }
+
         if (filterableColumns.length > 0) {
             Object.keys(filters).forEach((key) => {
                 if (filters[key].length > 0) {

@@ -1082,18 +1082,21 @@ var TableProvider = function(props) {
         data: data,
         filterableColumns: filterableColumns
     }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick;
+    var allKeys = useMemo3(function() {
+        return Array.from(data.reduce(function(keys, obj) {
+            Object.keys(obj).forEach(function(key) {
+                return keys.add(key);
+            });
+            return keys;
+        }, /* @__PURE__ */ new Set()));
+    }, [
+        data
+    ]);
     var dataToRender = useMemo3(function() {
         var filtered = data;
-        if (includeSearch) {
-            var allKeys = filtered.reduce(function(keys, obj) {
-                Object.keys(obj).forEach(function(key) {
-                    return keys.add(key);
-                });
-                return keys;
-            }, /* @__PURE__ */ new Set());
-            console.log(Array.from(allKeys));
+        if (includeSearch && searchQuery.length > 0) {
             filtered = data.filter(function(item) {
-                return Array.from(allKeys).some(function(key) {
+                return allKeys.some(function(key) {
                     var _item_key;
                     return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
                 });
