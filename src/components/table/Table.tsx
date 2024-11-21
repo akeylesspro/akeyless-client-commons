@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
 import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./utils";
 import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
@@ -53,11 +53,12 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         //  max rows
         maxRows = data.length,
     } = props;
+
     // rendered data
 
-    const { sortColumn, sortOrder, handleSort } = useSort();
-    const { searchQuery, handleSearch } = useSearch();
-    const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick } = useFilter({
+    const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
+    const { searchQuery, handleSearch, clearSearch } = useSearch();
+    const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
         filterableColumns,
     });
@@ -69,21 +70,29 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
             }, new Set<string>())
         );
     }, [data]);
+
     const dataToRender = useMemo(() => {
         let filtered = data;
         // search
         if (includeSearch && searchQuery.length > 0) {
             filtered = data.filter((item) => allKeys.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
+            // clearFilter();
+            // clearSort();
         }
-
-        if (filterableColumns.length > 0) {
+        // filter
+        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
+            console.log("filtering ...");
             Object.keys(filters).forEach((key) => {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter((item) => filters[key].includes(item[key]));
                 }
             });
+            // clearSearch();
+            // clearSort();
         }
-        if (sortColumn !== null && sortOrder !== null && sortKeys?.length) {
+        // sort
+        if (sortColumn !== null && sortOrder !== null && sortKeys?.length > 0) {
+            console.log("sorting ...");
             filtered = filtered.sort((a, b) => {
                 const aValue = a[sortKeys[sortColumn]];
                 const bValue = b[sortKeys[sortColumn]];
@@ -91,8 +100,11 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
                 if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
                 return 0;
             });
+            // clearFilter();
+            // clearSearch();
         }
-        return filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        const result = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        return result;
     }, [searchQuery, sortColumn, sortOrder, filters, data]);
 
     const providerValues = {
@@ -114,6 +126,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         filterOptions,
         handleFilterChange,
         handleFilterClick,
+        closeFilterWindow,
     };
 
     return (

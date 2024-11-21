@@ -54,6 +54,7 @@ interface TableProviderType {
     filterOptions: any;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
 }
 interface TableProps {
     data: Record<string, any>[];

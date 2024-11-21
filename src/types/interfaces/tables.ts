@@ -19,6 +19,7 @@ export interface TableProviderType {
     filterOptions: any;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
 }
 export interface UseFilterProps {
     data: Record<string, any>[];

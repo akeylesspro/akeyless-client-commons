@@ -24,6 +24,7 @@ interface TableProviderType {
     filterOptions: any;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
 }
 interface UseFilterProps {
     data: Record<string, any>[];
@@ -83,22 +84,26 @@ interface TableProps {
 }
 
 declare const useTableContext: () => TableProps & TableProviderType;
-declare const useFilter: ({ data, filterableColumns, }: UseFilterProps) => {
+declare const useFilter: ({ data, filterableColumns }: UseFilterProps) => {
     filters: TObject<string[]>;
     filterPopupsDisplay: string;
     filterOptions: Record<string, any[]>;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
+    clearFilter: () => void;
 };
 type SortOptions = "asc" | "desc";
 declare const useSort: () => {
     sortColumn: number;
     sortOrder: SortOptions;
     handleSort: (columnIndex: number) => void;
+    clearSort: () => void;
 };
 declare const useSearch: () => {
     searchQuery: string;
     handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    clearSearch: () => void;
 };
 declare const useCreateTableStore: () => zustand.UseBoundStore<zustand.StoreApi<any>>;
 

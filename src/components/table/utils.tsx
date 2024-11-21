@@ -1,7 +1,7 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import React, { memo, useMemo } from "react";
-import { emptyFilterSvg, exportToExcelSvg, slashFilterSvg, sortSvg } from "../../assets";
+import { emptyFilterSvg, exportToExcelSvg, RedXSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "../../types";
 import { useTableContext } from "../../hooks";
 import { TObject } from "akeyless-types-commons";
@@ -80,9 +80,9 @@ export const TableHead = memo((props: any) => {
 });
 
 export const TableBody = memo((props: any) => {
-    const { handleFilterClick, onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
+    const {  onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
     return (
-        <tbody onClick={() => handleFilterClick("")}>
+        <tbody >
             {dataToRender.map((item, index) => (
                 <TableRow key={index} item={item} />
             ))}
@@ -91,7 +91,8 @@ export const TableBody = memo((props: any) => {
 });
 
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
-    const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, filterLabel } = useTableContext();
+    const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, closeFilterWindow, filterLabel } =
+        useTableContext();
     const displayRight = (direction === "rtl" && index === headers.length - 1) || (direction === "ltr" && index !== headers.length - 1);
 
     return (
@@ -114,7 +115,12 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                     className={`absolute z-20 top-1 ${displayRight ? "right-[-165px]" : "left-[-80px]"}
                               w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
                 >
-                    <div className="text-start border-black border-b-[1px] w-[90%]">{filterLabel + " " + filterableColumn.header}</div>
+                    <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
+                        <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
+                        <button onClick={closeFilterWindow}>
+                            <RedXSvg2/>
+                        </button>
+                    </div>
                     <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
                         {filterOptions[filterableColumn.dataKey]?.map((option: string, i: number) => (
                             <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">

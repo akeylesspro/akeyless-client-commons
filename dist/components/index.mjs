@@ -452,6 +452,28 @@ var RedXSvg = function(param) {
         ]
     });
 };
+var RedXSvg2 = function(param) {
+    var height = param.height, width = param.width, viewBox = param.viewBox;
+    return /* @__PURE__ */ jsx4("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: width || "18px",
+        height: height || "18px",
+        viewBox: viewBox || "0,0,256,256",
+        fillRule: "nonzero",
+        children: /* @__PURE__ */ jsx4("g", {
+            fill: "#e90404",
+            fillRule: "nonzero",
+            stroke: "none",
+            strokeWidth: "1",
+            children: /* @__PURE__ */ jsx4("g", {
+                transform: "scale(10.66667,10.66667)",
+                children: /* @__PURE__ */ jsx4("path", {
+                    d: "M4.99023,3.99023c-0.40692,0.00011 -0.77321,0.24676 -0.92633,0.62377c-0.15312,0.37701 -0.06255,0.80921 0.22907,1.09303l6.29297,6.29297l-6.29297,6.29297c-0.26124,0.25082 -0.36647,0.62327 -0.27511,0.97371c0.09136,0.35044 0.36503,0.62411 0.71547,0.71547c0.35044,0.09136 0.72289,-0.01388 0.97371,-0.27511l6.29297,-6.29297l6.29297,6.29297c0.25082,0.26124 0.62327,0.36648 0.97371,0.27512c0.35044,-0.09136 0.62411,-0.36503 0.71547,-0.71547c0.09136,-0.35044 -0.01388,-0.72289 -0.27512,-0.97371l-6.29297,-6.29297l6.29297,-6.29297c0.29576,-0.28749 0.38469,-0.72707 0.22393,-1.10691c-0.16075,-0.37985 -0.53821,-0.62204 -0.9505,-0.60988c-0.2598,0.00774 -0.50638,0.11632 -0.6875,0.30273l-6.29297,6.29297l-6.29297,-6.29297c-0.18827,-0.19353 -0.4468,-0.30272 -0.7168,-0.30273z"
+                })
+            })
+        })
+    });
+};
 var GreenVSvg = function(param) {
     var height = param.height, width = param.width, viewBox = param.viewBox;
     return /* @__PURE__ */ jsxs2("svg", {
@@ -659,6 +681,7 @@ import { useEffect } from "react";
 // src/hooks/table.ts
 import { useContext, useState } from "react";
 import { create } from "zustand";
+import { isEqual } from "lodash";
 var useTableContext = function() {
     var context = useContext(TableContext);
     if (!context) {
@@ -681,12 +704,6 @@ var useFilter = function(param) {
     }, {});
     var handleFilterChange = function(dataKey, value) {
         var newFilters = _object_spread({}, filters);
-        console.log("data from filter", {
-            filters: filters,
-            newFilters: newFilters,
-            dataKey: dataKey,
-            value: value
-        });
         if (newFilters[dataKey].includes(value)) {
             newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
                 return item !== value;
@@ -697,23 +714,30 @@ var useFilter = function(param) {
         setFilters(newFilters);
     };
     var clearFilter = function() {
-        setFilters(initFilter);
+        if (!isEqual(filters, initFilter)) {
+            setFilters(initFilter);
+        }
     };
     var handleFilterClick = function(dataKey) {
         setFilterPopupsDisplay(function(prev) {
             if (prev === dataKey) {
-                clearFilter();
+                setFilters(initFilter);
                 return "";
             }
             return dataKey;
         });
+    };
+    var closeFilterWindow = function() {
+        setFilterPopupsDisplay("");
     };
     return {
         filters: filters,
         filterPopupsDisplay: filterPopupsDisplay,
         filterOptions: filterOptions,
         handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow,
+        clearFilter: clearFilter
     };
 };
 var useSort = function() {
@@ -723,14 +747,25 @@ var useSort = function() {
         var newSortOrder = "asc";
         if (sortColumn === columnIndex && sortOrder === "asc") {
             newSortOrder = "desc";
+        } else if (sortColumn === columnIndex && sortOrder === "desc") {
+            newSortOrder = null;
         }
         setSortColumn(columnIndex);
         setSortOrder(newSortOrder);
     };
+    var clearSort = function() {
+        if (sortColumn) {
+            setSortColumn(null);
+        }
+        if (sortOrder) {
+            setSortOrder(null);
+        }
+    };
     return {
         sortColumn: sortColumn,
         sortOrder: sortOrder,
-        handleSort: handleSort
+        handleSort: handleSort,
+        clearSort: clearSort
     };
 };
 var useSearch = function() {
@@ -738,9 +773,15 @@ var useSearch = function() {
     var handleSearch = function(e) {
         setSearchQuery(e.target.value);
     };
+    var clearSearch = function() {
+        if (searchQuery) {
+            setSearchQuery("");
+        }
+    };
     return {
         searchQuery: searchQuery,
-        handleSearch: handleSearch
+        handleSearch: handleSearch,
+        clearSearch: clearSearch
     };
 };
 // src/hooks/WebWorker.ts
@@ -834,11 +875,8 @@ var TableHead = memo(function(props) {
     });
 });
 var TableBody = memo(function(props) {
-    var _useTableContext = useTableContext(), handleFilterClick = _useTableContext.handleFilterClick, onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
+    var _useTableContext = useTableContext(), onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
     return /* @__PURE__ */ jsx6("tbody", {
-        onClick: function() {
-            return handleFilterClick("");
-        },
         children: dataToRender.map(function(item, index) {
             return /* @__PURE__ */ jsx6(TableRow, {
                 item: item
@@ -849,7 +887,7 @@ var TableBody = memo(function(props) {
 var Filter = memo(function(param) {
     var filterableColumn = param.filterableColumn, index = param.index;
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
-    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, filterLabel = _useTableContext.filterLabel;
+    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
     return /* @__PURE__ */ jsxs4(Fragment2, {
         children: [
@@ -876,9 +914,18 @@ var Filter = memo(function(param) {
             filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
                 className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                 children: [
-                    /* @__PURE__ */ jsx6("div", {
-                        className: "text-start border-black border-b-[1px] w-[90%]",
-                        children: filterLabel + " " + filterableColumn.header
+                    /* @__PURE__ */ jsxs4("div", {
+                        className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
+                        children: [
+                            /* @__PURE__ */ jsx6("div", {
+                                className: "text-start",
+                                children: filterLabel + " " + filterableColumn.header
+                            }),
+                            /* @__PURE__ */ jsx6("button", {
+                                onClick: closeFilterWindow,
+                                children: /* @__PURE__ */ jsx6(RedXSvg2, {})
+                            })
+                        ]
                     }),
                     /* @__PURE__ */ jsx6("div", {
                         className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
@@ -1076,12 +1123,12 @@ var TableProvider = function(props) {
     exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
     sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
     maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
-    var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort;
-    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch;
+    var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort, clearSort = _useSort.clearSort;
+    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch, clearSearch = _useSearch.clearSearch;
     var _useFilter = useFilter({
         data: data,
         filterableColumns: filterableColumns
-    }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick;
+    }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick, closeFilterWindow = _useFilter.closeFilterWindow, clearFilter = _useFilter.clearFilter;
     var allKeys = useMemo3(function() {
         return Array.from(data.reduce(function(keys, obj) {
             Object.keys(obj).forEach(function(key) {
@@ -1102,7 +1149,8 @@ var TableProvider = function(props) {
                 });
             });
         }
-        if (filterableColumns.length > 0) {
+        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
+            console.log("filtering ...");
             Object.keys(filters).forEach(function(key) {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter(function(item) {
@@ -1111,7 +1159,8 @@ var TableProvider = function(props) {
                 }
             });
         }
-        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length)) {
+        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length) > 0) {
+            console.log("sorting ...");
             filtered = filtered.sort(function(a, b) {
                 var aValue = a[sortKeys[sortColumn]];
                 var bValue = b[sortKeys[sortColumn]];
@@ -1120,7 +1169,8 @@ var TableProvider = function(props) {
                 return 0;
             });
         }
-        return filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        var result = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        return result;
     }, [
         searchQuery,
         sortColumn,
@@ -1145,7 +1195,8 @@ var TableProvider = function(props) {
         filterPopupsDisplay: filterPopupsDisplay,
         filterOptions: filterOptions,
         handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow
     });
     return /* @__PURE__ */ jsx7(TableContext.Provider, {
         value: providerValues,
