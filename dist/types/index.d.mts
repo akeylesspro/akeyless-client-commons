@@ -3,6 +3,16 @@ import { ReactNode } from 'react';
 
 type Direction = "rtl" | "ltr";
 type SetState<T> = (updater: ((prev: T) => T) | T) => void;
+type ModularPopUp = null | {
+    element: JSX.Element;
+    elementName?: string & {};
+    onClose?: () => void | Promise<void>;
+    top?: string;
+    left?: string;
+    bottom?: string;
+    right?: string;
+    background?: string;
+};
 
 interface FilterableColumn {
     header: string;
@@ -143,4 +153,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };
