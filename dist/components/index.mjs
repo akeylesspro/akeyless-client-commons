@@ -677,7 +677,148 @@ var exportToExcelSvg = function() {
     });
 };
 // src/hooks/global.ts
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+// src/helpers/firebase.ts
+import moment from "moment";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
+var initApp = function() {
+    var isNodeEnv = typeof process !== "undefined" && process.env;
+    var firebaseConfig = {
+        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
+        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
+        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
+        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
+    };
+    try {
+        var app = initializeApp(firebaseConfig);
+        var auth2 = getAuth(app);
+        var db2 = getFirestore(app);
+        return {
+            db: db2,
+            auth: auth2
+        };
+    } catch (error) {
+        console.error("Failed to initialize Firebase app:", error);
+        return {
+            db: null,
+            auth: null
+        };
+    }
+};
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
+var collections = {
+    clients: collection(db, "nx-clients"),
+    sites: collection(db, "nx-sites"),
+    cars: collection(db, "units"),
+    users: collection(db, "nx-users"),
+    lastLocations: collection(db, "last_locations"),
+    ermEvents: collection(db, "erm_events_general"),
+    erm2Events: collection(db, "erm2_events_general"),
+    ruptelaEvents: collection(db, "ruptela_events_general"),
+    polygons: collection(db, "nx-polygons"),
+    polygonEvents: collection(db, "polygon_events"),
+    polygonCars: collection(db, "polygon_cars"),
+    canbus: collection(db, "erm_canbus_parameters"),
+    states: collection(db, "erm_states"),
+    app_pro_commands_queue: collection(db, "app_pro_commands_queue"),
+    trips: collection(db, "erm2_trip"),
+    tripsDetails: collection(db, "erm2_trip_details"),
+    audit: collection(db, "nx-audit"),
+    nx_settings: collection(db, "nx-settings"),
+    settings: collection(db, "settings"),
+    translations: collection(db, "nx-translations"),
+    nx_cars: collection(db, "nx-cars"),
+    boards: collection(db, "boards"),
+    protection_types: collection(db, "protectionTypes"),
+    board_types: collection(db, "boardTypes"),
+    charge_capacities: collection(db, "nx-charge-capacities")
+};
+var fire_base_TIME_TEMP = Timestamp.now;
+// src/helpers/forms.ts
+var handleInvalid = function(e, requireError) {
+    e.target.setCustomValidity(requireError || "This filed is required !");
+};
+var handleChange = function(e) {
+    e.target.setCustomValidity("");
+    var validation = e.target.getAttribute("data-validation");
+    if (validation === "text") {
+        var cleanedValue = e.target.value.replace(/[^a-zA-Zא-ת\- ]/g, "");
+        e.target.value = cleanedValue;
+    } else if (validation === "numbers") {
+        var cleanedValue1 = e.target.value.replace(/[^0-9\- +]/g, "");
+        e.target.value = cleanedValue1;
+    } else if (validation === "numbersOnly") {
+        var cleanedValue2 = e.target.value.replace(/[^0-9]/g, "");
+        e.target.value = cleanedValue2;
+    } else if (validation === "price") {
+        var cleanedValue3 = e.target.value.replace(/[^0-9\.]/g, "");
+        e.target.value = cleanedValue3;
+    } else if (validation === "textNumbers") {
+        var cleanedValue4 = e.target.value.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
+        e.target.value = cleanedValue4;
+    } else if (validation === "email") {
+        var cleanedValue5 = e.target.value.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
+        e.target.value = cleanedValue5;
+    } else if (validation === "color") {
+        var cleanedValue6 = e.target.value.replace(/[^#0-9A-Fa-f]/g, "");
+        e.target.value = cleanedValue6;
+    } else if (validation === "address") {
+        var cleanedValue7 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
+        e.target.value = cleanedValue7;
+    } else if (validation === "cars") {
+        var cleanedValue8 = e.target.value.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
+        e.target.value = cleanedValue8;
+    } else if (validation === "charts") {
+        var cleanedValue9 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
+        e.target.value = cleanedValue9;
+    } else {
+        e.target.value = e.target.value;
+    }
+};
+var handlePaste = function(e) {
+    var validation = e.currentTarget.getAttribute("data-validation");
+    var pasteData = e.clipboardData.getData("text");
+    if (validation === "text") {
+        pasteData = pasteData.replace(/[^a-zA-Zא-ת\- ]/g, "");
+    } else if (validation === "numbers") {
+        pasteData = pasteData.replace(/[^0-9\- +]/g, "");
+    } else if (validation === "numbersOnly") {
+        pasteData = pasteData.replace(/[^0-9]/g, "");
+    } else if (validation === "price") {
+        pasteData = pasteData.replace(/[^0-9\.]/g, "");
+    } else if (validation === "textNumbers") {
+        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
+    } else if (validation === "email") {
+        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
+    } else if (validation === "color") {
+        pasteData = pasteData.replace(/[^#0-9A-Fa-f]/g, "");
+    } else if (validation === "address") {
+        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
+    } else if (validation === "cars") {
+        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
+    } else if (validation === "charts") {
+        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
+    }
+    e.preventDefault();
+    document.execCommand("insertText", false, pasteData);
+};
+var useValidation = function(validationType, requireError) {
+    return {
+        onChange: handleChange,
+        onPaste: handlePaste,
+        onInvalid: function(e) {
+            return handleInvalid(e, requireError);
+        },
+        "data-validation": validationType
+    };
+};
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/hooks/table.ts
 import { useContext, useState } from "react";
 import { create } from "zustand";
@@ -783,7 +924,7 @@ var useSearch = function() {
     };
 };
 // src/hooks/WebWorker.ts
-import { useCallback, useEffect as useEffect3, useRef } from "react";
+import { useCallback, useEffect as useEffect3, useRef as useRef2 } from "react";
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -1252,147 +1393,6 @@ var Table = function(props) {
 // src/components/forms/index.tsx
 import { useState as useState3 } from "react";
 import moment2 from "moment";
-// src/helpers/firebase.ts
-import moment from "moment";
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
-var initApp = function() {
-    var isNodeEnv = typeof process !== "undefined" && process.env;
-    var firebaseConfig = {
-        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
-        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
-        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
-        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
-        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
-        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
-    };
-    try {
-        var app = initializeApp(firebaseConfig);
-        var auth2 = getAuth(app);
-        var db2 = getFirestore(app);
-        return {
-            db: db2,
-            auth: auth2
-        };
-    } catch (error) {
-        console.error("Failed to initialize Firebase app:", error);
-        return {
-            db: null,
-            auth: null
-        };
-    }
-};
-var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
-var collections = {
-    clients: collection(db, "nx-clients"),
-    sites: collection(db, "nx-sites"),
-    cars: collection(db, "units"),
-    users: collection(db, "nx-users"),
-    lastLocations: collection(db, "last_locations"),
-    ermEvents: collection(db, "erm_events_general"),
-    erm2Events: collection(db, "erm2_events_general"),
-    ruptelaEvents: collection(db, "ruptela_events_general"),
-    polygons: collection(db, "nx-polygons"),
-    polygonEvents: collection(db, "polygon_events"),
-    polygonCars: collection(db, "polygon_cars"),
-    canbus: collection(db, "erm_canbus_parameters"),
-    states: collection(db, "erm_states"),
-    app_pro_commands_queue: collection(db, "app_pro_commands_queue"),
-    trips: collection(db, "erm2_trip"),
-    tripsDetails: collection(db, "erm2_trip_details"),
-    audit: collection(db, "nx-audit"),
-    nx_settings: collection(db, "nx-settings"),
-    settings: collection(db, "settings"),
-    translations: collection(db, "nx-translations"),
-    nx_cars: collection(db, "nx-cars"),
-    boards: collection(db, "boards"),
-    protection_types: collection(db, "protectionTypes"),
-    board_types: collection(db, "boardTypes"),
-    charge_capacities: collection(db, "nx-charge-capacities")
-};
-var fire_base_TIME_TEMP = Timestamp.now;
-// src/helpers/forms.ts
-var handleInvalid = function(e, requireError) {
-    e.target.setCustomValidity(requireError || "This filed is required !");
-};
-var handleChange = function(e) {
-    e.target.setCustomValidity("");
-    var validation = e.target.getAttribute("data-validation");
-    if (validation === "text") {
-        var cleanedValue = e.target.value.replace(/[^a-zA-Zא-ת\- ]/g, "");
-        e.target.value = cleanedValue;
-    } else if (validation === "numbers") {
-        var cleanedValue1 = e.target.value.replace(/[^0-9\- +]/g, "");
-        e.target.value = cleanedValue1;
-    } else if (validation === "numbersOnly") {
-        var cleanedValue2 = e.target.value.replace(/[^0-9]/g, "");
-        e.target.value = cleanedValue2;
-    } else if (validation === "price") {
-        var cleanedValue3 = e.target.value.replace(/[^0-9\.]/g, "");
-        e.target.value = cleanedValue3;
-    } else if (validation === "textNumbers") {
-        var cleanedValue4 = e.target.value.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
-        e.target.value = cleanedValue4;
-    } else if (validation === "email") {
-        var cleanedValue5 = e.target.value.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
-        e.target.value = cleanedValue5;
-    } else if (validation === "color") {
-        var cleanedValue6 = e.target.value.replace(/[^#0-9A-Fa-f]/g, "");
-        e.target.value = cleanedValue6;
-    } else if (validation === "address") {
-        var cleanedValue7 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
-        e.target.value = cleanedValue7;
-    } else if (validation === "cars") {
-        var cleanedValue8 = e.target.value.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
-        e.target.value = cleanedValue8;
-    } else if (validation === "charts") {
-        var cleanedValue9 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
-        e.target.value = cleanedValue9;
-    } else {
-        e.target.value = e.target.value;
-    }
-};
-var handlePaste = function(e) {
-    var validation = e.currentTarget.getAttribute("data-validation");
-    var pasteData = e.clipboardData.getData("text");
-    if (validation === "text") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת\- ]/g, "");
-    } else if (validation === "numbers") {
-        pasteData = pasteData.replace(/[^0-9\- +]/g, "");
-    } else if (validation === "numbersOnly") {
-        pasteData = pasteData.replace(/[^0-9]/g, "");
-    } else if (validation === "price") {
-        pasteData = pasteData.replace(/[^0-9\.]/g, "");
-    } else if (validation === "textNumbers") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
-    } else if (validation === "email") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
-    } else if (validation === "color") {
-        pasteData = pasteData.replace(/[^#0-9A-Fa-f]/g, "");
-    } else if (validation === "address") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
-    } else if (validation === "cars") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
-    } else if (validation === "charts") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
-    }
-    e.preventDefault();
-    document.execCommand("insertText", false, pasteData);
-};
-var useValidation = function(validationType, requireError) {
-    return {
-        onChange: handleChange,
-        onPaste: handlePaste,
-        onInvalid: function(e) {
-            return handleInvalid(e, requireError);
-        },
-        "data-validation": validationType
-    };
-};
-// src/helpers/phoneNumber.ts
-import { parsePhoneNumberFromString } from "libphonenumber-js";
-// src/components/forms/index.tsx
 import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, onKeyDown = param.onKeyDown;

@@ -4,6 +4,7 @@ import { useValidation } from "../../helpers";
 import { GreenVSvg, RedXSvg } from "../../assets";
 import { Loader } from "../utils";
 import { ConfirmFormProps, DatePickerProps, InputContainerProps, ModularFormProps, SelectContainerProps } from "../../types";
+import { useSnapshotBulk } from "@/hooks/global";
 
 export const InputContainer = ({
     validationError,
@@ -230,3 +231,4 @@ export const DatePicker = ({
         </form>
     );
 };
+

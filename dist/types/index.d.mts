@@ -1,5 +1,6 @@
 import { TObject } from 'akeyless-types-commons';
 import { ReactNode } from 'react';
+import { Unsubscribe } from 'firebase/firestore';
 
 type Direction = "rtl" | "ltr";
 type SetState<T> = (updater: ((prev: T) => T) | T) => void;
@@ -13,6 +14,19 @@ type ModularPopUp = null | {
     right?: string;
     background?: string;
 };
+
+type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+interface OnSnapshotParsers {
+    onFirstTime?: OnSnapshotCallback;
+    onAdd?: OnSnapshotCallback;
+    onModify?: OnSnapshotCallback;
+    onRemove?: OnSnapshotCallback;
+}
+interface OnSnapshotConfig extends OnSnapshotParsers {
+    collectionName: string;
+    extraParsers?: OnSnapshotParsers[];
+}
+type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => Promise<Unsubscribe>;
 
 interface FilterableColumn {
     header: string;
@@ -153,4 +167,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, TableProps, TableProviderType, UseFilterProps };

@@ -189,6 +189,7 @@ var formatCarNumber = function(car_number) {
     return cn;
 };
 // src/helpers/firebase.ts
+import { onSnapshot } from "firebase/firestore";
 var initApp = function() {
     var isNodeEnv = typeof process !== "undefined" && process.env;
     var firebaseConfig = {
@@ -336,7 +337,7 @@ var extractLocationData = function(doc2) {
 };
 var get_all_documents = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(collection_path) {
-        var snapshot, documents, error;
+        var snapshot2, documents, error;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -351,8 +352,8 @@ var get_all_documents = /*#__PURE__*/ function() {
                         getDocs(collection(db, collection_path))
                     ];
                 case 1:
-                    snapshot = _state.sent();
-                    documents = snapshot.docs.map(function(doc2) {
+                    snapshot2 = _state.sent();
+                    documents = snapshot2.docs.map(function(doc2) {
                         return simpleExtractData(doc2);
                     });
                     return [
@@ -762,6 +763,51 @@ var query_document_by_conditions = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var snapshot = function(config, snapshotsFirstTime) {
+    return new Promise(function(resolve) {
+        var collectionRef = collection(db, config.collectionName);
+        var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
+            if (!snapshotsFirstTime.includes(config.collectionName)) {
+                var _config_onFirstTime, _config_extraParsers;
+                snapshotsFirstTime.push(config.collectionName);
+                var documents = snapshot2.docs.map(function(doc2) {
+                    return _object_spread({
+                        id: doc2.id
+                    }, doc2.data());
+                });
+                (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, documents, config);
+                (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
+                    var _extraParser_onFirstTime;
+                    (_extraParser_onFirstTime = extraParser.onFirstTime) === null || _extraParser_onFirstTime === void 0 ? void 0 : _extraParser_onFirstTime.call(extraParser, documents, config);
+                });
+                resolve(unsubscribe);
+            } else {
+                var _config_onAdd, _config_onModify, _config_onRemove, _config_extraParsers1;
+                var getDocsFromSnapshot = function(action) {
+                    return snapshot2.docChanges().filter(function(change) {
+                        return change.type === action;
+                    }).map(function(change) {
+                        return _object_spread({
+                            id: change.doc.id
+                        }, change.doc.data());
+                    });
+                };
+                (_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, getDocsFromSnapshot("added"), config);
+                (_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, getDocsFromSnapshot("modified"), config);
+                (_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, getDocsFromSnapshot("removed"), config);
+                (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
+                    var _extraParser_onAdd, _extraParser_onModify, _extraParser_onRemove;
+                    (_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, getDocsFromSnapshot("added"), config);
+                    (_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, getDocsFromSnapshot("modified"), config);
+                    (_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, getDocsFromSnapshot("removed"), config);
+                });
+            }
+        }, function(error) {
+            console.error("Error listening to collection: ".concat(config.collectionName), error);
+            resolve(unsubscribe);
+        });
+    });
+};
 // src/helpers/global.ts
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
@@ -925,5 +971,5 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map
