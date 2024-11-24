@@ -388,15 +388,14 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
                         removedDocs.push(simpleExtractData(change.doc));
                     }
                 });
-
-                config.onAdd?.(addedDocs, config);
-                config.onModify?.(modifiedDocs, config);
-                config.onRemove?.(removedDocs, config);
+                addedDocs.length && config.onAdd?.(addedDocs, config);
+                modifiedDocs.length && config.onModify?.(modifiedDocs, config);
+                removedDocs.length && config.onRemove?.(removedDocs, config);
 
                 config.extraParsers?.forEach((extraParser) => {
-                    extraParser.onAdd?.(addedDocs, config);
-                    extraParser.onModify?.(modifiedDocs, config);
-                    extraParser.onRemove?.(removedDocs, config);
+                    addedDocs.length && extraParser.onAdd?.(addedDocs, config);
+                    modifiedDocs.length && extraParser.onModify?.(modifiedDocs, config);
+                    removedDocs.length && extraParser.onRemove?.(removedDocs, config);
                 });
             }
         },
