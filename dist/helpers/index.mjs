@@ -765,10 +765,11 @@ var query_document_by_conditions = /*#__PURE__*/ function() {
 var snapshot = function(config, snapshotsFirstTime) {
     var resolvePromise;
     var promise = new Promise(function(resolve) {
+        console.log("==> ".concat(config.collectionName, " subscribed."));
         resolvePromise = resolve;
     });
     var collectionRef = collection(db, config.collectionName);
-    var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
+    var subscribe = onSnapshot(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {
             var _config_onFirstTime, _config_extraParsers;
             snapshotsFirstTime.push(config.collectionName);
@@ -808,6 +809,10 @@ var snapshot = function(config, snapshotsFirstTime) {
         console.error("Error listening to collection: ".concat(config.collectionName), error);
         resolvePromise();
     });
+    var unsubscribe = function() {
+        subscribe();
+        console.log("==> ".concat(config.collectionName, " unsubscribed."));
+    };
     return {
         promise: promise,
         unsubscribe: unsubscribe
