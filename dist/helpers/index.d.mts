@@ -14,7 +14,11 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
 }
-type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => Promise<Unsubscribe>;
+interface SnapshotResult {
+    promise: Promise<void>;
+    unsubscribe: Unsubscribe;
+}
+type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 
 declare const db: Firestore;
 declare const auth: Auth;
@@ -112,7 +116,6 @@ declare const query_documents_by_conditions: (collection_path: string, where_con
 declare const query_document_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<{
     id: string;
 }>;
-
 declare const snapshot: Snapshot;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;

@@ -26,7 +26,11 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
 }
-type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => Promise<Unsubscribe>;
+interface SnapshotResult {
+    promise: Promise<void>;
+    unsubscribe: Unsubscribe;
+}
+type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 
 interface FilterableColumn {
     header: string;
@@ -167,4 +171,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotResult, TableProps, TableProviderType, UseFilterProps };

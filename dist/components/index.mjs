@@ -682,8 +682,7 @@ import { useEffect, useRef } from "react";
 import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
-import { onSnapshot } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 var initApp = function() {
     var isNodeEnv = typeof process !== "undefined" && process.env;
     var firebaseConfig = {

@@ -19,9 +19,12 @@ import {
     Firestore,
     getFirestore,
     Unsubscribe,
+    onSnapshot,
+    QuerySnapshot,
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 import { TObject } from "akeyless-types-commons";
+import { Snapshot } from "../types";
 
 const initApp = () => {
     const isNodeEnv = typeof process !== "undefined" && process.env;
@@ -347,49 +350,53 @@ export const query_document_by_conditions = async (collection_path: string, wher
         return null;
     }
 };
-import { Snapshot } from "../types";
-import { onSnapshot, QuerySnapshot } from "firebase/firestore";
 
 export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
-    return new Promise<Unsubscribe>((resolve) => {
-        const collectionRef = collection(db, config.collectionName);
-
-        const unsubscribe = onSnapshot(
-            collectionRef,
-            (snapshot: QuerySnapshot<DocumentData>) => {
-                if (!snapshotsFirstTime.includes(config.collectionName)) {
-                    snapshotsFirstTime.push(config.collectionName);
-                    const documents = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-                    config.onFirstTime?.(documents, config);
-                    config.extraParsers?.forEach((extraParser) => {
-                        extraParser.onFirstTime?.(documents, config);
-                    });
-
-                    resolve(unsubscribe);
-                } else {
-                    const getDocsFromSnapshot = (action: string): any[] => {
-                        return snapshot
-                            .docChanges()
-                            .filter((change) => change.type === action)
-                            .map((change) => ({ id: change.doc.id, ...change.doc.data() }));
-                    };
-
-                    config.onAdd?.(getDocsFromSnapshot("added"), config);
-                    config.onModify?.(getDocsFromSnapshot("modified"), config);
-                    config.onRemove?.(getDocsFromSnapshot("removed"), config);
-
-                    config.extraParsers?.forEach((extraParser) => {
-                        extraParser.onAdd?.(getDocsFromSnapshot("added"), config);
-                        extraParser.onModify?.(getDocsFromSnapshot("modified"), config);
-                        extraParser.onRemove?.(getDocsFromSnapshot("removed"), config);
-                    });
-                }
-            },
-            (error) => {
-                console.error(`Error listening to collection: ${config.collectionName}`, error);
-                resolve(unsubscribe);
-            }
-        );
+    let resolvePromise: () => void;
+    const promise = new Promise<void>((resolve) => {
+      resolvePromise = resolve;
     });
-};
+  
+    const collectionRef = collection(db, config.collectionName);
+  
+    const unsubscribe = onSnapshot(
+      collectionRef,
+      (snapshot: QuerySnapshot<DocumentData>) => {
+        if (!snapshotsFirstTime.includes(config.collectionName)) {
+          snapshotsFirstTime.push(config.collectionName);
+          const documents = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  
+          config.onFirstTime?.(documents, config);
+          config.extraParsers?.forEach((extraParser) => {
+            extraParser.onFirstTime?.(documents, config);
+          });
+  
+          resolvePromise(); // ההבטחה נפתרת לאחר הטעינה הראשונית
+        } else {
+          const getDocsFromSnapshot = (action: string): any[] => {
+            return snapshot
+              .docChanges()
+              .filter((change) => change.type === action)
+              .map((change) => ({ id: change.doc.id, ...change.doc.data() }));
+          };
+  
+          config.onAdd?.(getDocsFromSnapshot('added'), config);
+          config.onModify?.(getDocsFromSnapshot('modified'), config);
+          config.onRemove?.(getDocsFromSnapshot('removed'), config);
+  
+          config.extraParsers?.forEach((extraParser) => {
+            extraParser.onAdd?.(getDocsFromSnapshot('added'), config);
+            extraParser.onModify?.(getDocsFromSnapshot('modified'), config);
+            extraParser.onRemove?.(getDocsFromSnapshot('removed'), config);
+          });
+        }
+      },
+      (error) => {
+        console.error(`Error listening to collection: ${config.collectionName}`, error);
+        resolvePromise(); // במקרה של שגיאה, נפתור את ההבטחה כדי לא לחסום
+      }
+    );
+  
+    return { promise, unsubscribe };
+  };
+  

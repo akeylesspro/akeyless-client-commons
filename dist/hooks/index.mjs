@@ -311,8 +311,7 @@ import { useEffect, useRef } from "react";
 import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
-import { onSnapshot } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 var initApp = function() {
     var isNodeEnv = typeof process !== "undefined" && process.env;
     var firebaseConfig = {
@@ -369,49 +368,55 @@ var collections = {
 };
 var fire_base_TIME_TEMP = Timestamp.now;
 var snapshot = function(config, snapshotsFirstTime) {
-    return new Promise(function(resolve) {
-        var collectionRef = collection(db, config.collectionName);
-        var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
-            if (!snapshotsFirstTime.includes(config.collectionName)) {
-                var _config_onFirstTime, _config_extraParsers;
-                snapshotsFirstTime.push(config.collectionName);
-                var documents = snapshot2.docs.map(function(doc2) {
-                    return _object_spread({
-                        id: doc2.id
-                    }, doc2.data());
-                });
-                (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, documents, config);
-                (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
-                    var _extraParser_onFirstTime;
-                    (_extraParser_onFirstTime = extraParser.onFirstTime) === null || _extraParser_onFirstTime === void 0 ? void 0 : _extraParser_onFirstTime.call(extraParser, documents, config);
-                });
-                resolve(unsubscribe);
-            } else {
-                var _config_onAdd, _config_onModify, _config_onRemove, _config_extraParsers1;
-                var getDocsFromSnapshot = function(action) {
-                    return snapshot2.docChanges().filter(function(change) {
-                        return change.type === action;
-                    }).map(function(change) {
-                        return _object_spread({
-                            id: change.doc.id
-                        }, change.doc.data());
-                    });
-                };
-                (_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, getDocsFromSnapshot("added"), config);
-                (_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, getDocsFromSnapshot("modified"), config);
-                (_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, getDocsFromSnapshot("removed"), config);
-                (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
-                    var _extraParser_onAdd, _extraParser_onModify, _extraParser_onRemove;
-                    (_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, getDocsFromSnapshot("added"), config);
-                    (_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, getDocsFromSnapshot("modified"), config);
-                    (_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, getDocsFromSnapshot("removed"), config);
-                });
-            }
-        }, function(error) {
-            console.error("Error listening to collection: ".concat(config.collectionName), error);
-            resolve(unsubscribe);
-        });
+    var resolvePromise;
+    var promise = new Promise(function(resolve) {
+        resolvePromise = resolve;
     });
+    var collectionRef = collection(db, config.collectionName);
+    var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
+        if (!snapshotsFirstTime.includes(config.collectionName)) {
+            var _config_onFirstTime, _config_extraParsers;
+            snapshotsFirstTime.push(config.collectionName);
+            var documents = snapshot2.docs.map(function(doc2) {
+                return _object_spread({
+                    id: doc2.id
+                }, doc2.data());
+            });
+            (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, documents, config);
+            (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
+                var _extraParser_onFirstTime;
+                (_extraParser_onFirstTime = extraParser.onFirstTime) === null || _extraParser_onFirstTime === void 0 ? void 0 : _extraParser_onFirstTime.call(extraParser, documents, config);
+            });
+            resolvePromise();
+        } else {
+            var _config_onAdd, _config_onModify, _config_onRemove, _config_extraParsers1;
+            var getDocsFromSnapshot = function(action) {
+                return snapshot2.docChanges().filter(function(change) {
+                    return change.type === action;
+                }).map(function(change) {
+                    return _object_spread({
+                        id: change.doc.id
+                    }, change.doc.data());
+                });
+            };
+            (_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, getDocsFromSnapshot("added"), config);
+            (_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, getDocsFromSnapshot("modified"), config);
+            (_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, getDocsFromSnapshot("removed"), config);
+            (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
+                var _extraParser_onAdd, _extraParser_onModify, _extraParser_onRemove;
+                (_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, getDocsFromSnapshot("added"), config);
+                (_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, getDocsFromSnapshot("modified"), config);
+                (_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, getDocsFromSnapshot("removed"), config);
+            });
+        }
+    }, function(error) {
+        console.error("Error listening to collection: ".concat(config.collectionName), error);
+        resolvePromise();
+    });
+    return {
+        promise: promise,
+        unsubscribe: unsubscribe
+    };
 };
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
@@ -437,11 +442,15 @@ var useSnapshotBulk = function(configs, label) {
     useEffect(function() {
         var start = performance.now();
         console.log("==> ".concat(label || "Custom snapshots", " started... "));
-        var snapshotsPromises = configs.map(function(config) {
+        var snapshotResults = configs.map(function(config) {
             return snapshot(config, snapshotsFirstTime.current);
         });
-        Promise.all(snapshotsPromises).then(function(unsubscribes) {
-            unsubscribeFunctions.current = unsubscribes;
+        unsubscribeFunctions.current = snapshotResults.map(function(result) {
+            return result.unsubscribe;
+        });
+        Promise.all(snapshotResults.map(function(result) {
+            return result.promise;
+        })).then(function() {
             console.log("==> ".concat(label || "Custom snapshots", " ended. It took ").concat((performance.now() - start).toFixed(2), " ms"));
         });
         return function() {
