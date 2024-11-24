@@ -57,9 +57,7 @@ declare const extractAlertsData: (doc: DocumentSnapshot<DocumentData>) => {
     timestamp_ui: string;
     car_number: string;
 };
-declare const simpleExtractData: (doc: DocumentSnapshot<DocumentData>) => {
-    id: string;
-};
+declare const simpleExtractData: (doc: DocumentSnapshot<DocumentData>) => TObject<any>;
 declare const extractSiteData: (doc: DocumentSnapshot<DocumentData>) => {
     id: string;
     created: string;
@@ -92,30 +90,20 @@ declare const extractLocationData: (doc: DocumentSnapshot<DocumentData>) => {
     timestamp: any;
     spd: string;
 };
-declare const get_all_documents: (collection_path: string) => Promise<{
-    id: string;
-}[]>;
-declare const get_document_by_id: (collection_path: string, doc_id: string) => Promise<{
-    id: string;
-}>;
+declare const get_all_documents: (collection_path: string) => Promise<TObject<any>[]>;
+declare const get_document_by_id: (collection_path: string, doc_id: string) => Promise<TObject<any>>;
 declare const set_document: (collection_path: string, doc_id: string, data: DocumentData) => Promise<boolean>;
 declare const add_document: (collection_path: string, data: DocumentData, include_id?: boolean) => Promise<boolean>;
 declare const delete_document: (collection_path: string, doc_id: string) => Promise<boolean>;
 declare const query_document: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any, ignore_log?: boolean) => Promise<null | TObject<any>>;
-declare const query_documents: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any) => Promise<{
-    id: string;
-}[]>;
+declare const query_documents: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any) => Promise<TObject<any>[]>;
 interface WhereCondition {
     field_name: string;
     operator: WhereFilterOp;
     value: any;
 }
-declare const query_documents_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<{
-    id: string;
-}[]>;
-declare const query_document_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<{
-    id: string;
-}>;
+declare const query_documents_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<TObject<any>[]>;
+declare const query_document_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<TObject<any>>;
 declare const snapshot: Snapshot;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;

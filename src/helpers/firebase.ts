@@ -122,12 +122,12 @@ export const extractAlertsData = (doc: DocumentSnapshot<DocumentData>) => {
     };
 };
 
-export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>) => {
+export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>):TObject<any> => {
     const docData = doc.data();
     return {
         ...docData,
         id: doc.id,
-    };
+    } ;
 };
 
 export const extractSiteData = (doc: DocumentSnapshot<DocumentData>) => {
