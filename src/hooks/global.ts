@@ -34,6 +34,7 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
         return () => {
             unsubscribeFunctions.current.forEach((unsubscribe) => {
                 if (unsubscribe) {
+                    console.log(`==> ${label || "Custom snapshots"} unsubscribed.`);
                     unsubscribe();
                 }
             });

@@ -447,6 +447,7 @@ var useSnapshotBulk = function(configs, label) {
         return function() {
             unsubscribeFunctions.current.forEach(function(unsubscribe) {
                 if (unsubscribe) {
+                    console.log("==> ".concat(label || "Custom snapshots", " unsubscribed."));
                     unsubscribe();
                 }
             });
