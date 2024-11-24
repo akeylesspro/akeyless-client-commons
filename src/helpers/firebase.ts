@@ -374,27 +374,35 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
 
                 resolvePromise();
             } else {
-                const getDocsFromSnapshot = (action: string): any[] => {
-                    return snapshot
-                        .docChanges()
-                        .filter((change) => change.type === action)
-                        .map((change) => ({ id: change.doc.id, ...change.doc.data() }));
-                };
+                const addedDocs = [];
+                const modifiedDocs = [];
+                const removedDocs = [];
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        addedDocs.push(simpleExtractData(change.doc));
+                    }
+                    if (change.type === "modified") {
+                        modifiedDocs.push(simpleExtractData(change.doc));
+                    }
+                    if (change.type === "removed") {
+                        removedDocs.push(simpleExtractData(change.doc));
+                    }
+                });
 
-                config.onAdd?.(getDocsFromSnapshot("added"), config);
-                config.onModify?.(getDocsFromSnapshot("modified"), config);
-                config.onRemove?.(getDocsFromSnapshot("removed"), config);
+                config.onAdd?.(addedDocs, config);
+                config.onModify?.(modifiedDocs, config);
+                config.onRemove?.(removedDocs, config);
 
                 config.extraParsers?.forEach((extraParser) => {
-                    extraParser.onAdd?.(getDocsFromSnapshot("added"), config);
-                    extraParser.onModify?.(getDocsFromSnapshot("modified"), config);
-                    extraParser.onRemove?.(getDocsFromSnapshot("removed"), config);
+                    extraParser.onAdd?.(addedDocs, config);
+                    extraParser.onModify?.(modifiedDocs, config);
+                    extraParser.onRemove?.(removedDocs, config);
                 });
             }
         },
         (error) => {
             console.error(`Error listening to collection: ${config.collectionName}`, error);
-            resolvePromise(); // במקרה של שגיאה, נפתור את ההבטחה כדי לא לחסום
+            resolvePromise();
         }
     );
     const unsubscribe = () => {

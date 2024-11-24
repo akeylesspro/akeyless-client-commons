@@ -786,23 +786,28 @@ var snapshot = function(config, snapshotsFirstTime) {
             resolvePromise();
         } else {
             var _config_onAdd, _config_onModify, _config_onRemove, _config_extraParsers1;
-            var getDocsFromSnapshot = function(action) {
-                return snapshot2.docChanges().filter(function(change) {
-                    return change.type === action;
-                }).map(function(change) {
-                    return _object_spread({
-                        id: change.doc.id
-                    }, change.doc.data());
-                });
-            };
-            (_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, getDocsFromSnapshot("added"), config);
-            (_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, getDocsFromSnapshot("modified"), config);
-            (_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, getDocsFromSnapshot("removed"), config);
+            var addedDocs = [];
+            var modifiedDocs = [];
+            var removedDocs = [];
+            snapshot2.docChanges().forEach(function(change) {
+                if (change.type === "added") {
+                    addedDocs.push(simpleExtractData(change.doc));
+                }
+                if (change.type === "modified") {
+                    modifiedDocs.push(simpleExtractData(change.doc));
+                }
+                if (change.type === "removed") {
+                    removedDocs.push(simpleExtractData(change.doc));
+                }
+            });
+            (_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, addedDocs, config);
+            (_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, modifiedDocs, config);
+            (_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, removedDocs, config);
             (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
                 var _extraParser_onAdd, _extraParser_onModify, _extraParser_onRemove;
-                (_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, getDocsFromSnapshot("added"), config);
-                (_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, getDocsFromSnapshot("modified"), config);
-                (_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, getDocsFromSnapshot("removed"), config);
+                (_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, addedDocs, config);
+                (_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, modifiedDocs, config);
+                (_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, removedDocs, config);
             });
         }
     }, function(error) {
