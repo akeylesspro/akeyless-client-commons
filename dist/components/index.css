@@ -417,8 +417,8 @@ body {
 .left-1 {
   left: 0.25rem;
 }
-.left-\[-20\%\] {
-  left: -20%;
+.left-\[-80px\] {
+  left: -80px;
 }
 .left-\[1px\] {
   left: 1px;
@@ -429,8 +429,8 @@ body {
 .right-1 {
   right: 0.25rem;
 }
-.right-\[-20\%\] {
-  right: -20%;
+.right-\[-165px\] {
+  right: -165px;
 }
 .top-0 {
   top: 0px;
@@ -500,9 +500,6 @@ body {
 }
 .h-\[80\%\] {
   height: 80%;
-}
-.h-full {
-  height: 100%;
 }
 .max-h-32 {
   max-height: 8rem;
