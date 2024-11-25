@@ -417,6 +417,9 @@ body {
 .left-1 {
   left: 0.25rem;
 }
+.left-\[-15px\] {
+  left: -15px;
+}
 .left-\[-20\%\] {
   left: -20%;
 }
@@ -432,11 +435,17 @@ body {
 .right-\[-20\%\] {
   right: -20%;
 }
+.right-\[15px\] {
+  right: 15px;
+}
 .top-0 {
   top: 0px;
 }
 .top-1 {
   top: 0.25rem;
+}
+.top-\[-20px\] {
+  top: -20px;
 }
 .top-\[1px\] {
   top: 1px;
