@@ -96,7 +96,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const displayRight = (direction === "rtl" && index === headers.length - 1) || (direction === "ltr" && index !== headers.length - 1);
 
     return (
-        <>
+        <div className="bg-red-500 w-full">
             {/* filter button */}
             <button
                 title={filterLabel + " " + filterableColumn.header}
@@ -138,7 +138,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 });
 

@@ -856,7 +856,8 @@ var Filter = memo(function(param) {
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ jsxs4(Fragment2, {
+    return /* @__PURE__ */ jsxs4("div", {
+        className: "bg-red-500 w-full",
         children: [
             /* @__PURE__ */ jsx6("button", {
                 title: filterLabel + " " + filterableColumn.header,
