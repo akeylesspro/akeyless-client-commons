@@ -1028,7 +1028,7 @@ var Filter = memo(function(param) {
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
     return /* @__PURE__ */ jsxs4("div", {
-        className: "bg-red-500 w-full absolute top-1 right-1 ",
+        className: "bg-red-500 absolute top-1 right-1 ",
         children: [
             /* @__PURE__ */ jsx6("button", {
                 title: filterLabel + " " + filterableColumn.header,
