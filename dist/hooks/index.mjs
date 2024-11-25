@@ -880,7 +880,7 @@ var Filter = memo(function(param) {
                 })
             }),
             filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-20%]" : "left-[-20%]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                 children: [
                     /* @__PURE__ */ jsxs4("div", {
                         className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",

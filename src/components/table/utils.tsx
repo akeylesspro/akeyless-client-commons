@@ -112,7 +112,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
             {/* filter popup */}
             {filterPopupsDisplay === filterableColumn.dataKey && (
                 <div
-                    className={`absolute z-20 top-1 ${displayRight ? "right-[-165px]" : "left-[-80px]"}
+                    className={`absolute z-20 top-1 ${displayRight ? "right-[-20%]" : "left-[-20%]"}
                               w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
                 >
                     <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
