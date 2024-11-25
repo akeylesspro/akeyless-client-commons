@@ -417,11 +417,11 @@ body {
 .left-1 {
   left: 0.25rem;
 }
-.left-\[-15px\] {
-  left: -15px;
-}
 .left-\[-20\%\] {
   left: -20%;
+}
+.left-\[15px\] {
+  left: 15px;
 }
 .left-\[1px\] {
   left: 1px;
