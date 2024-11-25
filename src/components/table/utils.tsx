@@ -96,11 +96,11 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const displayRight = (direction === "rtl" && index === headers.length - 1) || (direction === "ltr" && index !== headers.length - 1);
 
     return (
-        <div className="bg-red-500 w-full">
+        <div className="bg-red-500 w-full absolute top-1 right-1 ">
             {/* filter button */}
             <button
                 title={filterLabel + " " + filterableColumn.header}
-                className="absolute top-1 right-1 text-[12px]"
+                className="text-[12px]"
                 onClick={() => handleFilterClick(filterableColumn.dataKey)}
             >
                 {filterPopupsDisplay === filterableColumn.dataKey ? (
@@ -112,7 +112,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
             {/* filter popup */}
             {filterPopupsDisplay === filterableColumn.dataKey && (
                 <div
-                    className={`absolute z-20 top-1 ${displayRight ? "right-[-20%]" : "left-[-20%]"}
+                    className={`
                               w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
                 >
                     <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">

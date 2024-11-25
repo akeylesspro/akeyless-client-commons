@@ -857,11 +857,11 @@ var Filter = memo(function(param) {
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
     return /* @__PURE__ */ jsxs4("div", {
-        className: "bg-red-500 w-full",
+        className: "bg-red-500 w-full absolute top-1 right-1 ",
         children: [
             /* @__PURE__ */ jsx6("button", {
                 title: filterLabel + " " + filterableColumn.header,
-                className: "absolute top-1 right-1 text-[12px]",
+                className: "text-[12px]",
                 onClick: function() {
                     return handleFilterClick(filterableColumn.dataKey);
                 },
@@ -880,7 +880,7 @@ var Filter = memo(function(param) {
                 })
             }),
             filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-20%]" : "left-[-20%]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                className: "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow",
                 children: [
                     /* @__PURE__ */ jsxs4("div", {
                         className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
