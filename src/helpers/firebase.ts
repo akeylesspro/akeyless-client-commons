@@ -18,9 +18,13 @@ import {
     WhereFilterOp,
     Firestore,
     getFirestore,
+    Unsubscribe,
+    onSnapshot,
+    QuerySnapshot,
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 import { TObject } from "akeyless-types-commons";
+import { Snapshot } from "../types";
 
 const initApp = () => {
     const isNodeEnv = typeof process !== "undefined" && process.env;
@@ -118,12 +122,12 @@ export const extractAlertsData = (doc: DocumentSnapshot<DocumentData>) => {
     };
 };
 
-export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>) => {
+export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>):TObject<any> => {
     const docData = doc.data();
     return {
         ...docData,
         id: doc.id,
-    };
+    } ;
 };
 
 export const extractSiteData = (doc: DocumentSnapshot<DocumentData>) => {
@@ -345,4 +349,65 @@ export const query_document_by_conditions = async (collection_path: string, wher
         console.error(`Error querying documents: ${collection_path} - ${JSON.stringify(where_conditions)} `, error);
         return null;
     }
+};
+
+export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
+    let resolvePromise: () => void;
+    const promise = new Promise<void>((resolve) => {
+        console.log(`==> ${config.collectionName} subscribed.`);
+
+        resolvePromise = resolve;
+    });
+    const collectionRef = collection(db, config.collectionName);
+
+    const subscribe = onSnapshot(
+        collectionRef,
+        (snapshot: QuerySnapshot<DocumentData>) => {
+            if (!snapshotsFirstTime.includes(config.collectionName)) {
+                snapshotsFirstTime.push(config.collectionName);
+                const documents = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+                config.onFirstTime?.(documents, config);
+                config.extraParsers?.forEach((extraParser) => {
+                    extraParser.onFirstTime?.(documents, config);
+                });
+
+                resolvePromise();
+            } else {
+                const addedDocs = [];
+                const modifiedDocs = [];
+                const removedDocs = [];
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        addedDocs.push(simpleExtractData(change.doc));
+                    }
+                    if (change.type === "modified") {
+                        modifiedDocs.push(simpleExtractData(change.doc));
+                    }
+                    if (change.type === "removed") {
+                        removedDocs.push(simpleExtractData(change.doc));
+                    }
+                });
+                addedDocs.length && config.onAdd?.(addedDocs, config);
+                modifiedDocs.length && config.onModify?.(modifiedDocs, config);
+                removedDocs.length && config.onRemove?.(removedDocs, config);
+
+                config.extraParsers?.forEach((extraParser) => {
+                    addedDocs.length && extraParser.onAdd?.(addedDocs, config);
+                    modifiedDocs.length && extraParser.onModify?.(modifiedDocs, config);
+                    removedDocs.length && extraParser.onRemove?.(removedDocs, config);
+                });
+            }
+        },
+        (error) => {
+            console.error(`Error listening to collection: ${config.collectionName}`, error);
+            resolvePromise();
+        }
+    );
+    const unsubscribe = () => {
+        subscribe();
+        console.log(`==> ${config.collectionName} unsubscribed.`);
+    };
+
+    return { promise, unsubscribe };
 };

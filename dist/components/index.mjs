@@ -429,7 +429,7 @@ var Loader = function(param) {
 // src/components/table/utils.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { memo, useMemo } from "react";
+import { memo, useMemo as useMemo2 } from "react";
 // src/assets/svg.tsx
 import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
 var RedXSvg = function(param) {
@@ -450,6 +450,28 @@ var RedXSvg = function(param) {
                 fill: "#FF4C2B"
             })
         ]
+    });
+};
+var RedXSvg2 = function(param) {
+    var height = param.height, width = param.width, viewBox = param.viewBox;
+    return /* @__PURE__ */ jsx4("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: width || "18px",
+        height: height || "18px",
+        viewBox: viewBox || "0,0,256,256",
+        fillRule: "nonzero",
+        children: /* @__PURE__ */ jsx4("g", {
+            fill: "#e90404",
+            fillRule: "nonzero",
+            stroke: "none",
+            strokeWidth: "1",
+            children: /* @__PURE__ */ jsx4("g", {
+                transform: "scale(10.66667,10.66667)",
+                children: /* @__PURE__ */ jsx4("path", {
+                    d: "M4.99023,3.99023c-0.40692,0.00011 -0.77321,0.24676 -0.92633,0.62377c-0.15312,0.37701 -0.06255,0.80921 0.22907,1.09303l6.29297,6.29297l-6.29297,6.29297c-0.26124,0.25082 -0.36647,0.62327 -0.27511,0.97371c0.09136,0.35044 0.36503,0.62411 0.71547,0.71547c0.35044,0.09136 0.72289,-0.01388 0.97371,-0.27511l6.29297,-6.29297l6.29297,6.29297c0.25082,0.26124 0.62327,0.36648 0.97371,0.27512c0.35044,-0.09136 0.62411,-0.36503 0.71547,-0.71547c0.09136,-0.35044 -0.01388,-0.72289 -0.27512,-0.97371l-6.29297,-6.29297l6.29297,-6.29297c0.29576,-0.28749 0.38469,-0.72707 0.22393,-1.10691c-0.16075,-0.37985 -0.53821,-0.62204 -0.9505,-0.60988c-0.2598,0.00774 -0.50638,0.11632 -0.6875,0.30273l-6.29297,6.29297l-6.29297,-6.29297c-0.18827,-0.19353 -0.4468,-0.30272 -0.7168,-0.30273z"
+                })
+            })
+        })
     });
 };
 var GreenVSvg = function(param) {
@@ -490,7 +512,7 @@ var sortSvg = function(upside_down) {
             " ",
             /* @__PURE__ */ jsxs3("g", {
                 transform: "translate(0.000000,1536.000000) scale(0.100000,-0.100000)",
-                fill: "#000000",
+                fill: "#fff",
                 stroke: "none",
                 children: [
                     " ",
@@ -517,7 +539,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs3("g", {
                     transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -540,7 +562,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs3("g", {
                     transform: "translate(0.000000,300.000000) scale(0.050000,-0.050000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -570,7 +592,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs3("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -600,7 +622,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs3("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -655,526 +677,12 @@ var exportToExcelSvg = function() {
     });
 };
 // src/hooks/global.ts
-import { useEffect } from "react";
-// src/hooks/table.ts
-import { useContext, useEffect as useEffect2, useState } from "react";
-import { create } from "zustand";
-var useTableContext = function() {
-    var context = useContext(TableContext);
-    if (!context) {
-        throw new Error("useTableContext must be used within a Table component");
-    }
-    return context;
-};
-var useFilter = function(param) {
-    var data = param.data, dataToRender = param.dataToRender, setDataToRender = param.setDataToRender, filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
-    var initFilter = filterableColumns.reduce(function(acc, col) {
-        return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
-    }, {});
-    var _useState = _sliced_to_array(useState(initFilter), 2), filters = _useState[0], setFilters = _useState[1];
-    var _useState1 = _sliced_to_array(useState(""), 2), filterPopupsDisplay = _useState1[0], setFilterPopupsDisplay = _useState1[1];
-    var filterOptions = filterableColumns.reduce(function(acc, col) {
-        acc[col.dataKey] = Array.from(new Set(data.map(function(item) {
-            return item[col.dataKey];
-        })));
-        return acc;
-    }, {});
-    useEffect2(function() {
-        var filtered = dataToRender;
-        if (includeSearch) {
-            filtered = data.filter(function(item) {
-                return keysToRender.some(function(key) {
-                    var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                });
-            });
-        }
-        if (filterableColumns.length > 0) {
-            Object.keys(filters).forEach(function(key) {
-                if (filters[key].length > 0) {
-                    filtered = filtered.filter(function(item) {
-                        return filters[key].includes(item[key]);
-                    });
-                }
-            });
-        }
-        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length)) {
-            filtered = filtered.sort(function(a, b) {
-                var aValue = a[sortKeys[sortColumn]];
-                var bValue = b[sortKeys[sortColumn]];
-                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-                return 0;
-            });
-        }
-        setDataToRender(filtered);
-    }, [
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        filters,
-        data
-    ]);
-    var handleFilterChange = function(dataKey, value) {
-        var newFilters = _object_spread({}, filters);
-        console.log("data from filter", {
-            filters: filters,
-            newFilters: newFilters,
-            dataKey: dataKey,
-            value: value
-        });
-        if (newFilters[dataKey].includes(value)) {
-            newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
-                return item !== value;
-            });
-        } else {
-            newFilters[dataKey].push(value);
-        }
-        setFilters(newFilters);
-    };
-    var clearFilter = function() {
-        setFilters(initFilter);
-    };
-    var handleFilterClick = function(dataKey) {
-        setFilterPopupsDisplay(function(prev) {
-            if (prev === dataKey) {
-                clearFilter();
-                return "";
-            }
-            return dataKey;
-        });
-    };
-    return {
-        filters: filters,
-        filterPopupsDisplay: filterPopupsDisplay,
-        filterOptions: filterOptions,
-        handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick
-    };
-};
-var useSort = function() {
-    var _useState = _sliced_to_array(useState(null), 2), sortColumn = _useState[0], setSortColumn = _useState[1];
-    var _useState1 = _sliced_to_array(useState(null), 2), sortOrder = _useState1[0], setSortOrder = _useState1[1];
-    var handleSort = function(columnIndex) {
-        var newSortOrder = "asc";
-        if (sortColumn === columnIndex && sortOrder === "asc") {
-            newSortOrder = "desc";
-        }
-        setSortColumn(columnIndex);
-        setSortOrder(newSortOrder);
-    };
-    return {
-        sortColumn: sortColumn,
-        sortOrder: sortOrder,
-        handleSort: handleSort
-    };
-};
-var useSearch = function() {
-    var _useState = _sliced_to_array(useState(""), 2), searchQuery = _useState[0], setSearchQuery = _useState[1];
-    var handleSearch = function(e) {
-        setSearchQuery(e.target.value);
-    };
-    return {
-        searchQuery: searchQuery,
-        handleSearch: handleSearch
-    };
-};
-// src/hooks/WebWorker.ts
-import { useCallback, useEffect as useEffect3, useRef } from "react";
-// src/components/table/utils.tsx
-import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
-var getFixedNumber = function() {
-    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
-    var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
-    return String(sum_value);
-};
-var TableRow = function(param) {
-    var item = param.item;
-    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
-    return /* @__PURE__ */ jsx6("tr", {
-        className: "hover:bg-[#424242] hover:text-[#fff]",
-        onClick: function() {
-            return onRowClick && onRowClick(item);
-        },
-        style: rowStyles,
-        children: keysToRender.map(function(key, index) {
-            return /* @__PURE__ */ jsx6(TableCell, {
-                value: item[key]
-            }, index);
-        })
-    });
-};
-var TableCell = function(param) {
-    var value = param.value;
-    var cellStyle = useTableContext().cellStyle;
-    return /* @__PURE__ */ jsx6("td", {
-        title: [
-            "string",
-            "number",
-            "boolean"
-        ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
-        style: cellStyle,
-        className: "chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center",
-        children: value
-    });
-};
-var TableHead = memo(function(props) {
-    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
-    var sortDisplay = useMemo(function() {
-        return Boolean(sortKeys.length);
-    }, [
-        sortKeys
-    ]);
-    return /* @__PURE__ */ jsx6("thead", {
-        className: "bg-[#282828] text-white sticky top-0",
-        children: /* @__PURE__ */ jsx6("tr", {
-            style: headerStyle,
-            children: headers.map(function(header, index) {
-                var filterableColumn = filterableColumns.find(function(col) {
-                    return col.header === header;
-                });
-                return /* @__PURE__ */ jsxs4("th", {
-                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
-                    style: headerCellStyle,
-                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
-                    children: [
-                        /* @__PURE__ */ jsx6("div", {
-                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
-                            onClick: function() {
-                                return sortDisplay && handleSort(index);
-                            },
-                            children: header
-                        }),
-                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx6(Fragment2, {
-                            children: sortSvg()
-                        }) : /* @__PURE__ */ jsx6(Fragment2, {
-                            children: sortSvg(true)
-                        })),
-                        filterableColumn && /* @__PURE__ */ jsx6(Filter, {
-                            filterableColumn: filterableColumn,
-                            index: index
-                        })
-                    ]
-                }, index);
-            })
-        })
-    });
-});
-var TableBody = memo(function(props) {
-    var _useTableContext = useTableContext(), handleFilterClick = _useTableContext.handleFilterClick, onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
-    return /* @__PURE__ */ jsx6("tbody", {
-        onClick: function() {
-            return handleFilterClick("");
-        },
-        children: dataToRender.map(function(item, index) {
-            return /* @__PURE__ */ jsx6(TableRow, {
-                item: item
-            }, index);
-        })
-    });
-});
-var Filter = memo(function(param) {
-    var filterableColumn = param.filterableColumn, index = param.index;
-    var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
-    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, filterLabel = _useTableContext.filterLabel;
-    var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ jsxs4(Fragment2, {
-        children: [
-            /* @__PURE__ */ jsx6("button", {
-                title: filterLabel + " " + filterableColumn.header,
-                className: "absolute top-1 right-1 text-[12px]",
-                onClick: function() {
-                    return handleFilterClick(filterableColumn.dataKey);
-                },
-                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ jsx6(Fragment2, {
-                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ jsx6(Fragment2, {
-                        children: slashFilterSvg(true)
-                    }) : /* @__PURE__ */ jsx6(Fragment2, {
-                        children: emptyFilterSvg(true)
-                    })
-                }) : /* @__PURE__ */ jsx6(Fragment2, {
-                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ jsx6(Fragment2, {
-                        children: slashFilterSvg()
-                    }) : /* @__PURE__ */ jsx6(Fragment2, {
-                        children: emptyFilterSvg()
-                    })
-                })
-            }),
-            filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "absolute z-10 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 bg-white p-1 flex flex-col items-center gap-2 shadow"),
-                children: [
-                    /* @__PURE__ */ jsx6("div", {
-                        className: "text-start border-black border-b-[1px] w-[90%]",
-                        children: filterLabel + " " + filterableColumn.header
-                    }),
-                    /* @__PURE__ */ jsx6("div", {
-                        className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
-                        children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
-                            var _filters_filterableColumn_dataKey;
-                            return /* @__PURE__ */ jsxs4("div", {
-                                className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
-                                children: [
-                                    /* @__PURE__ */ jsx6("input", {
-                                        type: "checkbox",
-                                        className: "cursor-pointer",
-                                        checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
-                                        onChange: function() {
-                                            return handleFilterChange(filterableColumn.dataKey, option);
-                                        }
-                                    }),
-                                    /* @__PURE__ */ jsx6("button", {
-                                        className: "flex-1 text-start px-2",
-                                        onClick: function() {
-                                            return handleFilterChange(filterableColumn.dataKey, option);
-                                        },
-                                        children: filterableColumn.ui ? filterableColumn.ui(option) : option
-                                    })
-                                ]
-                            }, i);
-                        })
-                    })
-                ]
-            })
-        ]
-    });
-});
-var ExportToExcel = memo(function(props) {
-    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
-    var addPropertiesToExcel = function(properties) {
-        var newData = _to_consumable_array(dataToRender);
-        var newHeaders = _to_consumable_array(headers);
-        properties.forEach(function(val) {
-            newHeaders.unshift(val.header);
-            newData = newData.map(function(v) {
-                return _object_spread_props(_object_spread({}, v), _define_property({}, val.key, val.value));
-            });
-        });
-        return {
-            data: newData,
-            headers: newHeaders
-        };
-    };
-    var onExportExcelClick = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function() {
-            var workbook, worksheet, dataToExport, buffer, blob;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        if (!exportToExcelKeys) return [
-                            3,
-                            2
-                        ];
-                        workbook = new ExcelJS.Workbook();
-                        worksheet = workbook.addWorksheet("Sheet1");
-                        dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
-                            data: dataToRender,
-                            headers: headers
-                        };
-                        worksheet.addRow(dataToExport.headers);
-                        dataToExport.data.forEach(function(item) {
-                            var row = exportToExcelKeys.map(function(key) {
-                                return item[key];
-                            });
-                            worksheet.addRow(row);
-                        });
-                        if (sumColumns) {
-                            sumColumns.forEach(function(val) {
-                                var sumRow = worksheet.addRow([]);
-                                sumRow.getCell(1).value = val.label;
-                                var value = dataToRender.reduce(function(acc, v) {
-                                    return acc + Number(v[val.dataKey]) || 0;
-                                }, 0).toFixed(2);
-                                sumRow.getCell(2).value = value;
-                            });
-                        }
-                        return [
-                            4,
-                            workbook.xlsx.writeBuffer()
-                        ];
-                    case 1:
-                        buffer = _state.sent();
-                        blob = new Blob([
-                            buffer
-                        ], {
-                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                        });
-                        saveAs(blob, "".concat(excelFileName || "table_data", ".xlsx"));
-                        _state.label = 2;
-                    case 2:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return function onExportExcelClick() {
-            return _ref.apply(this, arguments);
-        };
-    }();
-    return /* @__PURE__ */ jsx6("button", {
-        onClick: onExportExcelClick,
-        title: exportExcelLabel,
-        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
-        children: exportToExcelSvg()
-    });
-});
-var Search = memo(function(props) {
-    var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
-    return /* @__PURE__ */ jsx6("input", {
-        className: "w-40 border-black border-[1px] px-2 rounded-md ".concat(searchInputClassName),
-        type: "text",
-        placeholder: searchPlaceHolder,
-        value: searchQuery,
-        onChange: handleSearch,
-        style: searchInputStyle
-    });
-});
-var Summary = memo(function(props) {
-    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
-    return /* @__PURE__ */ jsxs4("div", {
-        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
-            direction: direction
-        }),
-        className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
-        children: [
-            /* @__PURE__ */ jsx6("div", {
-                style: summaryLabelStyle,
-                children: summaryLabel
-            }),
-            /* @__PURE__ */ jsx6("div", {
-                style: summaryRowStyle,
-                className: "flex gap-3",
-                children: sumColumns.map(function(val) {
-                    var sum_res = dataToRender.reduce(function(acc, v) {
-                        return acc + Number(v[val.dataKey]) || 0;
-                    }, 0);
-                    var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ jsxs4("div", {
-                        className: "flex gap-1 justify-start",
-                        children: [
-                            /* @__PURE__ */ jsx6("div", {
-                                children: val.label
-                            }),
-                            /* @__PURE__ */ jsx6("span", {
-                                children: ":"
-                            }),
-                            /* @__PURE__ */ jsx6("div", {
-                                children: val.ui ? val.ui(sum_value) : sum_value
-                            })
-                        ]
-                    }, val.dataKey + val.label);
-                })
-            })
-        ]
-    });
-});
-// src/components/table/Table.tsx
-import { createContext, useState as useState2 } from "react";
-import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
-var TableContext = createContext(null);
-var TableProvider = function(props) {
-    var // basic props
-    data = props.data, headers = props.headers, optionalElement = props.optionalElement, _props_keysToRender = props.keysToRender, keysToRender = _props_keysToRender === void 0 ? [] : _props_keysToRender, _props_direction = props.direction, direction = _props_direction === void 0 ? "ltr" : _props_direction, _props_onRowClick = props.onRowClick, onRowClick = _props_onRowClick === void 0 ? function(data2) {} : _props_onRowClick, // container styles props
-    containerStyle = props.containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
-    headerStyle, headerStyle = _props_headerStyle === void 0 ? {} : _props_headerStyle, headerCellStyle = props.headerCellStyle, _props_searchInputStyle = props.searchInputStyle, searchInputStyle = _props_searchInputStyle === void 0 ? {} : _props_searchInputStyle, _props_searchInputClassName = props.searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, // search
-    includeSearch = props.includeSearch, _props_searchPlaceHolder = props.searchPlaceHolder, searchPlaceHolder = _props_searchPlaceHolder === void 0 ? "Search in table ..." : _props_searchPlaceHolder, // sort
-    sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
-    filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
-    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
-    sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle;
-    var _useState2 = _sliced_to_array(useState2(data), 2), dataToRender = _useState2[0], setDataToRender = _useState2[1];
-    var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort;
-    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch;
-    var _useFilter = useFilter({
-        data: data,
-        dataToRender: dataToRender,
-        setDataToRender: setDataToRender,
-        filterableColumns: filterableColumns,
-        includeSearch: includeSearch,
-        searchQuery: searchQuery,
-        sortColumn: sortColumn,
-        sortOrder: sortOrder,
-        keysToRender: keysToRender,
-        sortKeys: sortKeys
-    }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick;
-    var providerValues = _object_spread_props(_object_spread({}, props), {
-        //
-        direction: direction,
-        keysToRender: keysToRender,
-        filterableColumns: filterableColumns,
-        //
-        sortColumn: sortColumn,
-        sortOrder: sortOrder,
-        handleSort: handleSort,
-        searchQuery: searchQuery,
-        handleSearch: handleSearch,
-        dataToRender: dataToRender,
-        filters: filters,
-        filterPopupsDisplay: filterPopupsDisplay,
-        filterOptions: filterOptions,
-        handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick
-    });
-    return /* @__PURE__ */ jsx7(TableContext.Provider, {
-        value: providerValues,
-        children: /* @__PURE__ */ jsx7("div", {
-            className: "flex flex-col gap-2 ".concat(containerClassName),
-            style: _object_spread_props(_object_spread({}, containerStyle), {
-                direction: direction
-            }),
-            children: props.children
-        })
-    });
-};
-var Table = function(props) {
-    var _props_containerStyle = props.containerStyle, containerStyle = _props_containerStyle === void 0 ? {} : _props_containerStyle, optionalElement = props.optionalElement, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction;
-    return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
-        children: [
-            /* @__PURE__ */ jsxs5("div", {
-                style: {
-                    direction: direction
-                },
-                className: "flex justify-start gap-2 ",
-                children: [
-                    includeSearch && /* @__PURE__ */ jsx7(Search, {
-                        render: false
-                    }),
-                    exportToExcelKeys && /* @__PURE__ */ jsx7(ExportToExcel, {
-                        render: false
-                    }),
-                    optionalElement && optionalElement
-                ]
-            }),
-            /* @__PURE__ */ jsx7("div", {
-                style: _object_spread_props(_object_spread({}, tableContainerStyle), {
-                    direction: direction
-                }),
-                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass),
-                children: /* @__PURE__ */ jsxs5("table", {
-                    style: tableStyle,
-                    className: "min-w-full text-sm font-light relative",
-                    children: [
-                        /* @__PURE__ */ jsx7(TableHead, {}),
-                        /* @__PURE__ */ jsx7(TableBody, {
-                            render: false
-                        })
-                    ]
-                })
-            }),
-            sumColumns && /* @__PURE__ */ jsx7(Summary, {
-                render: false
-            })
-        ]
-    }));
-};
-// src/components/forms/index.tsx
-import { useState as useState3 } from "react";
-import moment2 from "moment";
+import { useEffect, useRef } from "react";
 // src/helpers/firebase.ts
 import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 var initApp = function() {
     var isNodeEnv = typeof process !== "undefined" && process.env;
     var firebaseConfig = {
@@ -1310,7 +818,580 @@ var useValidation = function(validationType, requireError) {
 };
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+// src/hooks/table.ts
+import { useContext, useState } from "react";
+import { create } from "zustand";
+import { isEqual } from "lodash";
+var useTableContext = function() {
+    var context = useContext(TableContext);
+    if (!context) {
+        throw new Error("useTableContext must be used within a Table component");
+    }
+    return context;
+};
+var useFilter = function(param) {
+    var data = param.data, filterableColumns = param.filterableColumns;
+    var initFilter = filterableColumns.reduce(function(acc, col) {
+        return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
+    }, {});
+    var _useState = _sliced_to_array(useState(initFilter), 2), filters = _useState[0], setFilters = _useState[1];
+    var _useState1 = _sliced_to_array(useState(""), 2), filterPopupsDisplay = _useState1[0], setFilterPopupsDisplay = _useState1[1];
+    var filterOptions = filterableColumns.reduce(function(acc, col) {
+        acc[col.dataKey] = Array.from(new Set(data.map(function(item) {
+            return item[col.dataKey];
+        })));
+        return acc;
+    }, {});
+    var handleFilterChange = function(dataKey, value) {
+        var newFilters = _object_spread({}, filters);
+        if (newFilters[dataKey].includes(value)) {
+            newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
+                return item !== value;
+            });
+        } else {
+            newFilters[dataKey].push(value);
+        }
+        setFilters(newFilters);
+    };
+    var clearFilter = function() {
+        if (!isEqual(filters, initFilter)) {
+            setFilters(initFilter);
+        }
+    };
+    var handleFilterClick = function(dataKey) {
+        setFilterPopupsDisplay(function(prev) {
+            if (prev === dataKey) {
+                setFilters(initFilter);
+                return "";
+            }
+            return dataKey;
+        });
+    };
+    var closeFilterWindow = function() {
+        setFilterPopupsDisplay("");
+    };
+    return {
+        filters: filters,
+        filterPopupsDisplay: filterPopupsDisplay,
+        filterOptions: filterOptions,
+        handleFilterChange: handleFilterChange,
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow,
+        clearFilter: clearFilter
+    };
+};
+var useSort = function() {
+    var _useState = _sliced_to_array(useState(null), 2), sortColumn = _useState[0], setSortColumn = _useState[1];
+    var _useState1 = _sliced_to_array(useState(null), 2), sortOrder = _useState1[0], setSortOrder = _useState1[1];
+    var handleSort = function(columnIndex) {
+        var newSortOrder = "asc";
+        if (sortColumn === columnIndex && sortOrder === "asc") {
+            newSortOrder = "desc";
+        }
+        setSortColumn(columnIndex);
+        setSortOrder(newSortOrder);
+    };
+    var clearSort = function() {
+        if (sortColumn) {
+            setSortColumn(null);
+        }
+        if (sortOrder) {
+            setSortOrder(null);
+        }
+    };
+    return {
+        sortColumn: sortColumn,
+        sortOrder: sortOrder,
+        handleSort: handleSort,
+        clearSort: clearSort
+    };
+};
+var useSearch = function() {
+    var _useState = _sliced_to_array(useState(""), 2), searchQuery = _useState[0], setSearchQuery = _useState[1];
+    var handleSearch = function(e) {
+        setSearchQuery(e.target.value);
+    };
+    var clearSearch = function() {
+        if (searchQuery) {
+            setSearchQuery("");
+        }
+    };
+    return {
+        searchQuery: searchQuery,
+        handleSearch: handleSearch,
+        clearSearch: clearSearch
+    };
+};
+// src/hooks/WebWorker.ts
+import { useCallback, useEffect as useEffect3, useRef as useRef2 } from "react";
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
+// src/components/table/utils.tsx
+import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
+var getFixedNumber = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
+    var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
+    return String(sum_value);
+};
+var TableRow = function(param) {
+    var item = param.item;
+    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
+    return /* @__PURE__ */ jsx6("tr", {
+        className: "hover:bg-[#424242] hover:text-[#fff]",
+        onClick: function() {
+            return onRowClick && onRowClick(item);
+        },
+        style: rowStyles,
+        children: keysToRender.map(function(key, index) {
+            return /* @__PURE__ */ jsx6(TableCell, {
+                value: item[key]
+            }, index);
+        })
+    });
+};
+var TableCell = function(param) {
+    var value = param.value;
+    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
+    return /* @__PURE__ */ jsx6("td", {
+        title: [
+            "string",
+            "number",
+            "boolean"
+        ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
+        style: cellStyle,
+        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
+        children: value
+    });
+};
+var TableHead = memo(function(props) {
+    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
+    var sortDisplay = useMemo2(function() {
+        return Boolean(sortKeys.length);
+    }, [
+        sortKeys
+    ]);
+    return /* @__PURE__ */ jsx6("thead", {
+        className: "bg-[#282828] text-white sticky top-0",
+        children: /* @__PURE__ */ jsx6("tr", {
+            style: headerStyle,
+            children: headers.map(function(header, index) {
+                var filterableColumn = filterableColumns.find(function(col) {
+                    return col.header === header;
+                });
+                return /* @__PURE__ */ jsxs4("th", {
+                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
+                    style: headerCellStyle,
+                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
+                    children: [
+                        /* @__PURE__ */ jsx6("div", {
+                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
+                            onClick: function() {
+                                return sortDisplay && handleSort(index);
+                            },
+                            children: header
+                        }),
+                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx6(Fragment2, {
+                            children: sortSvg()
+                        }) : /* @__PURE__ */ jsx6(Fragment2, {
+                            children: sortSvg(true)
+                        })),
+                        filterableColumn && /* @__PURE__ */ jsx6(Filter, {
+                            filterableColumn: filterableColumn,
+                            index: index
+                        })
+                    ]
+                }, index);
+            })
+        })
+    });
+});
+var TableBody = memo(function(props) {
+    var _useTableContext = useTableContext(), onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
+    return /* @__PURE__ */ jsx6("tbody", {
+        children: dataToRender.map(function(item, index) {
+            return /* @__PURE__ */ jsx6(TableRow, {
+                item: item
+            }, index);
+        })
+    });
+});
+var Filter = memo(function(param) {
+    var filterableColumn = param.filterableColumn, index = param.index;
+    var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
+    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
+    var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
+    return /* @__PURE__ */ jsxs4(Fragment2, {
+        children: [
+            /* @__PURE__ */ jsx6("button", {
+                title: filterLabel + " " + filterableColumn.header,
+                className: "absolute top-1 right-1 text-[12px]",
+                onClick: function() {
+                    return handleFilterClick(filterableColumn.dataKey);
+                },
+                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ jsx6(Fragment2, {
+                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ jsx6(Fragment2, {
+                        children: slashFilterSvg(true)
+                    }) : /* @__PURE__ */ jsx6(Fragment2, {
+                        children: emptyFilterSvg(true)
+                    })
+                }) : /* @__PURE__ */ jsx6(Fragment2, {
+                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ jsx6(Fragment2, {
+                        children: slashFilterSvg()
+                    }) : /* @__PURE__ */ jsx6(Fragment2, {
+                        children: emptyFilterSvg()
+                    })
+                })
+            }),
+            filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
+                className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                children: [
+                    /* @__PURE__ */ jsxs4("div", {
+                        className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
+                        children: [
+                            /* @__PURE__ */ jsx6("div", {
+                                className: "text-start",
+                                children: filterLabel + " " + filterableColumn.header
+                            }),
+                            /* @__PURE__ */ jsx6("button", {
+                                onClick: closeFilterWindow,
+                                children: /* @__PURE__ */ jsx6(RedXSvg2, {})
+                            })
+                        ]
+                    }),
+                    /* @__PURE__ */ jsx6("div", {
+                        className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
+                        children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
+                            var _filters_filterableColumn_dataKey;
+                            return /* @__PURE__ */ jsxs4("div", {
+                                className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
+                                children: [
+                                    /* @__PURE__ */ jsx6("input", {
+                                        type: "checkbox",
+                                        className: "cursor-pointer",
+                                        checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
+                                        onChange: function() {
+                                            return handleFilterChange(filterableColumn.dataKey, option);
+                                        }
+                                    }),
+                                    /* @__PURE__ */ jsx6("button", {
+                                        className: "flex-1 text-start px-2",
+                                        onClick: function() {
+                                            return handleFilterChange(filterableColumn.dataKey, option);
+                                        },
+                                        children: filterableColumn.ui ? filterableColumn.ui(option) : option
+                                    })
+                                ]
+                            }, i);
+                        })
+                    })
+                ]
+            })
+        ]
+    });
+});
+var MaxRowsLabel = memo(function(props) {
+    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
+    return /* @__PURE__ */ jsxs4("div", {
+        className: cn("flex justify-start items-center gap-3", maxRowsContainerClassName || ""),
+        children: [
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel1
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRows > dataToRender.length ? dataToRender.length : maxRows
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel2
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: data.length
+            })
+        ]
+    });
+});
+var ExportToExcel = memo(function(props) {
+    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
+    var addPropertiesToExcel = function(properties) {
+        var newData = _to_consumable_array(dataToRender);
+        var newHeaders = _to_consumable_array(headers);
+        properties.forEach(function(val) {
+            newHeaders.unshift(val.header);
+            newData = newData.map(function(v) {
+                return _object_spread_props(_object_spread({}, v), _define_property({}, val.key, val.value));
+            });
+        });
+        return {
+            data: newData,
+            headers: newHeaders
+        };
+    };
+    var onExportExcelClick = /*#__PURE__*/ function() {
+        var _ref = _async_to_generator(function() {
+            var workbook, worksheet, dataToExport, buffer, blob;
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        if (!exportToExcelKeys) return [
+                            3,
+                            2
+                        ];
+                        workbook = new ExcelJS.Workbook();
+                        worksheet = workbook.addWorksheet("Sheet1");
+                        dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
+                            data: dataToRender,
+                            headers: headers
+                        };
+                        worksheet.addRow(dataToExport.headers);
+                        dataToExport.data.forEach(function(item) {
+                            var row = exportToExcelKeys.map(function(key) {
+                                return item[key];
+                            });
+                            worksheet.addRow(row);
+                        });
+                        if (sumColumns) {
+                            sumColumns.forEach(function(val) {
+                                var sumRow = worksheet.addRow([]);
+                                sumRow.getCell(1).value = val.label;
+                                var value = dataToRender.reduce(function(acc, v) {
+                                    return acc + Number(v[val.dataKey]) || 0;
+                                }, 0).toFixed(2);
+                                sumRow.getCell(2).value = value;
+                            });
+                        }
+                        return [
+                            4,
+                            workbook.xlsx.writeBuffer()
+                        ];
+                    case 1:
+                        buffer = _state.sent();
+                        blob = new Blob([
+                            buffer
+                        ], {
+                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        });
+                        saveAs(blob, "".concat(excelFileName || "table_data", ".xlsx"));
+                        _state.label = 2;
+                    case 2:
+                        return [
+                            2
+                        ];
+                }
+            });
+        });
+        return function onExportExcelClick() {
+            return _ref.apply(this, arguments);
+        };
+    }();
+    return /* @__PURE__ */ jsx6("button", {
+        onClick: onExportExcelClick,
+        title: exportExcelLabel,
+        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
+        children: exportToExcelSvg()
+    });
+});
+var Search = memo(function(props) {
+    var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
+    return /* @__PURE__ */ jsx6("input", {
+        className: "w-40 border-black border-[1px] px-2 rounded-md ".concat(searchInputClassName),
+        type: "text",
+        placeholder: searchPlaceHolder,
+        value: searchQuery,
+        onChange: handleSearch,
+        style: searchInputStyle
+    });
+});
+var Summary = memo(function(props) {
+    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
+    return /* @__PURE__ */ jsxs4("div", {
+        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
+            direction: direction
+        }),
+        className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
+        children: [
+            /* @__PURE__ */ jsx6("div", {
+                style: summaryLabelStyle,
+                children: summaryLabel
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                style: summaryRowStyle,
+                className: "flex gap-3",
+                children: sumColumns.map(function(val) {
+                    var sum_res = dataToRender.reduce(function(acc, v) {
+                        return acc + Number(v[val.dataKey]) || 0;
+                    }, 0);
+                    var sum_value = getFixedNumber(sum_res);
+                    return /* @__PURE__ */ jsxs4("div", {
+                        className: "flex gap-1 justify-start",
+                        children: [
+                            /* @__PURE__ */ jsx6("div", {
+                                children: val.label
+                            }),
+                            /* @__PURE__ */ jsx6("span", {
+                                children: ":"
+                            }),
+                            /* @__PURE__ */ jsx6("div", {
+                                children: val.ui ? val.ui(sum_value) : sum_value
+                            })
+                        ]
+                    }, val.dataKey + val.label);
+                })
+            })
+        ]
+    });
+});
+// src/components/table/Table.tsx
+import { createContext, useMemo as useMemo3 } from "react";
+import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+var TableContext = createContext(null);
+var TableProvider = function(props) {
+    var // basic props
+    data = props.data, headers = props.headers, optionalElement = props.optionalElement, _props_keysToRender = props.keysToRender, keysToRender = _props_keysToRender === void 0 ? [] : _props_keysToRender, _props_direction = props.direction, direction = _props_direction === void 0 ? "ltr" : _props_direction, _props_onRowClick = props.onRowClick, onRowClick = _props_onRowClick === void 0 ? function(data2) {} : _props_onRowClick, // container styles props
+    containerStyle = props.containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
+    headerStyle, headerStyle = _props_headerStyle === void 0 ? {} : _props_headerStyle, headerCellStyle = props.headerCellStyle, _props_searchInputStyle = props.searchInputStyle, searchInputStyle = _props_searchInputStyle === void 0 ? {} : _props_searchInputStyle, _props_searchInputClassName = props.// search
+    searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, includeSearch = props.includeSearch, _props_searchPlaceHolder = props.searchPlaceHolder, searchPlaceHolder = _props_searchPlaceHolder === void 0 ? "Search in table ..." : _props_searchPlaceHolder, // sort
+    sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
+    filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
+    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
+    sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
+    maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
+    var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort, clearSort = _useSort.clearSort;
+    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch, clearSearch = _useSearch.clearSearch;
+    var _useFilter = useFilter({
+        data: data,
+        filterableColumns: filterableColumns
+    }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick, closeFilterWindow = _useFilter.closeFilterWindow, clearFilter = _useFilter.clearFilter;
+    var allKeys = useMemo3(function() {
+        return Array.from(data.reduce(function(keys, obj) {
+            Object.keys(obj).forEach(function(key) {
+                return keys.add(key);
+            });
+            return keys;
+        }, /* @__PURE__ */ new Set()));
+    }, [
+        data
+    ]);
+    var dataToRender = useMemo3(function() {
+        var filtered = data;
+        if (includeSearch && searchQuery.length > 0) {
+            filtered = data.filter(function(item) {
+                return allKeys.some(function(key) {
+                    var _item_key;
+                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                });
+            });
+        }
+        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
+            console.log("filtering ...");
+            Object.keys(filters).forEach(function(key) {
+                if (filters[key].length > 0) {
+                    filtered = filtered.filter(function(item) {
+                        return filters[key].includes(item[key]);
+                    });
+                }
+            });
+        }
+        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length) > 0) {
+            console.log("sorting ...");
+            filtered = filtered.sort(function(a, b) {
+                var aValue = a[sortKeys[sortColumn]];
+                var bValue = b[sortKeys[sortColumn]];
+                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+                return 0;
+            });
+        }
+        var result = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        return result;
+    }, [
+        searchQuery,
+        sortColumn,
+        sortOrder,
+        filters,
+        data
+    ]);
+    var providerValues = _object_spread_props(_object_spread({}, props), {
+        // props with default values
+        direction: direction,
+        keysToRender: keysToRender,
+        filterableColumns: filterableColumns,
+        maxRows: maxRows,
+        // states and functions
+        sortColumn: sortColumn,
+        sortOrder: sortOrder,
+        handleSort: handleSort,
+        searchQuery: searchQuery,
+        handleSearch: handleSearch,
+        dataToRender: dataToRender,
+        filters: filters,
+        filterPopupsDisplay: filterPopupsDisplay,
+        filterOptions: filterOptions,
+        handleFilterChange: handleFilterChange,
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow
+    });
+    return /* @__PURE__ */ jsx7(TableContext.Provider, {
+        value: providerValues,
+        children: /* @__PURE__ */ jsx7("div", {
+            className: "flex flex-col gap-2 ".concat(containerClassName),
+            style: _object_spread_props(_object_spread({}, containerStyle), {
+                direction: direction
+            }),
+            children: props.children
+        })
+    });
+};
+var Table = function(props) {
+    var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
+    return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
+        children: [
+            /* @__PURE__ */ jsxs5("div", {
+                style: {
+                    direction: direction
+                },
+                className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
+                children: [
+                    includeSearch && /* @__PURE__ */ jsx7(Search, {
+                        render: false
+                    }),
+                    exportToExcelKeys && /* @__PURE__ */ jsx7(ExportToExcel, {
+                        render: false
+                    }),
+                    maxRowsLabel1 && maxRowsLabel2 && /* @__PURE__ */ jsx7(MaxRowsLabel, {}),
+                    optionalElement && optionalElement
+                ]
+            }),
+            /* @__PURE__ */ jsx7("div", {
+                style: _object_spread_props(_object_spread({}, tableContainerStyle || {}), {
+                    direction: direction
+                }),
+                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
+                children: /* @__PURE__ */ jsxs5("table", {
+                    style: tableStyle,
+                    className: "min-w-full text-sm font-light relative",
+                    children: [
+                        /* @__PURE__ */ jsx7(TableHead, {}),
+                        /* @__PURE__ */ jsx7(TableBody, {
+                            render: false
+                        })
+                    ]
+                })
+            }),
+            sumColumns && /* @__PURE__ */ jsx7(Summary, {
+                render: false
+            })
+        ]
+    }));
+};
 // src/components/forms/index.tsx
+import { useState as useState3 } from "react";
+import moment2 from "moment";
 import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, onKeyDown = param.onKeyDown;
@@ -1705,5 +1786,5 @@ var DatePicker = function(param) {
         ]
     });
 };
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
 //# sourceMappingURL=index.mjs.map

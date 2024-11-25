@@ -178,7 +178,7 @@ function _ts_generator(thisArg, body) {
 import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
     var cn = car_number;
@@ -336,7 +336,7 @@ var extractLocationData = function(doc2) {
 };
 var get_all_documents = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(collection_path) {
-        var snapshot, documents, error;
+        var snapshot2, documents, error;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -351,8 +351,8 @@ var get_all_documents = /*#__PURE__*/ function() {
                         getDocs(collection(db, collection_path))
                     ];
                 case 1:
-                    snapshot = _state.sent();
-                    documents = snapshot.docs.map(function(doc2) {
+                    snapshot2 = _state.sent();
+                    documents = snapshot2.docs.map(function(doc2) {
                         return simpleExtractData(doc2);
                     });
                     return [
@@ -762,6 +762,67 @@ var query_document_by_conditions = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var snapshot = function(config, snapshotsFirstTime) {
+    var resolvePromise;
+    var promise = new Promise(function(resolve) {
+        console.log("==> ".concat(config.collectionName, " subscribed."));
+        resolvePromise = resolve;
+    });
+    var collectionRef = collection(db, config.collectionName);
+    var subscribe = onSnapshot(collectionRef, function(snapshot2) {
+        if (!snapshotsFirstTime.includes(config.collectionName)) {
+            var _config_onFirstTime, _config_extraParsers;
+            snapshotsFirstTime.push(config.collectionName);
+            var documents = snapshot2.docs.map(function(doc2) {
+                return _object_spread({
+                    id: doc2.id
+                }, doc2.data());
+            });
+            (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, documents, config);
+            (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
+                var _extraParser_onFirstTime;
+                (_extraParser_onFirstTime = extraParser.onFirstTime) === null || _extraParser_onFirstTime === void 0 ? void 0 : _extraParser_onFirstTime.call(extraParser, documents, config);
+            });
+            resolvePromise();
+        } else {
+            var _config_onAdd, _config_onModify, _config_onRemove, _config_extraParsers1;
+            var addedDocs = [];
+            var modifiedDocs = [];
+            var removedDocs = [];
+            snapshot2.docChanges().forEach(function(change) {
+                if (change.type === "added") {
+                    addedDocs.push(simpleExtractData(change.doc));
+                }
+                if (change.type === "modified") {
+                    modifiedDocs.push(simpleExtractData(change.doc));
+                }
+                if (change.type === "removed") {
+                    removedDocs.push(simpleExtractData(change.doc));
+                }
+            });
+            addedDocs.length && ((_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, addedDocs, config));
+            modifiedDocs.length && ((_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, modifiedDocs, config));
+            removedDocs.length && ((_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, removedDocs, config));
+            (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
+                var _extraParser_onAdd, _extraParser_onModify, _extraParser_onRemove;
+                addedDocs.length && ((_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, addedDocs, config));
+                modifiedDocs.length && ((_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, modifiedDocs, config));
+                removedDocs.length && ((_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, removedDocs, config));
+            });
+        }
+    }, function(error) {
+        console.error("Error listening to collection: ".concat(config.collectionName), error);
+        resolvePromise();
+    });
+    var unsubscribe = function() {
+        subscribe();
+        console.log("==> ".concat(config.collectionName, " unsubscribed."));
+    };
+    return {
+        promise: promise,
+        unsubscribe: unsubscribe
+    };
+};
 // src/helpers/global.ts
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
@@ -925,5 +986,5 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map

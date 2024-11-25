@@ -20,6 +20,28 @@ var RedXSvg = function(param) {
         ]
     });
 };
+var RedXSvg2 = function(param) {
+    var height = param.height, width = param.width, viewBox = param.viewBox;
+    return /* @__PURE__ */ jsx("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: width || "18px",
+        height: height || "18px",
+        viewBox: viewBox || "0,0,256,256",
+        fillRule: "nonzero",
+        children: /* @__PURE__ */ jsx("g", {
+            fill: "#e90404",
+            fillRule: "nonzero",
+            stroke: "none",
+            strokeWidth: "1",
+            children: /* @__PURE__ */ jsx("g", {
+                transform: "scale(10.66667,10.66667)",
+                children: /* @__PURE__ */ jsx("path", {
+                    d: "M4.99023,3.99023c-0.40692,0.00011 -0.77321,0.24676 -0.92633,0.62377c-0.15312,0.37701 -0.06255,0.80921 0.22907,1.09303l6.29297,6.29297l-6.29297,6.29297c-0.26124,0.25082 -0.36647,0.62327 -0.27511,0.97371c0.09136,0.35044 0.36503,0.62411 0.71547,0.71547c0.35044,0.09136 0.72289,-0.01388 0.97371,-0.27511l6.29297,-6.29297l6.29297,6.29297c0.25082,0.26124 0.62327,0.36648 0.97371,0.27512c0.35044,-0.09136 0.62411,-0.36503 0.71547,-0.71547c0.09136,-0.35044 -0.01388,-0.72289 -0.27512,-0.97371l-6.29297,-6.29297l6.29297,-6.29297c0.29576,-0.28749 0.38469,-0.72707 0.22393,-1.10691c-0.16075,-0.37985 -0.53821,-0.62204 -0.9505,-0.60988c-0.2598,0.00774 -0.50638,0.11632 -0.6875,0.30273l-6.29297,6.29297l-6.29297,-6.29297c-0.18827,-0.19353 -0.4468,-0.30272 -0.7168,-0.30273z"
+                })
+            })
+        })
+    });
+};
 var GreenVSvg = function(param) {
     var height = param.height, width = param.width, viewBox = param.viewBox;
     return /* @__PURE__ */ jsxs("svg", {
@@ -58,7 +80,7 @@ var sortSvg = function(upside_down) {
             " ",
             /* @__PURE__ */ jsxs2("g", {
                 transform: "translate(0.000000,1536.000000) scale(0.100000,-0.100000)",
-                fill: "#000000",
+                fill: "#fff",
                 stroke: "none",
                 children: [
                     " ",
@@ -85,7 +107,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs2("g", {
                     transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -108,7 +130,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs2("g", {
                     transform: "translate(0.000000,300.000000) scale(0.050000,-0.050000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -138,7 +160,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs2("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -168,7 +190,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs2("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -222,5 +244,5 @@ var exportToExcelSvg = function() {
         ]
     });
 };
-export { GreenVSvg, RedXSvg, emptyFilterSvg, exportToExcelSvg, slashFilterSvg, sortSvg };
+export { GreenVSvg, RedXSvg, RedXSvg2, emptyFilterSvg, exportToExcelSvg, slashFilterSvg, sortSvg };
 //# sourceMappingURL=index.mjs.map

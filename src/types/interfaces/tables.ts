@@ -19,18 +19,11 @@ export interface TableProviderType {
     filterOptions: any;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
 }
 export interface UseFilterProps {
     data: Record<string, any>[];
-    dataToRender: Record<string, any>[];
-    setDataToRender: Dispatch<SetStateAction<Record<string, any>[]>>;
     filterableColumns: FilterableColumn[];
-    includeSearch?: boolean;
-    searchQuery: string;
-    keysToRender: string[];
-    sortColumn: number | null;
-    sortOrder: "asc" | "desc" | null;
-    sortKeys: string[];
 }
 export interface TableProps {
     data: Record<string, any>[];
@@ -39,6 +32,7 @@ export interface TableProps {
     optionalElement?: ReactNode;
     containerStyle?: React.CSSProperties;
     containerClassName?: string;
+    containerHeaderClassName?: string;
     includeSearch?: boolean;
     searchInputStyle?: React.CSSProperties;
     searchInputClassName?: string;
@@ -49,6 +43,7 @@ export interface TableProps {
     headerStyle?: React.CSSProperties;
     headerCellStyle?: React.CSSProperties;
     cellStyle?: React.CSSProperties;
+    cellClassName?: string;
     filterableColumns?: { header: string; dataKey: string; ui?: (value: any) => ReactNode }[];
     sortKeys?: string[];
     exportToExcelKeys?: string[];
@@ -65,6 +60,10 @@ export interface TableProps {
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
     direction?: Direction;
+    maxRows?: number;
+    maxRowsLabel1?: string;
+    maxRowsLabel2?: string;
+    maxRowsContainerClassName?: string;
 }
 
 export interface FilterProps {

@@ -447,6 +447,9 @@ body {
 .z-10 {
   z-index: 10;
 }
+.z-20 {
+  z-index: 20;
+}
 .m-\[7px\] {
   margin: 7px;
 }
@@ -846,6 +849,10 @@ body {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
 .text-destructive-foreground {
   color: hsl(var(--destructive-foreground));
 }
@@ -951,6 +958,21 @@ body {
 }
 .ease-in-out {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .file\:border-0::file-selector-button {
   border-width: 0px;

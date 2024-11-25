@@ -1,8 +1,36 @@
 import { TObject } from 'akeyless-types-commons';
-import { Dispatch, SetStateAction, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { Unsubscribe } from 'firebase/firestore';
 
 type Direction = "rtl" | "ltr";
 type SetState<T> = (updater: ((prev: T) => T) | T) => void;
+type ModularPopUp = null | {
+    element: JSX.Element;
+    elementName?: string & {};
+    onClose?: () => void | Promise<void>;
+    top?: string;
+    left?: string;
+    bottom?: string;
+    right?: string;
+    background?: string;
+};
+
+type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+interface OnSnapshotParsers {
+    onFirstTime?: OnSnapshotCallback;
+    onAdd?: OnSnapshotCallback;
+    onModify?: OnSnapshotCallback;
+    onRemove?: OnSnapshotCallback;
+}
+interface OnSnapshotConfig extends OnSnapshotParsers {
+    collectionName: string;
+    extraParsers?: OnSnapshotParsers[];
+}
+interface SnapshotResult {
+    promise: Promise<void>;
+    unsubscribe: Unsubscribe;
+}
+type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 
 interface FilterableColumn {
     header: string;
@@ -21,18 +49,11 @@ interface TableProviderType {
     filterOptions: any;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
 }
 interface UseFilterProps {
     data: Record<string, any>[];
-    dataToRender: Record<string, any>[];
-    setDataToRender: Dispatch<SetStateAction<Record<string, any>[]>>;
     filterableColumns: FilterableColumn[];
-    includeSearch?: boolean;
-    searchQuery: string;
-    keysToRender: string[];
-    sortColumn: number | null;
-    sortOrder: "asc" | "desc" | null;
-    sortKeys: string[];
 }
 interface TableProps {
     data: Record<string, any>[];
@@ -41,6 +62,7 @@ interface TableProps {
     optionalElement?: ReactNode;
     containerStyle?: React.CSSProperties;
     containerClassName?: string;
+    containerHeaderClassName?: string;
     includeSearch?: boolean;
     searchInputStyle?: React.CSSProperties;
     searchInputClassName?: string;
@@ -51,6 +73,7 @@ interface TableProps {
     headerStyle?: React.CSSProperties;
     headerCellStyle?: React.CSSProperties;
     cellStyle?: React.CSSProperties;
+    cellClassName?: string;
     filterableColumns?: {
         header: string;
         dataKey: string;
@@ -79,6 +102,10 @@ interface TableProps {
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
     direction?: Direction;
+    maxRows?: number;
+    maxRowsLabel1?: string;
+    maxRowsLabel2?: string;
+    maxRowsContainerClassName?: string;
 }
 interface FilterProps {
     index: number;
@@ -144,4 +171,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, SelectContainerProps, SelectElement, SetState, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotResult, TableProps, TableProviderType, UseFilterProps };

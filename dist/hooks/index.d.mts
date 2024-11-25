@@ -1,10 +1,20 @@
 import * as zustand from 'zustand';
 import { TObject } from 'akeyless-types-commons';
-import { Dispatch, SetStateAction, ReactNode } from 'react';
-
-declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
+import { ReactNode } from 'react';
 
 type Direction = "rtl" | "ltr";
+
+type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+interface OnSnapshotParsers {
+    onFirstTime?: OnSnapshotCallback;
+    onAdd?: OnSnapshotCallback;
+    onModify?: OnSnapshotCallback;
+    onRemove?: OnSnapshotCallback;
+}
+interface OnSnapshotConfig extends OnSnapshotParsers {
+    collectionName: string;
+    extraParsers?: OnSnapshotParsers[];
+}
 
 interface FilterableColumn {
     header: string;
@@ -23,18 +33,11 @@ interface TableProviderType {
     filterOptions: any;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
 }
 interface UseFilterProps {
     data: Record<string, any>[];
-    dataToRender: Record<string, any>[];
-    setDataToRender: Dispatch<SetStateAction<Record<string, any>[]>>;
     filterableColumns: FilterableColumn[];
-    includeSearch?: boolean;
-    searchQuery: string;
-    keysToRender: string[];
-    sortColumn: number | null;
-    sortOrder: "asc" | "desc" | null;
-    sortKeys: string[];
 }
 interface TableProps {
     data: Record<string, any>[];
@@ -43,6 +46,7 @@ interface TableProps {
     optionalElement?: ReactNode;
     containerStyle?: React.CSSProperties;
     containerClassName?: string;
+    containerHeaderClassName?: string;
     includeSearch?: boolean;
     searchInputStyle?: React.CSSProperties;
     searchInputClassName?: string;
@@ -53,6 +57,7 @@ interface TableProps {
     headerStyle?: React.CSSProperties;
     headerCellStyle?: React.CSSProperties;
     cellStyle?: React.CSSProperties;
+    cellClassName?: string;
     filterableColumns?: {
         header: string;
         dataKey: string;
@@ -81,26 +86,38 @@ interface TableProps {
     exportExcelLabel?: string;
     onRowClick?: (data?: any) => void;
     direction?: Direction;
+    maxRows?: number;
+    maxRowsLabel1?: string;
+    maxRowsLabel2?: string;
+    maxRowsContainerClassName?: string;
 }
 
+declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
+declare const useDocumentTitle: (title: string) => any;
+declare const useSnapshotBulk: (configs: OnSnapshotConfig[], label?: string) => void;
+
 declare const useTableContext: () => TableProps & TableProviderType;
-declare const useFilter: ({ data, dataToRender, setDataToRender, filterableColumns, includeSearch, searchQuery, keysToRender, sortColumn, sortOrder, sortKeys, }: UseFilterProps) => {
+declare const useFilter: ({ data, filterableColumns }: UseFilterProps) => {
     filters: TObject<string[]>;
     filterPopupsDisplay: string;
     filterOptions: Record<string, any[]>;
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
+    closeFilterWindow: () => void;
+    clearFilter: () => void;
 };
 type SortOptions = "asc" | "desc";
 declare const useSort: () => {
     sortColumn: number;
     sortOrder: SortOptions;
     handleSort: (columnIndex: number) => void;
+    clearSort: () => void;
 };
 declare const useSearch: () => {
     searchQuery: string;
     handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    clearSearch: () => void;
 };
 declare const useCreateTableStore: () => zustand.UseBoundStore<zustand.StoreApi<any>>;
 
-export { useCreateTableStore, useFilter, useSafeEffect, useSearch, useSort, useTableContext };
+export { useCreateTableStore, useDocumentTitle, useFilter, useSafeEffect, useSearch, useSnapshotBulk, useSort, useTableContext };

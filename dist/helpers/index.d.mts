@@ -1,7 +1,24 @@
 import { Auth } from 'firebase/auth';
-import { Firestore, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
+import { Unsubscribe, Firestore, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
 import { TObject } from 'akeyless-types-commons';
 import React from 'react';
+
+type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+interface OnSnapshotParsers {
+    onFirstTime?: OnSnapshotCallback;
+    onAdd?: OnSnapshotCallback;
+    onModify?: OnSnapshotCallback;
+    onRemove?: OnSnapshotCallback;
+}
+interface OnSnapshotConfig extends OnSnapshotParsers {
+    collectionName: string;
+    extraParsers?: OnSnapshotParsers[];
+}
+interface SnapshotResult {
+    promise: Promise<void>;
+    unsubscribe: Unsubscribe;
+}
+type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 
 declare const db: Firestore;
 declare const auth: Auth;
@@ -40,9 +57,7 @@ declare const extractAlertsData: (doc: DocumentSnapshot<DocumentData>) => {
     timestamp_ui: string;
     car_number: string;
 };
-declare const simpleExtractData: (doc: DocumentSnapshot<DocumentData>) => {
-    id: string;
-};
+declare const simpleExtractData: (doc: DocumentSnapshot<DocumentData>) => TObject<any>;
 declare const extractSiteData: (doc: DocumentSnapshot<DocumentData>) => {
     id: string;
     created: string;
@@ -75,30 +90,21 @@ declare const extractLocationData: (doc: DocumentSnapshot<DocumentData>) => {
     timestamp: any;
     spd: string;
 };
-declare const get_all_documents: (collection_path: string) => Promise<{
-    id: string;
-}[]>;
-declare const get_document_by_id: (collection_path: string, doc_id: string) => Promise<{
-    id: string;
-}>;
+declare const get_all_documents: (collection_path: string) => Promise<TObject<any>[]>;
+declare const get_document_by_id: (collection_path: string, doc_id: string) => Promise<TObject<any>>;
 declare const set_document: (collection_path: string, doc_id: string, data: DocumentData) => Promise<boolean>;
 declare const add_document: (collection_path: string, data: DocumentData, include_id?: boolean) => Promise<boolean>;
 declare const delete_document: (collection_path: string, doc_id: string) => Promise<boolean>;
 declare const query_document: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any, ignore_log?: boolean) => Promise<null | TObject<any>>;
-declare const query_documents: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any) => Promise<{
-    id: string;
-}[]>;
+declare const query_documents: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any) => Promise<TObject<any>[]>;
 interface WhereCondition {
     field_name: string;
     operator: WhereFilterOp;
     value: any;
 }
-declare const query_documents_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<{
-    id: string;
-}[]>;
-declare const query_document_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<{
-    id: string;
-}>;
+declare const query_documents_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<TObject<any>[]>;
+declare const query_document_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<TObject<any>>;
+declare const snapshot: Snapshot;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;
 
@@ -128,4 +134,4 @@ declare const local_israel_phone_format: ConvertFunction;
 declare const international_israel_phone_format: ConvertFunction;
 declare const displayFormatPhoneNumber: ConvertFunction;
 
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, useStoreValues, useValidation };

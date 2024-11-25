@@ -306,7 +306,137 @@ function _ts_generator(thisArg, body) {
         };
     }
 }
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+// src/helpers/firebase.ts
+import moment from "moment";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
+var initApp = function() {
+    var isNodeEnv = typeof process !== "undefined" && process.env;
+    var firebaseConfig = {
+        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
+        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
+        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
+        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
+    };
+    try {
+        var app = initializeApp(firebaseConfig);
+        var auth2 = getAuth(app);
+        var db2 = getFirestore(app);
+        return {
+            db: db2,
+            auth: auth2
+        };
+    } catch (error) {
+        console.error("Failed to initialize Firebase app:", error);
+        return {
+            db: null,
+            auth: null
+        };
+    }
+};
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
+var collections = {
+    clients: collection(db, "nx-clients"),
+    sites: collection(db, "nx-sites"),
+    cars: collection(db, "units"),
+    users: collection(db, "nx-users"),
+    lastLocations: collection(db, "last_locations"),
+    ermEvents: collection(db, "erm_events_general"),
+    erm2Events: collection(db, "erm2_events_general"),
+    ruptelaEvents: collection(db, "ruptela_events_general"),
+    polygons: collection(db, "nx-polygons"),
+    polygonEvents: collection(db, "polygon_events"),
+    polygonCars: collection(db, "polygon_cars"),
+    canbus: collection(db, "erm_canbus_parameters"),
+    states: collection(db, "erm_states"),
+    app_pro_commands_queue: collection(db, "app_pro_commands_queue"),
+    trips: collection(db, "erm2_trip"),
+    tripsDetails: collection(db, "erm2_trip_details"),
+    audit: collection(db, "nx-audit"),
+    nx_settings: collection(db, "nx-settings"),
+    settings: collection(db, "settings"),
+    translations: collection(db, "nx-translations"),
+    nx_cars: collection(db, "nx-cars"),
+    boards: collection(db, "boards"),
+    protection_types: collection(db, "protectionTypes"),
+    board_types: collection(db, "boardTypes"),
+    charge_capacities: collection(db, "nx-charge-capacities")
+};
+var fire_base_TIME_TEMP = Timestamp.now;
+var simpleExtractData = function(doc2) {
+    var docData = doc2.data();
+    return _object_spread_props(_object_spread({}, docData), {
+        id: doc2.id
+    });
+};
+var snapshot = function(config, snapshotsFirstTime) {
+    var resolvePromise;
+    var promise = new Promise(function(resolve) {
+        console.log("==> ".concat(config.collectionName, " subscribed."));
+        resolvePromise = resolve;
+    });
+    var collectionRef = collection(db, config.collectionName);
+    var subscribe = onSnapshot(collectionRef, function(snapshot2) {
+        if (!snapshotsFirstTime.includes(config.collectionName)) {
+            var _config_onFirstTime, _config_extraParsers;
+            snapshotsFirstTime.push(config.collectionName);
+            var documents = snapshot2.docs.map(function(doc2) {
+                return _object_spread({
+                    id: doc2.id
+                }, doc2.data());
+            });
+            (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, documents, config);
+            (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
+                var _extraParser_onFirstTime;
+                (_extraParser_onFirstTime = extraParser.onFirstTime) === null || _extraParser_onFirstTime === void 0 ? void 0 : _extraParser_onFirstTime.call(extraParser, documents, config);
+            });
+            resolvePromise();
+        } else {
+            var _config_onAdd, _config_onModify, _config_onRemove, _config_extraParsers1;
+            var addedDocs = [];
+            var modifiedDocs = [];
+            var removedDocs = [];
+            snapshot2.docChanges().forEach(function(change) {
+                if (change.type === "added") {
+                    addedDocs.push(simpleExtractData(change.doc));
+                }
+                if (change.type === "modified") {
+                    modifiedDocs.push(simpleExtractData(change.doc));
+                }
+                if (change.type === "removed") {
+                    removedDocs.push(simpleExtractData(change.doc));
+                }
+            });
+            addedDocs.length && ((_config_onAdd = config.onAdd) === null || _config_onAdd === void 0 ? void 0 : _config_onAdd.call(config, addedDocs, config));
+            modifiedDocs.length && ((_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, modifiedDocs, config));
+            removedDocs.length && ((_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, removedDocs, config));
+            (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
+                var _extraParser_onAdd, _extraParser_onModify, _extraParser_onRemove;
+                addedDocs.length && ((_extraParser_onAdd = extraParser.onAdd) === null || _extraParser_onAdd === void 0 ? void 0 : _extraParser_onAdd.call(extraParser, addedDocs, config));
+                modifiedDocs.length && ((_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, modifiedDocs, config));
+                removedDocs.length && ((_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, removedDocs, config));
+            });
+        }
+    }, function(error) {
+        console.error("Error listening to collection: ".concat(config.collectionName), error);
+        resolvePromise();
+    });
+    var unsubscribe = function() {
+        subscribe();
+        console.log("==> ".concat(config.collectionName, " unsubscribed."));
+    };
+    return {
+        promise: promise,
+        unsubscribe: unsubscribe
+    };
+};
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+// src/hooks/global.ts
 function useSafeEffect(callback, dependencies, error_message) {
     useEffect(function() {
         try {
@@ -316,8 +446,43 @@ function useSafeEffect(callback, dependencies, error_message) {
         }
     }, dependencies);
 }
+var useDocumentTitle = function(title) {
+    useEffect(function() {
+        document.title = title;
+    }, []);
+    return null;
+};
+var useSnapshotBulk = function(configs, label) {
+    var snapshotsFirstTime = useRef([]);
+    var unsubscribeFunctions = useRef([]);
+    useEffect(function() {
+        var start = performance.now();
+        console.log("==> ".concat(label || "Custom snapshots", " started... "));
+        var snapshotResults = configs.map(function(config) {
+            return snapshot(config, snapshotsFirstTime.current);
+        });
+        unsubscribeFunctions.current = snapshotResults.map(function(result) {
+            return result.unsubscribe;
+        });
+        Promise.all(snapshotResults.map(function(result) {
+            return result.promise;
+        })).then(function() {
+            console.log("==> ".concat(label || "Custom snapshots", " ended. It took ").concat((performance.now() - start).toFixed(2), " ms"));
+        });
+        return function() {
+            unsubscribeFunctions.current.forEach(function(unsubscribe) {
+                if (unsubscribe) {
+                    unsubscribe();
+                }
+            });
+        };
+    }, [
+        configs,
+        label
+    ]);
+};
 // src/hooks/table.ts
-import { useContext as useContext2, useEffect as useEffect3, useState as useState3 } from "react";
+import { useContext as useContext2, useState as useState3 } from "react";
 // src/components/utils/Checkboxes.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 // src/components/utils/ErrorBoundary.tsx
@@ -386,6 +551,28 @@ import { saveAs } from "file-saver";
 import { memo, useMemo } from "react";
 // src/assets/svg.tsx
 import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+var RedXSvg2 = function(param) {
+    var height = param.height, width = param.width, viewBox = param.viewBox;
+    return /* @__PURE__ */ jsx4("svg", {
+        xmlns: "http://www.w3.org/2000/svg",
+        width: width || "18px",
+        height: height || "18px",
+        viewBox: viewBox || "0,0,256,256",
+        fillRule: "nonzero",
+        children: /* @__PURE__ */ jsx4("g", {
+            fill: "#e90404",
+            fillRule: "nonzero",
+            stroke: "none",
+            strokeWidth: "1",
+            children: /* @__PURE__ */ jsx4("g", {
+                transform: "scale(10.66667,10.66667)",
+                children: /* @__PURE__ */ jsx4("path", {
+                    d: "M4.99023,3.99023c-0.40692,0.00011 -0.77321,0.24676 -0.92633,0.62377c-0.15312,0.37701 -0.06255,0.80921 0.22907,1.09303l6.29297,6.29297l-6.29297,6.29297c-0.26124,0.25082 -0.36647,0.62327 -0.27511,0.97371c0.09136,0.35044 0.36503,0.62411 0.71547,0.71547c0.35044,0.09136 0.72289,-0.01388 0.97371,-0.27511l6.29297,-6.29297l6.29297,6.29297c0.25082,0.26124 0.62327,0.36648 0.97371,0.27512c0.35044,-0.09136 0.62411,-0.36503 0.71547,-0.71547c0.09136,-0.35044 -0.01388,-0.72289 -0.27512,-0.97371l-6.29297,-6.29297l6.29297,-6.29297c0.29576,-0.28749 0.38469,-0.72707 0.22393,-1.10691c-0.16075,-0.37985 -0.53821,-0.62204 -0.9505,-0.60988c-0.2598,0.00774 -0.50638,0.11632 -0.6875,0.30273l-6.29297,6.29297l-6.29297,-6.29297c-0.18827,-0.19353 -0.4468,-0.30272 -0.7168,-0.30273z"
+                })
+            })
+        })
+    });
+};
 // src/assets/table.tsx
 import { Fragment, jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
 var sortSvg = function(upside_down) {
@@ -404,7 +591,7 @@ var sortSvg = function(upside_down) {
             " ",
             /* @__PURE__ */ jsxs3("g", {
                 transform: "translate(0.000000,1536.000000) scale(0.100000,-0.100000)",
-                fill: "#000000",
+                fill: "#fff",
                 stroke: "none",
                 children: [
                     " ",
@@ -431,7 +618,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs3("g", {
                     transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -454,7 +641,7 @@ var emptyFilterSvg = function(solid) {
                 " ",
                 /* @__PURE__ */ jsxs3("g", {
                     transform: "translate(0.000000,300.000000) scale(0.050000,-0.050000)",
-                    fill: "#000000",
+                    fill: "#fff",
                     stroke: "none",
                     children: [
                         " ",
@@ -484,7 +671,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs3("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -514,7 +701,7 @@ var slashFilterSvg = function(solid) {
                     " ",
                     /* @__PURE__ */ jsxs3("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
-                        fill: "#000000",
+                        fill: "#fff",
                         stroke: "none",
                         children: [
                             " ",
@@ -568,6 +755,15 @@ var exportToExcelSvg = function() {
         ]
     });
 };
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
 // src/components/table/utils.tsx
 import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
 var getFixedNumber = function() {
@@ -593,7 +789,7 @@ var TableRow = function(param) {
 };
 var TableCell = function(param) {
     var value = param.value;
-    var cellStyle = useTableContext().cellStyle;
+    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
     return /* @__PURE__ */ jsx6("td", {
         title: [
             "string",
@@ -601,7 +797,7 @@ var TableCell = function(param) {
             "boolean"
         ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
         style: cellStyle,
-        className: "chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center",
+        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
         children: value
     });
 };
@@ -648,11 +844,8 @@ var TableHead = memo(function(props) {
     });
 });
 var TableBody = memo(function(props) {
-    var _useTableContext = useTableContext(), handleFilterClick = _useTableContext.handleFilterClick, onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
+    var _useTableContext = useTableContext(), onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
     return /* @__PURE__ */ jsx6("tbody", {
-        onClick: function() {
-            return handleFilterClick("");
-        },
         children: dataToRender.map(function(item, index) {
             return /* @__PURE__ */ jsx6(TableRow, {
                 item: item
@@ -663,7 +856,7 @@ var TableBody = memo(function(props) {
 var Filter = memo(function(param) {
     var filterableColumn = param.filterableColumn, index = param.index;
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
-    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, filterLabel = _useTableContext.filterLabel;
+    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
     return /* @__PURE__ */ jsxs4(Fragment2, {
         children: [
@@ -688,11 +881,20 @@ var Filter = memo(function(param) {
                 })
             }),
             filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "absolute z-10 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                className: "absolute z-20 top-1 ".concat(displayRight ? "right-[-165px]" : "left-[-80px]", "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                 children: [
-                    /* @__PURE__ */ jsx6("div", {
-                        className: "text-start border-black border-b-[1px] w-[90%]",
-                        children: filterLabel + " " + filterableColumn.header
+                    /* @__PURE__ */ jsxs4("div", {
+                        className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
+                        children: [
+                            /* @__PURE__ */ jsx6("div", {
+                                className: "text-start",
+                                children: filterLabel + " " + filterableColumn.header
+                            }),
+                            /* @__PURE__ */ jsx6("button", {
+                                onClick: closeFilterWindow,
+                                children: /* @__PURE__ */ jsx6(RedXSvg2, {})
+                            })
+                        ]
                     }),
                     /* @__PURE__ */ jsx6("div", {
                         className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
@@ -721,6 +923,26 @@ var Filter = memo(function(param) {
                         })
                     })
                 ]
+            })
+        ]
+    });
+});
+var MaxRowsLabel = memo(function(props) {
+    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
+    return /* @__PURE__ */ jsxs4("div", {
+        className: cn("flex justify-start items-center gap-3", maxRowsContainerClassName || ""),
+        children: [
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel1
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRows > dataToRender.length ? dataToRender.length : maxRows
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: maxRowsLabel2
+            }),
+            /* @__PURE__ */ jsx6("div", {
+                children: data.length
             })
         ]
     });
@@ -856,78 +1078,16 @@ var Summary = memo(function(props) {
     });
 });
 // src/components/table/Table.tsx
-import { createContext, useState } from "react";
+import { createContext, useMemo as useMemo2 } from "react";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 // src/components/forms/index.tsx
 import { useState as useState2 } from "react";
 import moment2 from "moment";
-// src/helpers/firebase.ts
-import moment from "moment";
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore } from "firebase/firestore";
-var initApp = function() {
-    var isNodeEnv = typeof process !== "undefined" && process.env;
-    var firebaseConfig = {
-        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
-        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
-        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
-        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
-        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
-        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
-    };
-    try {
-        var app = initializeApp(firebaseConfig);
-        var auth2 = getAuth(app);
-        var db2 = getFirestore(app);
-        return {
-            db: db2,
-            auth: auth2
-        };
-    } catch (error) {
-        console.error("Failed to initialize Firebase app:", error);
-        return {
-            db: null,
-            auth: null
-        };
-    }
-};
-var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
-var collections = {
-    clients: collection(db, "nx-clients"),
-    sites: collection(db, "nx-sites"),
-    cars: collection(db, "units"),
-    users: collection(db, "nx-users"),
-    lastLocations: collection(db, "last_locations"),
-    ermEvents: collection(db, "erm_events_general"),
-    erm2Events: collection(db, "erm2_events_general"),
-    ruptelaEvents: collection(db, "ruptela_events_general"),
-    polygons: collection(db, "nx-polygons"),
-    polygonEvents: collection(db, "polygon_events"),
-    polygonCars: collection(db, "polygon_cars"),
-    canbus: collection(db, "erm_canbus_parameters"),
-    states: collection(db, "erm_states"),
-    app_pro_commands_queue: collection(db, "app_pro_commands_queue"),
-    trips: collection(db, "erm2_trip"),
-    tripsDetails: collection(db, "erm2_trip_details"),
-    audit: collection(db, "nx-audit"),
-    nx_settings: collection(db, "nx-settings"),
-    settings: collection(db, "settings"),
-    translations: collection(db, "nx-translations"),
-    nx_cars: collection(db, "nx-cars"),
-    boards: collection(db, "boards"),
-    protection_types: collection(db, "protectionTypes"),
-    board_types: collection(db, "boardTypes"),
-    charge_capacities: collection(db, "nx-charge-capacities")
-};
-var fire_base_TIME_TEMP = Timestamp.now;
-// src/helpers/phoneNumber.ts
-import { parsePhoneNumberFromString } from "libphonenumber-js";
-// src/components/forms/index.tsx
 import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
 // src/hooks/table.ts
 import { create } from "zustand";
+import { isEqual } from "lodash";
 var useTableContext = function() {
     var context = useContext2(TableContext);
     if (!context) {
@@ -936,7 +1096,7 @@ var useTableContext = function() {
     return context;
 };
 var useFilter = function(param) {
-    var data = param.data, dataToRender = param.dataToRender, setDataToRender = param.setDataToRender, filterableColumns = param.filterableColumns, includeSearch = param.includeSearch, searchQuery = param.searchQuery, keysToRender = param.keysToRender, sortColumn = param.sortColumn, sortOrder = param.sortOrder, sortKeys = param.sortKeys;
+    var data = param.data, filterableColumns = param.filterableColumns;
     var initFilter = filterableColumns.reduce(function(acc, col) {
         return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
     }, {});
@@ -948,50 +1108,8 @@ var useFilter = function(param) {
         })));
         return acc;
     }, {});
-    useEffect3(function() {
-        var filtered = dataToRender;
-        if (includeSearch) {
-            filtered = data.filter(function(item) {
-                return keysToRender.some(function(key) {
-                    var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                });
-            });
-        }
-        if (filterableColumns.length > 0) {
-            Object.keys(filters).forEach(function(key) {
-                if (filters[key].length > 0) {
-                    filtered = filtered.filter(function(item) {
-                        return filters[key].includes(item[key]);
-                    });
-                }
-            });
-        }
-        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length)) {
-            filtered = filtered.sort(function(a, b) {
-                var aValue = a[sortKeys[sortColumn]];
-                var bValue = b[sortKeys[sortColumn]];
-                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-                return 0;
-            });
-        }
-        setDataToRender(filtered);
-    }, [
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        filters,
-        data
-    ]);
     var handleFilterChange = function(dataKey, value) {
         var newFilters = _object_spread({}, filters);
-        console.log("data from filter", {
-            filters: filters,
-            newFilters: newFilters,
-            dataKey: dataKey,
-            value: value
-        });
         if (newFilters[dataKey].includes(value)) {
             newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
                 return item !== value;
@@ -1002,23 +1120,30 @@ var useFilter = function(param) {
         setFilters(newFilters);
     };
     var clearFilter = function() {
-        setFilters(initFilter);
+        if (!isEqual(filters, initFilter)) {
+            setFilters(initFilter);
+        }
     };
     var handleFilterClick = function(dataKey) {
         setFilterPopupsDisplay(function(prev) {
             if (prev === dataKey) {
-                clearFilter();
+                setFilters(initFilter);
                 return "";
             }
             return dataKey;
         });
+    };
+    var closeFilterWindow = function() {
+        setFilterPopupsDisplay("");
     };
     return {
         filters: filters,
         filterPopupsDisplay: filterPopupsDisplay,
         filterOptions: filterOptions,
         handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow,
+        clearFilter: clearFilter
     };
 };
 var useSort = function() {
@@ -1032,10 +1157,19 @@ var useSort = function() {
         setSortColumn(columnIndex);
         setSortOrder(newSortOrder);
     };
+    var clearSort = function() {
+        if (sortColumn) {
+            setSortColumn(null);
+        }
+        if (sortOrder) {
+            setSortOrder(null);
+        }
+    };
     return {
         sortColumn: sortColumn,
         sortOrder: sortOrder,
-        handleSort: handleSort
+        handleSort: handleSort,
+        clearSort: clearSort
     };
 };
 var useSearch = function() {
@@ -1043,9 +1177,15 @@ var useSearch = function() {
     var handleSearch = function(e) {
         setSearchQuery(e.target.value);
     };
+    var clearSearch = function() {
+        if (searchQuery) {
+            setSearchQuery("");
+        }
+    };
     return {
         searchQuery: searchQuery,
-        handleSearch: handleSearch
+        handleSearch: handleSearch,
+        clearSearch: clearSearch
     };
 };
 var useCreateTableStore = function() {
@@ -1054,6 +1194,6 @@ var useCreateTableStore = function() {
     });
 };
 // src/hooks/WebWorker.ts
-import { useCallback, useEffect as useEffect4, useRef } from "react";
-export { useCreateTableStore, useFilter, useSafeEffect, useSearch, useSort, useTableContext };
+import { useCallback, useEffect as useEffect4, useRef as useRef3 } from "react";
+export { useCreateTableStore, useDocumentTitle, useFilter, useSafeEffect, useSearch, useSnapshotBulk, useSort, useTableContext };
 //# sourceMappingURL=index.mjs.map

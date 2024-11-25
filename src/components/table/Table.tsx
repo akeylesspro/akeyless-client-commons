@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody } from "./utils";
+import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
+import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./utils";
 import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
 import { useFilter, useSort, useSearch } from "../../hooks";
 import { TableSCN } from "../ui/table";
+import { cn } from "@/lib/utils";
 
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
@@ -28,8 +29,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         headerStyle = {},
         headerCellStyle,
         searchInputStyle = {},
-        searchInputClassName = "",
         // search
+        searchInputClassName = "",
         includeSearch,
         searchPlaceHolder = "Search in table ...",
         // sort
@@ -49,31 +50,71 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         summaryContainerStyle = {},
         summaryLabelStyle = {},
         summaryRowStyle = {},
+        //  max rows
+        maxRows = data.length,
     } = props;
+
     // rendered data
-    const [dataToRender, setDataToRender] = useState<TObject<any>[]>(data);
-    //
-    const { sortColumn, sortOrder, handleSort } = useSort();
-    const { searchQuery, handleSearch } = useSearch();
-    const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick } = useFilter({
+
+    const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
+    const { searchQuery, handleSearch, clearSearch } = useSearch();
+    const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
-        dataToRender,
-        setDataToRender,
         filterableColumns,
-        includeSearch,
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        keysToRender,
-        sortKeys,
     });
+    const allKeys = useMemo(() => {
+        return Array.from(
+            data.reduce<Set<string>>((keys, obj) => {
+                Object.keys(obj).forEach((key) => keys.add(key));
+                return keys;
+            }, new Set<string>())
+        );
+    }, [data]);
+
+    const dataToRender = useMemo(() => {
+        let filtered = data;
+        // search
+        if (includeSearch && searchQuery.length > 0) {
+            filtered = data.filter((item) => allKeys.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
+            // clearFilter();
+            // clearSort();
+        }
+        // filter
+        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
+            console.log("filtering ...");
+            Object.keys(filters).forEach((key) => {
+                if (filters[key].length > 0) {
+                    filtered = filtered.filter((item) => filters[key].includes(item[key]));
+                }
+            });
+            // clearSearch();
+            // clearSort();
+        }
+        // sort
+        if (sortColumn !== null && sortOrder !== null && sortKeys?.length > 0) {
+            console.log("sorting ...");
+            filtered = filtered.sort((a, b) => {
+                const aValue = a[sortKeys[sortColumn]];
+                const bValue = b[sortKeys[sortColumn]];
+                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+                return 0;
+            });
+            // clearFilter();
+            // clearSearch();
+        }
+        const result = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        return result;
+    }, [searchQuery, sortColumn, sortOrder, filters, data]);
+
     const providerValues = {
         ...props,
-        //
+        // props with default values
         direction,
         keysToRender,
         filterableColumns,
-        //
+        maxRows,
+        // states and functions
         sortColumn,
         sortOrder,
         handleSort,
@@ -85,7 +126,9 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         filterOptions,
         handleFilterChange,
         handleFilterClick,
+        closeFilterWindow,
     };
+
     return (
         <TableContext.Provider value={providerValues}>
             <div className={`flex flex-col gap-2 ${containerClassName}`} style={{ ...containerStyle, direction: direction }}>
@@ -97,30 +140,36 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
 export const Table = (props: TableProps) => {
     const {
-        containerStyle = {},
+        containerHeaderClassName,
         optionalElement,
-        containerClassName = "",
-        tableContainerClass = "",
-        tableContainerStyle = {},
-        tableStyle = {},
+        tableContainerClass,
+        tableContainerStyle,
+        tableStyle,
         includeSearch,
         exportToExcelKeys,
         sumColumns,
         direction,
+        maxRowsLabel1,
+        maxRowsLabel2,
     } = props;
     return (
         <TableProvider {...props}>
             {/* container header */}
-            <div style={{ direction: direction }} className="flex justify-start gap-2 ">
+            <div style={{ direction: direction }} className={cn("flex justify-start items-center gap-2", containerHeaderClassName || "")}>
                 {/* search */}
                 {includeSearch && <Search render={false} />}
                 {/* export to excel */}
                 {exportToExcelKeys && <ExportToExcel render={false} />}
+                {/* max rows */}
+                {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
                 {/* optional element */}
                 {optionalElement && optionalElement}
             </div>
             {/* table */}
-            <div style={{ ...tableContainerStyle, direction: direction }} className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass}`}>
+            <div
+                style={{ ...(tableContainerStyle || {}), direction: direction }}
+                className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass || ""}`}
+            >
                 <table style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />
                     <TableBody render={false} />
