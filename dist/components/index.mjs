@@ -1050,49 +1050,52 @@ var Filter = memo(function(param) {
                     })
                 })
             }),
-            filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
-                className: "\n                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow",
-                children: [
-                    /* @__PURE__ */ jsxs4("div", {
-                        className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
-                        children: [
-                            /* @__PURE__ */ jsx6("div", {
-                                className: "text-start",
-                                children: filterLabel + " " + filterableColumn.header
-                            }),
-                            /* @__PURE__ */ jsx6("button", {
-                                onClick: closeFilterWindow,
-                                children: /* @__PURE__ */ jsx6(RedXSvg2, {})
+            /* @__PURE__ */ jsx6("div", {
+                className: "relative",
+                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
+                    className: "absolute top-0 ".concat(displayRight ? "right-0" : "left-0", " w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                    children: [
+                        /* @__PURE__ */ jsxs4("div", {
+                            className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
+                            children: [
+                                /* @__PURE__ */ jsx6("div", {
+                                    className: "text-start",
+                                    children: filterLabel + " " + filterableColumn.header
+                                }),
+                                /* @__PURE__ */ jsx6("button", {
+                                    onClick: closeFilterWindow,
+                                    children: /* @__PURE__ */ jsx6(RedXSvg2, {})
+                                })
+                            ]
+                        }),
+                        /* @__PURE__ */ jsx6("div", {
+                            className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
+                            children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
+                                var _filters_filterableColumn_dataKey;
+                                return /* @__PURE__ */ jsxs4("div", {
+                                    className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
+                                    children: [
+                                        /* @__PURE__ */ jsx6("input", {
+                                            type: "checkbox",
+                                            className: "cursor-pointer",
+                                            checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
+                                            onChange: function() {
+                                                return handleFilterChange(filterableColumn.dataKey, option);
+                                            }
+                                        }),
+                                        /* @__PURE__ */ jsx6("button", {
+                                            className: "flex-1 text-start px-2",
+                                            onClick: function() {
+                                                return handleFilterChange(filterableColumn.dataKey, option);
+                                            },
+                                            children: filterableColumn.ui ? filterableColumn.ui(option) : option
+                                        })
+                                    ]
+                                }, i);
                             })
-                        ]
-                    }),
-                    /* @__PURE__ */ jsx6("div", {
-                        className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
-                        children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
-                            var _filters_filterableColumn_dataKey;
-                            return /* @__PURE__ */ jsxs4("div", {
-                                className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
-                                children: [
-                                    /* @__PURE__ */ jsx6("input", {
-                                        type: "checkbox",
-                                        className: "cursor-pointer",
-                                        checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
-                                        onChange: function() {
-                                            return handleFilterChange(filterableColumn.dataKey, option);
-                                        }
-                                    }),
-                                    /* @__PURE__ */ jsx6("button", {
-                                        className: "flex-1 text-start px-2",
-                                        onClick: function() {
-                                            return handleFilterChange(filterableColumn.dataKey, option);
-                                        },
-                                        children: filterableColumn.ui ? filterableColumn.ui(option) : option
-                                    })
-                                ]
-                            }, i);
                         })
-                    })
-                ]
+                    ]
+                })
             })
         ]
     });

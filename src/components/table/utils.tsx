@@ -110,34 +110,39 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                 )}
             </button>
             {/* filter popup */}
-            {filterPopupsDisplay === filterableColumn.dataKey && (
-                <div
-                    className={`
-                              w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
-                >
-                    <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
-                        <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
-                        <button onClick={closeFilterWindow}>
-                            <RedXSvg2 />
-                        </button>
+            <div className="relative">
+                {filterPopupsDisplay === filterableColumn.dataKey && (
+                    <div
+                        className={`absolute top-0 ${
+                            displayRight ? "right-0" : "left-0"
+                        } w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
+                        // className={`absolute z-20 top-1 ${displayRight ? "right-[-20%]" : "left-[-20%]"}
+                        //           w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
+                    >
+                        <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
+                            <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
+                            <button onClick={closeFilterWindow}>
+                                <RedXSvg2 />
+                            </button>
+                        </div>
+                        <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
+                            {filterOptions[filterableColumn.dataKey]?.map((option: string, i: number) => (
+                                <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
+                                    <input
+                                        type="checkbox"
+                                        className="cursor-pointer"
+                                        checked={filters[filterableColumn.dataKey]?.includes(option)}
+                                        onChange={() => handleFilterChange(filterableColumn.dataKey, option)}
+                                    />
+                                    <button className="flex-1 text-start px-2" onClick={() => handleFilterChange(filterableColumn.dataKey, option)}>
+                                        {filterableColumn.ui ? filterableColumn.ui(option) : option}
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
-                        {filterOptions[filterableColumn.dataKey]?.map((option: string, i: number) => (
-                            <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
-                                <input
-                                    type="checkbox"
-                                    className="cursor-pointer"
-                                    checked={filters[filterableColumn.dataKey]?.includes(option)}
-                                    onChange={() => handleFilterChange(filterableColumn.dataKey, option)}
-                                />
-                                <button className="flex-1 text-start px-2" onClick={() => handleFilterChange(filterableColumn.dataKey, option)}>
-                                    {filterableColumn.ui ? filterableColumn.ui(option) : option}
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 });
