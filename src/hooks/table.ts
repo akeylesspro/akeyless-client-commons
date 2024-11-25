@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState, useTransition } from "react";
 import { TableContext } from "../components";
 import { TObject } from "akeyless-types-commons";
 import { UseFilterProps } from "../types";
@@ -59,7 +59,9 @@ export const useFilter = ({ data, filterableColumns }: UseFilterProps) => {
         clearFilter,
     };
 };
+
 type SortOptions = "asc" | "desc";
+
 export const useSort = () => {
     const [sortColumn, setSortColumn] = useState<number | null>(null);
     const [sortOrder, setSortOrder] = useState<SortOptions | null>(null);
@@ -81,17 +83,27 @@ export const useSort = () => {
     };
     return { sortColumn, sortOrder, handleSort, clearSort };
 };
+
 export const useSearch = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [isPending, startTransition] = useTransition();
+
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
+        const value = e.target.value;
+        startTransition(() => {
+            setSearchQuery(value);
+        });
     };
+
     const clearSearch = () => {
         if (searchQuery) {
-            setSearchQuery("");
+            startTransition(() => {
+                setSearchQuery("");
+            });
         }
     };
-    return { searchQuery, handleSearch, clearSearch };
+
+    return { searchQuery, handleSearch, clearSearch, isPending };
 };
 
 export const useCreateTableStore = () => {

@@ -117,6 +117,7 @@ declare const useSearch: () => {
     searchQuery: string;
     handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
     clearSearch: () => void;
+    isPending: boolean;
 };
 declare const useCreateTableStore: () => zustand.UseBoundStore<zustand.StoreApi<any>>;
 

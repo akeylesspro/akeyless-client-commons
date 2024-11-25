@@ -417,9 +417,6 @@ body {
 .left-1 {
   left: 0.25rem;
 }
-.left-\[-20\%\] {
-  left: -20%;
-}
 .left-\[100\%\] {
   left: 100%;
 }
@@ -431,9 +428,6 @@ body {
 }
 .right-1 {
   right: 0.25rem;
-}
-.right-\[-20\%\] {
-  right: -20%;
 }
 .right-\[100\%\] {
   right: 100%;
@@ -661,15 +655,15 @@ body {
 }
 .border-\[\#547f22\] {
   --tw-border-opacity: 1;
-  border-color: rgb(84 127 34 / var(--tw-border-opacity));
+  border-color: rgb(84 127 34 / var(--tw-border-opacity, 1));
 }
 .border-black {
   --tw-border-opacity: 1;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+  border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
 }
 .border-gray-300 {
   --tw-border-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
 .border-input {
   border-color: hsl(var(--input));
@@ -679,23 +673,23 @@ body {
 }
 .bg-\[\#282828\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(40 40 40 / var(--tw-bg-opacity));
+  background-color: rgb(40 40 40 / var(--tw-bg-opacity, 1));
 }
 .bg-\[\#52d66b\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(82 214 107 / var(--tw-bg-opacity));
+  background-color: rgb(82 214 107 / var(--tw-bg-opacity, 1));
 }
 .bg-\[\#547f22\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(84 127 34 / var(--tw-bg-opacity));
+  background-color: rgb(84 127 34 / var(--tw-bg-opacity, 1));
 }
 .bg-\[\#699a2c\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(105 154 44 / var(--tw-bg-opacity));
+  background-color: rgb(105 154 44 / var(--tw-bg-opacity, 1));
 }
 .bg-\[\#c8ccd4\] {
   --tw-bg-opacity: 1;
-  background-color: rgb(200 204 212 / var(--tw-bg-opacity));
+  background-color: rgb(200 204 212 / var(--tw-bg-opacity, 1));
 }
 .bg-background {
   background-color: hsl(var(--background));
@@ -717,7 +711,7 @@ body {
 }
 .bg-white {
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 .bg-none {
   background-image: none;
@@ -852,15 +846,15 @@ body {
 }
 .text-\[\#f22\] {
   --tw-text-opacity: 1;
-  color: rgb(255 34 34 / var(--tw-text-opacity));
+  color: rgb(255 34 34 / var(--tw-text-opacity, 1));
 }
 .text-\[\#fff\] {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 .text-black {
   --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 .text-destructive-foreground {
   color: hsl(var(--destructive-foreground));
@@ -882,7 +876,7 @@ body {
 }
 .text-white {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 .underline-offset-4 {
   text-underline-offset: 4px;
@@ -1007,11 +1001,11 @@ body {
 }
 .hover\:bg-\[\#424242\]:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(66 66 66 / var(--tw-bg-opacity));
+  background-color: rgb(66 66 66 / var(--tw-bg-opacity, 1));
 }
 .hover\:bg-\[\#547f22\]:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(84 127 34 / var(--tw-bg-opacity));
+  background-color: rgb(84 127 34 / var(--tw-bg-opacity, 1));
 }
 .hover\:bg-accent:hover {
   background-color: hsl(var(--accent));
@@ -1024,7 +1018,7 @@ body {
 }
 .hover\:bg-gray-200:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 }
 .hover\:bg-muted\/50:hover {
   background-color: hsl(var(--muted) / 0.5);
@@ -1040,14 +1034,14 @@ body {
 }
 .hover\:text-\[\#fff\]:hover {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 .hover\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));
 }
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 .hover\:underline:hover {
   text-decoration-line: underline;

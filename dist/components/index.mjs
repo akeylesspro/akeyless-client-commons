@@ -819,7 +819,7 @@ var useValidation = function(validationType, requireError) {
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/hooks/table.ts
-import { useContext, useState } from "react";
+import { useContext, useState, useTransition } from "react";
 import { create } from "zustand";
 import { isEqual } from "lodash";
 var useTableContext = function() {
@@ -908,18 +908,25 @@ var useSort = function() {
 };
 var useSearch = function() {
     var _useState = _sliced_to_array(useState(""), 2), searchQuery = _useState[0], setSearchQuery = _useState[1];
+    var _useTransition = _sliced_to_array(useTransition(), 2), isPending = _useTransition[0], startTransition = _useTransition[1];
     var handleSearch = function(e) {
-        setSearchQuery(e.target.value);
+        var value = e.target.value;
+        startTransition(function() {
+            setSearchQuery(value);
+        });
     };
     var clearSearch = function() {
         if (searchQuery) {
-            setSearchQuery("");
+            startTransition(function() {
+                setSearchQuery("");
+            });
         }
     };
     return {
         searchQuery: searchQuery,
         handleSearch: handleSearch,
-        clearSearch: clearSearch
+        clearSearch: clearSearch,
+        isPending: isPending
     };
 };
 // src/hooks/WebWorker.ts
@@ -1013,7 +1020,7 @@ var TableHead = memo(function(props) {
     });
 });
 var TableBody = memo(function(props) {
-    var _useTableContext = useTableContext(), onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
+    var dataToRender = useTableContext().dataToRender;
     return /* @__PURE__ */ jsx6("tbody", {
         children: dataToRender.map(function(item, index) {
             return /* @__PURE__ */ jsx6(TableRow, {

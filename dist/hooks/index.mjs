@@ -480,7 +480,7 @@ var useSnapshotBulk = function(configs, label) {
     ]);
 };
 // src/hooks/table.ts
-import { useContext as useContext2, useState as useState3 } from "react";
+import { useContext as useContext2, useState as useState3, useTransition } from "react";
 // src/components/utils/Checkboxes.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 // src/components/utils/ErrorBoundary.tsx
@@ -842,7 +842,7 @@ var TableHead = memo(function(props) {
     });
 });
 var TableBody = memo(function(props) {
-    var _useTableContext = useTableContext(), onRowClick = _useTableContext.onRowClick, dataToRender = _useTableContext.dataToRender, keysToRender = _useTableContext.keysToRender, rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle;
+    var dataToRender = useTableContext().dataToRender;
     return /* @__PURE__ */ jsx6("tbody", {
         children: dataToRender.map(function(item, index) {
             return /* @__PURE__ */ jsx6(TableRow, {
@@ -1176,18 +1176,25 @@ var useSort = function() {
 };
 var useSearch = function() {
     var _useState3 = _sliced_to_array(useState3(""), 2), searchQuery = _useState3[0], setSearchQuery = _useState3[1];
+    var _useTransition = _sliced_to_array(useTransition(), 2), isPending = _useTransition[0], startTransition = _useTransition[1];
     var handleSearch = function(e) {
-        setSearchQuery(e.target.value);
+        var value = e.target.value;
+        startTransition(function() {
+            setSearchQuery(value);
+        });
     };
     var clearSearch = function() {
         if (searchQuery) {
-            setSearchQuery("");
+            startTransition(function() {
+                setSearchQuery("");
+            });
         }
     };
     return {
         searchQuery: searchQuery,
         handleSearch: handleSearch,
-        clearSearch: clearSearch
+        clearSearch: clearSearch,
+        isPending: isPending
     };
 };
 var useCreateTableStore = function() {
