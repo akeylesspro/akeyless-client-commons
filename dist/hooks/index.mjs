@@ -385,9 +385,7 @@ var snapshot = function(config, snapshotsFirstTime) {
             var _config_onFirstTime, _config_extraParsers;
             snapshotsFirstTime.push(config.collectionName);
             var documents = snapshot2.docs.map(function(doc2) {
-                return _object_spread({
-                    id: doc2.id
-                }, doc2.data());
+                return simpleExtractData(doc2);
             });
             (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, documents, config);
             (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
