@@ -417,11 +417,11 @@ body {
 .left-1 {
   left: 0.25rem;
 }
-.left-\[-100\%\] {
-  left: -100%;
-}
 .left-\[-20\%\] {
   left: -20%;
+}
+.left-\[100\%\] {
+  left: 100%;
 }
 .left-\[1px\] {
   left: 1px;
@@ -432,11 +432,11 @@ body {
 .right-1 {
   right: 0.25rem;
 }
-.right-\[-100\%\] {
-  right: -100%;
-}
 .right-\[-20\%\] {
   right: -20%;
+}
+.right-\[100\%\] {
+  right: 100%;
 }
 .top-0 {
   top: 0px;
