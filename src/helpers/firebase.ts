@@ -122,12 +122,12 @@ export const extractAlertsData = (doc: DocumentSnapshot<DocumentData>) => {
     };
 };
 
-export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>):TObject<any> => {
+export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>): TObject<any> => {
     const docData = doc.data();
     return {
         ...docData,
         id: doc.id,
-    } ;
+    };
 };
 
 export const extractSiteData = (doc: DocumentSnapshot<DocumentData>) => {
@@ -365,13 +365,12 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
         (snapshot: QuerySnapshot<DocumentData>) => {
             if (!snapshotsFirstTime.includes(config.collectionName)) {
                 snapshotsFirstTime.push(config.collectionName);
-                const documents = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+                const documents = snapshot.docs.map((doc) => simpleExtractData(doc));
 
                 config.onFirstTime?.(documents, config);
                 config.extraParsers?.forEach((extraParser) => {
                     extraParser.onFirstTime?.(documents, config);
                 });
-
                 resolvePromise();
             } else {
                 const addedDocs = [];

@@ -80,9 +80,9 @@ export const TableHead = memo((props: any) => {
 });
 
 export const TableBody = memo((props: any) => {
-    const {  onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
+    const { onRowClick, dataToRender, keysToRender, rowStyles, cellStyle } = useTableContext();
     return (
-        <tbody >
+        <tbody>
             {dataToRender.map((item, index) => (
                 <TableRow key={index} item={item} />
             ))}
@@ -118,7 +118,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                     <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
                         <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
                         <button onClick={closeFilterWindow}>
-                            <RedXSvg2/>
+                            <RedXSvg2 />
                         </button>
                     </div>
                     <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
