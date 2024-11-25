@@ -61,7 +61,7 @@ export const TableHead = memo((props: any) => {
                             title={sortDisplay ? `${sortLabel} ${header}` : header}
                             style={headerCellStyle}
                             key={index}
-                            className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
+                            className=" border-black border-[1px] max-w-[130px] px-2 text-center relative flex justify-center items-center"
                         >
                             {/* header value */}
                             <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
@@ -96,7 +96,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const displayRight = (direction === "rtl" && index === headers.length - 1) || (direction === "ltr" && index !== headers.length - 1);
 
     return (
-        <div className="bg-red-500 w-full">
+        <div className="bg-red-500 w-full h-full">
             {/* filter button */}
             <button
                 title={filterLabel + " " + filterableColumn.header}
@@ -112,7 +112,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
             {/* filter popup */}
             {filterPopupsDisplay === filterableColumn.dataKey && (
                 <div
-                    className={`absolute z-20 top-1 ${displayRight ? "right-[-165px]" : "left-[-80px]"}
+                    className={`absolute z-20 top-1 ${displayRight ? "right-[-20%]" : "left-[-20%]"}
                               w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
                 >
                     <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
