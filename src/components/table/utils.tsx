@@ -119,7 +119,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                     <div
                         className={`absolute top-[-20px] z-20 ${
                             displayRight ? " left-[100%]" : "right-[100%]"
-                        } w-40 h-32 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
+                        } w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
                     >
                         <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
                             <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
