@@ -1032,7 +1032,7 @@ var ExportToExcel = memo(function(props) {
 var Search = memo(function(props) {
     var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
     return /* @__PURE__ */ jsx6("input", {
-        className: "w-40 border-black border-[1px] px-2 rounded-md ".concat(searchInputClassName),
+        className: cn("w-40 border-black border-[1px] px-2 rounded-md", searchInputClassName),
         type: "text",
         placeholder: searchPlaceHolder,
         value: searchQuery,

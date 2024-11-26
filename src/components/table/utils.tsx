@@ -215,7 +215,7 @@ export const Search = memo((props: any) => {
     const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle } = useTableContext();
     return (
         <input
-            className={`w-40 border-black border-[1px] px-2 rounded-md ${searchInputClassName}`}
+            className={ cn("w-40 border-black border-[1px] px-2 rounded-md",searchInputClassName)}
             type="text"
             placeholder={searchPlaceHolder}
             value={searchQuery}
