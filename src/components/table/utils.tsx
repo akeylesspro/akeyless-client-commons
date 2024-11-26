@@ -152,7 +152,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
 export const MaxRowsLabel = memo((props: any) => {
     const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, maxRowsContainerClassName } = useTableContext();
     return (
-        <div className={cn("flex justify-start items-center gap-3", maxRowsContainerClassName || "")}>
+        <div className={cn("flex justify-start items-center gap-1", maxRowsContainerClassName || "")}>
             <div>{maxRowsLabel1}</div>
             <div>{maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows}</div>
             <div>{maxRowsLabel2}</div>

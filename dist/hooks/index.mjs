@@ -932,7 +932,7 @@ var Filter = memo(function(param) {
 var MaxRowsLabel = memo(function(props) {
     var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
     return /* @__PURE__ */ jsxs4("div", {
-        className: cn("flex justify-start items-center gap-3", maxRowsContainerClassName || ""),
+        className: cn("flex justify-start items-center gap-1", maxRowsContainerClassName || ""),
         children: [
             /* @__PURE__ */ jsx6("div", {
                 children: maxRowsLabel1
