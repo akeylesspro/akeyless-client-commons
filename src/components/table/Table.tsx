@@ -23,7 +23,11 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         tableContainerClass = "",
         tableContainerStyle = {},
         tableStyle = {},
+        // row style
         rowStyles = {},
+        rowClassName,
+        // cell style
+        cellClassName,
         cellStyle = {},
         // header styles
         headerStyle = {},
@@ -32,7 +36,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         // search
         searchInputClassName = "",
         includeSearch,
-        searchPlaceHolder = "Search in table ...",
+        searchPlaceHolder,
         // sort
         sortKeys,
         sortLabel = "Sort by",
@@ -103,8 +107,9 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
             // clearFilter();
             // clearSearch();
         }
-        const result = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
-        return result;
+        const renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+
+        return { renderedData, filtered };
     }, [searchQuery, sortColumn, sortOrder, filters, data]);
 
     const providerValues = {

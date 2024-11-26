@@ -13,7 +13,10 @@ export interface TableProviderType {
     handleSort: (columnIndex: number) => void;
     searchQuery: string;
     handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    dataToRender: TObject<any>[];
+    dataToRender: {
+        renderedData: TObject<any>[];
+        filtered: TObject<any>[];
+    };
     filters: TObject<string[]>;
     filterPopupsDisplay: string;
     filterOptions: any;
@@ -40,6 +43,7 @@ export interface TableProps {
     tableContainerClass?: string;
     tableStyle?: React.CSSProperties;
     rowStyles?: React.CSSProperties;
+    rowClassName?:string
     headerStyle?: React.CSSProperties;
     headerCellStyle?: React.CSSProperties;
     cellStyle?: React.CSSProperties;

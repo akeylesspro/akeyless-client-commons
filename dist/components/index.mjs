@@ -949,9 +949,9 @@ var getFixedNumber = function() {
 };
 var TableRow = function(param) {
     var item = param.item;
-    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
+    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
     return /* @__PURE__ */ jsx6("tr", {
-        className: "hover:bg-[#424242] hover:text-[#fff]",
+        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
         onClick: function() {
             return onRowClick && onRowClick(item);
         },
@@ -1022,7 +1022,7 @@ var TableHead = memo(function(props) {
 var TableBody = memo(function(props) {
     var dataToRender = useTableContext().dataToRender;
     return /* @__PURE__ */ jsx6("tbody", {
-        children: dataToRender.map(function(item, index) {
+        children: dataToRender.renderedData.map(function(item, index) {
             return /* @__PURE__ */ jsx6(TableRow, {
                 item: item
             }, index);
@@ -1116,13 +1116,13 @@ var MaxRowsLabel = memo(function(props) {
                 children: maxRowsLabel1
             }),
             /* @__PURE__ */ jsx6("div", {
-                children: maxRows > dataToRender.length ? dataToRender.length : maxRows
+                children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
             }),
             /* @__PURE__ */ jsx6("div", {
                 children: maxRowsLabel2
             }),
             /* @__PURE__ */ jsx6("div", {
-                children: data.length
+                children: dataToRender.filtered.length
             })
         ]
     });
@@ -1130,7 +1130,7 @@ var MaxRowsLabel = memo(function(props) {
 var ExportToExcel = memo(function(props) {
     var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
     var addPropertiesToExcel = function(properties) {
-        var newData = _to_consumable_array(dataToRender);
+        var newData = _to_consumable_array(dataToRender.renderedData);
         var newHeaders = _to_consumable_array(headers);
         properties.forEach(function(val) {
             newHeaders.unshift(val.header);
@@ -1156,7 +1156,7 @@ var ExportToExcel = memo(function(props) {
                         workbook = new ExcelJS.Workbook();
                         worksheet = workbook.addWorksheet("Sheet1");
                         dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
-                            data: dataToRender,
+                            data: dataToRender.renderedData,
                             headers: headers
                         };
                         worksheet.addRow(dataToExport.headers);
@@ -1170,7 +1170,7 @@ var ExportToExcel = memo(function(props) {
                             sumColumns.forEach(function(val) {
                                 var sumRow = worksheet.addRow([]);
                                 sumRow.getCell(1).value = val.label;
-                                var value = dataToRender.reduce(function(acc, v) {
+                                var value = dataToRender.renderedData.reduce(function(acc, v) {
                                     return acc + Number(v[val.dataKey]) || 0;
                                 }, 0).toFixed(2);
                                 sumRow.getCell(2).value = value;
@@ -1234,7 +1234,7 @@ var Summary = memo(function(props) {
                 style: summaryRowStyle,
                 className: "flex gap-3",
                 children: sumColumns.map(function(val) {
-                    var sum_res = dataToRender.reduce(function(acc, v) {
+                    var sum_res = dataToRender.renderedData.reduce(function(acc, v) {
                         return acc + Number(v[val.dataKey]) || 0;
                     }, 0);
                     var sum_value = getFixedNumber(sum_res);
@@ -1264,9 +1264,11 @@ var TableContext = createContext(null);
 var TableProvider = function(props) {
     var // basic props
     data = props.data, headers = props.headers, optionalElement = props.optionalElement, _props_keysToRender = props.keysToRender, keysToRender = _props_keysToRender === void 0 ? [] : _props_keysToRender, _props_direction = props.direction, direction = _props_direction === void 0 ? "ltr" : _props_direction, _props_onRowClick = props.onRowClick, onRowClick = _props_onRowClick === void 0 ? function(data2) {} : _props_onRowClick, // container styles props
-    containerStyle = props.containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
+    containerStyle = props.containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.// row style
+    rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, rowClassName = props.rowClassName, // cell style
+    cellClassName = props.cellClassName, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
     headerStyle, headerStyle = _props_headerStyle === void 0 ? {} : _props_headerStyle, headerCellStyle = props.headerCellStyle, _props_searchInputStyle = props.searchInputStyle, searchInputStyle = _props_searchInputStyle === void 0 ? {} : _props_searchInputStyle, _props_searchInputClassName = props.// search
-    searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, includeSearch = props.includeSearch, _props_searchPlaceHolder = props.searchPlaceHolder, searchPlaceHolder = _props_searchPlaceHolder === void 0 ? "Search in table ..." : _props_searchPlaceHolder, // sort
+    searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, includeSearch = props.includeSearch, searchPlaceHolder = props.searchPlaceHolder, // sort
     sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
     filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
     exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
@@ -1318,8 +1320,11 @@ var TableProvider = function(props) {
                 return 0;
             });
         }
-        var result = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
-        return result;
+        var renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        return {
+            renderedData: renderedData,
+            filtered: filtered
+        };
     }, [
         searchQuery,
         sortColumn,

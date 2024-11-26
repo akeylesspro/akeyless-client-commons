@@ -771,9 +771,9 @@ var getFixedNumber = function() {
 };
 var TableRow = function(param) {
     var item = param.item;
-    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, cellStyle = _useTableContext.cellStyle, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
+    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
     return /* @__PURE__ */ jsx6("tr", {
-        className: "hover:bg-[#424242] hover:text-[#fff]",
+        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
         onClick: function() {
             return onRowClick && onRowClick(item);
         },
@@ -844,7 +844,7 @@ var TableHead = memo(function(props) {
 var TableBody = memo(function(props) {
     var dataToRender = useTableContext().dataToRender;
     return /* @__PURE__ */ jsx6("tbody", {
-        children: dataToRender.map(function(item, index) {
+        children: dataToRender.renderedData.map(function(item, index) {
             return /* @__PURE__ */ jsx6(TableRow, {
                 item: item
             }, index);
@@ -938,13 +938,13 @@ var MaxRowsLabel = memo(function(props) {
                 children: maxRowsLabel1
             }),
             /* @__PURE__ */ jsx6("div", {
-                children: maxRows > dataToRender.length ? dataToRender.length : maxRows
+                children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
             }),
             /* @__PURE__ */ jsx6("div", {
                 children: maxRowsLabel2
             }),
             /* @__PURE__ */ jsx6("div", {
-                children: data.length
+                children: dataToRender.filtered.length
             })
         ]
     });
@@ -952,7 +952,7 @@ var MaxRowsLabel = memo(function(props) {
 var ExportToExcel = memo(function(props) {
     var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
     var addPropertiesToExcel = function(properties) {
-        var newData = _to_consumable_array(dataToRender);
+        var newData = _to_consumable_array(dataToRender.renderedData);
         var newHeaders = _to_consumable_array(headers);
         properties.forEach(function(val) {
             newHeaders.unshift(val.header);
@@ -978,7 +978,7 @@ var ExportToExcel = memo(function(props) {
                         workbook = new ExcelJS.Workbook();
                         worksheet = workbook.addWorksheet("Sheet1");
                         dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
-                            data: dataToRender,
+                            data: dataToRender.renderedData,
                             headers: headers
                         };
                         worksheet.addRow(dataToExport.headers);
@@ -992,7 +992,7 @@ var ExportToExcel = memo(function(props) {
                             sumColumns.forEach(function(val) {
                                 var sumRow = worksheet.addRow([]);
                                 sumRow.getCell(1).value = val.label;
-                                var value = dataToRender.reduce(function(acc, v) {
+                                var value = dataToRender.renderedData.reduce(function(acc, v) {
                                     return acc + Number(v[val.dataKey]) || 0;
                                 }, 0).toFixed(2);
                                 sumRow.getCell(2).value = value;
@@ -1056,7 +1056,7 @@ var Summary = memo(function(props) {
                 style: summaryRowStyle,
                 className: "flex gap-3",
                 children: sumColumns.map(function(val) {
-                    var sum_res = dataToRender.reduce(function(acc, v) {
+                    var sum_res = dataToRender.renderedData.reduce(function(acc, v) {
                         return acc + Number(v[val.dataKey]) || 0;
                     }, 0);
                     var sum_value = getFixedNumber(sum_res);

@@ -999,13 +999,13 @@ body {
 .placeholder\:text-muted-foreground::placeholder {
   color: hsl(var(--muted-foreground));
 }
-.hover\:bg-\[\#424242\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(66 66 66 / var(--tw-bg-opacity, 1));
-}
 .hover\:bg-\[\#547f22\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(84 127 34 / var(--tw-bg-opacity, 1));
+}
+.hover\:bg-\[\#808080\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(128 128 128 / var(--tw-bg-opacity, 1));
 }
 .hover\:bg-accent:hover {
   background-color: hsl(var(--accent));

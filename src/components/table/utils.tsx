@@ -14,10 +14,14 @@ export const getFixedNumber = (number = 0, fix = 4) => {
 };
 
 export const TableRow = ({ item }: { item: TObject<any> }) => {
-    const { rowStyles, cellStyle, keysToRender, onRowClick } = useTableContext();
+    const { rowStyles, rowClassName, keysToRender, onRowClick } = useTableContext();
 
     return (
-        <tr className="hover:bg-[#424242] hover:text-[#fff]" onClick={() => onRowClick && onRowClick(item)} style={rowStyles}>
+        <tr
+            className={cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || "")}
+            onClick={() => onRowClick && onRowClick(item)}
+            style={rowStyles}
+        >
             {keysToRender.map((key, index) => (
                 <TableCell key={index} value={item[key]} />
             ))}
@@ -83,7 +87,7 @@ export const TableBody = memo((props: any) => {
     const { dataToRender } = useTableContext();
     return (
         <tbody>
-            {dataToRender.map((item, index) => (
+            {dataToRender.renderedData.map((item, index) => (
                 <TableRow key={index} item={item} />
             ))}
         </tbody>
@@ -150,9 +154,9 @@ export const MaxRowsLabel = memo((props: any) => {
     return (
         <div className={cn("flex justify-start items-center gap-3", maxRowsContainerClassName || "")}>
             <div>{maxRowsLabel1}</div>
-            <div>{maxRows > dataToRender.length ? dataToRender.length : maxRows}</div>
+            <div>{maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows}</div>
             <div>{maxRowsLabel2}</div>
-            <div>{data.length}</div>
+            <div>{dataToRender.filtered.length}</div>
         </div>
     );
 });
@@ -160,7 +164,7 @@ export const MaxRowsLabel = memo((props: any) => {
 export const ExportToExcel = memo((props: any) => {
     const { exportToExcelKeys, dataToAddToExcelTable, excelFileName, dataToRender, headers, sumColumns, exportExcelLabel } = useTableContext();
     const addPropertiesToExcel = (properties: { key: string; value: any; header: string }[]) => {
-        let newData = [...dataToRender];
+        let newData = [...dataToRender.renderedData];
         let newHeaders = [...headers];
         properties.forEach((val) => {
             newHeaders.unshift(val.header);
@@ -174,7 +178,7 @@ export const ExportToExcel = memo((props: any) => {
             // create worksheet
             const workbook = new ExcelJS.Workbook();
             const worksheet = workbook.addWorksheet("Sheet1");
-            const dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : { data: dataToRender, headers };
+            const dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : { data: dataToRender.renderedData, headers };
             // add rows
             worksheet.addRow(dataToExport.headers);
             dataToExport.data.forEach((item: Record<string, any>) => {
@@ -186,7 +190,7 @@ export const ExportToExcel = memo((props: any) => {
                 sumColumns.forEach((val) => {
                     const sumRow = worksheet.addRow([]);
                     sumRow.getCell(1).value = val.label;
-                    const value = dataToRender
+                    const value = dataToRender.renderedData
                         .reduce((acc, v) => {
                             return acc + Number(v[val.dataKey]) || 0;
                         }, 0)
@@ -232,7 +236,7 @@ export const Summary = memo((props: any) => {
             <div style={summaryLabelStyle}>{summaryLabel}</div>
             <div style={summaryRowStyle} className="flex gap-3">
                 {sumColumns.map((val) => {
-                    const sum_res = dataToRender.reduce((acc, v) => acc + Number(v[val.dataKey]) || 0, 0);
+                    const sum_res = dataToRender.renderedData.reduce((acc, v) => acc + Number(v[val.dataKey]) || 0, 0);
                     const sum_value = getFixedNumber(sum_res);
                     return (
                         <div key={val.dataKey + val.label} className="flex gap-1 justify-start">
