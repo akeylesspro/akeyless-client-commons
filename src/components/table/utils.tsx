@@ -152,7 +152,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
 export const MaxRowsLabel = memo((props: any) => {
     const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, maxRowsContainerClassName } = useTableContext();
     return (
-        <div className={cn("flex justify-start items-center gap-1", maxRowsContainerClassName || "")}>
+        <div className={cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || "")}>
             <div>{maxRowsLabel1}</div>
             <div>{maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows}</div>
             <div>{maxRowsLabel2}</div>
@@ -215,7 +215,7 @@ export const Search = memo((props: any) => {
     const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle } = useTableContext();
     return (
         <input
-            className={ cn("w-40 border-black border-[1px] px-2 rounded-md",searchInputClassName)}
+            className={cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName)}
             type="text"
             placeholder={searchPlaceHolder}
             value={searchQuery}

@@ -1110,7 +1110,7 @@ var Filter = memo(function(param) {
 var MaxRowsLabel = memo(function(props) {
     var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
     return /* @__PURE__ */ jsxs4("div", {
-        className: cn("flex justify-start items-center gap-1", maxRowsContainerClassName || ""),
+        className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
         children: [
             /* @__PURE__ */ jsx6("div", {
                 children: maxRowsLabel1
@@ -1210,7 +1210,7 @@ var ExportToExcel = memo(function(props) {
 var Search = memo(function(props) {
     var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
     return /* @__PURE__ */ jsx6("input", {
-        className: cn("w-40 border-black border-[1px] px-2 rounded-md", searchInputClassName),
+        className: cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName),
         type: "text",
         placeholder: searchPlaceHolder,
         value: searchQuery,
