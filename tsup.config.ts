@@ -4,7 +4,7 @@ import { dependencies } from "./package.json";
 const externalDeps = [...Object.keys(dependencies || {})];
 
 const baseConfig = {
-    format: ["esm"] as Format[],
+    format: ["esm","cjs"] as Format[],
     dts: true,
     sourcemap: true,
     external: externalDeps,
