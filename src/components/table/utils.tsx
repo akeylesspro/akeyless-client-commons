@@ -54,7 +54,7 @@ export const TableHead = memo((props: any) => {
         filterableColumns = [],
         sortLabel,
     } = useTableContext();
-    const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys.length), [sortKeys]);
+    const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys?.length), [sortKeys]);
     return (
         <thead className="bg-[#282828] text-white sticky top-0">
             <tr style={headerStyle}>

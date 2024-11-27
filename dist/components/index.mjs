@@ -980,7 +980,7 @@ var TableCell = function(param) {
 var TableHead = memo(function(props) {
     var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
     var sortDisplay = useMemo2(function() {
-        return Boolean(sortKeys.length);
+        return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
     }, [
         sortKeys
     ]);
