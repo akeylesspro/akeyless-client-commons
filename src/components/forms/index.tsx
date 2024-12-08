@@ -73,7 +73,7 @@ export const SelectContainer = ({
                 )}
 
                 {isOpen && (
-                    <div className="absolute w-full bg-white border border-gray-300 max-h-32 overflow-y-auto z-10">
+                    <div className="absolute w-full bg-white border h-fit border-gray-300 max-h-32 overflow-y-auto z-10">
                         {options.map((option) => (
                             <div
                                 className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}
