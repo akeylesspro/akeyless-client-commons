@@ -1569,7 +1569,7 @@ var InputContainer = function(param) {
     });
 };
 var SelectContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options;
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
     var _options_, _options_find;
     var _ref = _sliced_to_array((0, import_react7.useState)(false), 2), isOpen = _ref[0], setIsOpen = _ref[1];
     var _ref1 = _sliced_to_array((0, import_react7.useState)(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
@@ -1606,7 +1606,7 @@ var SelectContainer = function(param) {
                         className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
                     }),
                     isOpen && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
-                        className: "absolute w-full bg-white border h-fit border-gray-300 max-h-32 overflow-y-auto z-10",
+                        className: "absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10 ".concat(optionsContainerClassName, " "),
                         children: options.map(function(option) {
                             return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
                                 className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),

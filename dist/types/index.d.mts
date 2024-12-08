@@ -134,6 +134,7 @@ interface InputElement extends BaseElementProps {
 }
 interface SelectElement extends BaseElementProps {
     type: "select";
+    optionsContainerClassName?: string;
     options: {
         value: string;
         label: string;

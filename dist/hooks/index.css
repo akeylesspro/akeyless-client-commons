@@ -504,10 +504,6 @@ body {
 .h-\[80\%\] {
   height: 80%;
 }
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
-}
 .max-h-32 {
   max-height: 8rem;
 }

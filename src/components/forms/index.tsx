@@ -47,6 +47,7 @@ export const SelectContainer = ({
     optionClassName = "",
     required = false,
     options = [],
+    optionsContainerClassName = "",
 }: SelectContainerProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(defaultValue || options[0]?.value || "");
@@ -73,7 +74,7 @@ export const SelectContainer = ({
                 )}
 
                 {isOpen && (
-                    <div className="absolute w-full bg-white border h-fit border-gray-300 max-h-32 overflow-y-auto z-10">
+                    <div className={`absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10 ${optionsContainerClassName} `}>
                         {options.map((option) => (
                             <div
                                 className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}

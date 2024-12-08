@@ -20,6 +20,7 @@ export interface InputElement extends BaseElementProps {
 
 export interface SelectElement extends BaseElementProps {
     type: "select";
+    optionsContainerClassName?: string;
     options: { value: string; label: string }[];
     optionClassName?: string;
 }

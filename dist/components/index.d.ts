@@ -135,6 +135,7 @@ interface InputElement extends BaseElementProps {
 }
 interface SelectElement extends BaseElementProps {
     type: "select";
+    optionsContainerClassName?: string;
     options: {
         value: string;
         label: string;
@@ -199,7 +200,7 @@ declare const TableProvider: (props: TableProps & {
 declare const Table: React$1.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
 
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
-declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
+declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
 declare const ConfirmForm: ({ onV, onX, headline, direction }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
