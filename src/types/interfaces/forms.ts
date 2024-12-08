@@ -45,6 +45,9 @@ export interface ConfirmFormProps {
     onX: () => Promise<void> | void;
     headline?: string;
     direction?: Direction;
+    containerClassName?: string;
+    headlineClassName?: string;
+    buttonsContainerClassName?: string;
 }
 
 export interface DatePickerProps {

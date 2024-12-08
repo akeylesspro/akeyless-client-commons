@@ -148,7 +148,15 @@ export const ModularForm = ({
     );
 };
 
-export const ConfirmForm = ({ onV, onX, headline = "", direction = "rtl" }: ConfirmFormProps) => {
+export const ConfirmForm = ({
+    onV,
+    onX,
+    headline = "",
+    direction = "rtl",
+    containerClassName = "",
+    buttonsContainerClassName = "",
+    headlineClassName = "",
+}: ConfirmFormProps) => {
     const onConfirm = async () => {
         try {
             await onV();
@@ -165,16 +173,14 @@ export const ConfirmForm = ({ onV, onX, headline = "", direction = "rtl" }: Conf
     };
 
     return (
-        <div style={{ direction, padding: "30px" }} className="full col gap-2">
-            <div className="text-lg font-bold">{headline}</div>
-            <div className="center gap-2 ">
+        <div style={{ direction, padding: "30px" }} className={cn("full col gap-2", containerClassName)}>
+            <div className={cn("text-lg font-bold", headlineClassName)}>{headline}</div>
+            <div className={cn("center gap-2 ", buttonsContainerClassName)}>
                 <button onClick={onDenied}>
-                    {" "}
-                    <RedXSvg />{" "}
+                    <RedXSvg />
                 </button>
                 <button onClick={onConfirm}>
-                    {" "}
-                    <GreenVSvg />{" "}
+                    <GreenVSvg />
                 </button>
             </div>
         </div>
