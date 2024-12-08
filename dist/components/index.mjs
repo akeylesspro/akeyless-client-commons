@@ -1546,6 +1546,9 @@ var ModularForm = function(param) {
                         if (typeof err === "string") {
                             setErrorMsg(err);
                         }
+                        if (err.message) {
+                            setErrorMsg(err.message);
+                        }
                         console.error("Error from submit ModularForm:", err);
                         return [
                             3,
