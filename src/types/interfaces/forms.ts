@@ -3,7 +3,6 @@ import { Direction } from "../types";
 export interface BaseElementProps {
     name?: string;
     labelContent: string;
-    defaultValue?: string;
     required?: boolean;
     containerClassName?: string;
     labelClassName?: string;
@@ -13,6 +12,7 @@ export interface BaseElementProps {
 export interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
+    defaultValue?: string;
     validationName?: string;
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -22,6 +22,7 @@ export interface SelectElement extends BaseElementProps {
     type: "select";
     optionsContainerClassName?: string;
     options: { value: any; label: string }[];
+    defaultValue?: any;
     optionClassName?: string;
 }
 

@@ -119,7 +119,6 @@ interface FilterProps {
 interface BaseElementProps {
     name?: string;
     labelContent: string;
-    defaultValue?: string;
     required?: boolean;
     containerClassName?: string;
     labelClassName?: string;
@@ -128,6 +127,7 @@ interface BaseElementProps {
 interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
+    defaultValue?: string;
     validationName?: string;
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -139,6 +139,7 @@ interface SelectElement extends BaseElementProps {
         value: any;
         label: string;
     }[];
+    defaultValue?: any;
     optionClassName?: string;
 }
 interface InputContainerProps extends Partial<InputElement> {
