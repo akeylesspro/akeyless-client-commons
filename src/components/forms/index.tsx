@@ -5,6 +5,7 @@ import { GreenVSvg, RedXSvg } from "../../assets";
 import { Loader } from "../utils";
 import { ConfirmFormProps, DatePickerProps, InputContainerProps, ModularFormProps, SelectContainerProps } from "../../types";
 import { useSnapshotBulk } from "@/hooks/global";
+import { cn } from "@/lib/utils";
 
 export const InputContainer = ({
     validationError,
@@ -74,7 +75,7 @@ export const SelectContainer = ({
                 )}
 
                 {isOpen && (
-                    <div className={`absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10 ${optionsContainerClassName} `}>
+                    <div className={cn(`absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10`, optionsContainerClassName)}>
                         {options.map((option) => (
                             <div
                                 className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}

@@ -1478,7 +1478,7 @@ var SelectContainer = function(param) {
                         className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
                     }),
                     isOpen && /* @__PURE__ */ jsx8("div", {
-                        className: "absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10 ".concat(optionsContainerClassName, " "),
+                        className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
                         children: options.map(function(option) {
                             return /* @__PURE__ */ jsx8("div", {
                                 className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
