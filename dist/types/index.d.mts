@@ -150,6 +150,7 @@ interface ModularFormProps {
     elements?: FormElement[];
     headerContent?: JSX.Element;
     buttonContent?: string;
+    buttonClassName?: string;
     formClassName?: string;
     headerClassName?: string;
     direction?: Direction;

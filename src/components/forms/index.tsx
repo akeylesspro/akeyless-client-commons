@@ -100,6 +100,7 @@ export const ModularForm = ({
     formClassName = "",
     headerClassName = "",
     direction = "rtl",
+    buttonClassName = "",
 }: ModularFormProps) => {
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
@@ -137,7 +138,7 @@ export const ModularForm = ({
                 <div title={errorMsg} className="text-[#f22] text-[18px] max-w-[80%] ellipsis">
                     {errorMsg}
                 </div>
-                <button disabled={isLoading} className="bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20" type="submit">
+                <button disabled={isLoading} className={`bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20 ${buttonClassName}`} type="submit">
                     {isLoading ? <Loader size={25} color="#fff" /> : buttonContent}
                 </button>
             </div>
