@@ -1738,7 +1738,7 @@ var ModularForm = function(param) {
     });
 };
 var ConfirmForm = function(param) {
-    var onV = param.onV, onX = param.onX, _param_headline = param.headline, headline = _param_headline === void 0 ? "" : _param_headline, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction;
+    var onV = param.onV, onX = param.onX, _param_headline = param.headline, headline = _param_headline === void 0 ? "" : _param_headline, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_buttonsContainerClassName = param.buttonsContainerClassName, buttonsContainerClassName = _param_buttonsContainerClassName === void 0 ? "" : _param_buttonsContainerClassName, _param_headlineClassName = param.headlineClassName, headlineClassName = _param_headlineClassName === void 0 ? "" : _param_headlineClassName;
     var onConfirm = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function() {
             var error;
@@ -1824,30 +1824,22 @@ var ConfirmForm = function(param) {
             direction: direction,
             padding: "30px"
         },
-        className: "full col gap-2",
+        className: cn("full col gap-2", containerClassName),
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
-                className: "text-lg font-bold",
+                className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
             /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
-                className: "center gap-2 ",
+                className: cn("center gap-2 ", buttonsContainerClassName),
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("button", {
+                    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", {
                         onClick: onDenied,
-                        children: [
-                            " ",
-                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(RedXSvg, {}),
-                            " "
-                        ]
+                        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(RedXSvg, {})
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("button", {
+                    /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", {
                         onClick: onConfirm,
-                        children: [
-                            " ",
-                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GreenVSvg, {}),
-                            " "
-                        ]
+                        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GreenVSvg, {})
                     })
                 ]
             })

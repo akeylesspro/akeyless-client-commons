@@ -161,6 +161,9 @@ interface ConfirmFormProps {
     onX: () => Promise<void> | void;
     headline?: string;
     direction?: Direction;
+    containerClassName?: string;
+    headlineClassName?: string;
+    buttonsContainerClassName?: string;
 }
 interface DatePickerProps {
     submit?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
