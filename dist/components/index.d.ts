@@ -195,7 +195,7 @@ declare const TableContext: React$1.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {
     children: React$1.ReactNode;
 }) => react_jsx_runtime.JSX.Element;
-declare const Table: (props: TableProps) => react_jsx_runtime.JSX.Element;
+declare const Table: React$1.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
 
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;

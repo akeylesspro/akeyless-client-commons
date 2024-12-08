@@ -1386,7 +1386,8 @@ var Summary = (0, import_react5.memo)(function(props) {
     });
 });
 // src/components/table/Table.tsx
-var import_react6 = require("react");
+var import_react6 = __toESM(require("react"));
+var import_lodash2 = require("lodash");
 var import_jsx_runtime7 = require("react/jsx-runtime");
 var TableContext = (0, import_react6.createContext)(null);
 var TableProvider = function(props) {
@@ -1491,7 +1492,7 @@ var TableProvider = function(props) {
         })
     });
 };
-var Table = function(props) {
+var TableBase = function(props) {
     var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
     return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
@@ -1533,6 +1534,11 @@ var Table = function(props) {
         ]
     }));
 };
+var areEqual = function(prevProps, nextProps) {
+    return (0, import_lodash2.isEqual)(prevProps, nextProps);
+};
+var Table = import_react6.default.memo(TableBase, areEqual);
+Table.displayName = "Table";
 // src/components/forms/index.tsx
 var import_react7 = require("react");
 var import_moment2 = __toESM(require("moment"));

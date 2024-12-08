@@ -5,6 +5,7 @@ import { TObject } from "akeyless-types-commons";
 import { useFilter, useSort, useSearch } from "../../hooks";
 import { TableSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
+import { isEqual } from "lodash";
 
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
@@ -143,7 +144,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     );
 };
 
-export const Table = (props: TableProps) => {
+const TableBase = (props: TableProps) => {
     const {
         containerHeaderClassName,
         optionalElement,
@@ -185,3 +186,8 @@ export const Table = (props: TableProps) => {
         </TableProvider>
     );
 };
+const areEqual = (prevProps: TableProps, nextProps: TableProps) => isEqual(prevProps, nextProps);
+
+const Table = React.memo(TableBase, areEqual);
+Table.displayName = "Table";
+export { Table };

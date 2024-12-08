@@ -1258,7 +1258,8 @@ var Summary = memo(function(props) {
     });
 });
 // src/components/table/Table.tsx
-import { createContext, useMemo as useMemo3 } from "react";
+import React3, { createContext, useMemo as useMemo3 } from "react";
+import { isEqual as isEqual2 } from "lodash";
 import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 var TableProvider = function(props) {
@@ -1363,7 +1364,7 @@ var TableProvider = function(props) {
         })
     });
 };
-var Table = function(props) {
+var TableBase = function(props) {
     var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
     return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
@@ -1405,6 +1406,11 @@ var Table = function(props) {
         ]
     }));
 };
+var areEqual = function(prevProps, nextProps) {
+    return isEqual2(prevProps, nextProps);
+};
+var Table = React3.memo(TableBase, areEqual);
+Table.displayName = "Table";
 // src/components/forms/index.tsx
 import { useState as useState3 } from "react";
 import moment2 from "moment";
