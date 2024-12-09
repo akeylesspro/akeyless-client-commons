@@ -426,12 +426,21 @@ var Loader = function(param) {
         })
     });
 };
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
 // src/components/utils/global.tsx
 import { jsxs as jsxs2 } from "react/jsx-runtime";
 var Version = function(param) {
-    var version = param.version;
+    var version = param.version, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
     return /* @__PURE__ */ jsxs2("div", {
-        className: "absolute text-black z-30 bottom-[0px] text-xs right-0 px-1 ",
+        className: cn("absolute text-black z-30 bottom-[0px] text-xs right-0 px-1 ", className),
         children: [
             "v",
             version
@@ -943,15 +952,6 @@ var useSearch = function() {
 };
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect3, useRef as useRef2 } from "react";
-// src/lib/utils.ts
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return twMerge(clsx(inputs));
-}
 // src/components/table/utils.tsx
 import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 var getFixedNumber = function() {

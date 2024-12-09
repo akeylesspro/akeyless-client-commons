@@ -556,12 +556,21 @@ var Loader = function(param) {
         })
     });
 };
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
 // src/components/utils/global.tsx
 var import_jsx_runtime4 = require("react/jsx-runtime");
 var Version = function(param) {
-    var version = param.version;
+    var version = param.version, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
     return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", {
-        className: "absolute text-black z-30 bottom-[0px] text-xs right-0 px-1 ",
+        className: cn("absolute text-black z-30 bottom-[0px] text-xs right-0 px-1 ", className),
         children: [
             "v",
             version
@@ -1074,15 +1083,6 @@ var useSearch = function() {
 };
 // src/hooks/WebWorker.ts
 var import_react4 = require("react");
-// src/lib/utils.ts
-var import_clsx = require("clsx");
-var import_tailwind_merge = require("tailwind-merge");
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
-}
 // src/components/table/utils.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
 var getFixedNumber = function() {

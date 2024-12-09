@@ -35,8 +35,9 @@ interface LoaderProps {
 }
 declare const Loader: React$1.FC<LoaderProps>;
 
-declare const Version: ({ version }: {
+declare const Version: ({ version, className }: {
     version: string;
+    className?: string;
 }) => react_jsx_runtime.JSX.Element;
 
 type Direction = "rtl" | "ltr";

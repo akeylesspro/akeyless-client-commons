@@ -543,6 +543,15 @@ var ErrorBoundary = /*#__PURE__*/ function(_React_Component) {
 // src/components/utils/loaders.tsx
 import { ClipLoader } from "react-spinners";
 import { jsx as jsx3 } from "react/jsx-runtime";
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
 // src/components/utils/global.tsx
 import { jsxs as jsxs2 } from "react/jsx-runtime";
 // src/components/table/utils.tsx
@@ -755,15 +764,6 @@ var exportToExcelSvg = function() {
         ]
     });
 };
-// src/lib/utils.ts
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return twMerge(clsx(inputs));
-}
 // src/components/table/utils.tsx
 import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 var getFixedNumber = function() {
