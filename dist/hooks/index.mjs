@@ -543,12 +543,14 @@ var ErrorBoundary = /*#__PURE__*/ function(_React_Component) {
 // src/components/utils/loaders.tsx
 import { ClipLoader } from "react-spinners";
 import { jsx as jsx3 } from "react/jsx-runtime";
+// src/components/utils/global.tsx
+import { jsxs as jsxs2 } from "react/jsx-runtime";
 // src/components/table/utils.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { memo, useMemo } from "react";
 // src/assets/svg.tsx
-import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var RedXSvg2 = function(param) {
     var height = param.height, width = param.width, viewBox = param.viewBox;
     return /* @__PURE__ */ jsx4("svg", {
@@ -572,9 +574,9 @@ var RedXSvg2 = function(param) {
     });
 };
 // src/assets/table.tsx
-import { Fragment, jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
 var sortSvg = function(upside_down) {
-    return /* @__PURE__ */ jsxs3("svg", {
+    return /* @__PURE__ */ jsxs4("svg", {
         style: upside_down ? {
             transform: "rotate(180deg)"
         } : {},
@@ -587,7 +589,7 @@ var sortSvg = function(upside_down) {
         preserveAspectRatio: "xMidYMid meet",
         children: [
             " ",
-            /* @__PURE__ */ jsxs3("g", {
+            /* @__PURE__ */ jsxs4("g", {
                 transform: "translate(0.000000,1536.000000) scale(0.100000,-0.100000)",
                 fill: "#fff",
                 stroke: "none",
@@ -605,7 +607,7 @@ var sortSvg = function(upside_down) {
 };
 var emptyFilterSvg = function(solid) {
     return /* @__PURE__ */ jsx5(Fragment, {
-        children: solid ? /* @__PURE__ */ jsxs3("svg", {
+        children: solid ? /* @__PURE__ */ jsxs4("svg", {
             version: "1.0",
             xmlns: "http://www.w3.org/2000/svg",
             width: "13",
@@ -614,7 +616,7 @@ var emptyFilterSvg = function(solid) {
             preserveAspectRatio: "xMidYMid meet",
             children: [
                 " ",
-                /* @__PURE__ */ jsxs3("g", {
+                /* @__PURE__ */ jsxs4("g", {
                     transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
                     fill: "#fff",
                     stroke: "none",
@@ -628,7 +630,7 @@ var emptyFilterSvg = function(solid) {
                 }),
                 " "
             ]
-        }) : /* @__PURE__ */ jsxs3("svg", {
+        }) : /* @__PURE__ */ jsxs4("svg", {
             version: "1.0",
             xmlns: "http://www.w3.org/2000/svg",
             width: "13",
@@ -637,7 +639,7 @@ var emptyFilterSvg = function(solid) {
             preserveAspectRatio: "xMidYMid meet",
             children: [
                 " ",
-                /* @__PURE__ */ jsxs3("g", {
+                /* @__PURE__ */ jsxs4("g", {
                     transform: "translate(0.000000,300.000000) scale(0.050000,-0.050000)",
                     fill: "#fff",
                     stroke: "none",
@@ -658,7 +660,7 @@ var slashFilterSvg = function(solid) {
     return /* @__PURE__ */ jsx5(Fragment, {
         children: solid ? /* @__PURE__ */ jsx5("div", {
             className: "mt-[-4px] mr-[-2px] ",
-            children: /* @__PURE__ */ jsxs3("svg", {
+            children: /* @__PURE__ */ jsxs4("svg", {
                 version: "1.0",
                 xmlns: "http://www.w3.org/2000/svg",
                 width: "18",
@@ -667,7 +669,7 @@ var slashFilterSvg = function(solid) {
                 preserveAspectRatio: "xMidYMid meet",
                 children: [
                     " ",
-                    /* @__PURE__ */ jsxs3("g", {
+                    /* @__PURE__ */ jsxs4("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
                         fill: "#fff",
                         stroke: "none",
@@ -688,7 +690,7 @@ var slashFilterSvg = function(solid) {
             })
         }) : /* @__PURE__ */ jsx5("div", {
             className: "mt-[-4px] mr-[-2px] ",
-            children: /* @__PURE__ */ jsxs3("svg", {
+            children: /* @__PURE__ */ jsxs4("svg", {
                 version: "1.0",
                 xmlns: "http://www.w3.org/2000/svg",
                 width: "18",
@@ -697,7 +699,7 @@ var slashFilterSvg = function(solid) {
                 preserveAspectRatio: "xMidYMid meet",
                 children: [
                     " ",
-                    /* @__PURE__ */ jsxs3("g", {
+                    /* @__PURE__ */ jsxs4("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
                         fill: "#fff",
                         stroke: "none",
@@ -720,7 +722,7 @@ var slashFilterSvg = function(solid) {
     });
 };
 var exportToExcelSvg = function() {
-    return /* @__PURE__ */ jsxs3("svg", {
+    return /* @__PURE__ */ jsxs4("svg", {
         version: "1.0",
         xmlns: "http://www.w3.org/2000/svg",
         width: "18",
@@ -729,7 +731,7 @@ var exportToExcelSvg = function() {
         preserveAspectRatio: "xMidYMid meet",
         children: [
             " ",
-            /* @__PURE__ */ jsxs3("g", {
+            /* @__PURE__ */ jsxs4("g", {
                 transform: "translate(0.000000,150.000000) scale(0.100000,-0.100000)",
                 fill: "#ffffff",
                 stroke: "none",
@@ -763,7 +765,7 @@ function cn() {
     return twMerge(clsx(inputs));
 }
 // src/components/table/utils.tsx
-import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
     var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -814,7 +816,7 @@ var TableHead = memo(function(props) {
                 var filterableColumn = filterableColumns.find(function(col) {
                     return col.header === header;
                 });
-                return /* @__PURE__ */ jsxs4("th", {
+                return /* @__PURE__ */ jsxs5("th", {
                     title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
                     className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
@@ -856,7 +858,7 @@ var Filter = memo(function(param) {
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ jsxs4("div", {
+    return /* @__PURE__ */ jsxs5("div", {
         className: "absolute top-1 right-1 ",
         children: [
             /* @__PURE__ */ jsx6("button", {
@@ -881,10 +883,10 @@ var Filter = memo(function(param) {
             }),
             /* @__PURE__ */ jsx6("div", {
                 className: "relative",
-                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
+                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs5("div", {
                     className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                     children: [
-                        /* @__PURE__ */ jsxs4("div", {
+                        /* @__PURE__ */ jsxs5("div", {
                             className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
                             children: [
                                 /* @__PURE__ */ jsx6("div", {
@@ -901,7 +903,7 @@ var Filter = memo(function(param) {
                             className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
                             children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
                                 var _filters_filterableColumn_dataKey;
-                                return /* @__PURE__ */ jsxs4("div", {
+                                return /* @__PURE__ */ jsxs5("div", {
                                     className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
                                     children: [
                                         /* @__PURE__ */ jsx6("input", {
@@ -931,7 +933,7 @@ var Filter = memo(function(param) {
 });
 var MaxRowsLabel = memo(function(props) {
     var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
-    return /* @__PURE__ */ jsxs4("div", {
+    return /* @__PURE__ */ jsxs5("div", {
         className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
         children: [
             /* @__PURE__ */ jsx6("div", {
@@ -1042,7 +1044,7 @@ var Search = memo(function(props) {
 });
 var Summary = memo(function(props) {
     var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
-    return /* @__PURE__ */ jsxs4("div", {
+    return /* @__PURE__ */ jsxs5("div", {
         style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
             direction: direction
         }),
@@ -1060,7 +1062,7 @@ var Summary = memo(function(props) {
                         return acc + Number(v[val.dataKey]) || 0;
                     }, 0);
                     var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ jsxs4("div", {
+                    return /* @__PURE__ */ jsxs5("div", {
                         className: "flex gap-1 justify-start",
                         children: [
                             /* @__PURE__ */ jsx6("div", {
@@ -1082,7 +1084,7 @@ var Summary = memo(function(props) {
 // src/components/table/Table.tsx
 import React3, { createContext, useMemo as useMemo2 } from "react";
 import { isEqual } from "lodash";
-import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 var TableProvider = function(props) {
     var // basic props
@@ -1188,9 +1190,9 @@ var TableProvider = function(props) {
 };
 var TableBase = function(props) {
     var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
-    return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
+    return /* @__PURE__ */ jsxs6(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
-            /* @__PURE__ */ jsxs5("div", {
+            /* @__PURE__ */ jsxs6("div", {
                 style: {
                     direction: direction
                 },
@@ -1211,7 +1213,7 @@ var TableBase = function(props) {
                     direction: direction
                 }),
                 className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
-                children: /* @__PURE__ */ jsxs5("table", {
+                children: /* @__PURE__ */ jsxs6("table", {
                     style: tableStyle,
                     className: "min-w-full text-sm font-light relative",
                     children: [
@@ -1236,7 +1238,7 @@ Table.displayName = "Table";
 // src/components/forms/index.tsx
 import { useState as useState2 } from "react";
 import moment2 from "moment";
-import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 // src/hooks/table.ts
 import { create } from "zustand";
 import { isEqual as isEqual2 } from "lodash";

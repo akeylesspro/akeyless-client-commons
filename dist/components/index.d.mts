@@ -35,6 +35,10 @@ interface LoaderProps {
 }
 declare const Loader: React$1.FC<LoaderProps>;
 
+declare const Version: ({ version }: {
+    version: string;
+}) => react_jsx_runtime.JSX.Element;
+
 type Direction = "rtl" | "ltr";
 
 interface FilterableColumn {
@@ -209,4 +213,4 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
