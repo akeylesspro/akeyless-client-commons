@@ -1655,7 +1655,7 @@ var ModularForm = function(param) {
         return function(form) {
             return _ref.apply(this, arguments);
         };
-    }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, _param_buttonContent = param.buttonContent, buttonContent = _param_buttonContent === void 0 ? "" : _param_buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName;
+    }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, buttonContent = param.buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName;
     var _ref = _sliced_to_array((0, import_react7.useState)(""), 2), errorMsg = _ref[0], setErrorMsg = _ref[1];
     var _ref1 = _sliced_to_array((0, import_react7.useState)(false), 2), isLoading = _ref1[0], setIsLoading = _ref1[1];
     var onSubmit = /*#__PURE__*/ function() {
@@ -1714,10 +1714,10 @@ var ModularForm = function(param) {
         style: {
             direction: direction
         },
-        className: "w-[350px] px-5 py-5 flex flex-col gap-5 ".concat(formClassName),
+        className: cn("w-[350px] px-5 py-5 flex flex-col gap-5", formClassName),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {
-                className: "border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px] ".concat(headerClassName),
+            headerContent && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", {
+                className: cn("border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]", headerClassName),
                 children: headerContent
             }),
             elements.map(function(element, index) {
@@ -1740,7 +1740,7 @@ var ModularForm = function(param) {
                     }),
                     /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", {
                         disabled: isLoading,
-                        className: "bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20 ".concat(buttonClassName),
+                        className: cn("bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20", buttonClassName),
                         type: "submit",
                         children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Loader, {
                             size: 25,

@@ -154,10 +154,10 @@ interface SelectContainerProps extends Partial<SelectElement> {
 }
 type FormElement = InputElement | SelectElement;
 interface ModularFormProps {
-    submitFunction?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
-    elements?: FormElement[];
+    submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    elements: FormElement[];
+    buttonContent: JSX.Element;
     headerContent?: JSX.Element;
-    buttonContent?: string;
     buttonClassName?: string;
     formClassName?: string;
     headerClassName?: string;

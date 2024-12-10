@@ -125,7 +125,7 @@ export const ModularForm = ({
 
     return (
         <form onSubmit={onSubmit} style={{ direction }} className={cn(`w-[350px] px-5 py-5 flex flex-col gap-5`, formClassName)}>
-            {headerClassName && (
+            {headerContent && (
                 <div className={cn(`border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]`, headerClassName)}>{headerContent}</div>
             )}
             {elements.map((element, index) => {
