@@ -34,8 +34,8 @@ export type FormElement = InputElement | SelectElement;
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
-    buttonContent: JSX.Element;
-    headerContent?: JSX.Element;
+    buttonContent: React.ReactNode;
+    headerContent?: React.ReactNode;
     buttonClassName?: string;
     formClassName?: string;
     headerClassName?: string;
