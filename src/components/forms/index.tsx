@@ -98,7 +98,7 @@ export const ModularForm = ({
     submitFunction = async (form) => {},
     elements = [],
     headerContent,
-    buttonContent = "",
+    buttonContent,
     formClassName = "",
     headerClassName = "",
     direction = "rtl",
@@ -124,8 +124,10 @@ export const ModularForm = ({
     };
 
     return (
-        <form onSubmit={onSubmit} style={{ direction }} className={`w-[350px] px-5 py-5 flex flex-col gap-5 ${formClassName}`}>
-            <div className={`border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px] ${headerClassName}`}>{headerContent}</div>
+        <form onSubmit={onSubmit} style={{ direction }} className={cn(`w-[350px] px-5 py-5 flex flex-col gap-5`, formClassName)}>
+            {headerClassName && (
+                <div className={cn(`border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]`, headerClassName)}>{headerContent}</div>
+            )}
             {elements.map((element, index) => {
                 switch (element.type) {
                     case "input":
@@ -140,7 +142,7 @@ export const ModularForm = ({
                 <div title={errorMsg} className="text-[#f22] text-[18px] max-w-[80%] ellipsis">
                     {errorMsg}
                 </div>
-                <button disabled={isLoading} className={`bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20 ${buttonClassName}`} type="submit">
+                <button disabled={isLoading} className={cn(`bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20`, buttonClassName)} type="submit">
                     {isLoading ? <Loader size={25} color="#fff" /> : buttonContent}
                 </button>
             </div>
