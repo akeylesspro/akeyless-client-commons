@@ -3,7 +3,6 @@ import { Direction } from "../types";
 export interface BaseElementProps {
     name?: string;
     labelContent: string;
-    defaultValue?: string;
     required?: boolean;
     containerClassName?: string;
     labelClassName?: string;
@@ -13,6 +12,7 @@ export interface BaseElementProps {
 export interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
+    defaultValue?: string;
     validationName?: string;
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -21,7 +21,8 @@ export interface InputElement extends BaseElementProps {
 export interface SelectElement extends BaseElementProps {
     type: "select";
     optionsContainerClassName?: string;
-    options: { value: string; label: string }[];
+    options: { value: any; label: string }[];
+    defaultValue?: any;
     optionClassName?: string;
 }
 
@@ -31,10 +32,10 @@ export interface SelectContainerProps extends Partial<SelectElement> {}
 export type FormElement = InputElement | SelectElement;
 
 export interface ModularFormProps {
-    submitFunction?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
-    elements?: FormElement[];
+    submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    elements: FormElement[];
+    buttonContent: JSX.Element;
     headerContent?: JSX.Element;
-    buttonContent?: string;
     buttonClassName?: string;
     formClassName?: string;
     headerClassName?: string;
@@ -45,6 +46,9 @@ export interface ConfirmFormProps {
     onX: () => Promise<void> | void;
     headline?: string;
     direction?: Direction;
+    containerClassName?: string;
+    headlineClassName?: string;
+    buttonsContainerClassName?: string;
 }
 
 export interface DatePickerProps {

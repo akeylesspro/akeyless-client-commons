@@ -119,7 +119,6 @@ interface FilterProps {
 interface BaseElementProps {
     name?: string;
     labelContent: string;
-    defaultValue?: string;
     required?: boolean;
     containerClassName?: string;
     labelClassName?: string;
@@ -128,6 +127,7 @@ interface BaseElementProps {
 interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
+    defaultValue?: string;
     validationName?: string;
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -136,9 +136,10 @@ interface SelectElement extends BaseElementProps {
     type: "select";
     optionsContainerClassName?: string;
     options: {
-        value: string;
+        value: any;
         label: string;
     }[];
+    defaultValue?: any;
     optionClassName?: string;
 }
 interface InputContainerProps extends Partial<InputElement> {
@@ -161,6 +162,9 @@ interface ConfirmFormProps {
     onX: () => Promise<void> | void;
     headline?: string;
     direction?: Direction;
+    containerClassName?: string;
+    headlineClassName?: string;
+    buttonsContainerClassName?: string;
 }
 interface DatePickerProps {
     submit?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;

@@ -426,15 +426,36 @@ var Loader = function(param) {
         })
     });
 };
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
+// src/components/utils/global.tsx
+import { jsxs as jsxs2 } from "react/jsx-runtime";
+var Version = function(param) {
+    var version = param.version, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
+    return /* @__PURE__ */ jsxs2("div", {
+        className: cn("absolute text-black z-30 bottom-[0px] text-xs right-0 px-1 ", className),
+        children: [
+            "v",
+            version
+        ]
+    });
+};
 // src/components/table/utils.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import { memo, useMemo as useMemo2 } from "react";
 // src/assets/svg.tsx
-import { jsx as jsx4, jsxs as jsxs2 } from "react/jsx-runtime";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var RedXSvg = function(param) {
     var height = param.height, width = param.width, viewBox = param.viewBox;
-    return /* @__PURE__ */ jsxs2("svg", {
+    return /* @__PURE__ */ jsxs3("svg", {
         xmlns: "http://www.w3.org/2000/svg",
         width: width || "32",
         height: height || "32",
@@ -476,7 +497,7 @@ var RedXSvg2 = function(param) {
 };
 var GreenVSvg = function(param) {
     var height = param.height, width = param.width, viewBox = param.viewBox;
-    return /* @__PURE__ */ jsxs2("svg", {
+    return /* @__PURE__ */ jsxs3("svg", {
         xmlns: "http://www.w3.org/2000/svg",
         width: width || "32",
         height: height || "32",
@@ -495,9 +516,9 @@ var GreenVSvg = function(param) {
     });
 };
 // src/assets/table.tsx
-import { Fragment, jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
+import { Fragment, jsx as jsx5, jsxs as jsxs4 } from "react/jsx-runtime";
 var sortSvg = function(upside_down) {
-    return /* @__PURE__ */ jsxs3("svg", {
+    return /* @__PURE__ */ jsxs4("svg", {
         style: upside_down ? {
             transform: "rotate(180deg)"
         } : {},
@@ -510,7 +531,7 @@ var sortSvg = function(upside_down) {
         preserveAspectRatio: "xMidYMid meet",
         children: [
             " ",
-            /* @__PURE__ */ jsxs3("g", {
+            /* @__PURE__ */ jsxs4("g", {
                 transform: "translate(0.000000,1536.000000) scale(0.100000,-0.100000)",
                 fill: "#fff",
                 stroke: "none",
@@ -528,7 +549,7 @@ var sortSvg = function(upside_down) {
 };
 var emptyFilterSvg = function(solid) {
     return /* @__PURE__ */ jsx5(Fragment, {
-        children: solid ? /* @__PURE__ */ jsxs3("svg", {
+        children: solid ? /* @__PURE__ */ jsxs4("svg", {
             version: "1.0",
             xmlns: "http://www.w3.org/2000/svg",
             width: "13",
@@ -537,7 +558,7 @@ var emptyFilterSvg = function(solid) {
             preserveAspectRatio: "xMidYMid meet",
             children: [
                 " ",
-                /* @__PURE__ */ jsxs3("g", {
+                /* @__PURE__ */ jsxs4("g", {
                     transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
                     fill: "#fff",
                     stroke: "none",
@@ -551,7 +572,7 @@ var emptyFilterSvg = function(solid) {
                 }),
                 " "
             ]
-        }) : /* @__PURE__ */ jsxs3("svg", {
+        }) : /* @__PURE__ */ jsxs4("svg", {
             version: "1.0",
             xmlns: "http://www.w3.org/2000/svg",
             width: "13",
@@ -560,7 +581,7 @@ var emptyFilterSvg = function(solid) {
             preserveAspectRatio: "xMidYMid meet",
             children: [
                 " ",
-                /* @__PURE__ */ jsxs3("g", {
+                /* @__PURE__ */ jsxs4("g", {
                     transform: "translate(0.000000,300.000000) scale(0.050000,-0.050000)",
                     fill: "#fff",
                     stroke: "none",
@@ -581,7 +602,7 @@ var slashFilterSvg = function(solid) {
     return /* @__PURE__ */ jsx5(Fragment, {
         children: solid ? /* @__PURE__ */ jsx5("div", {
             className: "mt-[-4px] mr-[-2px] ",
-            children: /* @__PURE__ */ jsxs3("svg", {
+            children: /* @__PURE__ */ jsxs4("svg", {
                 version: "1.0",
                 xmlns: "http://www.w3.org/2000/svg",
                 width: "18",
@@ -590,7 +611,7 @@ var slashFilterSvg = function(solid) {
                 preserveAspectRatio: "xMidYMid meet",
                 children: [
                     " ",
-                    /* @__PURE__ */ jsxs3("g", {
+                    /* @__PURE__ */ jsxs4("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
                         fill: "#fff",
                         stroke: "none",
@@ -611,7 +632,7 @@ var slashFilterSvg = function(solid) {
             })
         }) : /* @__PURE__ */ jsx5("div", {
             className: "mt-[-4px] mr-[-2px] ",
-            children: /* @__PURE__ */ jsxs3("svg", {
+            children: /* @__PURE__ */ jsxs4("svg", {
                 version: "1.0",
                 xmlns: "http://www.w3.org/2000/svg",
                 width: "18",
@@ -620,7 +641,7 @@ var slashFilterSvg = function(solid) {
                 preserveAspectRatio: "xMidYMid meet",
                 children: [
                     " ",
-                    /* @__PURE__ */ jsxs3("g", {
+                    /* @__PURE__ */ jsxs4("g", {
                         transform: "translate(0.000000,900.000000) scale(0.100000,-0.100000)",
                         fill: "#fff",
                         stroke: "none",
@@ -643,7 +664,7 @@ var slashFilterSvg = function(solid) {
     });
 };
 var exportToExcelSvg = function() {
-    return /* @__PURE__ */ jsxs3("svg", {
+    return /* @__PURE__ */ jsxs4("svg", {
         version: "1.0",
         xmlns: "http://www.w3.org/2000/svg",
         width: "18",
@@ -652,7 +673,7 @@ var exportToExcelSvg = function() {
         preserveAspectRatio: "xMidYMid meet",
         children: [
             " ",
-            /* @__PURE__ */ jsxs3("g", {
+            /* @__PURE__ */ jsxs4("g", {
                 transform: "translate(0.000000,150.000000) scale(0.100000,-0.100000)",
                 fill: "#ffffff",
                 stroke: "none",
@@ -931,17 +952,8 @@ var useSearch = function() {
 };
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect3, useRef as useRef2 } from "react";
-// src/lib/utils.ts
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-function cn() {
-    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
-        inputs[_key] = arguments[_key];
-    }
-    return twMerge(clsx(inputs));
-}
 // src/components/table/utils.tsx
-import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
     var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -992,7 +1004,7 @@ var TableHead = memo(function(props) {
                 var filterableColumn = filterableColumns.find(function(col) {
                     return col.header === header;
                 });
-                return /* @__PURE__ */ jsxs4("th", {
+                return /* @__PURE__ */ jsxs5("th", {
                     title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
                     className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
@@ -1034,7 +1046,7 @@ var Filter = memo(function(param) {
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ jsxs4("div", {
+    return /* @__PURE__ */ jsxs5("div", {
         className: "absolute top-1 right-1 ",
         children: [
             /* @__PURE__ */ jsx6("button", {
@@ -1059,10 +1071,10 @@ var Filter = memo(function(param) {
             }),
             /* @__PURE__ */ jsx6("div", {
                 className: "relative",
-                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs4("div", {
+                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs5("div", {
                     className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                     children: [
-                        /* @__PURE__ */ jsxs4("div", {
+                        /* @__PURE__ */ jsxs5("div", {
                             className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
                             children: [
                                 /* @__PURE__ */ jsx6("div", {
@@ -1079,7 +1091,7 @@ var Filter = memo(function(param) {
                             className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
                             children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
                                 var _filters_filterableColumn_dataKey;
-                                return /* @__PURE__ */ jsxs4("div", {
+                                return /* @__PURE__ */ jsxs5("div", {
                                     className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
                                     children: [
                                         /* @__PURE__ */ jsx6("input", {
@@ -1109,7 +1121,7 @@ var Filter = memo(function(param) {
 });
 var MaxRowsLabel = memo(function(props) {
     var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
-    return /* @__PURE__ */ jsxs4("div", {
+    return /* @__PURE__ */ jsxs5("div", {
         className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
         children: [
             /* @__PURE__ */ jsx6("div", {
@@ -1220,7 +1232,7 @@ var Search = memo(function(props) {
 });
 var Summary = memo(function(props) {
     var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
-    return /* @__PURE__ */ jsxs4("div", {
+    return /* @__PURE__ */ jsxs5("div", {
         style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
             direction: direction
         }),
@@ -1238,7 +1250,7 @@ var Summary = memo(function(props) {
                         return acc + Number(v[val.dataKey]) || 0;
                     }, 0);
                     var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ jsxs4("div", {
+                    return /* @__PURE__ */ jsxs5("div", {
                         className: "flex gap-1 justify-start",
                         children: [
                             /* @__PURE__ */ jsx6("div", {
@@ -1260,7 +1272,7 @@ var Summary = memo(function(props) {
 // src/components/table/Table.tsx
 import React3, { createContext, useMemo as useMemo3 } from "react";
 import { isEqual as isEqual2 } from "lodash";
-import { jsx as jsx7, jsxs as jsxs5 } from "react/jsx-runtime";
+import { jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 var TableProvider = function(props) {
     var // basic props
@@ -1366,9 +1378,9 @@ var TableProvider = function(props) {
 };
 var TableBase = function(props) {
     var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
-    return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
+    return /* @__PURE__ */ jsxs6(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
-            /* @__PURE__ */ jsxs5("div", {
+            /* @__PURE__ */ jsxs6("div", {
                 style: {
                     direction: direction
                 },
@@ -1389,7 +1401,7 @@ var TableBase = function(props) {
                     direction: direction
                 }),
                 className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
-                children: /* @__PURE__ */ jsxs5("table", {
+                children: /* @__PURE__ */ jsxs6("table", {
                     style: tableStyle,
                     className: "min-w-full text-sm font-light relative",
                     children: [
@@ -1414,13 +1426,13 @@ Table.displayName = "Table";
 // src/components/forms/index.tsx
 import { useState as useState3 } from "react";
 import moment2 from "moment";
-import { jsx as jsx8, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, onKeyDown = param.onKeyDown;
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs7("div", {
         className: "center ".concat(containerClassName),
         children: [
-            /* @__PURE__ */ jsxs6("label", {
+            /* @__PURE__ */ jsxs7("label", {
                 className: "text-start w-[30%] ".concat(labelClassName),
                 htmlFor: name,
                 children: [
@@ -1449,10 +1461,10 @@ var SelectContainer = function(param) {
         setSelectedValue(value);
         setIsOpen(false);
     };
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs7("div", {
         className: "center ".concat(containerClassName),
         children: [
-            /* @__PURE__ */ jsxs6("label", {
+            /* @__PURE__ */ jsxs7("label", {
                 className: "text-start w-[30%] ".concat(labelClassName),
                 htmlFor: name,
                 children: [
@@ -1460,7 +1472,7 @@ var SelectContainer = function(param) {
                     " :"
                 ]
             }),
-            /* @__PURE__ */ jsxs6("div", {
+            /* @__PURE__ */ jsxs7("div", {
                 className: "w-[70%] relative ".concat(elementClassName),
                 onClick: function() {
                     return setIsOpen(!isOpen);
@@ -1566,7 +1578,7 @@ var ModularForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsxs6("form", {
+    return /* @__PURE__ */ jsxs7("form", {
         onSubmit: onSubmit,
         style: {
             direction: direction
@@ -1587,7 +1599,7 @@ var ModularForm = function(param) {
                         return null;
                 }
             }),
-            /* @__PURE__ */ jsxs6("div", {
+            /* @__PURE__ */ jsxs7("div", {
                 className: "flex justify-between w-full",
                 children: [
                     /* @__PURE__ */ jsx8("div", {
@@ -1610,7 +1622,7 @@ var ModularForm = function(param) {
     });
 };
 var ConfirmForm = function(param) {
-    var onV = param.onV, onX = param.onX, _param_headline = param.headline, headline = _param_headline === void 0 ? "" : _param_headline, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction;
+    var onV = param.onV, onX = param.onX, _param_headline = param.headline, headline = _param_headline === void 0 ? "" : _param_headline, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_buttonsContainerClassName = param.buttonsContainerClassName, buttonsContainerClassName = _param_buttonsContainerClassName === void 0 ? "" : _param_buttonsContainerClassName, _param_headlineClassName = param.headlineClassName, headlineClassName = _param_headlineClassName === void 0 ? "" : _param_headlineClassName;
     var onConfirm = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function() {
             var error;
@@ -1691,35 +1703,27 @@ var ConfirmForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs7("div", {
         style: {
             direction: direction,
             padding: "30px"
         },
-        className: "full col gap-2",
+        className: cn("full col gap-2", containerClassName),
         children: [
             /* @__PURE__ */ jsx8("div", {
-                className: "text-lg font-bold",
+                className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
-            /* @__PURE__ */ jsxs6("div", {
-                className: "center gap-2 ",
+            /* @__PURE__ */ jsxs7("div", {
+                className: cn("center gap-2 ", buttonsContainerClassName),
                 children: [
-                    /* @__PURE__ */ jsxs6("button", {
+                    /* @__PURE__ */ jsx8("button", {
                         onClick: onDenied,
-                        children: [
-                            " ",
-                            /* @__PURE__ */ jsx8(RedXSvg, {}),
-                            " "
-                        ]
+                        children: /* @__PURE__ */ jsx8(RedXSvg, {})
                     }),
-                    /* @__PURE__ */ jsxs6("button", {
+                    /* @__PURE__ */ jsx8("button", {
                         onClick: onConfirm,
-                        children: [
-                            " ",
-                            /* @__PURE__ */ jsx8(GreenVSvg, {}),
-                            " "
-                        ]
+                        children: /* @__PURE__ */ jsx8(GreenVSvg, {})
                     })
                 ]
             })
@@ -1764,14 +1768,14 @@ var DatePicker = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsxs6("form", {
+    return /* @__PURE__ */ jsxs7("form", {
         style: {
             direction: direction
         },
         onSubmit: onSubmit,
         className: "w-full h-10 flex justify-start gap-3 items-center ".concat(formClassName),
         children: [
-            /* @__PURE__ */ jsxs6("label", {
+            /* @__PURE__ */ jsxs7("label", {
                 className: "center text-[14px] relative gap-2 ".concat(labelsClassName),
                 htmlFor: "from",
                 children: [
@@ -1784,7 +1788,7 @@ var DatePicker = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsxs6("label", {
+            /* @__PURE__ */ jsxs7("label", {
                 className: "center text-[14px] relative gap-2 ".concat(labelsClassName),
                 htmlFor: "to",
                 children: [
@@ -1811,5 +1815,5 @@ var DatePicker = function(param) {
         ]
     });
 };
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, getFixedNumber };
+export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
 //# sourceMappingURL=index.mjs.map

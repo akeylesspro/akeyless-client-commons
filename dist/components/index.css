@@ -411,6 +411,9 @@ body {
 .sticky {
   position: sticky;
 }
+.bottom-\[0px\] {
+  bottom: 0px;
+}
 .left-0 {
   left: 0px;
 }
@@ -452,6 +455,9 @@ body {
 }
 .z-20 {
   z-index: 20;
+}
+.z-30 {
+  z-index: 30;
 }
 .m-\[7px\] {
   margin: 7px;
