@@ -88,10 +88,6 @@ export const useSearch = () => {
     const [isPending, startTransition] = useTransition();
     const deferredSearchQuery = useDeferredValue(searchQuery);
 
-    useEffect(() => {
-        console.log("isPending", isPending);
-    }, [isPending]);
-
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         startTransition(() => {
