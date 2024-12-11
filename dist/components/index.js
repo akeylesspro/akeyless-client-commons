@@ -1073,11 +1073,6 @@ var useSort = function() {
 var useSearch = function() {
     var _ref = _sliced_to_array((0, import_react3.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
     var _ref1 = _sliced_to_array((0, import_react3.useTransition)(), 2), isPending = _ref1[0], startTransition = _ref1[1];
-    (0, import_react3.useEffect)(function() {
-        console.log("isPending", isPending);
-    }, [
-        isPending
-    ]);
     var handleSearch = function(e) {
         var value = e.target.value;
         startTransition(function() {

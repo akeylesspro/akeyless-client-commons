@@ -698,7 +698,7 @@ var exportToExcelSvg = function() {
     });
 };
 // src/components/table/hooks.tsx
-import { useContext as useContext2, useEffect as useEffect2, useState as useState2, useTransition } from "react";
+import { useContext as useContext2, useState as useState2, useTransition } from "react";
 import { create } from "zustand";
 import { isEqual as isEqual2 } from "lodash";
 // src/components/table/Table.tsx
@@ -943,11 +943,6 @@ var useSort = function() {
 var useSearch = function() {
     var _useState2 = _sliced_to_array(useState2(""), 2), searchQuery = _useState2[0], setSearchQuery = _useState2[1];
     var _useTransition = _sliced_to_array(useTransition(), 2), isPending = _useTransition[0], startTransition = _useTransition[1];
-    useEffect2(function() {
-        console.log("isPending", isPending);
-    }, [
-        isPending
-    ]);
     var handleSearch = function(e) {
         var value = e.target.value;
         startTransition(function() {
