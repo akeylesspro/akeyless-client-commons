@@ -62,7 +62,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     // rendered data
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
-    const { searchQuery, handleSearch, clearSearch } = useSearch();
+    const { searchQuery, handleSearch, clearSearch,deferredSearchQuery } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
         filterableColumns,
@@ -79,8 +79,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     const dataToRender = useMemo(() => {
         let filtered = data;
         // search
-        if (includeSearch && searchQuery.length > 0) {
-            filtered = data.filter((item) => allKeys.some((key) => item[key]?.toString().toLowerCase().includes(searchQuery.toLowerCase())));
+        if (includeSearch && deferredSearchQuery.length > 0) {
+            filtered = data.filter((item) => allKeys.some((key) => item[key]?.toString().toLowerCase().includes(deferredSearchQuery.toLowerCase())));
             // clearFilter();
             // clearSort();
         }
@@ -111,7 +111,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         const renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [searchQuery, sortColumn, sortOrder, filters, data]);
+    }, [deferredSearchQuery, sortColumn, sortOrder, filters, data]);
 
     const providerValues = {
         ...props,
@@ -125,6 +125,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         sortOrder,
         handleSort,
         searchQuery,
+        deferredSearchQuery,
         handleSearch,
         dataToRender,
         filters,

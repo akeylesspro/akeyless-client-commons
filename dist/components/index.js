@@ -850,7 +850,7 @@ var TableProvider = function(props) {
     sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
     maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
     var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort, clearSort = _useSort.clearSort;
-    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch, clearSearch = _useSearch.clearSearch;
+    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch, clearSearch = _useSearch.clearSearch, deferredSearchQuery = _useSearch.deferredSearchQuery;
     var _useFilter = useFilter({
         data: data,
         filterableColumns: filterableColumns
@@ -867,11 +867,11 @@ var TableProvider = function(props) {
     ]);
     var dataToRender = (0, import_react2.useMemo)(function() {
         var filtered = data;
-        if (includeSearch && searchQuery.length > 0) {
+        if (includeSearch && deferredSearchQuery.length > 0) {
             filtered = data.filter(function(item) {
                 return allKeys.some(function(key) {
                     var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(deferredSearchQuery.toLowerCase());
                 });
             });
         }
@@ -901,7 +901,7 @@ var TableProvider = function(props) {
             filtered: filtered
         };
     }, [
-        searchQuery,
+        deferredSearchQuery,
         sortColumn,
         sortOrder,
         filters,
@@ -918,6 +918,7 @@ var TableProvider = function(props) {
         sortOrder: sortOrder,
         handleSort: handleSort,
         searchQuery: searchQuery,
+        deferredSearchQuery: deferredSearchQuery,
         handleSearch: handleSearch,
         dataToRender: dataToRender,
         filters: filters,
@@ -1096,7 +1097,8 @@ var useSearch = function() {
         searchQuery: searchQuery,
         handleSearch: handleSearch,
         clearSearch: clearSearch,
-        isPending: isPending
+        isPending: isPending,
+        deferredSearchQuery: deferredSearchQuery
     };
 };
 // src/components/table/components.tsx

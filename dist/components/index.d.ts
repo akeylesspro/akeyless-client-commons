@@ -52,6 +52,7 @@ interface TableProviderType {
     sortOrder: "asc" | "desc";
     handleSort: (columnIndex: number) => void;
     searchQuery: string;
+    deferredSearchQuery: string;
     handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
     dataToRender: {
         renderedData: TObject<any>[];

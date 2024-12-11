@@ -107,7 +107,7 @@ export const useSearch = () => {
         }
     };
 
-    return { searchQuery, handleSearch, clearSearch, isPending };
+    return { searchQuery, handleSearch, clearSearch, isPending ,deferredSearchQuery};
 };
 
 export const useCreateTableStore = () => {
