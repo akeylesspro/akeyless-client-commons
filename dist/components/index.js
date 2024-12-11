@@ -425,7 +425,7 @@ __export(components_exports, {
         return TableProvider;
     },
     TableRow: function() {
-        return TableRow;
+        return TableRow2;
     },
     Version: function() {
         return Version;
@@ -577,10 +577,10 @@ var Version = function(param) {
         ]
     });
 };
-// src/components/table/utils.tsx
+// src/components/table/components.tsx
 var import_exceljs = __toESM(require("exceljs"));
 var import_file_saver = require("file-saver");
-var import_react5 = require("react");
+var import_react4 = require("react");
 // src/assets/svg.tsx
 var import_jsx_runtime5 = require("react/jsx-runtime");
 var RedXSvg = function(param) {
@@ -827,8 +827,597 @@ var exportToExcelSvg = function() {
         ]
     });
 };
-// src/hooks/global.ts
-var import_react2 = require("react");
+// src/components/table/hooks.tsx
+var import_react3 = require("react");
+var import_zustand = require("zustand");
+var import_lodash2 = require("lodash");
+// src/components/table/Table.tsx
+var import_react2 = __toESM(require("react"));
+var import_lodash = require("lodash");
+var import_jsx_runtime7 = require("react/jsx-runtime");
+var TableContext = (0, import_react2.createContext)(null);
+var TableProvider = function(props) {
+    var // basic props
+    data = props.data, headers = props.headers, optionalElement = props.optionalElement, _props_keysToRender = props.keysToRender, keysToRender = _props_keysToRender === void 0 ? [] : _props_keysToRender, _props_direction = props.direction, direction = _props_direction === void 0 ? "ltr" : _props_direction, _props_onRowClick = props.onRowClick, onRowClick = _props_onRowClick === void 0 ? function(data2) {} : _props_onRowClick, // container styles props
+    containerStyle = props.containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.// row style
+    rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, rowClassName = props.rowClassName, // cell style
+    cellClassName = props.cellClassName, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
+    headerStyle, headerStyle = _props_headerStyle === void 0 ? {} : _props_headerStyle, headerCellStyle = props.headerCellStyle, _props_searchInputStyle = props.searchInputStyle, searchInputStyle = _props_searchInputStyle === void 0 ? {} : _props_searchInputStyle, _props_searchInputClassName = props.// search
+    searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, includeSearch = props.includeSearch, searchPlaceHolder = props.searchPlaceHolder, // sort
+    sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
+    filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
+    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
+    sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
+    maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
+    var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort, clearSort = _useSort.clearSort;
+    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch, clearSearch = _useSearch.clearSearch;
+    var _useFilter = useFilter({
+        data: data,
+        filterableColumns: filterableColumns
+    }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick, closeFilterWindow = _useFilter.closeFilterWindow, clearFilter = _useFilter.clearFilter;
+    var allKeys = (0, import_react2.useMemo)(function() {
+        return Array.from(data.reduce(function(keys, obj) {
+            Object.keys(obj).forEach(function(key) {
+                return keys.add(key);
+            });
+            return keys;
+        }, /* @__PURE__ */ new Set()));
+    }, [
+        data
+    ]);
+    var dataToRender = (0, import_react2.useMemo)(function() {
+        var filtered = data;
+        if (includeSearch && searchQuery.length > 0) {
+            filtered = data.filter(function(item) {
+                return allKeys.some(function(key) {
+                    var _item_key;
+                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
+                });
+            });
+        }
+        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
+            console.log("filtering ...");
+            Object.keys(filters).forEach(function(key) {
+                if (filters[key].length > 0) {
+                    filtered = filtered.filter(function(item) {
+                        return filters[key].includes(item[key]);
+                    });
+                }
+            });
+        }
+        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length) > 0) {
+            console.log("sorting ...");
+            filtered = filtered.sort(function(a, b) {
+                var aValue = a[sortKeys[sortColumn]];
+                var bValue = b[sortKeys[sortColumn]];
+                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+                return 0;
+            });
+        }
+        var renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        return {
+            renderedData: renderedData,
+            filtered: filtered
+        };
+    }, [
+        searchQuery,
+        sortColumn,
+        sortOrder,
+        filters,
+        data
+    ]);
+    var providerValues = _object_spread_props(_object_spread({}, props), {
+        // props with default values
+        direction: direction,
+        keysToRender: keysToRender,
+        filterableColumns: filterableColumns,
+        maxRows: maxRows,
+        // states and functions
+        sortColumn: sortColumn,
+        sortOrder: sortOrder,
+        handleSort: handleSort,
+        searchQuery: searchQuery,
+        handleSearch: handleSearch,
+        dataToRender: dataToRender,
+        filters: filters,
+        filterPopupsDisplay: filterPopupsDisplay,
+        filterOptions: filterOptions,
+        handleFilterChange: handleFilterChange,
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow
+    });
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableContext.Provider, {
+        value: providerValues,
+        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+            className: "flex flex-col gap-2 ".concat(containerClassName),
+            style: _object_spread_props(_object_spread({}, containerStyle), {
+                direction: direction
+            }),
+            children: props.children
+        })
+    });
+};
+var TableBase = function(props) {
+    var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(TableProvider, _object_spread_props(_object_spread({}, props), {
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
+                style: {
+                    direction: direction
+                },
+                className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
+                children: [
+                    includeSearch && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Search, {
+                        render: false
+                    }),
+                    exportToExcelKeys && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(ExportToExcel, {
+                        render: false
+                    }),
+                    maxRowsLabel1 && maxRowsLabel2 && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MaxRowsLabel, {}),
+                    optionalElement && optionalElement
+                ]
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
+                style: _object_spread_props(_object_spread({}, tableContainerStyle || {}), {
+                    direction: direction
+                }),
+                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
+                children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("table", {
+                    style: tableStyle,
+                    className: "min-w-full text-sm font-light relative",
+                    children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableHead, {}),
+                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableBody, {
+                            render: false
+                        })
+                    ]
+                })
+            }),
+            sumColumns && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Summary, {
+                render: false
+            })
+        ]
+    }));
+};
+var areEqual = function(prevProps, nextProps) {
+    return (0, import_lodash.isEqual)(prevProps, nextProps);
+};
+var Table = import_react2.default.memo(TableBase, areEqual);
+Table.displayName = "Table";
+// src/components/table/hooks.tsx
+var useTableContext = function() {
+    var context = (0, import_react3.useContext)(TableContext);
+    if (!context) {
+        throw new Error("useTableContext must be used within a Table component");
+    }
+    return context;
+};
+var useFilter = function(param) {
+    var data = param.data, filterableColumns = param.filterableColumns;
+    var initFilter = filterableColumns.reduce(function(acc, col) {
+        return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
+    }, {});
+    var _ref = _sliced_to_array((0, import_react3.useState)(initFilter), 2), filters = _ref[0], setFilters = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react3.useState)(""), 2), filterPopupsDisplay = _ref1[0], setFilterPopupsDisplay = _ref1[1];
+    var filterOptions = filterableColumns.reduce(function(acc, col) {
+        acc[col.dataKey] = Array.from(new Set(data.map(function(item) {
+            return item[col.dataKey];
+        })));
+        return acc;
+    }, {});
+    var handleFilterChange = function(dataKey, value) {
+        var newFilters = _object_spread({}, filters);
+        if (newFilters[dataKey].includes(value)) {
+            newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
+                return item !== value;
+            });
+        } else {
+            newFilters[dataKey].push(value);
+        }
+        setFilters(newFilters);
+    };
+    var clearFilter = function() {
+        if (!(0, import_lodash2.isEqual)(filters, initFilter)) {
+            setFilters(initFilter);
+        }
+    };
+    var handleFilterClick = function(dataKey) {
+        setFilterPopupsDisplay(function(prev) {
+            if (prev === dataKey) {
+                setFilters(initFilter);
+                return "";
+            }
+            return dataKey;
+        });
+    };
+    var closeFilterWindow = function() {
+        setFilterPopupsDisplay("");
+    };
+    return {
+        filters: filters,
+        filterPopupsDisplay: filterPopupsDisplay,
+        filterOptions: filterOptions,
+        handleFilterChange: handleFilterChange,
+        handleFilterClick: handleFilterClick,
+        closeFilterWindow: closeFilterWindow,
+        clearFilter: clearFilter
+    };
+};
+var useSort = function() {
+    var _ref = _sliced_to_array((0, import_react3.useState)(null), 2), sortColumn = _ref[0], setSortColumn = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react3.useState)(null), 2), sortOrder = _ref1[0], setSortOrder = _ref1[1];
+    var handleSort = function(columnIndex) {
+        var newSortOrder = "asc";
+        if (sortColumn === columnIndex && sortOrder === "asc") {
+            newSortOrder = "desc";
+        }
+        setSortColumn(columnIndex);
+        setSortOrder(newSortOrder);
+    };
+    var clearSort = function() {
+        if (sortColumn) {
+            setSortColumn(null);
+        }
+        if (sortOrder) {
+            setSortOrder(null);
+        }
+    };
+    return {
+        sortColumn: sortColumn,
+        sortOrder: sortOrder,
+        handleSort: handleSort,
+        clearSort: clearSort
+    };
+};
+var useSearch = function() {
+    var _ref = _sliced_to_array((0, import_react3.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react3.useTransition)(), 2), isPending = _ref1[0], startTransition = _ref1[1];
+    (0, import_react3.useEffect)(function() {
+        console.log("isPending", isPending);
+    }, [
+        isPending
+    ]);
+    var handleSearch = function(e) {
+        var value = e.target.value;
+        startTransition(function() {
+            setSearchQuery(value);
+        });
+    };
+    var clearSearch = function() {
+        if (searchQuery) {
+            startTransition(function() {
+                setSearchQuery("");
+            });
+        }
+    };
+    return {
+        searchQuery: searchQuery,
+        handleSearch: handleSearch,
+        clearSearch: clearSearch,
+        isPending: isPending
+    };
+};
+// src/components/table/components.tsx
+var import_jsx_runtime8 = require("react/jsx-runtime");
+var getFixedNumber = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
+    var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
+    return String(sum_value);
+};
+var TableRow2 = function(param) {
+    var item = param.item;
+    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("tr", {
+        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
+        onClick: function() {
+            return onRowClick && onRowClick(item);
+        },
+        style: rowStyles,
+        children: keysToRender.map(function(key, index) {
+            return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TableCell, {
+                value: item[key]
+            }, index);
+        })
+    });
+};
+var TableCell = function(param) {
+    var value = param.value;
+    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("td", {
+        title: [
+            "string",
+            "number",
+            "boolean"
+        ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
+        style: cellStyle,
+        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
+        children: value
+    });
+};
+var TableHead = (0, import_react4.memo)(function(props) {
+    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
+    var sortDisplay = (0, import_react4.useMemo)(function() {
+        return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
+    }, [
+        sortKeys
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("thead", {
+        className: "bg-[#282828] text-white sticky top-0",
+        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("tr", {
+            style: headerStyle,
+            children: headers.map(function(header, index) {
+                var filterableColumn = filterableColumns.find(function(col) {
+                    return col.header === header;
+                });
+                return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("th", {
+                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
+                    style: headerCellStyle,
+                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
+                    children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
+                            onClick: function() {
+                                return sortDisplay && handleSort(index);
+                            },
+                            children: header
+                        }),
+                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                            children: sortSvg()
+                        }) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                            children: sortSvg(true)
+                        })),
+                        filterableColumn && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Filter, {
+                            filterableColumn: filterableColumn,
+                            index: index
+                        })
+                    ]
+                }, index);
+            })
+        })
+    });
+});
+var TableBody = (0, import_react4.memo)(function(props) {
+    var dataToRender = useTableContext().dataToRender;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("tbody", {
+        children: dataToRender.renderedData.map(function(item, index) {
+            return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TableRow2, {
+                item: item
+            }, index);
+        })
+    });
+});
+var Filter = (0, import_react4.memo)(function(param) {
+    var filterableColumn = param.filterableColumn, index = param.index;
+    var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
+    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
+    var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+        className: "absolute top-1 right-1 ",
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", {
+                title: filterLabel + " " + filterableColumn.header,
+                className: "text-[12px]",
+                onClick: function() {
+                    return handleFilterClick(filterableColumn.dataKey);
+                },
+                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                        children: slashFilterSvg(true)
+                    }) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                        children: emptyFilterSvg(true)
+                    })
+                }) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                        children: slashFilterSvg()
+                    }) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(import_jsx_runtime8.Fragment, {
+                        children: emptyFilterSvg()
+                    })
+                })
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                className: "relative",
+                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+                    className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                    children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+                            className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
+                            children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                                    className: "text-start",
+                                    children: filterLabel + " " + filterableColumn.header
+                                }),
+                                /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", {
+                                    onClick: closeFilterWindow,
+                                    children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(RedXSvg2, {})
+                                })
+                            ]
+                        }),
+                        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                            className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
+                            children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
+                                var _filters_filterableColumn_dataKey;
+                                return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+                                    className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
+                                    children: [
+                                        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", {
+                                            type: "checkbox",
+                                            className: "cursor-pointer",
+                                            checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
+                                            onChange: function() {
+                                                return handleFilterChange(filterableColumn.dataKey, option);
+                                            }
+                                        }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", {
+                                            className: "flex-1 text-start px-2",
+                                            onClick: function() {
+                                                return handleFilterChange(filterableColumn.dataKey, option);
+                                            },
+                                            children: filterableColumn.ui ? filterableColumn.ui(option) : option
+                                        })
+                                    ]
+                                }, i);
+                            })
+                        })
+                    ]
+                })
+            })
+        ]
+    });
+});
+var MaxRowsLabel = (0, import_react4.memo)(function(props) {
+    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+        className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                children: maxRowsLabel1
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                children: maxRowsLabel2
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                children: dataToRender.filtered.length
+            })
+        ]
+    });
+});
+var ExportToExcel = (0, import_react4.memo)(function(props) {
+    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
+    var addPropertiesToExcel = function(properties) {
+        var newData = _to_consumable_array(dataToRender.renderedData);
+        var newHeaders = _to_consumable_array(headers);
+        properties.forEach(function(val) {
+            newHeaders.unshift(val.header);
+            newData = newData.map(function(v) {
+                return _object_spread_props(_object_spread({}, v), _define_property({}, val.key, val.value));
+            });
+        });
+        return {
+            data: newData,
+            headers: newHeaders
+        };
+    };
+    var onExportExcelClick = /*#__PURE__*/ function() {
+        var _ref = _async_to_generator(function() {
+            var workbook, worksheet, dataToExport, buffer, blob;
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        if (!exportToExcelKeys) return [
+                            3,
+                            2
+                        ];
+                        workbook = new import_exceljs.default.Workbook();
+                        worksheet = workbook.addWorksheet("Sheet1");
+                        dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
+                            data: dataToRender.renderedData,
+                            headers: headers
+                        };
+                        worksheet.addRow(dataToExport.headers);
+                        dataToExport.data.forEach(function(item) {
+                            var row = exportToExcelKeys.map(function(key) {
+                                return item[key];
+                            });
+                            worksheet.addRow(row);
+                        });
+                        if (sumColumns) {
+                            sumColumns.forEach(function(val) {
+                                var sumRow = worksheet.addRow([]);
+                                sumRow.getCell(1).value = val.label;
+                                var value = dataToRender.renderedData.reduce(function(acc, v) {
+                                    return acc + Number(v[val.dataKey]) || 0;
+                                }, 0).toFixed(2);
+                                sumRow.getCell(2).value = value;
+                            });
+                        }
+                        return [
+                            4,
+                            workbook.xlsx.writeBuffer()
+                        ];
+                    case 1:
+                        buffer = _state.sent();
+                        blob = new Blob([
+                            buffer
+                        ], {
+                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        });
+                        (0, import_file_saver.saveAs)(blob, "".concat(excelFileName || "table_data", ".xlsx"));
+                        _state.label = 2;
+                    case 2:
+                        return [
+                            2
+                        ];
+                }
+            });
+        });
+        return function onExportExcelClick() {
+            return _ref.apply(this, arguments);
+        };
+    }();
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", {
+        onClick: onExportExcelClick,
+        title: exportExcelLabel,
+        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
+        children: exportToExcelSvg()
+    });
+});
+var Search = (0, import_react4.memo)(function(props) {
+    var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", {
+        className: cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName),
+        type: "text",
+        placeholder: searchPlaceHolder,
+        value: searchQuery,
+        onChange: handleSearch,
+        style: searchInputStyle
+    });
+});
+var Summary = (0, import_react4.memo)(function(props) {
+    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
+            direction: direction
+        }),
+        className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                style: summaryLabelStyle,
+                children: summaryLabel
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                style: summaryRowStyle,
+                className: "flex gap-3",
+                children: sumColumns.map(function(val) {
+                    var sum_res = dataToRender.renderedData.reduce(function(acc, v) {
+                        return acc + Number(v[val.dataKey]) || 0;
+                    }, 0);
+                    var sum_value = getFixedNumber(sum_res);
+                    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
+                        className: "flex gap-1 justify-start",
+                        children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                                children: val.label
+                            }),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", {
+                                children: ":"
+                            }),
+                            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
+                                children: val.ui ? val.ui(sum_value) : sum_value
+                            })
+                        ]
+                    }, val.dataKey + val.label);
+                })
+            })
+        ]
+    });
+});
+// src/components/forms/index.tsx
+var import_react5 = require("react");
+var import_moment2 = __toESM(require("moment"));
 // src/helpers/firebase.ts
 var import_moment = __toESM(require("moment"));
 var import_app = require("firebase/app");
@@ -970,598 +1559,7 @@ var useValidation = function(validationType, requireError) {
 };
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
-// src/hooks/table.ts
-var import_react3 = require("react");
-var import_zustand = require("zustand");
-var import_lodash = require("lodash");
-var useTableContext = function() {
-    var context = (0, import_react3.useContext)(TableContext);
-    if (!context) {
-        throw new Error("useTableContext must be used within a Table component");
-    }
-    return context;
-};
-var useFilter = function(param) {
-    var data = param.data, filterableColumns = param.filterableColumns;
-    var initFilter = filterableColumns.reduce(function(acc, col) {
-        return _object_spread_props(_object_spread({}, acc), _define_property({}, col.dataKey, []));
-    }, {});
-    var _ref = _sliced_to_array((0, import_react3.useState)(initFilter), 2), filters = _ref[0], setFilters = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react3.useState)(""), 2), filterPopupsDisplay = _ref1[0], setFilterPopupsDisplay = _ref1[1];
-    var filterOptions = filterableColumns.reduce(function(acc, col) {
-        acc[col.dataKey] = Array.from(new Set(data.map(function(item) {
-            return item[col.dataKey];
-        })));
-        return acc;
-    }, {});
-    var handleFilterChange = function(dataKey, value) {
-        var newFilters = _object_spread({}, filters);
-        if (newFilters[dataKey].includes(value)) {
-            newFilters[dataKey] = newFilters[dataKey].filter(function(item) {
-                return item !== value;
-            });
-        } else {
-            newFilters[dataKey].push(value);
-        }
-        setFilters(newFilters);
-    };
-    var clearFilter = function() {
-        if (!(0, import_lodash.isEqual)(filters, initFilter)) {
-            setFilters(initFilter);
-        }
-    };
-    var handleFilterClick = function(dataKey) {
-        setFilterPopupsDisplay(function(prev) {
-            if (prev === dataKey) {
-                setFilters(initFilter);
-                return "";
-            }
-            return dataKey;
-        });
-    };
-    var closeFilterWindow = function() {
-        setFilterPopupsDisplay("");
-    };
-    return {
-        filters: filters,
-        filterPopupsDisplay: filterPopupsDisplay,
-        filterOptions: filterOptions,
-        handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick,
-        closeFilterWindow: closeFilterWindow,
-        clearFilter: clearFilter
-    };
-};
-var useSort = function() {
-    var _ref = _sliced_to_array((0, import_react3.useState)(null), 2), sortColumn = _ref[0], setSortColumn = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react3.useState)(null), 2), sortOrder = _ref1[0], setSortOrder = _ref1[1];
-    var handleSort = function(columnIndex) {
-        var newSortOrder = "asc";
-        if (sortColumn === columnIndex && sortOrder === "asc") {
-            newSortOrder = "desc";
-        }
-        setSortColumn(columnIndex);
-        setSortOrder(newSortOrder);
-    };
-    var clearSort = function() {
-        if (sortColumn) {
-            setSortColumn(null);
-        }
-        if (sortOrder) {
-            setSortOrder(null);
-        }
-    };
-    return {
-        sortColumn: sortColumn,
-        sortOrder: sortOrder,
-        handleSort: handleSort,
-        clearSort: clearSort
-    };
-};
-var useSearch = function() {
-    var _ref = _sliced_to_array((0, import_react3.useState)(""), 2), searchQuery = _ref[0], setSearchQuery = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react3.useTransition)(), 2), isPending = _ref1[0], startTransition = _ref1[1];
-    (0, import_react3.useEffect)(function() {
-        console.log("isPending", isPending);
-    }, [
-        isPending
-    ]);
-    var handleSearch = function(e) {
-        var value = e.target.value;
-        startTransition(function() {
-            setSearchQuery(value);
-        });
-    };
-    var clearSearch = function() {
-        if (searchQuery) {
-            startTransition(function() {
-                setSearchQuery("");
-            });
-        }
-    };
-    return {
-        searchQuery: searchQuery,
-        handleSearch: handleSearch,
-        clearSearch: clearSearch,
-        isPending: isPending
-    };
-};
-// src/hooks/WebWorker.ts
-var import_react4 = require("react");
-// src/components/table/utils.tsx
-var import_jsx_runtime7 = require("react/jsx-runtime");
-var getFixedNumber = function() {
-    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
-    var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
-    return String(sum_value);
-};
-var TableRow = function(param) {
-    var item = param.item;
-    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tr", {
-        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
-        onClick: function() {
-            return onRowClick && onRowClick(item);
-        },
-        style: rowStyles,
-        children: keysToRender.map(function(key, index) {
-            return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableCell, {
-                value: item[key]
-            }, index);
-        })
-    });
-};
-var TableCell = function(param) {
-    var value = param.value;
-    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("td", {
-        title: [
-            "string",
-            "number",
-            "boolean"
-        ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
-        style: cellStyle,
-        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
-        children: value
-    });
-};
-var TableHead = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
-    var sortDisplay = (0, import_react5.useMemo)(function() {
-        return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
-    }, [
-        sortKeys
-    ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("thead", {
-        className: "bg-[#282828] text-white sticky top-0",
-        children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tr", {
-            style: headerStyle,
-            children: headers.map(function(header, index) {
-                var filterableColumn = filterableColumns.find(function(col) {
-                    return col.header === header;
-                });
-                return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("th", {
-                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
-                    style: headerCellStyle,
-                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
-                    children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
-                            onClick: function() {
-                                return sortDisplay && handleSort(index);
-                            },
-                            children: header
-                        }),
-                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                            children: sortSvg()
-                        }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                            children: sortSvg(true)
-                        })),
-                        filterableColumn && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Filter, {
-                            filterableColumn: filterableColumn,
-                            index: index
-                        })
-                    ]
-                }, index);
-            })
-        })
-    });
-});
-var TableBody = (0, import_react5.memo)(function(props) {
-    var dataToRender = useTableContext().dataToRender;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("tbody", {
-        children: dataToRender.renderedData.map(function(item, index) {
-            return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(TableRow, {
-                item: item
-            }, index);
-        })
-    });
-});
-var Filter = (0, import_react5.memo)(function(param) {
-    var filterableColumn = param.filterableColumn, index = param.index;
-    var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
-    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
-    var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-        className: "absolute top-1 right-1 ",
-        children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
-                title: filterLabel + " " + filterableColumn.header,
-                className: "text-[12px]",
-                onClick: function() {
-                    return handleFilterClick(filterableColumn.dataKey);
-                },
-                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                        children: slashFilterSvg(true)
-                    }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                        children: emptyFilterSvg(true)
-                    })
-                }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                        children: slashFilterSvg()
-                    }) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(import_jsx_runtime7.Fragment, {
-                        children: emptyFilterSvg()
-                    })
-                })
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                className: "relative",
-                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-                    className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
-                    children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-                            className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
-                            children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                                    className: "text-start",
-                                    children: filterLabel + " " + filterableColumn.header
-                                }),
-                                /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
-                                    onClick: closeFilterWindow,
-                                    children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(RedXSvg2, {})
-                                })
-                            ]
-                        }),
-                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                            className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
-                            children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
-                                var _filters_filterableColumn_dataKey;
-                                return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-                                    className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
-                                    children: [
-                                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", {
-                                            type: "checkbox",
-                                            className: "cursor-pointer",
-                                            checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
-                                            onChange: function() {
-                                                return handleFilterChange(filterableColumn.dataKey, option);
-                                            }
-                                        }),
-                                        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
-                                            className: "flex-1 text-start px-2",
-                                            onClick: function() {
-                                                return handleFilterChange(filterableColumn.dataKey, option);
-                                            },
-                                            children: filterableColumn.ui ? filterableColumn.ui(option) : option
-                                        })
-                                    ]
-                                }, i);
-                            })
-                        })
-                    ]
-                })
-            })
-        ]
-    });
-});
-var MaxRowsLabel = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-        className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
-        children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                children: maxRowsLabel1
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                children: maxRowsLabel2
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                children: dataToRender.filtered.length
-            })
-        ]
-    });
-});
-var ExportToExcel = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
-    var addPropertiesToExcel = function(properties) {
-        var newData = _to_consumable_array(dataToRender.renderedData);
-        var newHeaders = _to_consumable_array(headers);
-        properties.forEach(function(val) {
-            newHeaders.unshift(val.header);
-            newData = newData.map(function(v) {
-                return _object_spread_props(_object_spread({}, v), _define_property({}, val.key, val.value));
-            });
-        });
-        return {
-            data: newData,
-            headers: newHeaders
-        };
-    };
-    var onExportExcelClick = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function() {
-            var workbook, worksheet, dataToExport, buffer, blob;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        if (!exportToExcelKeys) return [
-                            3,
-                            2
-                        ];
-                        workbook = new import_exceljs.default.Workbook();
-                        worksheet = workbook.addWorksheet("Sheet1");
-                        dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
-                            data: dataToRender.renderedData,
-                            headers: headers
-                        };
-                        worksheet.addRow(dataToExport.headers);
-                        dataToExport.data.forEach(function(item) {
-                            var row = exportToExcelKeys.map(function(key) {
-                                return item[key];
-                            });
-                            worksheet.addRow(row);
-                        });
-                        if (sumColumns) {
-                            sumColumns.forEach(function(val) {
-                                var sumRow = worksheet.addRow([]);
-                                sumRow.getCell(1).value = val.label;
-                                var value = dataToRender.renderedData.reduce(function(acc, v) {
-                                    return acc + Number(v[val.dataKey]) || 0;
-                                }, 0).toFixed(2);
-                                sumRow.getCell(2).value = value;
-                            });
-                        }
-                        return [
-                            4,
-                            workbook.xlsx.writeBuffer()
-                        ];
-                    case 1:
-                        buffer = _state.sent();
-                        blob = new Blob([
-                            buffer
-                        ], {
-                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                        });
-                        (0, import_file_saver.saveAs)(blob, "".concat(excelFileName || "table_data", ".xlsx"));
-                        _state.label = 2;
-                    case 2:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return function onExportExcelClick() {
-            return _ref.apply(this, arguments);
-        };
-    }();
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", {
-        onClick: onExportExcelClick,
-        title: exportExcelLabel,
-        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
-        children: exportToExcelSvg()
-    });
-});
-var Search = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", {
-        className: cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName),
-        type: "text",
-        placeholder: searchPlaceHolder,
-        value: searchQuery,
-        onChange: handleSearch,
-        style: searchInputStyle
-    });
-});
-var Summary = (0, import_react5.memo)(function(props) {
-    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
-            direction: direction
-        }),
-        className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
-        children: [
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                style: summaryLabelStyle,
-                children: summaryLabel
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                style: summaryRowStyle,
-                className: "flex gap-3",
-                children: sumColumns.map(function(val) {
-                    var sum_res = dataToRender.renderedData.reduce(function(acc, v) {
-                        return acc + Number(v[val.dataKey]) || 0;
-                    }, 0);
-                    var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
-                        className: "flex gap-1 justify-start",
-                        children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                                children: val.label
-                            }),
-                            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", {
-                                children: ":"
-                            }),
-                            /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", {
-                                children: val.ui ? val.ui(sum_value) : sum_value
-                            })
-                        ]
-                    }, val.dataKey + val.label);
-                })
-            })
-        ]
-    });
-});
-// src/components/table/Table.tsx
-var import_react6 = __toESM(require("react"));
-var import_lodash2 = require("lodash");
-var import_jsx_runtime8 = require("react/jsx-runtime");
-var TableContext = (0, import_react6.createContext)(null);
-var TableProvider = function(props) {
-    var // basic props
-    data = props.data, headers = props.headers, optionalElement = props.optionalElement, _props_keysToRender = props.keysToRender, keysToRender = _props_keysToRender === void 0 ? [] : _props_keysToRender, _props_direction = props.direction, direction = _props_direction === void 0 ? "ltr" : _props_direction, _props_onRowClick = props.onRowClick, onRowClick = _props_onRowClick === void 0 ? function(data2) {} : _props_onRowClick, // container styles props
-    containerStyle = props.containerStyle, _props_containerClassName = props.containerClassName, containerClassName = _props_containerClassName === void 0 ? "" : _props_containerClassName, _props_tableContainerClass = props.tableContainerClass, tableContainerClass = _props_tableContainerClass === void 0 ? "" : _props_tableContainerClass, _props_tableContainerStyle = props.tableContainerStyle, tableContainerStyle = _props_tableContainerStyle === void 0 ? {} : _props_tableContainerStyle, _props_tableStyle = props.tableStyle, tableStyle = _props_tableStyle === void 0 ? {} : _props_tableStyle, _props_rowStyles = props.// row style
-    rowStyles, rowStyles = _props_rowStyles === void 0 ? {} : _props_rowStyles, rowClassName = props.rowClassName, // cell style
-    cellClassName = props.cellClassName, _props_cellStyle = props.cellStyle, cellStyle = _props_cellStyle === void 0 ? {} : _props_cellStyle, _props_headerStyle = props.// header styles
-    headerStyle, headerStyle = _props_headerStyle === void 0 ? {} : _props_headerStyle, headerCellStyle = props.headerCellStyle, _props_searchInputStyle = props.searchInputStyle, searchInputStyle = _props_searchInputStyle === void 0 ? {} : _props_searchInputStyle, _props_searchInputClassName = props.// search
-    searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, includeSearch = props.includeSearch, searchPlaceHolder = props.searchPlaceHolder, // sort
-    sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
-    filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
-    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
-    sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
-    maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
-    var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort, clearSort = _useSort.clearSort;
-    var _useSearch = useSearch(), searchQuery = _useSearch.searchQuery, handleSearch = _useSearch.handleSearch, clearSearch = _useSearch.clearSearch;
-    var _useFilter = useFilter({
-        data: data,
-        filterableColumns: filterableColumns
-    }), filters = _useFilter.filters, filterPopupsDisplay = _useFilter.filterPopupsDisplay, filterOptions = _useFilter.filterOptions, handleFilterChange = _useFilter.handleFilterChange, handleFilterClick = _useFilter.handleFilterClick, closeFilterWindow = _useFilter.closeFilterWindow, clearFilter = _useFilter.clearFilter;
-    var allKeys = (0, import_react6.useMemo)(function() {
-        return Array.from(data.reduce(function(keys, obj) {
-            Object.keys(obj).forEach(function(key) {
-                return keys.add(key);
-            });
-            return keys;
-        }, /* @__PURE__ */ new Set()));
-    }, [
-        data
-    ]);
-    var dataToRender = (0, import_react6.useMemo)(function() {
-        var filtered = data;
-        if (includeSearch && searchQuery.length > 0) {
-            filtered = data.filter(function(item) {
-                return allKeys.some(function(key) {
-                    var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(searchQuery.toLowerCase());
-                });
-            });
-        }
-        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
-            console.log("filtering ...");
-            Object.keys(filters).forEach(function(key) {
-                if (filters[key].length > 0) {
-                    filtered = filtered.filter(function(item) {
-                        return filters[key].includes(item[key]);
-                    });
-                }
-            });
-        }
-        if (sortColumn !== null && sortOrder !== null && (sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length) > 0) {
-            console.log("sorting ...");
-            filtered = filtered.sort(function(a, b) {
-                var aValue = a[sortKeys[sortColumn]];
-                var bValue = b[sortKeys[sortColumn]];
-                if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
-                if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
-                return 0;
-            });
-        }
-        var renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
-        return {
-            renderedData: renderedData,
-            filtered: filtered
-        };
-    }, [
-        searchQuery,
-        sortColumn,
-        sortOrder,
-        filters,
-        data
-    ]);
-    var providerValues = _object_spread_props(_object_spread({}, props), {
-        // props with default values
-        direction: direction,
-        keysToRender: keysToRender,
-        filterableColumns: filterableColumns,
-        maxRows: maxRows,
-        // states and functions
-        sortColumn: sortColumn,
-        sortOrder: sortOrder,
-        handleSort: handleSort,
-        searchQuery: searchQuery,
-        handleSearch: handleSearch,
-        dataToRender: dataToRender,
-        filters: filters,
-        filterPopupsDisplay: filterPopupsDisplay,
-        filterOptions: filterOptions,
-        handleFilterChange: handleFilterChange,
-        handleFilterClick: handleFilterClick,
-        closeFilterWindow: closeFilterWindow
-    });
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TableContext.Provider, {
-        value: providerValues,
-        children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
-            className: "flex flex-col gap-2 ".concat(containerClassName),
-            style: _object_spread_props(_object_spread({}, containerStyle), {
-                direction: direction
-            }),
-            children: props.children
-        })
-    });
-};
-var TableBase = function(props) {
-    var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(TableProvider, _object_spread_props(_object_spread({}, props), {
-        children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", {
-                style: {
-                    direction: direction
-                },
-                className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
-                children: [
-                    includeSearch && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Search, {
-                        render: false
-                    }),
-                    exportToExcelKeys && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(ExportToExcel, {
-                        render: false
-                    }),
-                    maxRowsLabel1 && maxRowsLabel2 && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(MaxRowsLabel, {}),
-                    optionalElement && optionalElement
-                ]
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", {
-                style: _object_spread_props(_object_spread({}, tableContainerStyle || {}), {
-                    direction: direction
-                }),
-                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
-                children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("table", {
-                    style: tableStyle,
-                    className: "min-w-full text-sm font-light relative",
-                    children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TableHead, {}),
-                        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(TableBody, {
-                            render: false
-                        })
-                    ]
-                })
-            }),
-            sumColumns && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Summary, {
-                render: false
-            })
-        ]
-    }));
-};
-var areEqual = function(prevProps, nextProps) {
-    return (0, import_lodash2.isEqual)(prevProps, nextProps);
-};
-var Table = import_react6.default.memo(TableBase, areEqual);
-Table.displayName = "Table";
 // src/components/forms/index.tsx
-var import_react7 = require("react");
-var import_moment2 = __toESM(require("moment"));
 var import_jsx_runtime9 = require("react/jsx-runtime");
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, onKeyDown = param.onKeyDown;
@@ -1591,8 +1589,8 @@ var InputContainer = function(param) {
 var SelectContainer = function(param) {
     var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
     var _options_, _options_find;
-    var _ref = _sliced_to_array((0, import_react7.useState)(false), 2), isOpen = _ref[0], setIsOpen = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react7.useState)(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), isOpen = _ref[0], setIsOpen = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react5.useState)(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
     var handleOptionClick = function(value) {
         setSelectedValue(value);
         setIsOpen(false);
@@ -1661,8 +1659,8 @@ var ModularForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, buttonContent = param.buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName;
-    var _ref = _sliced_to_array((0, import_react7.useState)(""), 2), errorMsg = _ref[0], setErrorMsg = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react7.useState)(false), 2), isLoading = _ref1[0], setIsLoading = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react5.useState)(""), 2), errorMsg = _ref[0], setErrorMsg = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react5.useState)(false), 2), isLoading = _ref1[0], setIsLoading = _ref1[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
             var err;
@@ -1879,7 +1877,7 @@ var DatePicker = function(param) {
             return _ref.apply(this, arguments);
         };
     }() : _param_submit, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_labelsClassName = param.labelsClassName, labelsClassName = _param_labelsClassName === void 0 ? "" : _param_labelsClassName, _param_inputsClassName = param.inputsClassName, inputsClassName = _param_inputsClassName === void 0 ? "" : _param_inputsClassName, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName, _param_buttonStyle = param.buttonStyle, buttonStyle = _param_buttonStyle === void 0 ? {} : _param_buttonStyle, defaultFrom = param.defaultFrom, defaultTo = param.defaultTo, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_fromText = param.fromText, fromText = _param_fromText === void 0 ? "From date" : _param_fromText, _param_toText = param.toText, toText = _param_toText === void 0 ? "To date" : _param_toText, _param_buttonText = param.buttonText, buttonText = _param_buttonText === void 0 ? "Search" : _param_buttonText;
-    var _ref = _sliced_to_array((0, import_react7.useState)(false), 2), isLoading = _ref[0], setIsLoading = _ref[1];
+    var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), isLoading = _ref[0], setIsLoading = _ref[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
             return _ts_generator(this, function(_state) {

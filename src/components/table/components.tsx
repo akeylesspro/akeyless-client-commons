@@ -3,10 +3,10 @@ import { saveAs } from "file-saver";
 import React, { memo, useMemo } from "react";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "../../types";
-import { useTableContext } from "../../hooks";
 import { TObject } from "akeyless-types-commons";
 import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
+import { useTableContext } from "./hooks";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");

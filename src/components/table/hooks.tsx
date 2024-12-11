@@ -1,10 +1,9 @@
-import { useContext, useEffect, useMemo, useState, useTransition } from "react";
-import { TableContext } from "../components";
+import { useContext, useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
 import { TObject } from "akeyless-types-commons";
-import { UseFilterProps } from "../types";
 import { create } from "zustand";
-import { setState } from "../helpers";
 import { isEqual } from "lodash";
+import { TableContext } from "./Table";
+import { UseFilterProps } from "src/types";
 export const useTableContext = () => {
     const context = useContext(TableContext);
     if (!context) {
@@ -87,6 +86,7 @@ export const useSort = () => {
 export const useSearch = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [isPending, startTransition] = useTransition();
+    // const deferredText = useDeferredValue(searchQuery);
 
     useEffect(() => {
         console.log("isPending", isPending);

@@ -1,8 +1,8 @@
 import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
-import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./utils";
+import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./components";
 import { TableProps, TableProviderType } from "../../types";
 import { TObject } from "akeyless-types-commons";
-import { useFilter, useSort, useSearch } from "../../hooks";
+import { useFilter, useSort, useSearch } from "./hooks";
 import { TableSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
