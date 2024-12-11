@@ -86,11 +86,11 @@ export const useSort = () => {
 export const useSearch = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [isPending, startTransition] = useTransition();
-    // const deferredText = useDeferredValue(searchQuery);
+    const deferredSearchQuery = useDeferredValue(searchQuery);
 
-    // useEffect(() => {
-    //     console.log("isPending", isPending);
-    // }, [isPending]);
+    useEffect(() => {
+        console.log("isPending", isPending);
+    }, [isPending]);
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
