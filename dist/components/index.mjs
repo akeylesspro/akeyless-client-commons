@@ -840,7 +840,7 @@ var useValidation = function(validationType, requireError) {
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/hooks/table.ts
-import { useContext, useState, useTransition } from "react";
+import { useContext, useEffect as useEffect2, useState, useTransition } from "react";
 import { create } from "zustand";
 import { isEqual } from "lodash";
 var useTableContext = function() {
@@ -930,6 +930,11 @@ var useSort = function() {
 var useSearch = function() {
     var _useState = _sliced_to_array(useState(""), 2), searchQuery = _useState[0], setSearchQuery = _useState[1];
     var _useTransition = _sliced_to_array(useTransition(), 2), isPending = _useTransition[0], startTransition = _useTransition[1];
+    useEffect2(function() {
+        console.log("isPending", isPending);
+    }, [
+        isPending
+    ]);
     var handleSearch = function(e) {
         var value = e.target.value;
         startTransition(function() {

@@ -88,6 +88,10 @@ export const useSearch = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [isPending, startTransition] = useTransition();
 
+    useEffect(() => {
+        console.log("isPending", isPending);
+    }, [isPending]);
+
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         startTransition(() => {

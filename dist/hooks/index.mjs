@@ -480,7 +480,7 @@ var useSnapshotBulk = function(configs, label) {
     ]);
 };
 // src/hooks/table.ts
-import { useContext as useContext2, useState as useState3, useTransition } from "react";
+import { useContext as useContext2, useEffect as useEffect3, useState as useState3, useTransition } from "react";
 // src/components/utils/Checkboxes.tsx
 import { jsx, jsxs } from "react/jsx-runtime";
 // src/components/utils/ErrorBoundary.tsx
@@ -1329,6 +1329,11 @@ var useSort = function() {
 var useSearch = function() {
     var _useState3 = _sliced_to_array(useState3(""), 2), searchQuery = _useState3[0], setSearchQuery = _useState3[1];
     var _useTransition = _sliced_to_array(useTransition(), 2), isPending = _useTransition[0], startTransition = _useTransition[1];
+    useEffect3(function() {
+        console.log("isPending", isPending);
+    }, [
+        isPending
+    ]);
     var handleSearch = function(e) {
         var value = e.target.value;
         startTransition(function() {
