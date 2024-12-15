@@ -13,7 +13,7 @@ export function useSafeEffect(callback: () => void, dependencies: any[], error_m
 export const useDocumentTitle = (title: string) => {
     useEffect(() => {
         document.title = title;
-    }, []);
+    }, [title]);
     return null;
 };
 

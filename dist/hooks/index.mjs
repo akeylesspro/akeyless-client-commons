@@ -192,7 +192,9 @@ function useSafeEffect(callback, dependencies, error_message) {
 var useDocumentTitle = function(title) {
     useEffect(function() {
         document.title = title;
-    }, []);
+    }, [
+        title
+    ]);
     return null;
 };
 var useSnapshotBulk = function(configs, label) {

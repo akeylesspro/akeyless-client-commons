@@ -105,8 +105,6 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
                 if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
                 return 0;
             });
-            // clearFilter();
-            // clearSearch();
         }
         const renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
