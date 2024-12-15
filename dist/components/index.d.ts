@@ -1,5 +1,5 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import React$1, { SetStateAction, ReactNode } from 'react';
+import React$1, { SetStateAction, ReactNode, Dispatch } from 'react';
 import { TObject } from 'akeyless-types-commons';
 
 interface CheckBoxProps {
@@ -215,4 +215,15 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
+declare function InternationalPhonePiker({ setPhoneValue, phoneValue, placeholder, }: {
+    placeholder: string;
+    phoneValue: string;
+    setPhoneValue: (value: string) => void;
+}): react_jsx_runtime.JSX.Element;
+
+declare function CodeInput({ codeValue, setCodeValue }: {
+    codeValue: string;
+    setCodeValue: Dispatch<SetStateAction<string>>;
+}): react_jsx_runtime.JSX.Element;
+
+export { Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, InternationalPhonePiker, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
