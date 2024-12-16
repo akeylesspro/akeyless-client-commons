@@ -215,15 +215,21 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-declare function InternationalPhonePiker({ setPhoneValue, phoneValue, placeholder, }: {
-    placeholder: string;
+interface InputProps {
     phoneValue: string;
-    setPhoneValue: (value: string) => void;
-}): react_jsx_runtime.JSX.Element;
+    setPhoneValue: Dispatch<SetStateAction<string>>;
+    placeholder?: string;
+    className?: string;
+    containerClassName?: string;
+}
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, }: InputProps): react_jsx_runtime.JSX.Element;
 
-declare function CodeInput({ codeValue, setCodeValue }: {
+interface CodeInputProps {
     codeValue: string;
     setCodeValue: Dispatch<SetStateAction<string>>;
-}): react_jsx_runtime.JSX.Element;
+    className?: string;
+    slotContainerClassName?: string;
+}
+declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, InternationalPhonePiker, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
+export { Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
