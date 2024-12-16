@@ -1997,7 +1997,7 @@ var Input = React4.forwardRef(function(_param, ref) {
 Input.displayName = "Input";
 // src/components/InternationalPhonePicker.tsx
 var import_lucide_react = require("lucide-react");
-var import_react6 = __toESM(require("react"));
+var import_react6 = require("react");
 var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
@@ -2030,7 +2030,7 @@ var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
-    var inputRef = import_react6.default.useRef(null);
+    var inputRef = (0, import_react6.useRef)(null);
     (0, import_react6.useEffect)(function() {
         if (inputRef.current) {
             inputRef.current.focus();

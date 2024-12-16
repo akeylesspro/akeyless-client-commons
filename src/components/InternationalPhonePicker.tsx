@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Phone } from "lucide-react";
-import React, { Dispatch, forwardRef, SetStateAction, useEffect } from "react";
+import React, { Dispatch, forwardRef, SetStateAction, useEffect, useRef } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
@@ -39,7 +39,7 @@ export default function InternationalPhonePicker({
 }
 
 const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, ...props }, ref) => {
-    const inputRef = React.useRef<HTMLInputElement | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         if (inputRef.current) {
@@ -55,7 +55,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
                 if (typeof ref === "function") {
                     ref(el);
                 } else if (ref) {
-                    (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
+                    ref.current = el;
                 }
             }}
             {...props}
