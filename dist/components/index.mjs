@@ -1860,7 +1860,7 @@ var Input = React4.forwardRef(function(_param, ref) {
 Input.displayName = "Input";
 // src/components/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef2 } from "react";
+import React5, { forwardRef as forwardRef2, useEffect as useEffect3 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
@@ -1893,9 +1893,22 @@ var PhoneInput = forwardRef2(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
+    var inputRef = React5.useRef(null);
+    useEffect3(function() {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
     return /* @__PURE__ */ jsx10(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10", className),
-        ref: ref
+        ref: function(el) {
+            inputRef.current = el;
+            if (typeof ref === "function") {
+                ref(el);
+            } else if (ref) {
+                ref.current = el;
+            }
+        }
     }, props));
 });
 PhoneInput.displayName = "PhoneInput";
@@ -1970,15 +1983,23 @@ var FlagComponent = function(param) {
 };
 // src/components/CodeInput.tsx
 import { OTPInput } from "input-otp";
+import { useEffect as useEffect4, useRef as useRef2 } from "react";
 import { jsx as jsx11 } from "react/jsx-runtime";
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
+    var firstInputRef = useRef2(null);
+    useEffect4(function() {
+        if (firstInputRef.current) {
+            firstInputRef.current.focus();
+        }
+    }, []);
     return /* @__PURE__ */ jsx11("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
         children: /* @__PURE__ */ jsx11(OTPInput, {
+            ref: firstInputRef,
             value: codeValue,
-            onChange: function(neuVal) {
-                return setCodeValue(neuVal);
+            onChange: function(newVal) {
+                return setCodeValue(newVal);
             },
             containerClassName: "flex items-center gap-3 has-[:disabled]:opacity-50",
             maxLength: 6,
