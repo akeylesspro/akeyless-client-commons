@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { OTPInput, SlotProps } from "input-otp";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 
 interface CodeInputProps {
     codeValue: string;
@@ -9,12 +9,20 @@ interface CodeInputProps {
     className?: string;
     slotContainerClassName?: string;
 }
+
 export default function CodeInput({ codeValue, setCodeValue, className = "", slotContainerClassName = "" }: CodeInputProps) {
+    const firstInputRef = useRef<HTMLInputElement | null>(null);
+    useEffect(() => {
+        if (firstInputRef.current) {
+            firstInputRef.current.focus();
+        }
+    }, []);
     return (
         <div className={cn("space-y-2 flex justify-center items-center", className)}>
             <OTPInput
+                ref={firstInputRef}
                 value={codeValue}
-                onChange={(neuVal) => setCodeValue(neuVal)}
+                onChange={(newVal) => setCodeValue(newVal)}
                 containerClassName="flex items-center gap-3 has-[:disabled]:opacity-50"
                 maxLength={6}
                 render={({ slots }) => (

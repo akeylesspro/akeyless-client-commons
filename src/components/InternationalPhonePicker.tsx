@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Phone } from "lucide-react";
-import React, { Dispatch, forwardRef, SetStateAction } from "react";
+import React, { Dispatch, forwardRef, SetStateAction, useEffect } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
@@ -39,10 +39,30 @@ export default function InternationalPhonePicker({
 }
 
 const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, ...props }, ref) => {
-    return <Input className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10", className)} ref={ref} {...props} />;
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
+
+    return (
+        <Input
+            className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10", className)}
+            ref={(el) => {
+                inputRef.current = el;
+                if (typeof ref === "function") {
+                    ref(el);
+                } else if (ref) {
+                    (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
+                }
+            }}
+            {...props}
+        />
+    );
 });
 PhoneInput.displayName = "PhoneInput";
-
 type CountrySelectProps = {
     disabled?: boolean;
     value: RPNInput.Country;
