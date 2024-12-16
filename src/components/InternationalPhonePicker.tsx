@@ -6,7 +6,7 @@ import React, { forwardRef, useState } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
-export default function InternationalPhonePiker({
+export default function InternationalPhonePicker({
     setPhoneValue,
     phoneValue,
     placeholder,
