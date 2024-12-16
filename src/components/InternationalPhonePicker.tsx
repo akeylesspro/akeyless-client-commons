@@ -2,23 +2,28 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Phone } from "lucide-react";
-import React, { forwardRef, useState } from "react";
+import React, { Dispatch, forwardRef, SetStateAction } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
+interface InputProps {
+    phoneValue: string;
+    setPhoneValue: Dispatch<SetStateAction<string>>;
+    placeholder?: string;
+    className?: string;
+    containerClassName?: string;
+}
 export default function InternationalPhonePicker({
     setPhoneValue,
     phoneValue,
-    placeholder,
-}: {
-    placeholder: string;
-    phoneValue: string;
-    setPhoneValue: (value: string) => void;
-}) {
+    placeholder = "",
+    className = "",
+    containerClassName = "",
+}: InputProps) {
     return (
-        <div className="space-y-2" dir="ltr">
+        <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
-                className="flex rounded-lg shadow-sm shadow-black/5"
+                className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}
                 defaultCountry="IL"

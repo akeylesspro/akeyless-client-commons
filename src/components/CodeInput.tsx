@@ -3,16 +3,22 @@ import { cn } from "@/lib/utils";
 import { OTPInput, SlotProps } from "input-otp";
 import { Dispatch, SetStateAction } from "react";
 
-export default function CodeInput({ codeValue, setCodeValue }: { codeValue: string; setCodeValue: Dispatch<SetStateAction<string>> }) {
+interface CodeInputProps {
+    codeValue: string;
+    setCodeValue: Dispatch<SetStateAction<string>>;
+    className?: string;
+    slotContainerClassName?: string;
+}
+export default function CodeInput({ codeValue, setCodeValue, className = "", slotContainerClassName = "" }: CodeInputProps) {
     return (
-        <div className="space-y-2 flex justify-center items-center">
+        <div className={cn("space-y-2 flex justify-center items-center", className)}>
             <OTPInput
                 value={codeValue}
                 onChange={(neuVal) => setCodeValue(neuVal)}
                 containerClassName="flex items-center gap-3 has-[:disabled]:opacity-50"
                 maxLength={6}
                 render={({ slots }) => (
-                    <div className="flex gap-5">
+                    <div className={cn("flex gap-5", slotContainerClassName)}>
                         {slots.map((slot, idx) => (
                             <Slot key={idx} {...slot} />
                         ))}
