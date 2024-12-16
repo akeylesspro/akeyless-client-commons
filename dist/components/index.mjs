@@ -172,6 +172,33 @@ function _object_spread_props(target, source) {
     }
     return target;
 }
+function _object_without_properties(source, excluded) {
+    if (source == null) return {};
+    var target = _object_without_properties_loose(source, excluded);
+    var key, i;
+    if (Object.getOwnPropertySymbols) {
+        var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+        for(i = 0; i < sourceSymbolKeys.length; i++){
+            key = sourceSymbolKeys[i];
+            if (excluded.indexOf(key) >= 0) continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+function _object_without_properties_loose(source, excluded) {
+    if (source == null) return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for(i = 0; i < sourceKeys.length; i++){
+        key = sourceKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        target[key] = source[key];
+    }
+    return target;
+}
 function _possible_constructor_return(self, call) {
     if (call && (_type_of(call) === "object" || typeof call === "function")) {
         return call;
@@ -1816,5 +1843,187 @@ var DatePicker = function(param) {
         ]
     });
 };
-export { Checkbox, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, Version, getFixedNumber };
+// src/components/ui/input.tsx
+import * as React4 from "react";
+import { jsx as jsx9 } from "react/jsx-runtime";
+var Input = React4.forwardRef(function(_param, ref) {
+    var className = _param.className, type = _param.type, props = _object_without_properties(_param, [
+        "className",
+        "type"
+    ]);
+    return /* @__PURE__ */ jsx9("input", _object_spread({
+        type: type,
+        className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
+        ref: ref
+    }, props));
+});
+Input.displayName = "Input";
+// src/components/InternationalPhonePicker.tsx
+import { ChevronDown, Phone } from "lucide-react";
+import React5, { forwardRef as forwardRef2, useEffect as useEffect3 } from "react";
+import * as RPNInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
+import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
+function InternationalPhonePicker(param) {
+    var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName;
+    return /* @__PURE__ */ jsx10("div", {
+        className: cn("space-y-2", containerClassName),
+        dir: "ltr",
+        children: /* @__PURE__ */ jsx10(RPNInput.default, {
+            className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
+            international: true,
+            countries: [
+                "US",
+                "IL",
+                "NG"
+            ],
+            defaultCountry: "IL",
+            flagComponent: FlagComponent,
+            countrySelectComponent: CountrySelect,
+            inputComponent: PhoneInput,
+            placeholder: placeholder,
+            value: phoneValue,
+            onChange: function(newValue) {
+                return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
+            }
+        })
+    });
+}
+var PhoneInput = forwardRef2(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    var inputRef = React5.useRef(null);
+    useEffect3(function() {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
+    return /* @__PURE__ */ jsx10(Input, _object_spread({
+        className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10", className),
+        ref: function(el) {
+            inputRef.current = el;
+            if (typeof ref === "function") {
+                ref(el);
+            } else if (ref) {
+                ref.current = el;
+            }
+        }
+    }, props));
+});
+PhoneInput.displayName = "PhoneInput";
+var CountrySelect = function(param) {
+    var disabled = param.disabled, value = param.value, onChange = param.onChange, options = param.options;
+    var handleSelect = function(event) {
+        onChange(event.target.value);
+    };
+    return /* @__PURE__ */ jsxs8("div", {
+        className: "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50",
+        children: [
+            /* @__PURE__ */ jsxs8("div", {
+                className: "inline-flex items-center gap-1",
+                "aria-hidden": "true",
+                children: [
+                    /* @__PURE__ */ jsx10(FlagComponent, {
+                        country: value,
+                        countryName: value,
+                        "aria-hidden": "true"
+                    }),
+                    /* @__PURE__ */ jsx10("span", {
+                        className: "text-muted-foreground/80",
+                        children: /* @__PURE__ */ jsx10(ChevronDown, {
+                            size: 16,
+                            strokeWidth: 2,
+                            "aria-hidden": "true"
+                        })
+                    })
+                ]
+            }),
+            /* @__PURE__ */ jsxs8("select", {
+                disabled: disabled,
+                value: value,
+                onChange: handleSelect,
+                className: "absolute inset-0 text-sm opacity-0",
+                "aria-label": "Select country",
+                children: [
+                    /* @__PURE__ */ jsx10("option", {
+                        value: "",
+                        children: "Select a country"
+                    }, "default"),
+                    options.filter(function(x) {
+                        return x.value;
+                    }).map(function(option, i) {
+                        var _option_value;
+                        return /* @__PURE__ */ jsxs8("option", {
+                            value: option.value,
+                            children: [
+                                option.label,
+                                " ",
+                                option.value && "+".concat(RPNInput.getCountryCallingCode(option.value))
+                            ]
+                        }, (_option_value = option.value) !== null && _option_value !== void 0 ? _option_value : "empty-".concat(i));
+                    })
+                ]
+            })
+        ]
+    });
+};
+var FlagComponent = function(param) {
+    var country = param.country, countryName = param.countryName;
+    var Flag = flags[country];
+    return /* @__PURE__ */ jsx10("span", {
+        className: "w-5 overflow-hidden rounded-sm",
+        children: Flag ? /* @__PURE__ */ jsx10(Flag, {
+            title: countryName
+        }) : /* @__PURE__ */ jsx10(Phone, {
+            size: 16,
+            "aria-hidden": "true"
+        })
+    });
+};
+// src/components/CodeInput.tsx
+import { OTPInput } from "input-otp";
+import { useEffect as useEffect4, useRef as useRef2 } from "react";
+import { jsx as jsx11 } from "react/jsx-runtime";
+function CodeInput(param) {
+    var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
+    var firstInputRef = useRef2(null);
+    useEffect4(function() {
+        if (firstInputRef.current) {
+            firstInputRef.current.focus();
+        }
+    }, []);
+    return /* @__PURE__ */ jsx11("div", {
+        className: cn("space-y-2 flex justify-center items-center", className),
+        children: /* @__PURE__ */ jsx11(OTPInput, {
+            ref: firstInputRef,
+            value: codeValue,
+            onChange: function(newVal) {
+                return setCodeValue(newVal);
+            },
+            containerClassName: "flex items-center gap-3 has-[:disabled]:opacity-50",
+            maxLength: 6,
+            render: function(param) {
+                var slots = param.slots;
+                return /* @__PURE__ */ jsx11("div", {
+                    className: cn("flex gap-5", slotContainerClassName),
+                    children: slots.map(function(slot, idx) {
+                        return /* @__PURE__ */ jsx11(Slot, _object_spread({}, slot), idx);
+                    })
+                });
+            }
+        })
+    });
+}
+function Slot(props) {
+    return /* @__PURE__ */ jsx11("div", {
+        className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
+            "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
+        }),
+        children: props.char !== null && /* @__PURE__ */ jsx11("div", {
+            children: props.char
+        })
+    });
+}
+export { Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, Version, getFixedNumber };
 //# sourceMappingURL=index.mjs.map
