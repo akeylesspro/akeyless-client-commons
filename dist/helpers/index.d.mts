@@ -108,6 +108,7 @@ declare const query_document_by_conditions: (collection_path: string, where_cond
 declare const snapshot: Snapshot;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;
+declare const renderOnce: () => boolean;
 
 declare const handleInvalid: (e: React.InvalidEvent<HTMLInputElement>, requireError?: string) => void;
 declare const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -135,4 +136,4 @@ declare const local_israel_phone_format: ConvertFunction;
 declare const international_israel_phone_format: ConvertFunction;
 declare const displayFormatPhoneNumber: ConvertFunction;
 
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };

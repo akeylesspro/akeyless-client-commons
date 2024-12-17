@@ -330,6 +330,9 @@ __export(helpers_exports, {
     query_documents_by_conditions: function() {
         return query_documents_by_conditions;
     },
+    renderOnce: function() {
+        return renderOnce;
+    },
     setState: function() {
         return setState;
     },
@@ -1022,6 +1025,9 @@ var calculateBearing = function(startLat, startLng, endLat, endLng) {
     var bearing = Math.atan2(y, x) * 180 / Math.PI;
     return (bearing + 360) % 360;
 };
+var renderOnce = function() {
+    return true;
+};
 // src/helpers/forms.ts
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");
@@ -1199,6 +1205,7 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     query_document_by_conditions: query_document_by_conditions,
     query_documents: query_documents,
     query_documents_by_conditions: query_documents_by_conditions,
+    renderOnce: renderOnce,
     setState: setState,
     set_document: set_document,
     simpleExtractData: simpleExtractData,

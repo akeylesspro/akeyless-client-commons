@@ -17,3 +17,7 @@ export const calculateBearing = (startLat, startLng, endLat, endLng) => {
 
     return (bearing + 360) % 360;
 };
+
+export const renderOnce = () => {
+    return true;
+};

@@ -2,6 +2,7 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 
 type ConvertFunction = (input: string) => string;
 type CheckFunction = (input: string) => boolean;
+
 export const isInternational: CheckFunction = (phone_number) => {
     return phone_number.startsWith("+");
 };
