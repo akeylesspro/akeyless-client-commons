@@ -1,5 +1,6 @@
 import moment from "moment";
 import { initializeApp, FirebaseApp } from "firebase/app";
+import { FirebaseStorage, getStorage } from "firebase/storage";
 import { Auth, getAuth } from "firebase/auth";
 import {
     addDoc,
@@ -40,7 +41,8 @@ const initApp = () => {
         const app: FirebaseApp = initializeApp(firebaseConfig);
         const auth: Auth = getAuth(app);
         const db: Firestore = getFirestore(app);
-        return { db, auth };
+        const storage: FirebaseStorage = getStorage(app);
+        return { db, auth, storage };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
         return { db: null, auth: null };
@@ -48,7 +50,7 @@ const initApp = () => {
 };
 
 // Initialize app
-export const { db, auth } = initApp();
+export const { db, auth, storage } = initApp();
 
 interface Collections {
     [key: string]: CollectionReference<DocumentData>;

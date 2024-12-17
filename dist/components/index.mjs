@@ -1316,6 +1316,7 @@ import moment2 from "moment";
 // src/helpers/firebase.ts
 import moment from "moment";
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 var initApp = function() {
@@ -1332,9 +1333,11 @@ var initApp = function() {
         var app = initializeApp(firebaseConfig);
         var auth2 = getAuth(app);
         var db2 = getFirestore(app);
+        var storage2 = getStorage(app);
         return {
             db: db2,
-            auth: auth2
+            auth: auth2,
+            storage: storage2
         };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
@@ -1344,7 +1347,7 @@ var initApp = function() {
         };
     }
 };
-var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth, storage = _initApp.storage;
 var collections = {
     clients: collection(db, "nx-clients"),
     sites: collection(db, "nx-sites"),

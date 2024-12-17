@@ -177,6 +177,7 @@ function _ts_generator(thisArg, body) {
 }
 import moment from "moment";
 import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 // src/helpers/cars.ts
@@ -203,9 +204,11 @@ var initApp = function() {
         var app = initializeApp(firebaseConfig);
         var auth2 = getAuth(app);
         var db2 = getFirestore(app);
+        var storage2 = getStorage(app);
         return {
             db: db2,
-            auth: auth2
+            auth: auth2,
+            storage: storage2
         };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
@@ -215,7 +218,7 @@ var initApp = function() {
         };
     }
 };
-var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth, storage = _initApp.storage;
 var collections = {
     clients: collection(db, "nx-clients"),
     sites: collection(db, "nx-sites"),
@@ -984,5 +987,5 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map

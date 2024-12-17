@@ -132,6 +132,7 @@ var import_react = require("react");
 // src/helpers/firebase.ts
 var import_moment = __toESM(require("moment"));
 var import_app = require("firebase/app");
+var import_storage = require("firebase/storage");
 var import_auth = require("firebase/auth");
 var import_firestore = require("firebase/firestore");
 var import_meta = {};
@@ -149,9 +150,11 @@ var initApp = function() {
         var app = (0, import_app.initializeApp)(firebaseConfig);
         var auth2 = (0, import_auth.getAuth)(app);
         var db2 = (0, import_firestore.getFirestore)(app);
+        var storage2 = (0, import_storage.getStorage)(app);
         return {
             db: db2,
-            auth: auth2
+            auth: auth2,
+            storage: storage2
         };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
@@ -161,7 +164,7 @@ var initApp = function() {
         };
     }
 };
-var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth;
+var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth, storage = _initApp.storage;
 var collections = {
     clients: (0, import_firestore.collection)(db, "nx-clients"),
     sites: (0, import_firestore.collection)(db, "nx-sites"),

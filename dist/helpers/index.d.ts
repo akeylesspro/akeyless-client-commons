@@ -1,5 +1,5 @@
-import { Auth } from 'firebase/auth';
-import { Unsubscribe, Firestore, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
+import { FirebaseStorage } from 'firebase/storage';
+import { Unsubscribe, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
 import { TObject } from 'akeyless-types-commons';
 import React from 'react';
 
@@ -20,8 +20,9 @@ interface SnapshotResult {
 }
 type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 
-declare const db: Firestore;
-declare const auth: Auth;
+declare const db: any;
+declare const auth: any;
+declare const storage: FirebaseStorage;
 interface Collections {
     [key: string]: CollectionReference<DocumentData>;
     clients: CollectionReference<DocumentData>;
@@ -134,4 +135,4 @@ declare const local_israel_phone_format: ConvertFunction;
 declare const international_israel_phone_format: ConvertFunction;
 declare const displayFormatPhoneNumber: ConvertFunction;
 
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, useStoreValues, useValidation };
+export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
