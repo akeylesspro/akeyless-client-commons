@@ -249,6 +249,9 @@ __export(helpers_exports, {
     calculateBearing: function() {
         return calculateBearing;
     },
+    cn: function() {
+        return cn;
+    },
     collections: function() {
         return collections;
     },
@@ -364,12 +367,12 @@ var import_auth = require("firebase/auth");
 var import_firestore = require("firebase/firestore");
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
-    var cn = car_number;
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 8) return "".concat(cn[0]).concat(cn[1]).concat(cn[2], "-").concat(cn[3]).concat(cn[4], "-").concat(cn[5]).concat(cn[6]).concat(cn[7]);
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 7) return "".concat(cn[0]).concat(cn[1], "-").concat(cn[2]).concat(cn[3]).concat(cn[4], "-").concat(cn[5]).concat(cn[6]);
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 6) return "".concat(cn[0]).concat(cn[1], "-").concat(cn[2]).concat(cn[3], "-").concat(cn[4]).concat(cn[5]);
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 5) return "".concat(cn[0], "-").concat(cn[1]).concat(cn[2], "-").concat(cn[3]).concat(cn[4]);
-    return cn;
+    var cn2 = car_number;
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 8) return "".concat(cn2[0]).concat(cn2[1]).concat(cn2[2], "-").concat(cn2[3]).concat(cn2[4], "-").concat(cn2[5]).concat(cn2[6]).concat(cn2[7]);
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 7) return "".concat(cn2[0]).concat(cn2[1], "-").concat(cn2[2]).concat(cn2[3]).concat(cn2[4], "-").concat(cn2[5]).concat(cn2[6]);
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 6) return "".concat(cn2[0]).concat(cn2[1], "-").concat(cn2[2]).concat(cn2[3], "-").concat(cn2[4]).concat(cn2[5]);
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 5) return "".concat(cn2[0], "-").concat(cn2[1]).concat(cn2[2], "-").concat(cn2[3]).concat(cn2[4]);
+    return cn2;
 };
 // src/helpers/firebase.ts
 var import_meta = {};
@@ -1173,11 +1176,21 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
+// src/lib/utils.ts
+var import_clsx = require("clsx");
+var import_tailwind_merge = require("tailwind-merge");
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
     add_document: add_document,
     auth: auth,
     calculateBearing: calculateBearing,
+    cn: cn,
     collections: collections,
     createSelectors: createSelectors,
     db: db,

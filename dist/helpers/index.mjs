@@ -182,12 +182,12 @@ import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
-    var cn = car_number;
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 8) return "".concat(cn[0]).concat(cn[1]).concat(cn[2], "-").concat(cn[3]).concat(cn[4], "-").concat(cn[5]).concat(cn[6]).concat(cn[7]);
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 7) return "".concat(cn[0]).concat(cn[1], "-").concat(cn[2]).concat(cn[3]).concat(cn[4], "-").concat(cn[5]).concat(cn[6]);
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 6) return "".concat(cn[0]).concat(cn[1], "-").concat(cn[2]).concat(cn[3], "-").concat(cn[4]).concat(cn[5]);
-    if ((cn === null || cn === void 0 ? void 0 : cn.length) == 5) return "".concat(cn[0], "-").concat(cn[1]).concat(cn[2], "-").concat(cn[3]).concat(cn[4]);
-    return cn;
+    var cn2 = car_number;
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 8) return "".concat(cn2[0]).concat(cn2[1]).concat(cn2[2], "-").concat(cn2[3]).concat(cn2[4], "-").concat(cn2[5]).concat(cn2[6]).concat(cn2[7]);
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 7) return "".concat(cn2[0]).concat(cn2[1], "-").concat(cn2[2]).concat(cn2[3]).concat(cn2[4], "-").concat(cn2[5]).concat(cn2[6]);
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 6) return "".concat(cn2[0]).concat(cn2[1], "-").concat(cn2[2]).concat(cn2[3], "-").concat(cn2[4]).concat(cn2[5]);
+    if ((cn2 === null || cn2 === void 0 ? void 0 : cn2.length) == 5) return "".concat(cn2[0], "-").concat(cn2[1]).concat(cn2[2], "-").concat(cn2[3]).concat(cn2[4]);
+    return cn2;
 };
 // src/helpers/firebase.ts
 var initApp = function() {
@@ -990,5 +990,14 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
-export { add_document, auth, calculateBearing, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
+// src/lib/utils.ts
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+function cn() {
+    for(var _len = arguments.length, inputs = new Array(_len), _key = 0; _key < _len; _key++){
+        inputs[_key] = arguments[_key];
+    }
+    return twMerge(clsx(inputs));
+}
+export { add_document, auth, calculateBearing, cn, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map

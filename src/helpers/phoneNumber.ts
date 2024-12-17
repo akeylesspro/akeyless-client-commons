@@ -12,11 +12,11 @@ export const isInternationalIsraelPhone: CheckFunction = (phone_number: string) 
 export const local_israel_phone_format: ConvertFunction = (international_number) => {
     return international_number.replace("+972", "0");
 };
-export const international_israel_phone_format:ConvertFunction = (phone) => {
+export const international_israel_phone_format: ConvertFunction = (phone) => {
     const validNumber = phone.slice(1, phone.length);
     return "+972".concat(validNumber);
 };
-export const displayFormatPhoneNumber:ConvertFunction = (phoneNumber) => {
+export const displayFormatPhoneNumber: ConvertFunction = (phoneNumber) => {
     if (isInternational(phoneNumber)) {
         const phoneNumberObject = parsePhoneNumberFromString(phoneNumber);
         if (!phoneNumberObject) {
