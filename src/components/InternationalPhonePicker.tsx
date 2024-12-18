@@ -33,7 +33,7 @@ export default function InternationalPhonePicker({
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
-                inputComponent={PhoneInput}
+                inputComponent={(props) => <PhoneInput {...props} />}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue(newValue ?? "")}

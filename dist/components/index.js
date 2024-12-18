@@ -2024,7 +2024,9 @@ function InternationalPhonePicker(param) {
                     className: flagContainerClassName
                 }));
             },
-            inputComponent: PhoneInput,
+            inputComponent: function(props) {
+                return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(PhoneInput, _object_spread({}, props));
+            },
             placeholder: placeholder,
             value: phoneValue,
             onChange: function(newValue) {
