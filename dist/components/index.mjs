@@ -1878,6 +1878,18 @@ function InternationalPhonePicker(param) {
         }
     };
     var _useState4 = _sliced_to_array(useState4(""), 2), tempPhoneValue = _useState4[0], setTempPhoneValue = _useState4[1];
+    useEffect3(function() {
+        if (defaultValue) {
+            if (setPhoneValue) {
+                setPhoneValue(defaultValue);
+            } else {
+                setTempPhoneValue(defaultValue);
+            }
+        }
+    }, [
+        defaultValue,
+        setPhoneValue
+    ]);
     return /* @__PURE__ */ jsxs8("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -1903,7 +1915,7 @@ function InternationalPhonePicker(param) {
                     defaultValue: defaultValue
                 },
                 placeholder: placeholder,
-                value: phoneValue,
+                value: tempPhoneValue || phoneValue,
                 onChange: function(newValue) {
                     if (setPhoneValue) {
                         return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");

@@ -41,6 +41,15 @@ export default function InternationalPhonePicker({
         }
     };
     const [tempPhoneValue, setTempPhoneValue] = useState("");
+    useEffect(() => {
+        if (defaultValue) {
+            if (setPhoneValue) {
+                setPhoneValue(defaultValue);
+            } else {
+                setTempPhoneValue(defaultValue);
+            }
+        }
+    }, [defaultValue, setPhoneValue]);
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
@@ -54,7 +63,7 @@ export default function InternationalPhonePicker({
                 inputComponent={PhoneInput}
                 numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue }}
                 placeholder={placeholder}
-                value={phoneValue}
+                value={tempPhoneValue || phoneValue}
                 onChange={(newValue) => {
                     if (setPhoneValue) {
                         return setPhoneValue(newValue ?? "");

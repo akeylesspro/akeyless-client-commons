@@ -2015,6 +2015,18 @@ function InternationalPhonePicker(param) {
         }
     };
     var _ref = _sliced_to_array((0, import_react6.useState)(""), 2), tempPhoneValue = _ref[0], setTempPhoneValue = _ref[1];
+    (0, import_react6.useEffect)(function() {
+        if (defaultValue) {
+            if (setPhoneValue) {
+                setPhoneValue(defaultValue);
+            } else {
+                setTempPhoneValue(defaultValue);
+            }
+        }
+    }, [
+        defaultValue,
+        setPhoneValue
+    ]);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -2040,7 +2052,7 @@ function InternationalPhonePicker(param) {
                     defaultValue: defaultValue
                 },
                 placeholder: placeholder,
-                value: phoneValue,
+                value: tempPhoneValue || phoneValue,
                 onChange: function(newValue) {
                     if (setPhoneValue) {
                         return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
