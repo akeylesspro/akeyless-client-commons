@@ -223,9 +223,10 @@ interface InputProps {
     className?: string;
     containerClassName?: string;
     flagContainerClassName?: string;
+    inputClassName?: string;
     defaultCountry?: RPNInput.Country;
 }
-declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, }: InputProps): react_jsx_runtime.JSX.Element;
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, }: InputProps): react_jsx_runtime.JSX.Element;
 
 interface CodeInputProps {
     codeValue: string;
