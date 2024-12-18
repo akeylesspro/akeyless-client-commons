@@ -51,17 +51,17 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, name, defaultValue }}
+                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue }}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue && setPhoneValue(newValue ?? "")}
-                // onChange={(newValue) => setPhoneValue(newValue ?? "")}
             />
+            <input type="hidden" name={name} value={phoneValue} />
         </div>
     );
 }
 
-const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, name, defaultValue, ...props }, ref) => {
+const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, defaultValue, ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
@@ -74,7 +74,6 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
         <Input
             className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className)}
             onKeyDown={onKeyDown}
-            name={name}
             defaultValue={defaultValue}
             ref={(el) => {
                 inputRef.current = el;

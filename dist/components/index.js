@@ -2014,43 +2014,48 @@ function InternationalPhonePicker(param) {
             }
         }
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
-        children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(RPNInput.default, {
-            className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
-            international: true,
-            countries: [
-                "US",
-                "IL",
-                "NG"
-            ],
-            defaultCountry: defaultCountry,
-            flagComponent: FlagComponent,
-            countrySelectComponent: CountrySelect,
-            countrySelectProps: {
-                className: flagContainerClassName
-            },
-            inputComponent: PhoneInput,
-            numberInputProps: {
-                className: inputClassName,
-                onKeyDown: handleKeyDown,
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(RPNInput.default, {
+                className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
+                international: true,
+                countries: [
+                    "US",
+                    "IL",
+                    "NG"
+                ],
+                defaultCountry: defaultCountry,
+                flagComponent: FlagComponent,
+                countrySelectComponent: CountrySelect,
+                countrySelectProps: {
+                    className: flagContainerClassName
+                },
+                inputComponent: PhoneInput,
+                numberInputProps: {
+                    className: inputClassName,
+                    onKeyDown: handleKeyDown,
+                    defaultValue: defaultValue
+                },
+                placeholder: placeholder,
+                value: phoneValue,
+                onChange: function(newValue) {
+                    return setPhoneValue && setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
+                }
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", {
+                type: "hidden",
                 name: name,
-                defaultValue: defaultValue
-            },
-            placeholder: placeholder,
-            value: phoneValue,
-            onChange: function(newValue) {
-                return setPhoneValue && setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
-            }
-        })
+                value: phoneValue
+            })
+        ]
     });
 }
 var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
-    var className = _param.className, onKeyDown = _param.onKeyDown, name = _param.name, defaultValue = _param.defaultValue, props = _object_without_properties(_param, [
+    var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, props = _object_without_properties(_param, [
         "className",
         "onKeyDown",
-        "name",
         "defaultValue"
     ]);
     var inputRef = (0, import_react6.useRef)(null);
@@ -2062,7 +2067,6 @@ var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
-        name: name,
         defaultValue: defaultValue,
         ref: function(el) {
             inputRef.current = el;
