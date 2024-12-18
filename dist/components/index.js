@@ -2005,7 +2005,7 @@ var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
-    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, onEnter = param.onEnter;
+    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -2032,6 +2032,7 @@ function InternationalPhonePicker(param) {
         dir: "ltr",
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(RPNInput.default, {
+                style: style,
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -2125,31 +2126,26 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("select", {
+            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
                 className: "absolute inset-0 text-sm opacity-0",
                 "aria-label": "Select country",
-                children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("option", {
-                        value: "",
-                        children: "Select a country"
-                    }, "default"),
-                    options.filter(function(x) {
-                        return x.value;
-                    }).map(function(option, i) {
-                        var _option_value;
-                        return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("option", {
-                            value: option.value,
-                            children: [
-                                option.label,
-                                " ",
-                                option.value && "+".concat(RPNInput.getCountryCallingCode(option.value))
-                            ]
-                        }, (_option_value = option.value) !== null && _option_value !== void 0 ? _option_value : "empty-".concat(i));
-                    })
-                ]
+                children: options.filter(function(x) {
+                    return x.value;
+                }).map(function(option, i) {
+                    var _option_value;
+                    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("option", {
+                        className: "text-black",
+                        value: option.value,
+                        children: [
+                            option.label,
+                            " ",
+                            option.value && "+".concat(RPNInput.getCountryCallingCode(option.value))
+                        ]
+                    }, (_option_value = option.value) !== null && _option_value !== void 0 ? _option_value : "empty-".concat(i));
+                })
             })
         ]
     });

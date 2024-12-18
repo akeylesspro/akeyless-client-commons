@@ -13,6 +13,7 @@ interface InputProps {
     className?: string;
     containerClassName?: string;
     name?: string;
+    style?: React.CSSProperties;
     flagContainerClassName?: string;
     inputClassName?: string;
     defaultValue?: string;
@@ -30,6 +31,7 @@ export default function InternationalPhonePicker({
     inputClassName = "",
     defaultValue,
     name,
+    style,
     onEnter,
 }: InputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -53,6 +55,7 @@ export default function InternationalPhonePicker({
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
+                style={style}
                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}
@@ -134,13 +137,10 @@ const CountrySelect = ({ disabled, value, onChange, options, className }: Countr
                 className="absolute inset-0 text-sm opacity-0"
                 aria-label="Select country"
             >
-                <option key="default" value="">
-                    Select a country
-                </option>
                 {options
                     .filter((x) => x.value)
                     .map((option, i) => (
-                        <option key={option.value ?? `empty-${i}`} value={option.value}>
+                        <option className="text-black" key={option.value ?? `empty-${i}`} value={option.value}>
                             {option.label} {option.value && `+${RPNInput.getCountryCallingCode(option.value)}`}
                         </option>
                     ))}
