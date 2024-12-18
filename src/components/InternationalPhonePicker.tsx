@@ -78,7 +78,10 @@ export default function InternationalPhonePicker({
     defaultCountry = "IL",
     flagContainerClassName = "",
 }: InputProps) {
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, props: any) => {
+        if (props.onKeyDown) {
+            props.onKeyDown(e);
+        }
         if (e.key === "Enter") {
             e.preventDefault();
             console.log(`Key pressed: ${e.key}`);
@@ -94,7 +97,7 @@ export default function InternationalPhonePicker({
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
-                inputComponent={(props) => <PhoneInput {...props} onKeyDown={handleKeyDown} />}
+                inputComponent={(props) => <PhoneInput {...props} onKeyDown={(e) => handleKeyDown(e, props)} />}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue(newValue ?? "")}
