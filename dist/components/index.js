@@ -2041,7 +2041,10 @@ function InternationalPhonePicker(param) {
                 placeholder: placeholder,
                 value: phoneValue,
                 onChange: function(newValue) {
-                    return setPhoneValue && setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
+                    if (setPhoneValue) {
+                        return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
+                    }
+                    phoneValue = newValue !== null && newValue !== void 0 ? newValue : "";
                 }
             }),
             /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", {

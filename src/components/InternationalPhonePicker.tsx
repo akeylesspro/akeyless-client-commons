@@ -54,7 +54,12 @@ export default function InternationalPhonePicker({
                 numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue }}
                 placeholder={placeholder}
                 value={phoneValue}
-                onChange={(newValue) => setPhoneValue && setPhoneValue(newValue ?? "")}
+                onChange={(newValue) => {
+                    if (setPhoneValue) {
+                        return setPhoneValue(newValue ?? "");
+                    }
+                    phoneValue = newValue ?? "";
+                }}
             />
             <input type="hidden" name={name} value={phoneValue} />
         </div>
