@@ -1872,8 +1872,11 @@ function InternationalPhonePicker(param) {
     var handleKeyDown = function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
-            onEnter === null || onEnter === void 0 ? void 0 : onEnter();
+            if (onEnter) {
+                onEnter();
+            }
         }
+        console.log("key pressed", e.key);
     };
     return /* @__PURE__ */ jsx10("div", {
         className: cn("space-y-2", containerClassName),
