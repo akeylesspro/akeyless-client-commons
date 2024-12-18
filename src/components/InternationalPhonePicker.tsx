@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Phone } from "lucide-react";
-import React, { cloneElement, Dispatch, forwardRef, SetStateAction, useEffect, useMemo, useRef } from "react";
+import React, { cloneElement, Dispatch, forwardRef, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
@@ -40,6 +40,7 @@ export default function InternationalPhonePicker({
             }
         }
     };
+    const [tempPhoneValue, setTempPhoneValue] = useState("");
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
@@ -58,10 +59,10 @@ export default function InternationalPhonePicker({
                     if (setPhoneValue) {
                         return setPhoneValue(newValue ?? "");
                     }
-                    phoneValue = newValue ?? "";
+                    setTempPhoneValue(newValue ?? "");
                 }}
             />
-            <input type="hidden" name={name} value={phoneValue} />
+            <input type="hidden" name={name} value={tempPhoneValue} />
         </div>
     );
 }

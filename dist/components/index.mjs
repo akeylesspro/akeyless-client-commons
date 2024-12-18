@@ -1863,7 +1863,7 @@ var Input = React4.forwardRef(function(_param, ref) {
 Input.displayName = "Input";
 // src/components/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef2, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2 } from "react";
+import { forwardRef as forwardRef2, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2, useState as useState4 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
@@ -1877,6 +1877,7 @@ function InternationalPhonePicker(param) {
             }
         }
     };
+    var _useState4 = _sliced_to_array(useState4(""), 2), tempPhoneValue = _useState4[0], setTempPhoneValue = _useState4[1];
     return /* @__PURE__ */ jsxs8("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -1907,13 +1908,13 @@ function InternationalPhonePicker(param) {
                     if (setPhoneValue) {
                         return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                     }
-                    phoneValue = newValue !== null && newValue !== void 0 ? newValue : "";
+                    setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
             /* @__PURE__ */ jsx10("input", {
                 type: "hidden",
                 name: name,
-                value: phoneValue
+                value: tempPhoneValue
             })
         ]
     });
