@@ -2028,10 +2028,9 @@ function InternationalPhonePicker(param) {
             ],
             defaultCountry: defaultCountry,
             flagComponent: FlagComponent,
-            countrySelectComponent: function(props) {
-                return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(CountrySelect, _object_spread_props(_object_spread({}, props), {
-                    className: flagContainerClassName
-                }));
+            countrySelectComponent: CountrySelect,
+            countrySelectProps: {
+                className: flagContainerClassName
             },
             inputComponent: PhoneInput,
             numberInputProps: {

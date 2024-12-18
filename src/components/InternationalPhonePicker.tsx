@@ -41,7 +41,8 @@ export default function InternationalPhonePicker({
                 countries={["US", "IL", "NG"]}
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
-                countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
+                countrySelectComponent={CountrySelect}
+                countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
                 numberInputProps={{ onkeydown: handleKeyDown }}
                 placeholder={placeholder}
