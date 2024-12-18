@@ -12,6 +12,7 @@ interface InputProps {
     placeholder?: string;
     className?: string;
     containerClassName?: string;
+    name?: string;
     flagContainerClassName?: string;
     inputClassName?: string;
     defaultCountry?: RPNInput.Country;
@@ -26,6 +27,7 @@ export default function InternationalPhonePicker({
     defaultCountry = "IL",
     flagContainerClassName = "",
     inputClassName = "",
+    name,
     onEnter,
 }: InputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -47,7 +49,7 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown }}
+                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, name }}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue(newValue ?? "")}
@@ -56,7 +58,7 @@ export default function InternationalPhonePicker({
     );
 }
 
-const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, ...props }, ref) => {
+const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, name, ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
@@ -69,6 +71,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
         <Input
             className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className)}
             onKeyDown={onKeyDown}
+            name={name}
             ref={(el) => {
                 inputRef.current = el;
                 if (typeof ref === "function") {
