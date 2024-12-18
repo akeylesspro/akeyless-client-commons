@@ -55,7 +55,6 @@ export default function InternationalPhonePicker({
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
-                style={style}
                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}
@@ -64,7 +63,7 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue }}
+                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue, style }}
                 placeholder={placeholder}
                 value={tempPhoneValue || phoneValue}
                 onChange={(newValue) => {
@@ -79,7 +78,7 @@ export default function InternationalPhonePicker({
     );
 }
 
-const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, defaultValue, ...props }, ref) => {
+const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, defaultValue, style, ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
@@ -93,6 +92,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
             className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className)}
             onKeyDown={onKeyDown}
             defaultValue={defaultValue}
+            style={style}
             ref={(el) => {
                 inputRef.current = el;
                 if (typeof ref === "function") {

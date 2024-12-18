@@ -2032,7 +2032,6 @@ function InternationalPhonePicker(param) {
         dir: "ltr",
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(RPNInput.default, {
-                style: style,
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -2050,7 +2049,8 @@ function InternationalPhonePicker(param) {
                 numberInputProps: {
                     className: inputClassName,
                     onKeyDown: handleKeyDown,
-                    defaultValue: defaultValue
+                    defaultValue: defaultValue,
+                    style: style
                 },
                 placeholder: placeholder,
                 value: tempPhoneValue || phoneValue,
@@ -2070,10 +2070,11 @@ function InternationalPhonePicker(param) {
     });
 }
 var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
-    var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, props = _object_without_properties(_param, [
+    var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, style = _param.style, props = _object_without_properties(_param, [
         "className",
         "onKeyDown",
-        "defaultValue"
+        "defaultValue",
+        "style"
     ]);
     var inputRef = (0, import_react6.useRef)(null);
     (0, import_react6.useEffect)(function() {
@@ -2085,6 +2086,7 @@ var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
+        style: style,
         ref: function(el) {
             inputRef.current = el;
             if (typeof ref === "function") {
