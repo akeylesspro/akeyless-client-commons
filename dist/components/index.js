@@ -2005,14 +2005,11 @@ var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
-    var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName;
-    var handleKeyDown = function(e, props) {
-        if (props.onKeyDown) {
-            props.onKeyDown(e);
-        }
+    var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, onEnter = param.onEnter;
+    var handleKeyDown = function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
-            console.log("Key pressed: ".concat(e.key));
+            onEnter === null || onEnter === void 0 ? void 0 : onEnter();
         }
     };
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
@@ -2034,6 +2031,7 @@ function InternationalPhonePicker(param) {
             },
             inputComponent: PhoneInput,
             numberInputProps: {
+                className: inputClassName,
                 onkeydown: handleKeyDown
             },
             placeholder: placeholder,
@@ -2058,7 +2056,7 @@ var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
         }
     }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Input, _object_spread({
-        className: "-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full",
+        className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         ref: function(el) {
             inputRef.current = el;
             if (typeof ref === "function") {
