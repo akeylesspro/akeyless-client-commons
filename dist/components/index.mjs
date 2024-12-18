@@ -1876,7 +1876,6 @@ function InternationalPhonePicker(param) {
                 onEnter();
             }
         }
-        console.log("key pressed", e.key);
     };
     return /* @__PURE__ */ jsx10("div", {
         className: cn("space-y-2", containerClassName),

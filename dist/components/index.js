@@ -2013,7 +2013,6 @@ function InternationalPhonePicker(param) {
                 onEnter();
             }
         }
-        console.log("key pressed", e.key);
     };
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
         className: cn("space-y-2", containerClassName),

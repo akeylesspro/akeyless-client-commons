@@ -35,7 +35,6 @@ export default function InternationalPhonePicker({
                 onEnter();
             }
         }
-        console.log("key pressed", e.key);
     };
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
@@ -63,7 +62,6 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus();
-
         }
     }, []);
 
