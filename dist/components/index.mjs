@@ -1904,7 +1904,9 @@ var PhoneInput = forwardRef2(function(_param, ref) {
     useEffect3(function() {
         if (inputRef.current) {
             inputRef.current.focus();
-            inputRef.current.addEventListener("keydown", function(e) {});
+            inputRef.current.addEventListener("keydown", function(e) {
+                console.log(e.key);
+            });
         }
     }, []);
     return /* @__PURE__ */ jsx10(Input, _object_spread({

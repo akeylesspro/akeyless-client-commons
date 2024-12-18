@@ -2041,7 +2041,9 @@ var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
     (0, import_react6.useEffect)(function() {
         if (inputRef.current) {
             inputRef.current.focus();
-            inputRef.current.addEventListener("keydown", function(e) {});
+            inputRef.current.addEventListener("keydown", function(e) {
+                console.log(e.key);
+            });
         }
     }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Input, _object_spread({

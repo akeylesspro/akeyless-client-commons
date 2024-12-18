@@ -48,7 +48,9 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus();
-            inputRef.current.addEventListener("keydown", (e) => {});
+            inputRef.current.addEventListener("keydown", (e) => {
+                console.log(e.key);
+            });
         }
     }, []);
 
