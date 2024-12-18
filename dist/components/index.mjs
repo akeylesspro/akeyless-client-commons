@@ -1863,12 +1863,12 @@ var Input = React4.forwardRef(function(_param, ref) {
 Input.displayName = "Input";
 // src/components/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef2, useEffect as useEffect3, useRef as useRef2 } from "react";
+import { forwardRef as forwardRef2, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
 function InternationalPhonePicker(param) {
-    var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName;
+    var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName;
     return /* @__PURE__ */ jsx10("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -1880,9 +1880,13 @@ function InternationalPhonePicker(param) {
                 "IL",
                 "NG"
             ],
-            defaultCountry: "IL",
+            defaultCountry: defaultCountry,
             flagComponent: FlagComponent,
-            countrySelectComponent: CountrySelect,
+            countrySelectComponent: function(props) {
+                return /* @__PURE__ */ jsx10(CountrySelect, _object_spread_props(_object_spread({}, props), {
+                    className: flagContainerClassName
+                }));
+            },
             inputComponent: PhoneInput,
             placeholder: placeholder,
             value: phoneValue,
@@ -1916,12 +1920,15 @@ var PhoneInput = forwardRef2(function(_param, ref) {
 });
 PhoneInput.displayName = "PhoneInput";
 var CountrySelect = function(param) {
-    var disabled = param.disabled, value = param.value, onChange = param.onChange, options = param.options;
+    var disabled = param.disabled, value = param.value, onChange = param.onChange, options = param.options, className = param.className;
     var handleSelect = function(event) {
         onChange(event.target.value);
     };
+    var originalClassName = useMemo4(function() {
+        return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
+    }, []);
     return /* @__PURE__ */ jsxs8("div", {
-        className: "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50",
+        className: cn(originalClassName, className),
         children: [
             /* @__PURE__ */ jsxs8("div", {
                 className: "inline-flex items-center gap-1",

@@ -2,7 +2,7 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ChevronDown, Phone } from "lucide-react";
-import React, { Dispatch, forwardRef, SetStateAction, useEffect, useRef } from "react";
+import React, { cloneElement, Dispatch, forwardRef, SetStateAction, useEffect, useMemo, useRef } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
@@ -12,6 +12,8 @@ interface InputProps {
     placeholder?: string;
     className?: string;
     containerClassName?: string;
+    flagContainerClassName?: string;
+    defaultCountry?: RPNInput.Country;
 }
 export default function InternationalPhonePicker({
     setPhoneValue,
@@ -19,6 +21,8 @@ export default function InternationalPhonePicker({
     placeholder = "",
     className = "",
     containerClassName = "",
+    defaultCountry = "IL",
+    flagContainerClassName = "",
 }: InputProps) {
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
@@ -26,9 +30,9 @@ export default function InternationalPhonePicker({
                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}
-                defaultCountry="IL"
+                defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
-                countrySelectComponent={CountrySelect}
+                countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
                 inputComponent={PhoneInput}
                 placeholder={placeholder}
                 value={phoneValue}
@@ -65,18 +69,21 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
 PhoneInput.displayName = "PhoneInput";
 type CountrySelectProps = {
     disabled?: boolean;
+    className?: string;
     value: RPNInput.Country;
     onChange: (value: RPNInput.Country) => void;
     options: { label: string; value: RPNInput.Country | undefined }[];
 };
 
-const CountrySelect = ({ disabled, value, onChange, options }: CountrySelectProps) => {
+const CountrySelect = ({ disabled, value, onChange, options, className }: CountrySelectProps) => {
     const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
         onChange(event.target.value as RPNInput.Country);
     };
-
+    const originalClassName = useMemo(() => {
+        return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
+    }, []);
     return (
-        <div className="relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50">
+        <div className={cn(originalClassName, className)}>
             <div className="inline-flex items-center gap-1" aria-hidden="true">
                 <FlagComponent country={value} countryName={value} aria-hidden="true" />
                 <span className="text-muted-foreground/80">

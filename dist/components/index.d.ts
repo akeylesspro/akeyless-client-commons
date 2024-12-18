@@ -1,6 +1,7 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import React$1, { SetStateAction, ReactNode, Dispatch } from 'react';
 import { TObject } from 'akeyless-types-commons';
+import * as RPNInput from 'react-phone-number-input';
 
 interface CheckBoxProps {
     id: string;
@@ -221,8 +222,10 @@ interface InputProps {
     placeholder?: string;
     className?: string;
     containerClassName?: string;
+    flagContainerClassName?: string;
+    defaultCountry?: RPNInput.Country;
 }
-declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, }: InputProps): react_jsx_runtime.JSX.Element;
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, }: InputProps): react_jsx_runtime.JSX.Element;
 
 interface CodeInputProps {
     codeValue: string;
