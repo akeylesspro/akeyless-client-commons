@@ -13,7 +13,6 @@ interface InputProps {
     className?: string;
     containerClassName?: string;
     flagContainerClassName?: string;
-    inputClassName?: string;
     defaultCountry?: RPNInput.Country;
 }
 export default function InternationalPhonePicker({
@@ -24,7 +23,6 @@ export default function InternationalPhonePicker({
     containerClassName = "",
     defaultCountry = "IL",
     flagContainerClassName = "",
-    inputClassName = "",
 }: InputProps) {
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
@@ -35,7 +33,7 @@ export default function InternationalPhonePicker({
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
-                inputComponent={(props) => <PhoneInput {...props} className={inputClassName} />}
+                inputComponent={PhoneInput}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue(newValue ?? "")}
@@ -55,7 +53,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>((
 
     return (
         <Input
-            className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10", className)}
+            className={"-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full"}
             ref={(el) => {
                 inputRef.current = el;
                 if (typeof ref === "function") {
