@@ -217,8 +217,8 @@ declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName,
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
 interface InputProps {
-    phoneValue: string;
-    setPhoneValue: Dispatch<SetStateAction<string>>;
+    phoneValue?: string;
+    setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
     className?: string;
     containerClassName?: string;

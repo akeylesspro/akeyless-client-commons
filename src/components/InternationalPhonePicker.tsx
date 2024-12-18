@@ -7,8 +7,8 @@ import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 
 interface InputProps {
-    phoneValue: string;
-    setPhoneValue: Dispatch<SetStateAction<string>>;
+    phoneValue?: string;
+    setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
     className?: string;
     containerClassName?: string;
@@ -20,7 +20,7 @@ interface InputProps {
 }
 export default function InternationalPhonePicker({
     setPhoneValue,
-    phoneValue,
+    phoneValue = "",
     placeholder = "",
     className = "",
     containerClassName = "",
@@ -52,7 +52,8 @@ export default function InternationalPhonePicker({
                 numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, name }}
                 placeholder={placeholder}
                 value={phoneValue}
-                onChange={(newValue) => setPhoneValue(newValue ?? "")}
+                onChange={(newValue) => setPhoneValue && setPhoneValue(newValue ?? "")}
+                // onChange={(newValue) => setPhoneValue(newValue ?? "")}
             />
         </div>
     );
