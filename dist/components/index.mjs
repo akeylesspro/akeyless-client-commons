@@ -1868,7 +1868,7 @@ import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
 function InternationalPhonePicker(param) {
-    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, name = param.name, onEnter = param.onEnter;
+    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -1898,7 +1898,8 @@ function InternationalPhonePicker(param) {
             numberInputProps: {
                 className: inputClassName,
                 onKeyDown: handleKeyDown,
-                name: name
+                name: name,
+                defaultValue: defaultValue
             },
             placeholder: placeholder,
             value: phoneValue,
@@ -1909,10 +1910,11 @@ function InternationalPhonePicker(param) {
     });
 }
 var PhoneInput = forwardRef2(function(_param, ref) {
-    var className = _param.className, onKeyDown = _param.onKeyDown, name = _param.name, props = _object_without_properties(_param, [
+    var className = _param.className, onKeyDown = _param.onKeyDown, name = _param.name, defaultValue = _param.defaultValue, props = _object_without_properties(_param, [
         "className",
         "onKeyDown",
-        "name"
+        "name",
+        "defaultValue"
     ]);
     var inputRef = useRef2(null);
     useEffect3(function() {
@@ -1924,6 +1926,7 @@ var PhoneInput = forwardRef2(function(_param, ref) {
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         name: name,
+        defaultValue: defaultValue,
         ref: function(el) {
             inputRef.current = el;
             if (typeof ref === "function") {
