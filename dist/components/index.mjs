@@ -1869,6 +1869,9 @@ import flags from "react-phone-number-input/flags";
 import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName;
+    var handleKeyDown = function(e) {
+        console.log("Key pressed: ".concat(e.key));
+    };
     return /* @__PURE__ */ jsx10("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -1887,7 +1890,11 @@ function InternationalPhonePicker(param) {
                     className: flagContainerClassName
                 }));
             },
-            inputComponent: PhoneInput,
+            inputComponent: function(props) {
+                return /* @__PURE__ */ jsx10(PhoneInput, _object_spread_props(_object_spread({}, props), {
+                    onKeyDown: handleKeyDown
+                }));
+            },
             placeholder: placeholder,
             value: phoneValue,
             onChange: function(newValue) {
@@ -1897,8 +1904,9 @@ function InternationalPhonePicker(param) {
     });
 }
 var PhoneInput = forwardRef2(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
+    var className = _param.className, onKeyDown = _param.onKeyDown, props = _object_without_properties(_param, [
+        "className",
+        "onKeyDown"
     ]);
     var inputRef = useRef2(null);
     useEffect3(function() {
@@ -1908,6 +1916,11 @@ var PhoneInput = forwardRef2(function(_param, ref) {
     }, []);
     return /* @__PURE__ */ jsx10(Input, _object_spread({
         className: "-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full",
+        onKeyDown: function(e) {
+            if (onKeyDown) {
+                onKeyDown(e);
+            }
+        },
         ref: function(el) {
             inputRef.current = el;
             if (typeof ref === "function") {
