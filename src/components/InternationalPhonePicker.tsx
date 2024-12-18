@@ -24,6 +24,15 @@ export default function InternationalPhonePicker({
     defaultCountry = "IL",
     flagContainerClassName = "",
 }: InputProps) {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, props: any) => {
+        if (props.onKeyDown) {
+            props.onKeyDown(e);
+        }
+        if (e.key === "Enter") {
+            e.preventDefault();
+            console.log(`Key pressed: ${e.key}`);
+        }
+    };
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
@@ -33,7 +42,8 @@ export default function InternationalPhonePicker({
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
-                inputComponent={(props) => <PhoneInput {...props} ref={(el) => el} />}
+                inputComponent={PhoneInput}
+                numberInputProps={{ onkeydown: handleKeyDown }}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue(newValue ?? "")}

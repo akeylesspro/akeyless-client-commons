@@ -2006,6 +2006,15 @@ var import_flags = __toESM(require("react-phone-number-input/flags"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName;
+    var handleKeyDown = function(e, props) {
+        if (props.onKeyDown) {
+            props.onKeyDown(e);
+        }
+        if (e.key === "Enter") {
+            e.preventDefault();
+            console.log("Key pressed: ".concat(e.key));
+        }
+    };
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -2024,12 +2033,9 @@ function InternationalPhonePicker(param) {
                     className: flagContainerClassName
                 }));
             },
-            inputComponent: function(props) {
-                return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(PhoneInput, _object_spread_props(_object_spread({}, props), {
-                    ref: function(el) {
-                        return el;
-                    }
-                }));
+            inputComponent: PhoneInput,
+            numberInputProps: {
+                onkeydown: handleKeyDown
             },
             placeholder: placeholder,
             value: phoneValue,
