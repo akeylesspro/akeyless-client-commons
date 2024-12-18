@@ -2025,7 +2025,11 @@ function InternationalPhonePicker(param) {
                 }));
             },
             inputComponent: function(props) {
-                return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(PhoneInput, _object_spread({}, props));
+                return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(PhoneInput, _object_spread_props(_object_spread({}, props), {
+                    ref: function(el) {
+                        return el;
+                    }
+                }));
             },
             placeholder: placeholder,
             value: phoneValue,

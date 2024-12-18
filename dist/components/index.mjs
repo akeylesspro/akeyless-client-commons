@@ -1888,7 +1888,11 @@ function InternationalPhonePicker(param) {
                 }));
             },
             inputComponent: function(props) {
-                return /* @__PURE__ */ jsx10(PhoneInput, _object_spread({}, props));
+                return /* @__PURE__ */ jsx10(PhoneInput, _object_spread_props(_object_spread({}, props), {
+                    ref: function(el) {
+                        return el;
+                    }
+                }));
             },
             placeholder: placeholder,
             value: phoneValue,
