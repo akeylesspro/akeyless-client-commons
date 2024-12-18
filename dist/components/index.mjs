@@ -1898,7 +1898,7 @@ function InternationalPhonePicker(param) {
             inputComponent: PhoneInput,
             numberInputProps: {
                 className: inputClassName,
-                onkeydown: handleKeyDown
+                onKeyDown: handleKeyDown
             },
             placeholder: placeholder,
             value: phoneValue,
@@ -1909,8 +1909,9 @@ function InternationalPhonePicker(param) {
     });
 }
 var PhoneInput = forwardRef2(function(_param, ref) {
-    var className = _param.className, props = _object_without_properties(_param, [
-        "className"
+    var className = _param.className, onKeyDown = _param.onKeyDown, props = _object_without_properties(_param, [
+        "className",
+        "onKeyDown"
     ]);
     var inputRef = useRef2(null);
     useEffect3(function() {
@@ -1920,6 +1921,7 @@ var PhoneInput = forwardRef2(function(_param, ref) {
     }, []);
     return /* @__PURE__ */ jsx10(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
+        onKeyDown: onKeyDown,
         ref: function(el) {
             inputRef.current = el;
             if (typeof ref === "function") {
