@@ -15,60 +15,6 @@ interface InputProps {
     flagContainerClassName?: string;
     defaultCountry?: RPNInput.Country;
 }
-// export default function InternationalPhonePicker({
-//     setPhoneValue,
-//     phoneValue,
-//     placeholder = "",
-//     className = "",
-//     containerClassName = "",
-//     defaultCountry = "IL",
-//     flagContainerClassName = "",
-// }: InputProps) {
-//     return (
-//         <div className={cn("space-y-2", containerClassName)} dir="ltr">
-//             <RPNInput.default
-//                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
-//                 international
-//                 countries={["US", "IL", "NG"]}
-//                 defaultCountry={defaultCountry}
-//                 flagComponent={FlagComponent}
-//                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
-//                 inputComponent={PhoneInput}
-//                 placeholder={placeholder}
-//                 value={phoneValue}
-//                 onChange={(newValue) => setPhoneValue(newValue ?? "")}
-//             />
-//         </div>
-//     );
-// }
-
-// const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, ...props }, ref) => {
-//     const inputRef = useRef<HTMLInputElement | null>(null);
-
-//     useEffect(() => {
-//         if (inputRef.current) {
-//             inputRef.current.focus();
-//         }
-//     }, []);
-
-//     return (
-//         <Input
-//             className={"-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full"}
-//             onKeyDown={(e) => {}}
-//             ref={(el) => {
-//                 inputRef.current = el;
-//                 if (typeof ref === "function") {
-//                     ref(el);
-//                 } else if (ref) {
-//                     ref.current = el;
-//                 }
-//             }}
-//             {...props}
-//         />
-//     );
-// });
-// PhoneInput.displayName = "PhoneInput";
-
 export default function InternationalPhonePicker({
     setPhoneValue,
     phoneValue,
@@ -78,16 +24,6 @@ export default function InternationalPhonePicker({
     defaultCountry = "IL",
     flagContainerClassName = "",
 }: InputProps) {
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, props: any) => {
-        if (props.onKeyDown) {
-            props.onKeyDown(e);
-        }
-        if (e.key === "Enter") {
-            e.preventDefault();
-            console.log(`Key pressed: ${e.key}`);
-        }
-    };
-
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
             <RPNInput.default
@@ -97,7 +33,7 @@ export default function InternationalPhonePicker({
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
-                inputComponent={(props) => <PhoneInput {...props} onKeyDown={(e) => handleKeyDown(e, props)} />}
+                inputComponent={PhoneInput}
                 placeholder={placeholder}
                 value={phoneValue}
                 onChange={(newValue) => setPhoneValue(newValue ?? "")}
@@ -105,26 +41,20 @@ export default function InternationalPhonePicker({
         </div>
     );
 }
-interface InputProps {
-    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
-}
-const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & InputProps>(({ className, onKeyDown, ...props }, ref) => {
+
+const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus();
+            inputRef.current.addEventListener("keydown", (e) => {});
         }
     }, []);
 
     return (
         <Input
             className={"-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full"}
-            onKeyDown={(e) => {
-                if (onKeyDown) {
-                    onKeyDown(e);
-                }
-            }}
             ref={(el) => {
                 inputRef.current = el;
                 if (typeof ref === "function") {
@@ -138,6 +68,78 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & 
     );
 });
 PhoneInput.displayName = "PhoneInput";
+
+// export default function InternationalPhonePicker({
+//     setPhoneValue,
+//     phoneValue,
+//     placeholder = "",
+//     className = "",
+//     containerClassName = "",
+//     defaultCountry = "IL",
+//     flagContainerClassName = "",
+// }: InputProps) {
+//     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, props: any) => {
+//         if (props.onKeyDown) {
+//             props.onKeyDown(e);
+//         }
+//         if (e.key === "Enter") {
+//             e.preventDefault();
+//             console.log(`Key pressed: ${e.key}`);
+//         }
+//     };
+
+//     return (
+//         <div className={cn("space-y-2", containerClassName)} dir="ltr">
+//             <RPNInput.default
+//                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
+//                 international
+//                 countries={["US", "IL", "NG"]}
+//                 defaultCountry={defaultCountry}
+//                 flagComponent={FlagComponent}
+//                 countrySelectComponent={(props) => <CountrySelect {...props} className={flagContainerClassName} />}
+//                 inputComponent={(props) => <PhoneInput {...props} onKeyDown={(e) => handleKeyDown(e, props)} />}
+//                 placeholder={placeholder}
+//                 value={phoneValue}
+//                 onChange={(newValue) => setPhoneValue(newValue ?? "")}
+//             />
+//         </div>
+//     );
+// }
+// interface InputProps {
+//     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+// }
+// const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & InputProps>(({ className, onKeyDown, ...props }, ref) => {
+//     const inputRef = useRef<HTMLInputElement | null>(null);
+//     useEffect(() => {
+//         if (inputRef.current) {
+//             inputRef.current.focus();
+//             inputRef.current.addEventListener("keydown", (e) => {
+
+//             });
+//         }
+//     }, []);
+
+//     return (
+//         <Input
+//             className={"-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full"}
+//             onKeyDown={(e) => {
+//                 if (onKeyDown) {
+//                     onKeyDown(e);
+//                 }
+//             }}
+//             ref={(el) => {
+//                 inputRef.current = el;
+//                 if (typeof ref === "function") {
+//                     ref(el);
+//                 } else if (ref) {
+//                     ref.current = el;
+//                 }
+//             }}
+//             {...props}
+//         />
+//     );
+// });
+// PhoneInput.displayName = "PhoneInput";
 
 type CountrySelectProps = {
     disabled?: boolean;

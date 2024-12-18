@@ -2006,15 +2006,6 @@ var import_flags = __toESM(require("react-phone-number-input/flags"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, phoneValue = param.phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName;
-    var handleKeyDown = function(e, props) {
-        if (props.onKeyDown) {
-            props.onKeyDown(e);
-        }
-        if (e.key === "Enter") {
-            e.preventDefault();
-            console.log("Key pressed: ".concat(e.key));
-        }
-    };
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
@@ -2033,13 +2024,7 @@ function InternationalPhonePicker(param) {
                     className: flagContainerClassName
                 }));
             },
-            inputComponent: function(props) {
-                return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(PhoneInput, _object_spread_props(_object_spread({}, props), {
-                    onKeyDown: function(e) {
-                        return handleKeyDown(e, props);
-                    }
-                }));
-            },
+            inputComponent: PhoneInput,
             placeholder: placeholder,
             value: phoneValue,
             onChange: function(newValue) {
@@ -2049,23 +2034,18 @@ function InternationalPhonePicker(param) {
     });
 }
 var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
-    var className = _param.className, onKeyDown = _param.onKeyDown, props = _object_without_properties(_param, [
-        "className",
-        "onKeyDown"
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
     ]);
     var inputRef = (0, import_react6.useRef)(null);
     (0, import_react6.useEffect)(function() {
         if (inputRef.current) {
             inputRef.current.focus();
+            inputRef.current.addEventListener("keydown", function(e) {});
         }
     }, []);
     return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Input, _object_spread({
         className: "-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full",
-        onKeyDown: function(e) {
-            if (onKeyDown) {
-                onKeyDown(e);
-            }
-        },
         ref: function(el) {
             inputRef.current = el;
             if (typeof ref === "function") {

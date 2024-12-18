@@ -216,7 +216,6 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
-declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, }: InputProps): react_jsx_runtime.JSX.Element;
 interface InputProps {
     phoneValue: string;
     setPhoneValue: Dispatch<SetStateAction<string>>;
@@ -226,9 +225,7 @@ interface InputProps {
     flagContainerClassName?: string;
     defaultCountry?: RPNInput.Country;
 }
-interface InputProps {
-    onKeyDown?: (e: React$1.KeyboardEvent<HTMLInputElement>) => void;
-}
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, }: InputProps): react_jsx_runtime.JSX.Element;
 
 interface CodeInputProps {
     codeValue: string;
