@@ -79,7 +79,10 @@ export default function InternationalPhonePicker({
     flagContainerClassName = "",
 }: InputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        console.log(`Key pressed: ${e.key}`);
+        if (e.key === "Enter") {
+            e.preventDefault();
+            console.log(`Key pressed: ${e.key}`);
+        }
     };
 
     return (
