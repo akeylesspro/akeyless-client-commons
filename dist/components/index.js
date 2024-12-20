@@ -1515,19 +1515,16 @@ var collections = {
 var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
-var handleInvalid = function(e, requireError) {
-    e.target.setCustomValidity(requireError || "This filed is required !");
-};
-var useValidation = function(validationType, requireError) {
-    return {
-        onChange: handleChange,
-        onPaste: handlePaste,
-        onInvalid: function(e) {
-            return handleInvalid(e, requireError);
-        },
-        "data-validation": validationType
-    };
-};
+var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
+var numbersRegex = (0, import_xregexp.default)("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = (0, import_xregexp.default)("[^0-9]", "g");
+var priceRegex = (0, import_xregexp.default)("[^0-9.]", "g");
+var emailRegex = (0, import_xregexp.default)("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = (0, import_xregexp.default)("[^#0-9A-Fa-f]", "g");
+var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
+var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
+var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
+var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
 var handleChange = function(e) {
     e.target.setCustomValidity("");
     var validation = e.target.getAttribute("data-validation");
@@ -1580,16 +1577,19 @@ var handlePaste = function(e) {
     e.preventDefault();
     document.execCommand("insertText", false, pasteData);
 };
-var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
-var numbersRegex = (0, import_xregexp.default)("[^0-9\\s-+]", "g");
-var numbersOnlyRegex = (0, import_xregexp.default)("[^0-9]", "g");
-var priceRegex = (0, import_xregexp.default)("[^0-9.]", "g");
-var emailRegex = (0, import_xregexp.default)("[^\\p{L}0-9.@\\s-]", "gu");
-var colorRegex = (0, import_xregexp.default)("[^#0-9A-Fa-f]", "g");
-var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
-var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
-var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
-var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
+var handleInvalid = function(e, requireError) {
+    e.target.setCustomValidity(requireError || "This filed is required !");
+};
+var useValidation = function(validationType, requireError) {
+    return {
+        onChange: handleChange,
+        onPaste: handlePaste,
+        onInvalid: function(e) {
+            return handleInvalid(e, requireError);
+        },
+        "data-validation": validationType
+    };
+};
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/components/forms/index.tsx

@@ -111,6 +111,18 @@ declare const snapshot: Snapshot;
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;
 declare const renderOnce: () => boolean;
 
+declare const textRegex: RegExp;
+declare const numbersRegex: RegExp;
+declare const numbersOnlyRegex: RegExp;
+declare const priceRegex: RegExp;
+declare const emailRegex: RegExp;
+declare const colorRegex: RegExp;
+declare const carsRegex: RegExp;
+declare const textNumbersRegex: RegExp;
+declare const addressRegex: RegExp;
+declare const chartsRegex: RegExp;
+declare const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+declare const handlePaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
 declare const handleInvalid: (e: React.InvalidEvent<HTMLInputElement>, requireError?: string) => void;
 declare const useValidation: (validationType: string, requireError?: string) => {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -118,8 +130,6 @@ declare const useValidation: (validationType: string, requireError?: string) => 
     onInvalid: (e: React.InvalidEvent<HTMLInputElement>) => void;
     "data-validation": string;
 };
-declare const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-declare const handlePaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
 
 declare const setState: <T>(updater: T | ((state: T) => T), set: (fn: (state: any) => any) => void, stateName: string) => void;
 declare const createSelectors: <T extends object>(store: any) => { [K in keyof T]: () => T[K]; };
@@ -139,4 +149,4 @@ declare const displayFormatPhoneNumber: ConvertFunction;
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { add_document, auth, calculateBearing, cn, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };

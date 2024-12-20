@@ -847,19 +847,16 @@ var renderOnce = function() {
 };
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
-var handleInvalid = function(e, requireError) {
-    e.target.setCustomValidity(requireError || "This filed is required !");
-};
-var useValidation = function(validationType, requireError) {
-    return {
-        onChange: handleChange,
-        onPaste: handlePaste,
-        onInvalid: function(e) {
-            return handleInvalid(e, requireError);
-        },
-        "data-validation": validationType
-    };
-};
+var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
+var numbersRegex = XRegExp("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = XRegExp("[^0-9]", "g");
+var priceRegex = XRegExp("[^0-9.]", "g");
+var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
+var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
+var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu");
+var addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu");
+var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
 var handleChange = function(e) {
     e.target.setCustomValidity("");
     var validation = e.target.getAttribute("data-validation");
@@ -912,16 +909,19 @@ var handlePaste = function(e) {
     e.preventDefault();
     document.execCommand("insertText", false, pasteData);
 };
-var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
-var numbersRegex = XRegExp("[^0-9\\s-+]", "g");
-var numbersOnlyRegex = XRegExp("[^0-9]", "g");
-var priceRegex = XRegExp("[^0-9.]", "g");
-var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
-var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
-var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
-var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu");
-var addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu");
-var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
+var handleInvalid = function(e, requireError) {
+    e.target.setCustomValidity(requireError || "This filed is required !");
+};
+var useValidation = function(validationType, requireError) {
+    return {
+        onChange: handleChange,
+        onPaste: handlePaste,
+        onInvalid: function(e) {
+            return handleInvalid(e, requireError);
+        },
+        "data-validation": validationType
+    };
+};
 // src/helpers/store.ts
 var setState = function(updater, set, stateName) {
     return set(function(state) {
@@ -998,5 +998,5 @@ function cn() {
     }
     return twMerge(clsx(inputs));
 }
-export { add_document, auth, calculateBearing, cn, collections, createSelectors, db, delete_document, displayFormatPhoneNumber, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map
