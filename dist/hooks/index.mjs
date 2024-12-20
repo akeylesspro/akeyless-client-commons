@@ -180,18 +180,6 @@ var snapshot = function(config, snapshotsFirstTime) {
         unsubscribe: unsubscribe
     };
 };
-// src/helpers/forms.ts
-import XRegExp from "xregexp";
-var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
-var numbersRegex = XRegExp("[^0-9\\s-+]", "g");
-var numbersOnlyRegex = XRegExp("[^0-9]", "g");
-var priceRegex = XRegExp("[^0-9.]", "g");
-var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s-+]", "gu");
-var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
-var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
-var addressRegex = XRegExp("[^\\p{L}0-9\\s-.,]", "gu");
-var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
-var chartsRegex = XRegExp("[^\\p{L}0-9\\s-.,_@!]", "gu");
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/lib/utils.ts
