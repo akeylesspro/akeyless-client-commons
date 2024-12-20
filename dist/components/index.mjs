@@ -1377,69 +1377,68 @@ var collections = {
 };
 var fire_base_TIME_TEMP = Timestamp.now;
 // src/helpers/forms.ts
+import XRegExp from "xregexp";
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");
 };
+var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
+var numbersRegex = XRegExp("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = XRegExp("[^0-9]", "g");
+var priceRegex = XRegExp("[^0-9.]", "g");
+var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s-+]", "gu");
+var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
+var addressRegex = XRegExp("[^\\p{L}0-9\\s-.,]", "gu");
+var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
+var chartsRegex = XRegExp("[^\\p{L}0-9\\s-.,_@!]", "gu");
 var handleChange = function(e) {
     e.target.setCustomValidity("");
     var validation = e.target.getAttribute("data-validation");
     if (validation === "text") {
-        var cleanedValue = e.target.value.replace(/[^a-zA-Zא-ת\- ]/g, "");
-        e.target.value = cleanedValue;
+        e.target.value = XRegExp.replace(e.target.value, textRegex, "");
     } else if (validation === "numbers") {
-        var cleanedValue1 = e.target.value.replace(/[^0-9\- +]/g, "");
-        e.target.value = cleanedValue1;
+        e.target.value = XRegExp.replace(e.target.value, numbersRegex, "");
     } else if (validation === "numbersOnly") {
-        var cleanedValue2 = e.target.value.replace(/[^0-9]/g, "");
-        e.target.value = cleanedValue2;
+        e.target.value = XRegExp.replace(e.target.value, numbersOnlyRegex, "");
     } else if (validation === "price") {
-        var cleanedValue3 = e.target.value.replace(/[^0-9\.]/g, "");
-        e.target.value = cleanedValue3;
+        e.target.value = XRegExp.replace(e.target.value, priceRegex, "");
     } else if (validation === "textNumbers") {
-        var cleanedValue4 = e.target.value.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
-        e.target.value = cleanedValue4;
+        e.target.value = XRegExp.replace(e.target.value, textNumbersRegex, "");
     } else if (validation === "email") {
-        var cleanedValue5 = e.target.value.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
-        e.target.value = cleanedValue5;
+        e.target.value = XRegExp.replace(e.target.value, emailRegex, "");
     } else if (validation === "color") {
-        var cleanedValue6 = e.target.value.replace(/[^#0-9A-Fa-f]/g, "");
-        e.target.value = cleanedValue6;
+        e.target.value = XRegExp.replace(e.target.value, colorRegex, "");
     } else if (validation === "address") {
-        var cleanedValue7 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
-        e.target.value = cleanedValue7;
+        e.target.value = XRegExp.replace(e.target.value, addressRegex, "");
     } else if (validation === "cars") {
-        var cleanedValue8 = e.target.value.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
-        e.target.value = cleanedValue8;
+        e.target.value = XRegExp.replace(e.target.value, carsRegex, "");
     } else if (validation === "charts") {
-        var cleanedValue9 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
-        e.target.value = cleanedValue9;
-    } else {
-        e.target.value = e.target.value;
+        e.target.value = XRegExp.replace(e.target.value, chartsRegex, "");
     }
 };
 var handlePaste = function(e) {
     var validation = e.currentTarget.getAttribute("data-validation");
     var pasteData = e.clipboardData.getData("text");
     if (validation === "text") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת\- ]/g, "");
+        pasteData = XRegExp.replace(pasteData, textRegex, "");
     } else if (validation === "numbers") {
-        pasteData = pasteData.replace(/[^0-9\- +]/g, "");
+        pasteData = XRegExp.replace(pasteData, numbersRegex, "");
     } else if (validation === "numbersOnly") {
-        pasteData = pasteData.replace(/[^0-9]/g, "");
+        pasteData = XRegExp.replace(pasteData, numbersOnlyRegex, "");
     } else if (validation === "price") {
-        pasteData = pasteData.replace(/[^0-9\.]/g, "");
+        pasteData = XRegExp.replace(pasteData, priceRegex, "");
     } else if (validation === "textNumbers") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
+        pasteData = XRegExp.replace(pasteData, textNumbersRegex, "");
     } else if (validation === "email") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
+        pasteData = XRegExp.replace(pasteData, emailRegex, "");
     } else if (validation === "color") {
-        pasteData = pasteData.replace(/[^#0-9A-Fa-f]/g, "");
+        pasteData = XRegExp.replace(pasteData, colorRegex, "");
     } else if (validation === "address") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
+        pasteData = XRegExp.replace(pasteData, addressRegex, "");
     } else if (validation === "cars") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
+        pasteData = XRegExp.replace(pasteData, carsRegex, "");
     } else if (validation === "charts") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
+        pasteData = XRegExp.replace(pasteData, chartsRegex, "");
     }
     e.preventDefault();
     document.execCommand("insertText", false, pasteData);
