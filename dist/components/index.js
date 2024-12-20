@@ -1514,72 +1514,9 @@ var collections = {
 };
 var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
 // src/helpers/forms.ts
+var import_xregexp = __toESM(require("xregexp"));
 var handleInvalid = function(e, requireError) {
     e.target.setCustomValidity(requireError || "This filed is required !");
-};
-var handleChange = function(e) {
-    e.target.setCustomValidity("");
-    var validation = e.target.getAttribute("data-validation");
-    if (validation === "text") {
-        var cleanedValue = e.target.value.replace(/[^a-zA-Zא-ת\- ]/g, "");
-        e.target.value = cleanedValue;
-    } else if (validation === "numbers") {
-        var cleanedValue1 = e.target.value.replace(/[^0-9\- +]/g, "");
-        e.target.value = cleanedValue1;
-    } else if (validation === "numbersOnly") {
-        var cleanedValue2 = e.target.value.replace(/[^0-9]/g, "");
-        e.target.value = cleanedValue2;
-    } else if (validation === "price") {
-        var cleanedValue3 = e.target.value.replace(/[^0-9\.]/g, "");
-        e.target.value = cleanedValue3;
-    } else if (validation === "textNumbers") {
-        var cleanedValue4 = e.target.value.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
-        e.target.value = cleanedValue4;
-    } else if (validation === "email") {
-        var cleanedValue5 = e.target.value.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
-        e.target.value = cleanedValue5;
-    } else if (validation === "color") {
-        var cleanedValue6 = e.target.value.replace(/[^#0-9A-Fa-f]/g, "");
-        e.target.value = cleanedValue6;
-    } else if (validation === "address") {
-        var cleanedValue7 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
-        e.target.value = cleanedValue7;
-    } else if (validation === "cars") {
-        var cleanedValue8 = e.target.value.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
-        e.target.value = cleanedValue8;
-    } else if (validation === "charts") {
-        var cleanedValue9 = e.target.value.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
-        e.target.value = cleanedValue9;
-    } else {
-        e.target.value = e.target.value;
-    }
-};
-var handlePaste = function(e) {
-    var validation = e.currentTarget.getAttribute("data-validation");
-    var pasteData = e.clipboardData.getData("text");
-    if (validation === "text") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת\- ]/g, "");
-    } else if (validation === "numbers") {
-        pasteData = pasteData.replace(/[^0-9\- +]/g, "");
-    } else if (validation === "numbersOnly") {
-        pasteData = pasteData.replace(/[^0-9]/g, "");
-    } else if (validation === "price") {
-        pasteData = pasteData.replace(/[^0-9\.]/g, "");
-    } else if (validation === "textNumbers") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\- +]/g, "");
-    } else if (validation === "email") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9.@\- ]/g, "");
-    } else if (validation === "color") {
-        pasteData = pasteData.replace(/[^#0-9A-Fa-f]/g, "");
-    } else if (validation === "address") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-., ]/g, "");
-    } else if (validation === "cars") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9,_]/g, "");
-    } else if (validation === "charts") {
-        pasteData = pasteData.replace(/[^a-zA-Zא-ת0-9\-.,_@! ]/g, "");
-    }
-    e.preventDefault();
-    document.execCommand("insertText", false, pasteData);
 };
 var useValidation = function(validationType, requireError) {
     return {
@@ -1591,6 +1528,68 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
+var handleChange = function(e) {
+    e.target.setCustomValidity("");
+    var validation = e.target.getAttribute("data-validation");
+    if (validation === "text") {
+        e.target.value = import_xregexp.default.replace(e.target.value, textRegex, "");
+    } else if (validation === "numbers") {
+        e.target.value = import_xregexp.default.replace(e.target.value, numbersRegex, "");
+    } else if (validation === "numbersOnly") {
+        e.target.value = import_xregexp.default.replace(e.target.value, numbersOnlyRegex, "");
+    } else if (validation === "price") {
+        e.target.value = import_xregexp.default.replace(e.target.value, priceRegex, "");
+    } else if (validation === "textNumbers") {
+        e.target.value = import_xregexp.default.replace(e.target.value, textNumbersRegex, "");
+    } else if (validation === "email") {
+        e.target.value = import_xregexp.default.replace(e.target.value, emailRegex, "");
+    } else if (validation === "color") {
+        e.target.value = import_xregexp.default.replace(e.target.value, colorRegex, "");
+    } else if (validation === "address") {
+        e.target.value = import_xregexp.default.replace(e.target.value, addressRegex, "");
+    } else if (validation === "cars") {
+        e.target.value = import_xregexp.default.replace(e.target.value, carsRegex, "");
+    } else if (validation === "charts") {
+        e.target.value = import_xregexp.default.replace(e.target.value, chartsRegex, "");
+    }
+};
+var handlePaste = function(e) {
+    var validation = e.currentTarget.getAttribute("data-validation");
+    var pasteData = e.clipboardData.getData("text");
+    if (validation === "text") {
+        pasteData = import_xregexp.default.replace(pasteData, textRegex, "");
+    } else if (validation === "numbers") {
+        pasteData = import_xregexp.default.replace(pasteData, numbersRegex, "");
+    } else if (validation === "numbersOnly") {
+        pasteData = import_xregexp.default.replace(pasteData, numbersOnlyRegex, "");
+    } else if (validation === "price") {
+        pasteData = import_xregexp.default.replace(pasteData, priceRegex, "");
+    } else if (validation === "textNumbers") {
+        pasteData = import_xregexp.default.replace(pasteData, textNumbersRegex, "");
+    } else if (validation === "email") {
+        pasteData = import_xregexp.default.replace(pasteData, emailRegex, "");
+    } else if (validation === "color") {
+        pasteData = import_xregexp.default.replace(pasteData, colorRegex, "");
+    } else if (validation === "address") {
+        pasteData = import_xregexp.default.replace(pasteData, addressRegex, "");
+    } else if (validation === "cars") {
+        pasteData = import_xregexp.default.replace(pasteData, carsRegex, "");
+    } else if (validation === "charts") {
+        pasteData = import_xregexp.default.replace(pasteData, chartsRegex, "");
+    }
+    e.preventDefault();
+    document.execCommand("insertText", false, pasteData);
+};
+var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
+var numbersRegex = (0, import_xregexp.default)("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = (0, import_xregexp.default)("[^0-9]", "g");
+var priceRegex = (0, import_xregexp.default)("[^0-9.]", "g");
+var emailRegex = (0, import_xregexp.default)("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = (0, import_xregexp.default)("[^#0-9A-Fa-f]", "g");
+var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
+var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
+var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
+var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/components/forms/index.tsx

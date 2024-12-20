@@ -258,6 +258,18 @@ var snapshot = function(config, snapshotsFirstTime) {
         unsubscribe: unsubscribe
     };
 };
+// src/helpers/forms.ts
+var import_xregexp = __toESM(require("xregexp"));
+var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
+var numbersRegex = (0, import_xregexp.default)("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = (0, import_xregexp.default)("[^0-9]", "g");
+var priceRegex = (0, import_xregexp.default)("[^0-9.]", "g");
+var emailRegex = (0, import_xregexp.default)("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = (0, import_xregexp.default)("[^#0-9A-Fa-f]", "g");
+var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
+var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
+var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
+var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/lib/utils.ts
