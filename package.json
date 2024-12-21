@@ -11,6 +11,7 @@
     },
     "license": "ISC",
     "dependencies": {
+        "@radix-ui/react-progress": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.0",
         "@types/lodash": "^4.17.13",
         "akeyless-types-commons": "github:akeylesspro/akeyless-types-commons",

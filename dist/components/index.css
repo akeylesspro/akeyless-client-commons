@@ -499,6 +499,9 @@ body {
 .h-10 {
   height: 2.5rem;
 }
+.h-2 {
+  height: 0.5rem;
+}
 .h-52 {
   height: 13rem;
 }
@@ -752,6 +755,9 @@ body {
 }
 .bg-primary {
   background-color: hsl(var(--primary));
+}
+.bg-primary\/20 {
+  background-color: hsl(var(--primary) / 0.2);
 }
 .bg-secondary {
   background-color: hsl(var(--secondary));
