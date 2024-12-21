@@ -1845,27 +1845,121 @@ var DatePicker = function(param) {
         ]
     });
 };
-// src/components/ui/input.tsx
-import * as React4 from "react";
+// src/components/ui/badge.tsx
+import { cva } from "class-variance-authority";
 import { jsx as jsx9 } from "react/jsx-runtime";
-var Input = React4.forwardRef(function(_param, ref) {
+var badgeVariants = cva("inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", {
+    variants: {
+        variant: {
+            default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+            secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            destructive: "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+            outline: "text-foreground"
+        }
+    },
+    defaultVariants: {
+        variant: "default"
+    }
+});
+function Badge(_param) {
+    var className = _param.className, variant = _param.variant, props = _object_without_properties(_param, [
+        "className",
+        "variant"
+    ]);
+    return /* @__PURE__ */ jsx9("div", _object_spread({
+        className: cn(badgeVariants({
+            variant: variant
+        }), className)
+    }, props));
+}
+// src/components/ui/button.tsx
+import * as React4 from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva as cva2 } from "class-variance-authority";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var buttonVariants = cva2("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
+    variants: {
+        variant: {
+            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground",
+            link: "text-primary underline-offset-4 hover:underline"
+        },
+        size: {
+            default: "h-9 px-4 py-2",
+            sm: "h-8 rounded-md px-3 text-xs",
+            lg: "h-10 rounded-md px-8",
+            icon: "h-9 w-9"
+        }
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default"
+    }
+});
+var Button = React4.forwardRef(function(_param, ref) {
+    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
+        "className",
+        "variant",
+        "size",
+        "asChild"
+    ]);
+    var Comp = asChild ? Slot : "button";
+    return /* @__PURE__ */ jsx10(Comp, _object_spread({
+        className: cn(buttonVariants({
+            variant: variant,
+            size: size,
+            className: className
+        })),
+        ref: ref
+    }, props));
+});
+Button.displayName = "Button";
+// src/components/ui/input.tsx
+import * as React5 from "react";
+import { jsx as jsx11 } from "react/jsx-runtime";
+var Input = React5.forwardRef(function(_param, ref) {
     var className = _param.className, type = _param.type, props = _object_without_properties(_param, [
         "className",
         "type"
     ]);
-    return /* @__PURE__ */ jsx9("input", _object_spread({
+    return /* @__PURE__ */ jsx11("input", _object_spread({
         type: type,
         className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
         ref: ref
     }, props));
 });
 Input.displayName = "Input";
+// src/components/ui/progress.tsx
+import * as React6 from "react";
+import * as ProgressPrimitive from "@radix-ui/react-progress";
+import { jsx as jsx12 } from "react/jsx-runtime";
+var ProgressComponent = React6.forwardRef(function(_param, ref) {
+    var className = _param.className, value = _param.value, props = _object_without_properties(_param, [
+        "className",
+        "value"
+    ]);
+    return /* @__PURE__ */ jsx12(ProgressPrimitive.Root, _object_spread_props(_object_spread({
+        ref: ref,
+        className: cn("relative h-2 w-full overflow-hidden rounded-full bg-primary/20", className)
+    }, props), {
+        children: /* @__PURE__ */ jsx12(ProgressPrimitive.Indicator, {
+            className: "h-full w-full flex-1 bg-primary transition-all",
+            style: {
+                transform: "translateX(-".concat(100 - (value || 0), "%)")
+            }
+        })
+    }));
+});
+ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
 // src/components/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef2, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2, useState as useState4 } from "react";
+import { forwardRef as forwardRef4, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2, useState as useState4 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
-import { jsx as jsx10, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
@@ -1892,7 +1986,7 @@ function InternationalPhonePicker(param) {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
         children: [
-            /* @__PURE__ */ jsx10(RPNInput.default, {
+            /* @__PURE__ */ jsx13(RPNInput.default, {
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -1922,7 +2016,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ jsx10("input", {
+            /* @__PURE__ */ jsx13("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -1930,7 +2024,7 @@ function InternationalPhonePicker(param) {
         ]
     });
 }
-var PhoneInput = forwardRef2(function(_param, ref) {
+var PhoneInput = forwardRef4(function(_param, ref) {
     var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, style = _param.style, props = _object_without_properties(_param, [
         "className",
         "onKeyDown",
@@ -1943,7 +2037,7 @@ var PhoneInput = forwardRef2(function(_param, ref) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ jsx10(Input, _object_spread({
+    return /* @__PURE__ */ jsx13(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -1974,14 +2068,14 @@ var CountrySelect = function(param) {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ jsx10(FlagComponent, {
+                    /* @__PURE__ */ jsx13(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ jsx10("span", {
+                    /* @__PURE__ */ jsx13("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ jsx10(ChevronDown, {
+                        children: /* @__PURE__ */ jsx13(ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -1989,7 +2083,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx10("select", {
+            /* @__PURE__ */ jsx13("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -2016,11 +2110,11 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = flags[country];
-    return /* @__PURE__ */ jsx10("span", {
+    return /* @__PURE__ */ jsx13("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ jsx10(Flag, {
+        children: Flag ? /* @__PURE__ */ jsx13(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ jsx10(Phone, {
+        }) : /* @__PURE__ */ jsx13(Phone, {
             size: 16,
             "aria-hidden": "true"
         })
@@ -2029,7 +2123,7 @@ var FlagComponent = function(param) {
 // src/components/CodeInput.tsx
 import { OTPInput } from "input-otp";
 import { useEffect as useEffect4, useRef as useRef3 } from "react";
-import { jsx as jsx11 } from "react/jsx-runtime";
+import { jsx as jsx14 } from "react/jsx-runtime";
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
     var firstInputRef = useRef3(null);
@@ -2038,9 +2132,9 @@ function CodeInput(param) {
             firstInputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ jsx11("div", {
+    return /* @__PURE__ */ jsx14("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
-        children: /* @__PURE__ */ jsx11(OTPInput, {
+        children: /* @__PURE__ */ jsx14(OTPInput, {
             ref: firstInputRef,
             value: codeValue,
             onChange: function(newVal) {
@@ -2050,25 +2144,25 @@ function CodeInput(param) {
             maxLength: 6,
             render: function(param) {
                 var slots = param.slots;
-                return /* @__PURE__ */ jsx11("div", {
+                return /* @__PURE__ */ jsx14("div", {
                     className: cn("flex gap-5", slotContainerClassName),
                     children: slots.map(function(slot, idx) {
-                        return /* @__PURE__ */ jsx11(Slot, _object_spread({}, slot), idx);
+                        return /* @__PURE__ */ jsx14(Slot2, _object_spread({}, slot), idx);
                     })
                 });
             }
         })
     });
 }
-function Slot(props) {
-    return /* @__PURE__ */ jsx11("div", {
+function Slot2(props) {
+    return /* @__PURE__ */ jsx14("div", {
         className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
             "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
         }),
-        children: props.char !== null && /* @__PURE__ */ jsx11("div", {
+        children: props.char !== null && /* @__PURE__ */ jsx14("div", {
             children: props.char
         })
     });
 }
-export { Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, Version, getFixedNumber };
+export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, Version, badgeVariants, buttonVariants, getFixedNumber };
 //# sourceMappingURL=index.mjs.map

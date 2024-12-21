@@ -394,6 +394,12 @@ var __toCommonJS = function(mod) {
 // src/components/index.tsx
 var components_exports = {};
 __export(components_exports, {
+    Badge: function() {
+        return Badge;
+    },
+    Button: function() {
+        return Button;
+    },
     Checkbox: function() {
         return Checkbox;
     },
@@ -415,6 +421,9 @@ __export(components_exports, {
     Filter: function() {
         return Filter;
     },
+    Input: function() {
+        return Input;
+    },
     InputContainer: function() {
         return InputContainer;
     },
@@ -429,6 +438,9 @@ __export(components_exports, {
     },
     ModularForm: function() {
         return ModularForm;
+    },
+    ProgressComponent: function() {
+        return ProgressComponent;
     },
     Search: function() {
         return Search;
@@ -462,6 +474,12 @@ __export(components_exports, {
     },
     Version: function() {
         return Version;
+    },
+    badgeVariants: function() {
+        return badgeVariants;
+    },
+    buttonVariants: function() {
+        return buttonVariants;
     },
     getFixedNumber: function() {
         return getFixedNumber;
@@ -1982,27 +2000,121 @@ var DatePicker = function(param) {
         ]
     });
 };
-// src/components/ui/input.tsx
-var React4 = __toESM(require("react"));
+// src/components/ui/badge.tsx
+var import_class_variance_authority = require("class-variance-authority");
 var import_jsx_runtime10 = require("react/jsx-runtime");
-var Input = React4.forwardRef(function(_param, ref) {
+var badgeVariants = (0, import_class_variance_authority.cva)("inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", {
+    variants: {
+        variant: {
+            default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+            secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            destructive: "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+            outline: "text-foreground"
+        }
+    },
+    defaultVariants: {
+        variant: "default"
+    }
+});
+function Badge(_param) {
+    var className = _param.className, variant = _param.variant, props = _object_without_properties(_param, [
+        "className",
+        "variant"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", _object_spread({
+        className: cn(badgeVariants({
+            variant: variant
+        }), className)
+    }, props));
+}
+// src/components/ui/button.tsx
+var React4 = __toESM(require("react"));
+var import_react_slot = require("@radix-ui/react-slot");
+var import_class_variance_authority2 = require("class-variance-authority");
+var import_jsx_runtime11 = require("react/jsx-runtime");
+var buttonVariants = (0, import_class_variance_authority2.cva)("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
+    variants: {
+        variant: {
+            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground",
+            link: "text-primary underline-offset-4 hover:underline"
+        },
+        size: {
+            default: "h-9 px-4 py-2",
+            sm: "h-8 rounded-md px-3 text-xs",
+            lg: "h-10 rounded-md px-8",
+            icon: "h-9 w-9"
+        }
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default"
+    }
+});
+var Button = React4.forwardRef(function(_param, ref) {
+    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
+        "className",
+        "variant",
+        "size",
+        "asChild"
+    ]);
+    var Comp = asChild ? import_react_slot.Slot : "button";
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Comp, _object_spread({
+        className: cn(buttonVariants({
+            variant: variant,
+            size: size,
+            className: className
+        })),
+        ref: ref
+    }, props));
+});
+Button.displayName = "Button";
+// src/components/ui/input.tsx
+var React5 = __toESM(require("react"));
+var import_jsx_runtime12 = require("react/jsx-runtime");
+var Input = React5.forwardRef(function(_param, ref) {
     var className = _param.className, type = _param.type, props = _object_without_properties(_param, [
         "className",
         "type"
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("input", _object_spread({
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("input", _object_spread({
         type: type,
         className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
         ref: ref
     }, props));
 });
 Input.displayName = "Input";
+// src/components/ui/progress.tsx
+var React6 = __toESM(require("react"));
+var ProgressPrimitive = __toESM(require("@radix-ui/react-progress"));
+var import_jsx_runtime13 = require("react/jsx-runtime");
+var ProgressComponent = React6.forwardRef(function(_param, ref) {
+    var className = _param.className, value = _param.value, props = _object_without_properties(_param, [
+        "className",
+        "value"
+    ]);
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Root, _object_spread_props(_object_spread({
+        ref: ref,
+        className: cn("relative h-2 w-full overflow-hidden rounded-full bg-primary/20", className)
+    }, props), {
+        children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Indicator, {
+            className: "h-full w-full flex-1 bg-primary transition-all",
+            style: {
+                transform: "translateX(-".concat(100 - (value || 0), "%)")
+            }
+        })
+    }));
+});
+ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
 // src/components/InternationalPhonePicker.tsx
 var import_lucide_react = require("lucide-react");
 var import_react6 = require("react");
 var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
-var import_jsx_runtime11 = require("react/jsx-runtime");
+var import_jsx_runtime14 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
@@ -2025,11 +2137,11 @@ function InternationalPhonePicker(param) {
         defaultValue,
         setPhoneValue
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(RPNInput.default, {
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(RPNInput.default, {
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -2059,7 +2171,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", {
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -2080,7 +2192,7 @@ var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Input, _object_spread({
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -2104,21 +2216,21 @@ var CountrySelect = function(param) {
     var originalClassName = (0, import_react6.useMemo)(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", {
         className: cn(originalClassName, className),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(FlagComponent, {
+                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", {
+                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react.ChevronDown, {
+                        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react.ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -2126,7 +2238,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("select", {
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -2136,7 +2248,7 @@ var CountrySelect = function(param) {
                     return x.value;
                 }).map(function(option, i) {
                     var _option_value;
-                    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("option", {
+                    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("option", {
                         className: "text-black",
                         value: option.value,
                         children: [
@@ -2153,11 +2265,11 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = import_flags.default[country];
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", {
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Flag, {
+        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(import_lucide_react.Phone, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react.Phone, {
             size: 16,
             "aria-hidden": "true"
         })
@@ -2166,7 +2278,7 @@ var FlagComponent = function(param) {
 // src/components/CodeInput.tsx
 var import_input_otp = require("input-otp");
 var import_react7 = require("react");
-var import_jsx_runtime12 = require("react/jsx-runtime");
+var import_jsx_runtime15 = require("react/jsx-runtime");
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
     var firstInputRef = (0, import_react7.useRef)(null);
@@ -2175,9 +2287,9 @@ function CodeInput(param) {
             firstInputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
-        children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(import_input_otp.OTPInput, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_input_otp.OTPInput, {
             ref: firstInputRef,
             value: codeValue,
             onChange: function(newVal) {
@@ -2187,28 +2299,30 @@ function CodeInput(param) {
             maxLength: 6,
             render: function(param) {
                 var slots = param.slots;
-                return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
+                return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
                     className: cn("flex gap-5", slotContainerClassName),
                     children: slots.map(function(slot, idx) {
-                        return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Slot, _object_spread({}, slot), idx);
+                        return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Slot2, _object_spread({}, slot), idx);
                     })
                 });
             }
         })
     });
 }
-function Slot(props) {
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
+function Slot2(props) {
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
         className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
             "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
         }),
-        children: props.char !== null && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
+        children: props.char !== null && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
             children: props.char
         })
     });
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+    Badge: Badge,
+    Button: Button,
     Checkbox: Checkbox,
     CodeInput: CodeInput,
     ConfirmForm: ConfirmForm,
@@ -2216,11 +2330,13 @@ function Slot(props) {
     ErrorBoundary: ErrorBoundary,
     ExportToExcel: ExportToExcel,
     Filter: Filter,
+    Input: Input,
     InputContainer: InputContainer,
     InternationalPhonePicker: InternationalPhonePicker,
     Loader: Loader,
     MaxRowsLabel: MaxRowsLabel,
     ModularForm: ModularForm,
+    ProgressComponent: ProgressComponent,
     Search: Search,
     SelectContainer: SelectContainer,
     Summary: Summary,
@@ -2232,6 +2348,8 @@ function Slot(props) {
     TableProvider: TableProvider,
     TableRow: TableRow,
     Version: Version,
+    badgeVariants: badgeVariants,
+    buttonVariants: buttonVariants,
     getFixedNumber: getFixedNumber
 });
 //# sourceMappingURL=index.js.map

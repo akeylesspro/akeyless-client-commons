@@ -1,40 +1,44 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import React$1, { SetStateAction, ReactNode, Dispatch } from 'react';
+import * as React$1 from 'react';
+import React__default, { SetStateAction, ReactNode, Dispatch } from 'react';
 import { TObject } from 'akeyless-types-commons';
+import * as class_variance_authority_dist_types from 'class-variance-authority/dist/types';
+import { VariantProps } from 'class-variance-authority';
+import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as RPNInput from 'react-phone-number-input';
 
 interface CheckBoxProps {
     id: string;
     checked: boolean;
-    setChecked: React$1.Dispatch<SetStateAction<boolean>>;
-    style?: React$1.CSSProperties;
+    setChecked: React__default.Dispatch<SetStateAction<boolean>>;
+    style?: React__default.CSSProperties;
     rotate: boolean;
 }
 declare const Checkbox: ({ id, checked, setChecked, rotate, style }: CheckBoxProps) => react_jsx_runtime.JSX.Element;
 
 interface ErrorBoundaryProps {
-    fallback?: React$1.ReactNode;
-    children: React$1.ReactNode;
+    fallback?: React__default.ReactNode;
+    children: React__default.ReactNode;
 }
 interface ErrorBoundaryState {
     hasError: boolean;
     error: Error | null;
-    errorInfo: React$1.ErrorInfo | null;
+    errorInfo: React__default.ErrorInfo | null;
 }
-declare class ErrorBoundary extends React$1.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+declare class ErrorBoundary extends React__default.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps);
     static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState>;
-    componentDidCatch(error: Error, errorInfo: React$1.ErrorInfo): void;
-    render(): string | number | boolean | react_jsx_runtime.JSX.Element | Iterable<React$1.ReactNode>;
+    componentDidCatch(error: Error, errorInfo: React__default.ErrorInfo): void;
+    render(): string | number | boolean | react_jsx_runtime.JSX.Element | Iterable<React__default.ReactNode>;
 }
 
 interface LoaderProps {
     color?: string;
     size?: number;
-    style?: React$1.CSSProperties;
+    style?: React__default.CSSProperties;
     className?: string;
 }
-declare const Loader: React$1.FC<LoaderProps>;
+declare const Loader: React__default.FC<LoaderProps>;
 
 declare const Version: ({ version, className }: {
     version: string;
@@ -196,25 +200,45 @@ declare const TableRow: ({ item }: {
 declare const TableCell: ({ value }: {
     value: any;
 }) => react_jsx_runtime.JSX.Element;
-declare const TableHead: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const TableBody: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const Filter: React$1.NamedExoticComponent<FilterProps>;
-declare const MaxRowsLabel: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const ExportToExcel: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const Search: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const Summary: React$1.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const TableHead: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const TableBody: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const Filter: React__default.NamedExoticComponent<FilterProps>;
+declare const MaxRowsLabel: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const ExportToExcel: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const Search: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const Summary: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 
-declare const TableContext: React$1.Context<TableProps & TableProviderType>;
+declare const TableContext: React__default.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {
-    children: React$1.ReactNode;
+    children: React__default.ReactNode;
 }) => react_jsx_runtime.JSX.Element;
-declare const Table: React$1.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
+declare const Table: React__default.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
 
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
+
+declare const badgeVariants: (props?: {
+    variant?: "default" | "secondary" | "destructive" | "outline";
+} & class_variance_authority_dist_types.ClassProp) => string;
+interface BadgeProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
+}
+declare function Badge({ className, variant, ...props }: BadgeProps): react_jsx_runtime.JSX.Element;
+
+declare const buttonVariants: (props?: {
+    variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "ghost";
+    size?: "default" | "icon" | "sm" | "lg";
+} & class_variance_authority_dist_types.ClassProp) => string;
+interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+    asChild?: boolean;
+}
+declare const Button: React$1.ForwardRefExoticComponent<ButtonProps & React$1.RefAttributes<HTMLButtonElement>>;
+
+declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
+
+declare const ProgressComponent: React$1.ForwardRefExoticComponent<Omit<ProgressPrimitive.ProgressProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
 interface InputProps {
     phoneValue?: string;
@@ -223,7 +247,7 @@ interface InputProps {
     className?: string;
     containerClassName?: string;
     name?: string;
-    style?: React$1.CSSProperties;
+    style?: React__default.CSSProperties;
     flagContainerClassName?: string;
     inputClassName?: string;
     defaultValue?: string;
@@ -240,4 +264,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, getFixedNumber };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, badgeVariants, buttonVariants, getFixedNumber };
