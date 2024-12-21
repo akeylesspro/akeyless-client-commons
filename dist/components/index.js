@@ -2102,22 +2102,20 @@ var ProgressComponent = React6.forwardRef(function(_param, ref) {
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", {
         className: cn("relative w-full", containerClassName),
-        children: /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(ProgressPrimitive.Root, _object_spread_props(_object_spread({
+        children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Root, _object_spread_props(_object_spread({
             ref: ref,
             className: cn("relative h-2 w-full overflow-hidden rounded-full bg-primary/20", className)
         }, props), {
-            children: [
-                /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Indicator, {
-                    className: cn("h-full bg-primary transition-all flex justify-center items-center", indicatorClassName),
-                    style: {
-                        width: "".concat(value || 0, "%")
-                    }
-                }),
-                showValue && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", {
-                    className: cn("text-sm font-medium text-black", showValueClassName),
+            children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Indicator, {
+                className: cn("h-full w-full flex-1 bg-primary transition-all", indicatorClassName),
+                style: {
+                    transform: "translateX(-".concat(100 - (value || 0), "%)")
+                },
+                children: showValue && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", {
+                    className: cn("font-medium text-black", showValueClassName),
                     children: "".concat(value || 0, "%")
                 })
-            ]
+            })
         }))
     });
 });
