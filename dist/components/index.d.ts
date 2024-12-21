@@ -238,11 +238,13 @@ declare const Button: React$1.ForwardRefExoticComponent<ButtonProps & React$1.Re
 
 declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
-declare const ProgressComponent: React$1.ForwardRefExoticComponent<Omit<ProgressPrimitive.ProgressProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & {
+interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
+    containerClassName?: string;
     indicatorClassName?: string;
     showValue?: boolean;
     showValueClassName?: string;
-} & React$1.RefAttributes<HTMLDivElement>>;
+}
+declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
 
 interface InputProps {
     phoneValue?: string;
