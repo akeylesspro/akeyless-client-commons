@@ -2092,16 +2092,17 @@ var React6 = __toESM(require("react"));
 var ProgressPrimitive = __toESM(require("@radix-ui/react-progress"));
 var import_jsx_runtime13 = require("react/jsx-runtime");
 var ProgressComponent = React6.forwardRef(function(_param, ref) {
-    var className = _param.className, value = _param.value, props = _object_without_properties(_param, [
+    var className = _param.className, value = _param.value, indicatorClassName = _param.indicatorClassName, props = _object_without_properties(_param, [
         "className",
-        "value"
+        "value",
+        "indicatorClassName"
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Root, _object_spread_props(_object_spread({
         ref: ref,
         className: cn("relative h-2 w-full overflow-hidden rounded-full bg-primary/20", className)
     }, props), {
         children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Indicator, {
-            className: "h-full w-full flex-1 bg-primary transition-all",
+            className: cn("h-full w-full flex-1 bg-primary transition-all", indicatorClassName),
             style: {
                 transform: "translateX(-".concat(100 - (value || 0), "%)")
             }
