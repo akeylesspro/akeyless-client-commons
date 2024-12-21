@@ -1959,7 +1959,10 @@ var ProgressComponent = React6.forwardRef(function(_param, ref) {
                 })
             })),
             showValue && /* @__PURE__ */ jsx12("div", {
-                className: cn("absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium text-black", showValueClassName),
+                style: {
+                    transform: "translateX(-".concat(100 - (value || 0), "%)")
+                },
+                className: cn(" text-sm font-medium text-black", showValueClassName),
                 children: "".concat(value || 0, "%")
             })
         ]
