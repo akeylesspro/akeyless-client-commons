@@ -12,10 +12,22 @@ export const textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu"); // Letters
 export const addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu"); // Letters, numbers, spaces, hyphens, dots, and commas
 export const chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu"); // Letters, numbers, spaces, and allowed symbols
 
+type ValidationType =
+    | "text"
+    | "numbers"
+    | "numbersOnly"
+    | "price"
+    | "textNumbers"
+    | "email"
+    | "color"
+    | "address"
+    | "cars"
+    | "charts"
+    | (string & {});
+
 export const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.setCustomValidity("");
-    const validation = e.target.getAttribute("data-validation");
-
+    const validation = e.target.getAttribute("data-validation") as ValidationType;
     if (validation === "text") {
         e.target.value = XRegExp.replace(e.target.value, textRegex, "");
     } else if (validation === "numbers") {
@@ -40,7 +52,7 @@ export const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 export const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    const validation = e.currentTarget.getAttribute("data-validation");
+    const validation = e.currentTarget.getAttribute("data-validation") as ValidationType;
     let pasteData = e.clipboardData.getData("text");
     if (validation === "text") {
         pasteData = XRegExp.replace(pasteData, textRegex, "");
@@ -72,7 +84,7 @@ export const handleInvalid = (e: React.InvalidEvent<HTMLInputElement>, requireEr
     e.target.setCustomValidity(requireError || "This filed is required !");
 };
 
-export const useValidation = (validationType: string, requireError?: string) => {
+export const useValidation = (validationType: ValidationType, requireError?: string) => {
     return {
         onChange: handleChange,
         onPaste: handlePaste,

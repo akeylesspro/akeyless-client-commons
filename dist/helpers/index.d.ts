@@ -121,14 +121,15 @@ declare const carsRegex: RegExp;
 declare const textNumbersRegex: RegExp;
 declare const addressRegex: RegExp;
 declare const chartsRegex: RegExp;
+type ValidationType = "text" | "numbers" | "numbersOnly" | "price" | "textNumbers" | "email" | "color" | "address" | "cars" | "charts" | (string & {});
 declare const handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 declare const handlePaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
 declare const handleInvalid: (e: React.InvalidEvent<HTMLInputElement>, requireError?: string) => void;
-declare const useValidation: (validationType: string, requireError?: string) => {
+declare const useValidation: (validationType: ValidationType, requireError?: string) => {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
     onInvalid: (e: React.InvalidEvent<HTMLInputElement>) => void;
-    "data-validation": string;
+    "data-validation": ValidationType;
 };
 
 declare const setState: <T>(updater: T | ((state: T) => T), set: (fn: (state: any) => any) => void, stateName: string) => void;
