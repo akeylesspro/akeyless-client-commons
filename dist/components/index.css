@@ -447,6 +447,9 @@ body {
 .top-\[-20px\] {
   top: -20px;
 }
+.top-\[-2px\] {
+  top: -2px;
+}
 .top-\[1px\] {
   top: 1px;
 }
@@ -499,8 +502,8 @@ body {
 .h-10 {
   height: 2.5rem;
 }
-.h-2 {
-  height: 0.5rem;
+.h-5 {
+  height: 1.25rem;
 }
 .h-52 {
   height: 13rem;
@@ -744,6 +747,14 @@ body {
   --tw-bg-opacity: 1;
   background-color: rgb(200 204 212 / var(--tw-bg-opacity, 1));
 }
+.bg-\[\#e5e7eb\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+.bg-\[green\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 128 0 / var(--tw-bg-opacity, 1));
+}
 .bg-background {
   background-color: hsl(var(--background));
 }
@@ -755,9 +766,6 @@ body {
 }
 .bg-primary {
   background-color: hsl(var(--primary));
-}
-.bg-primary\/20 {
-  background-color: hsl(var(--primary) / 0.2);
 }
 .bg-secondary {
   background-color: hsl(var(--secondary));
