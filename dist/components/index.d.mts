@@ -241,6 +241,7 @@ declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTML
 declare const ProgressComponent: React$1.ForwardRefExoticComponent<Omit<ProgressPrimitive.ProgressProps & React$1.RefAttributes<HTMLDivElement>, "ref"> & {
     indicatorClassName?: string;
     showValue?: boolean;
+    showValueClassName?: string;
 } & React$1.RefAttributes<HTMLDivElement>>;
 
 interface InputProps {

@@ -2092,10 +2092,11 @@ var React6 = __toESM(require("react"));
 var ProgressPrimitive = __toESM(require("@radix-ui/react-progress"));
 var import_jsx_runtime13 = require("react/jsx-runtime");
 var ProgressComponent = React6.forwardRef(function(_param, ref) {
-    var className = _param.className, value = _param.value, indicatorClassName = _param.indicatorClassName, _param_showValue = _param.showValue, showValue = _param_showValue === void 0 ? false : _param_showValue, props = _object_without_properties(_param, [
+    var className = _param.className, value = _param.value, indicatorClassName = _param.indicatorClassName, showValueClassName = _param.showValueClassName, _param_showValue = _param.showValue, showValue = _param_showValue === void 0 ? false : _param_showValue, props = _object_without_properties(_param, [
         "className",
         "value",
         "indicatorClassName",
+        "showValueClassName",
         "showValue"
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", {
@@ -2112,9 +2113,9 @@ var ProgressComponent = React6.forwardRef(function(_param, ref) {
                     }
                 })
             })),
-            showValue && value !== void 0 && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", {
-                className: "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium text-black",
-                children: "".concat(value, "%")
+            showValue && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", {
+                className: cn("absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium text-black", showValueClassName),
+                children: "".concat(value || 0, "%")
             })
         ]
     });
