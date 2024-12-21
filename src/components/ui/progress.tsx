@@ -18,7 +18,16 @@ const ProgressComponent = React.forwardRef<ProgressRef, ProgressProps>(
                     className={cn("h-full w-full flex-1 bg-primary transition-all", indicatorClassName)}
                     style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
                 >
-                    {showValue && <div className={cn("text-sm font-medium text-black", showValueClassName)}>{`${value || 0}%`}</div>}
+                    {showValue && (
+                        <div
+                            className={cn(
+                                "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-sm font-medium text-black",
+                                showValueClassName
+                            )}
+                        >
+                            {`${value || 0}%`}
+                        </div>
+                    )}
                 </ProgressPrimitive.Indicator>
             </ProgressPrimitive.Root>
         </div>
