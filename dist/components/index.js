@@ -2107,12 +2107,12 @@ var ProgressComponent = React6.forwardRef(function(_param, ref) {
             className: cn("w-full h-5 bg-[#e5e7eb] relative overflow-hidden rounded-full", className)
         }, props), {
             children: /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(ProgressPrimitive.Indicator, {
-                className: cn("h-full w-full flex-1 bg-[green] transition-all", indicatorClassName),
+                className: cn("h-full w-full flex-1 bg-[green] transition-all rounded-full", indicatorClassName),
                 style: {
                     transform: "translateX(-".concat(100 - (value || 0), "%)")
                 },
                 children: showValue && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", {
-                    className: cn("absolute right-0 top-[-2px] font-medium text-white", showValueClassName),
+                    className: cn("absolute right-1 top-[-2px] font-medium text-white", showValueClassName),
                     children: "".concat(value || 0, "%")
                 })
             })
