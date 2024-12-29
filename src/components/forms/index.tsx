@@ -213,8 +213,8 @@ export const DatePicker = ({
     };
 
     return (
-        <form style={{ direction }} onSubmit={onSubmit} className={`w-full h-10 flex justify-start gap-3 items-center ${formClassName}`}>
-            <label className={`center text-[14px] relative gap-2 ${labelsClassName}`} htmlFor="from">
+        <form style={{ direction }} onSubmit={onSubmit} className={cn(`w-full h-10 flex justify-start gap-3 items-center `, formClassName)}>
+            <label className={cn(`center text-[14px] relative gap-2`, labelsClassName)} htmlFor="from">
                 {fromText}
                 <input
                     className={`w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ${inputsClassName}`}
@@ -224,7 +224,7 @@ export const DatePicker = ({
                 />
             </label>
 
-            <label className={`center text-[14px] relative gap-2 ${labelsClassName}`} htmlFor="to">
+            <label className={cn(`center text-[14px] relative gap-2 `, labelsClassName)} htmlFor="to">
                 {toText}
                 <input
                     className={`w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ${inputsClassName}`}
@@ -237,7 +237,7 @@ export const DatePicker = ({
             <button
                 disabled={isLoading}
                 style={buttonStyle}
-                className={`bg-[#699a2c] text-[#fff] font-[500] w-[75px] h-[27px] ${buttonClassName}`}
+                className={cn(`bg-[#699a2c] text-[#fff] font-[500] w-[75px] h-[27px]`, buttonClassName)}
                 type="submit"
             >
                 {isLoading ? <Loader className="pt-[2px]" size={20} color="#fff" /> : buttonText}
