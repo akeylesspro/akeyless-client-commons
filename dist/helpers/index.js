@@ -333,6 +333,9 @@ __export(helpers_exports, {
     isInternationalIsraelPhone: function() {
         return isInternationalIsraelPhone;
     },
+    is_iccid: function() {
+        return is_iccid;
+    },
     local_israel_phone_format: function() {
         return local_israel_phone_format;
     },
@@ -1205,6 +1208,12 @@ var displayFormatPhoneNumber = function(phoneNumber) {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
+var is_iccid = function(number) {
+    if (number.length < 19 || number.length > 22) return false;
+    if (!/^\d+$/.test(number)) return false;
+    if (!number.startsWith("89")) return false;
+    return true;
+};
 // src/lib/utils.ts
 var import_clsx = require("clsx");
 var import_tailwind_merge = require("tailwind-merge");
@@ -1247,6 +1256,7 @@ function cn() {
     international_israel_phone_format: international_israel_phone_format,
     isInternational: isInternational,
     isInternationalIsraelPhone: isInternationalIsraelPhone,
+    is_iccid: is_iccid,
     local_israel_phone_format: local_israel_phone_format,
     numbersOnlyRegex: numbersOnlyRegex,
     numbersRegex: numbersRegex,

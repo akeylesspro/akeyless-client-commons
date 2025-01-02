@@ -26,3 +26,9 @@ export const displayFormatPhoneNumber: ConvertFunction = (phoneNumber) => {
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
+export const is_iccid = (number: string) => {
+    if (number.length < 19 || number.length > 22) return false;
+    if (!/^\d+$/.test(number)) return false;
+    if (!number.startsWith("89")) return false;
+    return true;
+};
