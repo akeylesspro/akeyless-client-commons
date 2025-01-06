@@ -1554,7 +1554,7 @@ var ModularForm = function(param) {
         return function(form) {
             return _ref.apply(this, arguments);
         };
-    }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, buttonContent = param.buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName;
+    }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, buttonContent = param.buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName, submitRef = param.submitRef;
     var _useState3 = _sliced_to_array(useState3(""), 2), errorMsg = _useState3[0], setErrorMsg = _useState3[1];
     var _useState31 = _sliced_to_array(useState3(false), 2), isLoading = _useState31[0], setIsLoading = _useState31[1];
     var onSubmit = /*#__PURE__*/ function() {
@@ -1638,6 +1638,7 @@ var ModularForm = function(param) {
                         children: errorMsg
                     }),
                     /* @__PURE__ */ jsx8("button", {
+                        ref: submitRef,
                         disabled: isLoading,
                         className: cn("bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20", buttonClassName),
                         type: "submit",
