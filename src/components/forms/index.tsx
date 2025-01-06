@@ -22,8 +22,10 @@ export const InputContainer = ({
 }: InputContainerProps) => {
     return (
         <div className={`center ${containerClassName}`}>
-            <label className={`text-start w-[30%] ${labelClassName}`} htmlFor={name}>
-                {labelContent} :
+            <label className={`text-start w-[30%] flex gap-0.5  ${labelClassName}`} htmlFor={name}>
+                <div>{labelContent}</div>
+                {required && <div className="text-red-500">*</div>}
+                <div>:</div>
             </label>
             <input
                 className={`w-[70%] bg-none border-b-[1px] border-black ${elementClassName}`}

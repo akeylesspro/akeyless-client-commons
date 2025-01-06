@@ -1463,11 +1463,19 @@ var InputContainer = function(param) {
         className: "center ".concat(containerClassName),
         children: [
             /* @__PURE__ */ jsxs7("label", {
-                className: "text-start w-[30%] ".concat(labelClassName),
+                className: "text-start w-[30%] flex gap-0.5  ".concat(labelClassName),
                 htmlFor: name,
                 children: [
-                    labelContent,
-                    " :"
+                    /* @__PURE__ */ jsx8("div", {
+                        children: labelContent
+                    }),
+                    required && /* @__PURE__ */ jsx8("div", {
+                        className: "text-red-500",
+                        children: "*"
+                    }),
+                    /* @__PURE__ */ jsx8("div", {
+                        children: ":"
+                    })
                 ]
             }),
             /* @__PURE__ */ jsx8("input", _object_spread_props(_object_spread({
