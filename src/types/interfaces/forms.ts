@@ -16,6 +16,7 @@ export interface InputElement extends BaseElementProps {
     validationName?: string;
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    placeholder?: string;
 }
 
 export interface SelectElement extends BaseElementProps {

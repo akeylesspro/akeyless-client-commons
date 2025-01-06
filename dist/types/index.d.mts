@@ -132,6 +132,7 @@ interface InputElement extends BaseElementProps {
     validationName?: string;
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    placeholder?: string;
 }
 interface SelectElement extends BaseElementProps {
     type: "select";

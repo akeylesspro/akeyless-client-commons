@@ -18,6 +18,7 @@ export const InputContainer = ({
     labelClassName = "",
     elementClassName = "",
     required = false,
+    placeholder,
     onKeyDown,
 }: InputContainerProps) => {
     return (
@@ -28,6 +29,7 @@ export const InputContainer = ({
                 <div>:</div>
             </label>
             <input
+                placeholder={placeholder}
                 className={`w-[70%] bg-none border-b-[1px] border-black ${elementClassName}`}
                 defaultValue={defaultValue}
                 {...useValidation(validationName)}
@@ -62,8 +64,10 @@ export const SelectContainer = ({
 
     return (
         <div className={`center ${containerClassName}`}>
-            <label className={`text-start w-[30%] ${labelClassName}`} htmlFor={name}>
-                {labelContent} :
+            <label className={`text-start w-[30%] flex gap-0.5 ${labelClassName}`} htmlFor={name}>
+                <div>{labelContent}</div>
+                {required && <div className="text-red-500">*</div>}
+                <div>:</div>
             </label>
 
             <div className={`w-[70%] relative ${elementClassName}`} onClick={() => setIsOpen(!isOpen)}>
