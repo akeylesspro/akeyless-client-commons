@@ -40,7 +40,7 @@ export interface ModularFormProps {
     formClassName?: string;
     headerClassName?: string;
     direction?: Direction;
-    submitRef?: React.MutableRefObject<HTMLButtonElement>;
+    submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
 }
 export interface ConfirmFormProps {
     onV: () => Promise<void> | void;
