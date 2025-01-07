@@ -1736,6 +1736,15 @@ var ModularForm = function(param) {
                 switch(_state.label){
                     case 0:
                         e.preventDefault();
+                        setIsLoading(true);
+                        _state.label = 1;
+                    case 1:
+                        _state.trys.push([
+                            1,
+                            3,
+                            ,
+                            4
+                        ]);
                         form = e.currentTarget;
                         elements.forEach(function(element) {
                             if (element.type === "input" && element.minLength) {
@@ -1746,15 +1755,6 @@ var ModularForm = function(param) {
                                 }
                             }
                         });
-                        setIsLoading(true);
-                        _state.label = 1;
-                    case 1:
-                        _state.trys.push([
-                            1,
-                            3,
-                            ,
-                            4
-                        ]);
                         return [
                             4,
                             submitFunction(e)
