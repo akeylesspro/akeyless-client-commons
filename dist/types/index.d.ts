@@ -133,6 +133,7 @@ interface InputElement extends BaseElementProps {
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
+    minLength?: number;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 interface SelectElement extends BaseElementProps {

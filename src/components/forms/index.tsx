@@ -117,6 +117,15 @@ export const ModularForm = ({
     const [isLoading, setIsLoading] = useState(false);
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const form = e.currentTarget;
+        elements.forEach((element) => {
+            if (element.type === "input" && element.minLength) {
+                const inputValue = (form.elements.namedItem(element.name) as HTMLInputElement)?.value || "";
+                if (inputValue.length < element.minLength) {
+                    throw element.validationError || `${element.labelContent} must be at least ${element.minLength} characters`;
+                }
+            }
+        });
         setIsLoading(true);
         try {
             await submitFunction(e);

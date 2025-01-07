@@ -1576,11 +1576,21 @@ var ModularForm = function(param) {
     var _useState31 = _sliced_to_array(useState3(false), 2), isLoading = _useState31[0], setIsLoading = _useState31[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
-            var err;
+            var form, err;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         e.preventDefault();
+                        form = e.currentTarget;
+                        elements.forEach(function(element) {
+                            if (element.type === "input" && element.minLength) {
+                                var _form_elements_namedItem;
+                                var inputValue = ((_form_elements_namedItem = form.elements.namedItem(element.name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+                                if (inputValue.length < element.minLength) {
+                                    throw element.validationError || "".concat(element.labelContent, " must be at least ").concat(element.minLength, " characters");
+                                }
+                            }
+                        });
                         setIsLoading(true);
                         _state.label = 1;
                     case 1:
