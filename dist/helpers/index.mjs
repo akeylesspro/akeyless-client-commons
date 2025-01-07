@@ -824,6 +824,62 @@ var snapshot = function(config, snapshotsFirstTime) {
         unsubscribe: unsubscribe
     };
 };
+var cleanNxSites = /*#__PURE__*/ function() {
+    var _ref = _async_to_generator(function() {
+        var clients, sites, allSitesToDelete;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    return [
+                        4,
+                        get_all_documents("nx-clients")
+                    ];
+                case 1:
+                    clients = _state.sent().map(function(v) {
+                        return v.id;
+                    });
+                    return [
+                        4,
+                        get_all_documents("nx-sites")
+                    ];
+                case 2:
+                    sites = _state.sent();
+                    allSitesToDelete = sites.filter(function(v) {
+                        return !clients.includes(v.client);
+                    });
+                    console.log("allSitesToDelete", allSitesToDelete);
+                    allSitesToDelete.forEach(/*#__PURE__*/ function() {
+                        var _ref = _async_to_generator(function(v) {
+                            return _ts_generator(this, function(_state) {
+                                switch(_state.label){
+                                    case 0:
+                                        return [
+                                            4,
+                                            delete_document("nx-sites", v.id)
+                                        ];
+                                    case 1:
+                                        _state.sent();
+                                        console.log("Site ".concat(v.id, " deleted."));
+                                        return [
+                                            2
+                                        ];
+                                }
+                            });
+                        });
+                        return function(v) {
+                            return _ref.apply(this, arguments);
+                        };
+                    }());
+                    return [
+                        2
+                    ];
+            }
+        });
+    });
+    return function cleanNxSites() {
+        return _ref.apply(this, arguments);
+    };
+}();
 // src/helpers/global.ts
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
@@ -1004,5 +1060,5 @@ function cn() {
     }
     return twMerge(clsx(inputs));
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map

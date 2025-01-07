@@ -412,3 +412,14 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
 
     return { promise, unsubscribe };
 };
+
+export const cleanNxSites = async () => {
+    const clients = (await get_all_documents("nx-clients")).map((v) => v.id);
+    const sites = await get_all_documents("nx-sites");
+    const allSitesToDelete = sites.filter((v) => !clients.includes(v.client));
+    console.log("allSitesToDelete", allSitesToDelete);
+    allSitesToDelete.forEach(async (v) => {
+        await delete_document("nx-sites", v.id);
+        console.log(`Site ${v.id} deleted.`);
+    });
+};
