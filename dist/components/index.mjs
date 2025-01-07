@@ -1458,7 +1458,7 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/components/forms/index.tsx
 import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, onKeyDown = param.onKeyDown;
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
     return /* @__PURE__ */ jsxs7("div", {
         className: "center ".concat(containerClassName),
         children: [
@@ -1478,11 +1478,11 @@ var InputContainer = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx8("input", _object_spread_props(_object_spread({
+            /* @__PURE__ */ jsx8("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
                 placeholder: placeholder,
                 className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
                 defaultValue: defaultValue
-            }, useValidation(validationName)), {
+            }), useValidation(validationName, validationError)), {
                 required: required,
                 name: name,
                 onKeyDown: onKeyDown,

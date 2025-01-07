@@ -19,6 +19,7 @@ export const InputContainer = ({
     elementClassName = "",
     required = false,
     placeholder,
+    props,
     onKeyDown,
 }: InputContainerProps) => {
     return (
@@ -29,10 +30,11 @@ export const InputContainer = ({
                 <div>:</div>
             </label>
             <input
+                {...props}
                 placeholder={placeholder}
                 className={`w-[70%] bg-none border-b-[1px] border-black ${elementClassName}`}
                 defaultValue={defaultValue}
-                {...useValidation(validationName)}
+                {...useValidation(validationName, validationError)}
                 required={required}
                 name={name}
                 onKeyDown={onKeyDown}

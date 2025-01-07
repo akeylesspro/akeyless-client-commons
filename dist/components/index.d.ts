@@ -144,6 +144,7 @@ interface InputElement extends BaseElementProps {
     validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
+    props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 interface SelectElement extends BaseElementProps {
     type: "select";
@@ -216,7 +217,7 @@ declare const TableProvider: (props: TableProps & {
 }) => react_jsx_runtime.JSX.Element;
 declare const Table: React__default.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
 
-declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
+declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
