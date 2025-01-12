@@ -1,6 +1,6 @@
 import { FirebaseStorage } from 'firebase/storage';
 import { Unsubscribe, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
-import { TObject } from 'akeyless-types-commons';
+import { TObject, CountryOptions } from 'akeyless-types-commons';
 import React from 'react';
 import { ClassValue } from 'clsx';
 
@@ -111,7 +111,7 @@ declare const cleanNxSites: () => Promise<void>;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;
 declare const renderOnce: () => boolean;
-declare const getLocationByIp: () => Promise<string>;
+declare const getLocationByIp: () => Promise<CountryOptions>;
 
 declare const textRegex: RegExp;
 declare const numbersRegex: RegExp;

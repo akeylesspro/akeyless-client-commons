@@ -1,3 +1,4 @@
+import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
 
 export const calculateBearing = (startLat, startLng, endLat, endLng) => {
@@ -24,7 +25,7 @@ export const renderOnce = () => {
     return true;
 };
 
-export const getLocationByIp = async (): Promise<string> => {
+export const getLocationByIp = async (): Promise<CountryOptions> => {
     try {
         const response = await axios.get("https://ipapi.co/json/");
         return (response.data.country_code || "").toLowerCase();
