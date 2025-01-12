@@ -441,8 +441,6 @@ var useSetUserCountry = function(setUserCountry, changLang) {
                 };
             }();
             updateCountry();
-        } else {
-            setUserCountry(currentCountry);
         }
     }, []);
     return null;

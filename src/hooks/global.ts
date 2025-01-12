@@ -55,8 +55,6 @@ export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<Countr
                 localStorage.setItem("userCountry", country);
             };
             updateCountry();
-        } else {
-            setUserCountry(currentCountry);
         }
     }, []);
     return null;
