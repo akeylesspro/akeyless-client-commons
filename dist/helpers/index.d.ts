@@ -111,7 +111,7 @@ declare const cleanNxSites: () => Promise<void>;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;
 declare const renderOnce: () => boolean;
-declare const getLocationByIp: () => Promise<any>;
+declare const getLocationByIp: () => Promise<string>;
 
 declare const textRegex: RegExp;
 declare const numbersRegex: RegExp;

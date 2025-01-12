@@ -24,7 +24,7 @@ export const renderOnce = () => {
     return true;
 };
 
-export const getLocationByIp = async () => {
+export const getLocationByIp = async (): Promise<string> => {
     try {
         const response = await axios.get("https://ipapi.co/json/");
         return (response.data.country_code || "").toLowerCase();
