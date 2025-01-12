@@ -175,6 +175,7 @@ function _ts_generator(thisArg, body) {
         };
     }
 }
+import { CountryOptions } from "akeyless-types-commons";
 import { useEffect, useLayoutEffect, useRef } from "react";
 // src/helpers/firebase.ts
 import moment from "moment";
@@ -410,13 +411,13 @@ var useSnapshotBulk = function(configs, label) {
         label
     ]);
 };
-var useSetUserCountry = function(setUserCountry) {
+var useSetUserCountry = function(setUserCountry, changLang) {
     useLayoutEffect(function() {
         var currentCountry = localStorage.getItem("userCountry");
         if (!currentCountry) {
             var updateCountry = /*#__PURE__*/ function() {
                 var _ref = _async_to_generator(function() {
-                    var Country;
+                    var country;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -425,9 +426,10 @@ var useSetUserCountry = function(setUserCountry) {
                                     getUserCountryByIp()
                                 ];
                             case 1:
-                                Country = _state.sent();
-                                setUserCountry(Country);
-                                localStorage.setItem("userCountry", Country);
+                                country = _state.sent();
+                                changLang(country === CountryOptions.IL ? "he" : "en");
+                                setUserCountry(country);
+                                localStorage.setItem("userCountry", country);
                                 return [
                                     2
                                 ];

@@ -44,14 +44,15 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
     }, [configs, label]);
 };
 
-export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<CountryOptions>>) => {
+export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<CountryOptions>>, changLang: (lang: string) => void) => {
     useLayoutEffect(() => {
         const currentCountry = localStorage.getItem("userCountry") as CountryOptions;
         if (!currentCountry) {
             const updateCountry = async () => {
-                const Country = await getUserCountryByIp();
-                setUserCountry(Country);
-                localStorage.setItem("userCountry", Country);
+                const country = await getUserCountryByIp();
+                changLang(country === CountryOptions.IL ? "he" : "en");
+                setUserCountry(country);
+                localStorage.setItem("userCountry", country);
             };
             updateCountry();
         } else {
