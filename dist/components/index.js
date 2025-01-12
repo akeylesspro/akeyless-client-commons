@@ -1531,6 +1531,8 @@ var collections = {
     charge_capacities: (0, import_firestore.collection)(db, "nx-charge-capacities")
 };
 var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
+// src/helpers/global.ts
+var import_axios = __toESM(require("axios"));
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");

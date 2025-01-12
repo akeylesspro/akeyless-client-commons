@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const calculateBearing = (startLat, startLng, endLat, endLng) => {
     if (startLat === endLat || startLng === endLng) {
         return 0;
@@ -20,4 +22,13 @@ export const calculateBearing = (startLat, startLng, endLat, endLng) => {
 
 export const renderOnce = () => {
     return true;
+};
+
+export const getLocationByIp = async () => {
+    try {
+        const response = await axios.get("https://ipapi.co/json/");
+        response.data.country_code;
+    } catch (error) {
+        console.error("Error fetching location:", error);
+    }
 };

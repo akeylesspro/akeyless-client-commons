@@ -1376,6 +1376,8 @@ var collections = {
     charge_capacities: collection(db, "nx-charge-capacities")
 };
 var fire_base_TIME_TEMP = Timestamp.now;
+// src/helpers/global.ts
+import axios from "axios";
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");

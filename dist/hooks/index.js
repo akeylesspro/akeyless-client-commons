@@ -258,6 +258,8 @@ var snapshot = function(config, snapshotsFirstTime) {
         unsubscribe: unsubscribe
     };
 };
+// src/helpers/global.ts
+var import_axios = __toESM(require("axios"));
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");

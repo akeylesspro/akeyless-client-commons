@@ -312,6 +312,9 @@ __export(helpers_exports, {
     formatCarNumber: function() {
         return formatCarNumber;
     },
+    getLocationByIp: function() {
+        return getLocationByIp;
+    },
     get_all_documents: function() {
         return get_all_documents;
     },
@@ -1103,6 +1106,7 @@ var cleanNxSites = /*#__PURE__*/ function() {
     };
 }();
 // src/helpers/global.ts
+var import_axios = __toESM(require("axios"));
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
         return 0;
@@ -1123,6 +1127,47 @@ var calculateBearing = function(startLat, startLng, endLat, endLng) {
 var renderOnce = function() {
     return true;
 };
+var getLocationByIp = /*#__PURE__*/ function() {
+    var _ref = _async_to_generator(function() {
+        var response, error;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    _state.trys.push([
+                        0,
+                        2,
+                        ,
+                        3
+                    ]);
+                    return [
+                        4,
+                        import_axios.default.get("https://ipapi.co/json/")
+                    ];
+                case 1:
+                    response = _state.sent();
+                    response.data.country_code;
+                    return [
+                        3,
+                        3
+                    ];
+                case 2:
+                    error = _state.sent();
+                    console.error("Error fetching location:", error);
+                    return [
+                        3,
+                        3
+                    ];
+                case 3:
+                    return [
+                        2
+                    ];
+            }
+        });
+    });
+    return function getLocationByIp() {
+        return _ref.apply(this, arguments);
+    };
+}();
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -1308,6 +1353,7 @@ function cn() {
     extractSiteData: extractSiteData,
     fire_base_TIME_TEMP: fire_base_TIME_TEMP,
     formatCarNumber: formatCarNumber,
+    getLocationByIp: getLocationByIp,
     get_all_documents: get_all_documents,
     get_document_by_id: get_document_by_id,
     handleChange: handleChange,

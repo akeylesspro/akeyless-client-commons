@@ -180,6 +180,8 @@ var snapshot = function(config, snapshotsFirstTime) {
         unsubscribe: unsubscribe
     };
 };
+// src/helpers/global.ts
+import axios from "axios";
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
