@@ -255,7 +255,7 @@ __export(hooks_exports, {
 });
 module.exports = __toCommonJS(hooks_exports);
 // src/hooks/global.ts
-var import_akeyless_types_commons = require("akeyless-types-commons");
+var import_akeyless_types_commons2 = require("akeyless-types-commons");
 var import_react = require("react");
 // src/helpers/firebase.ts
 var import_moment = __toESM(require("moment"));
@@ -387,6 +387,7 @@ var snapshot = function(config, snapshotsFirstTime) {
     };
 };
 // src/helpers/global.ts
+var import_akeyless_types_commons = require("akeyless-types-commons");
 var import_axios = __toESM(require("axios"));
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
@@ -408,14 +409,14 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
                     response = _state.sent();
                     return [
                         2,
-                        (response.data.country_code || "").toLowerCase()
+                        (response.data.country_code || import_akeyless_types_commons.CountryOptions.IL).toLowerCase()
                     ];
                 case 2:
                     error = _state.sent();
                     console.error("Error fetching Country:", error);
                     return [
-                        3,
-                        3
+                        2,
+                        import_akeyless_types_commons.CountryOptions.IL
                     ];
                 case 3:
                     return [
@@ -508,7 +509,7 @@ var useSetUserCountry = function(setUserCountry, changLang) {
                                 ];
                             case 1:
                                 country = _state.sent();
-                                changLang(country === import_akeyless_types_commons.CountryOptions.IL ? "he" : "en");
+                                changLang(country === import_akeyless_types_commons2.CountryOptions.IL ? "he" : "en");
                                 setUserCountry(country);
                                 localStorage.setItem("userCountry", country);
                                 return [

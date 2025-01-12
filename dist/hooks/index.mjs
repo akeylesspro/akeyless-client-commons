@@ -175,7 +175,7 @@ function _ts_generator(thisArg, body) {
         };
     }
 }
-import { CountryOptions } from "akeyless-types-commons";
+import { CountryOptions as CountryOptions2 } from "akeyless-types-commons";
 import { useEffect, useLayoutEffect, useRef } from "react";
 // src/helpers/firebase.ts
 import moment from "moment";
@@ -306,6 +306,7 @@ var snapshot = function(config, snapshotsFirstTime) {
     };
 };
 // src/helpers/global.ts
+import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
@@ -327,14 +328,14 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
                     response = _state.sent();
                     return [
                         2,
-                        (response.data.country_code || "").toLowerCase()
+                        (response.data.country_code || CountryOptions.IL).toLowerCase()
                     ];
                 case 2:
                     error = _state.sent();
                     console.error("Error fetching Country:", error);
                     return [
-                        3,
-                        3
+                        2,
+                        CountryOptions.IL
                     ];
                 case 3:
                     return [
@@ -427,7 +428,7 @@ var useSetUserCountry = function(setUserCountry, changLang) {
                                 ];
                             case 1:
                                 country = _state.sent();
-                                changLang(country === CountryOptions.IL ? "he" : "en");
+                                changLang(country === CountryOptions2.IL ? "he" : "en");
                                 setUserCountry(country);
                                 localStorage.setItem("userCountry", country);
                                 return [

@@ -881,6 +881,7 @@ var cleanNxSites = /*#__PURE__*/ function() {
     };
 }();
 // src/helpers/global.ts
+import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
@@ -922,14 +923,14 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
                     response = _state.sent();
                     return [
                         2,
-                        (response.data.country_code || "").toLowerCase()
+                        (response.data.country_code || CountryOptions.IL).toLowerCase()
                     ];
                 case 2:
                     error = _state.sent();
                     console.error("Error fetching Country:", error);
                     return [
-                        3,
-                        3
+                        2,
+                        CountryOptions.IL
                     ];
                 case 3:
                     return [

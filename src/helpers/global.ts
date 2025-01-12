@@ -28,8 +28,9 @@ export const renderOnce = () => {
 export const getUserCountryByIp = async (): Promise<CountryOptions> => {
     try {
         const response = await axios.get("https://ipapi.co/json/");
-        return (response.data.country_code || "").toLowerCase();
+        return (response.data.country_code || CountryOptions.IL).toLowerCase();
     } catch (error) {
         console.error("Error fetching Country:", error);
+        return CountryOptions.IL;
     }
 };

@@ -1106,6 +1106,7 @@ var cleanNxSites = /*#__PURE__*/ function() {
     };
 }();
 // src/helpers/global.ts
+var import_akeyless_types_commons = require("akeyless-types-commons");
 var import_axios = __toESM(require("axios"));
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
@@ -1147,14 +1148,14 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
                     response = _state.sent();
                     return [
                         2,
-                        (response.data.country_code || "").toLowerCase()
+                        (response.data.country_code || import_akeyless_types_commons.CountryOptions.IL).toLowerCase()
                     ];
                 case 2:
                     error = _state.sent();
                     console.error("Error fetching Country:", error);
                     return [
-                        3,
-                        3
+                        2,
+                        import_akeyless_types_commons.CountryOptions.IL
                     ];
                 case 3:
                     return [
