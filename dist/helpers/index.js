@@ -1145,10 +1145,9 @@ var getLocationByIp = /*#__PURE__*/ function() {
                     ];
                 case 1:
                     response = _state.sent();
-                    (response.data.country_code || "").toLowerCase();
                     return [
-                        3,
-                        3
+                        2,
+                        (response.data.country_code || "").toLowerCase()
                     ];
                 case 2:
                     error = _state.sent();
