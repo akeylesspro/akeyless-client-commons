@@ -902,7 +902,7 @@ var calculateBearing = function(startLat, startLng, endLat, endLng) {
 var renderOnce = function() {
     return true;
 };
-var getLocationByIp = /*#__PURE__*/ function() {
+var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         var response, error;
         return _ts_generator(this, function(_state) {
@@ -926,7 +926,7 @@ var getLocationByIp = /*#__PURE__*/ function() {
                     ];
                 case 2:
                     error = _state.sent();
-                    console.error("Error fetching location:", error);
+                    console.error("Error fetching Country:", error);
                     return [
                         3,
                         3
@@ -938,7 +938,7 @@ var getLocationByIp = /*#__PURE__*/ function() {
             }
         });
     });
-    return function getLocationByIp() {
+    return function getUserCountryByIp() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -1101,5 +1101,5 @@ function cn() {
     }
     return twMerge(clsx(inputs));
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getLocationByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map

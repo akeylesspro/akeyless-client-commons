@@ -312,8 +312,8 @@ __export(helpers_exports, {
     formatCarNumber: function() {
         return formatCarNumber;
     },
-    getLocationByIp: function() {
-        return getLocationByIp;
+    getUserCountryByIp: function() {
+        return getUserCountryByIp;
     },
     get_all_documents: function() {
         return get_all_documents;
@@ -1127,7 +1127,7 @@ var calculateBearing = function(startLat, startLng, endLat, endLng) {
 var renderOnce = function() {
     return true;
 };
-var getLocationByIp = /*#__PURE__*/ function() {
+var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         var response, error;
         return _ts_generator(this, function(_state) {
@@ -1151,7 +1151,7 @@ var getLocationByIp = /*#__PURE__*/ function() {
                     ];
                 case 2:
                     error = _state.sent();
-                    console.error("Error fetching location:", error);
+                    console.error("Error fetching Country:", error);
                     return [
                         3,
                         3
@@ -1163,7 +1163,7 @@ var getLocationByIp = /*#__PURE__*/ function() {
             }
         });
     });
-    return function getLocationByIp() {
+    return function getUserCountryByIp() {
         return _ref.apply(this, arguments);
     };
 }();
@@ -1352,7 +1352,7 @@ function cn() {
     extractSiteData: extractSiteData,
     fire_base_TIME_TEMP: fire_base_TIME_TEMP,
     formatCarNumber: formatCarNumber,
-    getLocationByIp: getLocationByIp,
+    getUserCountryByIp: getUserCountryByIp,
     get_all_documents: get_all_documents,
     get_document_by_id: get_document_by_id,
     handleChange: handleChange,

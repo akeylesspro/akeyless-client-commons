@@ -25,11 +25,11 @@ export const renderOnce = () => {
     return true;
 };
 
-export const getLocationByIp = async (): Promise<CountryOptions> => {
+export const getUserCountryByIp = async (): Promise<CountryOptions> => {
     try {
         const response = await axios.get("https://ipapi.co/json/");
         return (response.data.country_code || "").toLowerCase();
     } catch (error) {
-        console.error("Error fetching location:", error);
+        console.error("Error fetching Country:", error);
     }
 };
