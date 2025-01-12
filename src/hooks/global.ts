@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
-import { snapshot } from "src/helpers";
+import { CountryOptions } from "akeyless-types-commons";
+import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useRef } from "react";
+import { getUserCountryByIp, snapshot } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
 export function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string) {
     useEffect(() => {
@@ -41,4 +42,21 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
             });
         };
     }, [configs, label]);
+};
+
+export const useSetUserLocation = (setUserLocation: Dispatch<SetStateAction<CountryOptions>>) => {
+    useLayoutEffect(() => {
+        const currentLocation = localStorage.getItem("userLocation") as CountryOptions;
+        if (!currentLocation) {
+            const updateLocation = async () => {
+                const location = await getUserCountryByIp();
+                setUserLocation(location);
+                localStorage.setItem("userLocation", location);
+            };
+            updateLocation();
+        } else {
+            setUserLocation(currentLocation);
+        }
+    }, []);
+    return null;
 };
