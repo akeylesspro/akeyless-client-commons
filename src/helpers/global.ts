@@ -27,7 +27,7 @@ export const renderOnce = () => {
 export const getLocationByIp = async () => {
     try {
         const response = await axios.get("https://ipapi.co/json/");
-        response.data.country_code;
+        (response.data.country_code || "").toLowerCase();
     } catch (error) {
         console.error("Error fetching location:", error);
     }
