@@ -410,13 +410,13 @@ var useSnapshotBulk = function(configs, label) {
         label
     ]);
 };
-var useSetUserLocation = function(setUserLocation) {
+var useSetUserCountry = function(setUserCountry) {
     useLayoutEffect(function() {
-        var currentLocation = localStorage.getItem("userLocation");
-        if (!currentLocation) {
-            var updateLocation = /*#__PURE__*/ function() {
+        var currentCountry = localStorage.getItem("userCountry");
+        if (!currentCountry) {
+            var updateCountry = /*#__PURE__*/ function() {
                 var _ref = _async_to_generator(function() {
-                    var location;
+                    var Country;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -425,27 +425,27 @@ var useSetUserLocation = function(setUserLocation) {
                                     getUserCountryByIp()
                                 ];
                             case 1:
-                                location = _state.sent();
-                                setUserLocation(location);
-                                localStorage.setItem("userLocation", location);
+                                Country = _state.sent();
+                                setUserCountry(Country);
+                                localStorage.setItem("userCountry", Country);
                                 return [
                                     2
                                 ];
                         }
                     });
                 });
-                return function updateLocation() {
+                return function updateCountry() {
                     return _ref.apply(this, arguments);
                 };
             }();
-            updateLocation();
+            updateCountry();
         } else {
-            setUserLocation(currentLocation);
+            setUserCountry(currentCountry);
         }
     }, []);
     return null;
 };
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect2, useRef as useRef2 } from "react";
-export { useDocumentTitle, useSafeEffect, useSetUserLocation, useSnapshotBulk };
+export { useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
 //# sourceMappingURL=index.mjs.map

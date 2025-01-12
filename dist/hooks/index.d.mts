@@ -16,6 +16,6 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
 declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
 declare const useDocumentTitle: (title: string) => any;
 declare const useSnapshotBulk: (configs: OnSnapshotConfig[], label?: string) => void;
-declare const useSetUserLocation: (setUserLocation: Dispatch<SetStateAction<CountryOptions>>) => any;
+declare const useSetUserCountry: (setUserCountry: Dispatch<SetStateAction<CountryOptions>>) => any;
 
-export { useDocumentTitle, useSafeEffect, useSetUserLocation, useSnapshotBulk };
+export { useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };

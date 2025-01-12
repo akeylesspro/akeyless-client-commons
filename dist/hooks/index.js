@@ -246,8 +246,8 @@ __export(hooks_exports, {
     useSafeEffect: function() {
         return useSafeEffect;
     },
-    useSetUserLocation: function() {
-        return useSetUserLocation;
+    useSetUserCountry: function() {
+        return useSetUserCountry;
     },
     useSnapshotBulk: function() {
         return useSnapshotBulk;
@@ -491,13 +491,13 @@ var useSnapshotBulk = function(configs, label) {
         label
     ]);
 };
-var useSetUserLocation = function(setUserLocation) {
+var useSetUserCountry = function(setUserCountry) {
     (0, import_react.useLayoutEffect)(function() {
-        var currentLocation = localStorage.getItem("userLocation");
-        if (!currentLocation) {
-            var updateLocation = /*#__PURE__*/ function() {
+        var currentCountry = localStorage.getItem("userCountry");
+        if (!currentCountry) {
+            var updateCountry = /*#__PURE__*/ function() {
                 var _ref = _async_to_generator(function() {
-                    var location;
+                    var Country;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -506,22 +506,22 @@ var useSetUserLocation = function(setUserLocation) {
                                     getUserCountryByIp()
                                 ];
                             case 1:
-                                location = _state.sent();
-                                setUserLocation(location);
-                                localStorage.setItem("userLocation", location);
+                                Country = _state.sent();
+                                setUserCountry(Country);
+                                localStorage.setItem("userCountry", Country);
                                 return [
                                     2
                                 ];
                         }
                     });
                 });
-                return function updateLocation() {
+                return function updateCountry() {
                     return _ref.apply(this, arguments);
                 };
             }();
-            updateLocation();
+            updateCountry();
         } else {
-            setUserLocation(currentLocation);
+            setUserCountry(currentCountry);
         }
     }, []);
     return null;
@@ -532,7 +532,7 @@ var import_react2 = require("react");
 0 && (module.exports = {
     useDocumentTitle: useDocumentTitle,
     useSafeEffect: useSafeEffect,
-    useSetUserLocation: useSetUserLocation,
+    useSetUserCountry: useSetUserCountry,
     useSnapshotBulk: useSnapshotBulk
 });
 //# sourceMappingURL=index.js.map
