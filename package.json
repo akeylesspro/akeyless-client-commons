@@ -1,6 +1,6 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "scripts": {
         "build": "tsup",
         "deploy": "npm run build && git add . && git commit -am 'build' && git push origin main",

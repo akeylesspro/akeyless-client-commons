@@ -446,7 +446,29 @@ var useSetUserCountry = function(setUserCountry, changLang) {
     }, []);
     return null;
 };
+var getUserPermeations = function(user) {
+    if (!(user === null || user === void 0 ? void 0 : user.features)) {
+        return {};
+    }
+    var features = user.features;
+    var result = {};
+    features.forEach(function(feature) {
+        result[feature] = true;
+    });
+    return result;
+};
+var getClientPermeations = function(client) {
+    if (!(client === null || client === void 0 ? void 0 : client.features)) {
+        return {};
+    }
+    var features = client.features;
+    var result = {};
+    features.forEach(function(feature) {
+        result[feature] = true;
+    });
+    return result;
+};
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect2, useRef as useRef2 } from "react";
-export { useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
+export { getClientPermeations, getUserPermeations, useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
 //# sourceMappingURL=index.mjs.map

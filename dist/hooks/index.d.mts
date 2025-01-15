@@ -1,4 +1,4 @@
-import { CountryOptions } from 'akeyless-types-commons';
+import { CountryOptions, NxUser, NxUserPermeations, Client, ClientPermeations } from 'akeyless-types-commons';
 import { Dispatch, SetStateAction } from 'react';
 
 type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
@@ -17,5 +17,7 @@ declare function useSafeEffect(callback: () => void, dependencies: any[], error_
 declare const useDocumentTitle: (title: string) => any;
 declare const useSnapshotBulk: (configs: OnSnapshotConfig[], label?: string) => void;
 declare const useSetUserCountry: (setUserCountry: Dispatch<SetStateAction<CountryOptions>>, changLang: (lang: string) => void) => any;
+declare const getUserPermeations: (user: NxUser) => NxUserPermeations;
+declare const getClientPermeations: (client: Client) => ClientPermeations;
 
-export { useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
+export { getClientPermeations, getUserPermeations, useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };

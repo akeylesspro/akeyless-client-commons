@@ -240,6 +240,12 @@ var __toCommonJS = function(mod) {
 // src/hooks/index.ts
 var hooks_exports = {};
 __export(hooks_exports, {
+    getClientPermeations: function() {
+        return getClientPermeations;
+    },
+    getUserPermeations: function() {
+        return getUserPermeations;
+    },
     useDocumentTitle: function() {
         return useDocumentTitle;
     },
@@ -527,10 +533,34 @@ var useSetUserCountry = function(setUserCountry, changLang) {
     }, []);
     return null;
 };
+var getUserPermeations = function(user) {
+    if (!(user === null || user === void 0 ? void 0 : user.features)) {
+        return {};
+    }
+    var features = user.features;
+    var result = {};
+    features.forEach(function(feature) {
+        result[feature] = true;
+    });
+    return result;
+};
+var getClientPermeations = function(client) {
+    if (!(client === null || client === void 0 ? void 0 : client.features)) {
+        return {};
+    }
+    var features = client.features;
+    var result = {};
+    features.forEach(function(feature) {
+        result[feature] = true;
+    });
+    return result;
+};
 // src/hooks/WebWorker.ts
 var import_react2 = require("react");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+    getClientPermeations: getClientPermeations,
+    getUserPermeations: getUserPermeations,
     useDocumentTitle: useDocumentTitle,
     useSafeEffect: useSafeEffect,
     useSetUserCountry: useSetUserCountry,
