@@ -128,15 +128,8 @@ interface InitializeUserPermissionsProps {
     getUpdatePermissions: (permissions: TObject<TObject<boolean>>) => void;
 }
 declare const initializeUserPermissions: ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => Promise<{
-    success: boolean;
     unsubscribe: () => void;
     permissions: TObject<TObject<boolean>>;
-    error?: undefined;
-} | {
-    success: boolean;
-    error: any;
-    unsubscribe?: undefined;
-    permissions?: undefined;
 }>;
 
 declare const textRegex: RegExp;

@@ -87,12 +87,12 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
         );
         unsubscribe = unsubscribeSnapshot;
         await promise;
-        return { success: true, unsubscribe, permissions };
+        return { unsubscribe, permissions };
     } catch (error: any) {
         if (unsubscribe) {
             unsubscribe();
         }
         console.error("Error initializing user permissions:", error.message);
-        return { success: false, error };
+        throw error;
     }
 };

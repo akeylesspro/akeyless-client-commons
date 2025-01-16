@@ -1190,7 +1190,6 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
                     return [
                         2,
                         {
-                            success: true,
                             unsubscribe: unsubscribe,
                             permissions: permissions
                         }
@@ -1201,13 +1200,7 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
                         unsubscribe();
                     }
                     console.error("Error initializing user permissions:", error.message);
-                    return [
-                        2,
-                        {
-                            success: false,
-                            error: error
-                        }
-                    ];
+                    throw error;
                 case 4:
                     return [
                         2
