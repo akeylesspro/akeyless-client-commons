@@ -44,8 +44,10 @@ export const parsePermissions = (object: NxUser | Client): TObject<TObject<boole
     const features = object.features;
     let result: TObject<TObject<boolean>> = {};
     features.forEach((feature) => {
-        const featureType = feature.split("__")[0];
-        const featureName = feature.split("__")[1];
+        if (!feature.includes("__")) {
+            return
+        }
+        const [featureType, featureName] = feature.split("__");
         if (!featureType || !featureName) {
             return;
         }
@@ -63,9 +65,9 @@ interface InitializeUserPermissionsProps {
     getUpdatePermissions: (permissions: TObject<TObject<boolean>>) => void;
 }
 export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => {
-    let unsubscribeSnapshot: (() => void) | null = null;
+    let unsubscribe: (() => void) | null = null;
     try {
-        const { promise, unsubscribe } = snapshot(
+        const { promise, unsubscribe: unsubscribeSnapshot } = snapshot(
             {
                 collectionName: "nx-users",
                 conditions: [{ field_name: "phone_number", operator: "in", value: [phoneNumber, local_israel_phone_format(phoneNumber)] }],
@@ -81,12 +83,12 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
             },
             firstTimeArray
         );
-        unsubscribeSnapshot = unsubscribe;
+        unsubscribe = unsubscribeSnapshot;
         await promise;
-        return { success: true, unsubscribeSnapshot };
+        return { success: true, unsubscribe };
     } catch (error: any) {
-        if (unsubscribeSnapshot) {
-            unsubscribeSnapshot();
+        if (unsubscribe) {
+            unsubscribe();
         }
         console.error("Error initializing user permissions:", error.message);
         return { success: false, error };

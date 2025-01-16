@@ -129,12 +129,12 @@ interface InitializeUserPermissionsProps {
 }
 declare const initializeUserPermissions: ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => Promise<{
     success: boolean;
-    unsubscribeSnapshot: () => void;
+    unsubscribe: () => void;
     error?: undefined;
 } | {
     success: boolean;
     error: any;
-    unsubscribeSnapshot?: undefined;
+    unsubscribe?: undefined;
 }>;
 
 declare const textRegex: RegExp;
