@@ -1376,12 +1376,13 @@ var parsePermissions = function(object) {
 };
 var initializeUserPermissions = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(param) {
-        var phoneNumber, firstTimeArray, getUpdatePermissions, unsubscribe, _snapshot, promise, unsubscribeSnapshot, error;
+        var phoneNumber, firstTimeArray, getUpdatePermissions, unsubscribe, permissions, _snapshot, promise, unsubscribeSnapshot, error;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
                     phoneNumber = param.phoneNumber, firstTimeArray = param.firstTimeArray, getUpdatePermissions = param.getUpdatePermissions;
                     unsubscribe = null;
+                    permissions = {};
                     _state.label = 1;
                 case 1:
                     _state.trys.push([
@@ -1406,6 +1407,7 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
                             if (!docs.length) {
                                 throw new Error("User not found");
                             }
+                            permissions = parsePermissions(docs[0]);
                             getUpdatePermissions(parsePermissions(docs[0]));
                         },
                         onModify: function(docs) {
@@ -1423,7 +1425,8 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
                         2,
                         {
                             success: true,
-                            unsubscribe: unsubscribe
+                            unsubscribe: unsubscribe,
+                            permissions: permissions
                         }
                     ];
                 case 3:

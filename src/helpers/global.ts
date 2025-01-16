@@ -45,7 +45,7 @@ export const parsePermissions = (object: NxUser | Client): TObject<TObject<boole
     let result: TObject<TObject<boolean>> = {};
     features.forEach((feature) => {
         if (!feature.includes("__")) {
-            return
+            return;
         }
         const [featureType, featureName] = feature.split("__");
         if (!featureType || !featureName) {
@@ -66,6 +66,7 @@ interface InitializeUserPermissionsProps {
 }
 export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => {
     let unsubscribe: (() => void) | null = null;
+    let permissions: TObject<TObject<boolean>> = {};
     try {
         const { promise, unsubscribe: unsubscribeSnapshot } = snapshot(
             {
@@ -75,6 +76,7 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
                     if (!docs.length) {
                         throw new Error("User not found");
                     }
+                    permissions = parsePermissions(docs[0]);
                     getUpdatePermissions(parsePermissions(docs[0]));
                 },
                 onModify: (docs) => {
@@ -85,7 +87,7 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
         );
         unsubscribe = unsubscribeSnapshot;
         await promise;
-        return { success: true, unsubscribe };
+        return { success: true, unsubscribe, permissions };
     } catch (error: any) {
         if (unsubscribe) {
             unsubscribe();
