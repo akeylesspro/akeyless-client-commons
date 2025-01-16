@@ -248,12 +248,23 @@ var simpleExtractData = function(doc2) {
 };
 var snapshot = function(config, snapshotsFirstTime) {
     var resolvePromise;
+    var isResolved = false;
     var promise = new Promise(function(resolve) {
         console.log("==> ".concat(config.collectionName, " subscribed."));
-        resolvePromise = resolve;
+        resolvePromise = function() {
+            if (!isResolved) {
+                isResolved = true;
+                resolve();
+            }
+        };
     });
     var collectionRef = collection(db, config.collectionName);
-    var subscribe = onSnapshot(collectionRef, function(snapshot2) {
+    if (config.conditions) {
+        config.conditions.forEach(function(condition) {
+            collectionRef = query(collectionRef, where(condition.field_name, condition.operator, condition.value));
+        });
+    }
+    var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {
             var _config_onFirstTime, _config_extraParsers;
             snapshotsFirstTime.push(config.collectionName);
@@ -274,11 +285,9 @@ var snapshot = function(config, snapshotsFirstTime) {
             snapshot2.docChanges().forEach(function(change) {
                 if (change.type === "added") {
                     addedDocs.push(simpleExtractData(change.doc));
-                }
-                if (change.type === "modified") {
+                } else if (change.type === "modified") {
                     modifiedDocs.push(simpleExtractData(change.doc));
-                }
-                if (change.type === "removed") {
+                } else if (change.type === "removed") {
                     removedDocs.push(simpleExtractData(change.doc));
                 }
             });
@@ -296,10 +305,6 @@ var snapshot = function(config, snapshotsFirstTime) {
         console.error("Error listening to collection: ".concat(config.collectionName), error);
         resolvePromise();
     });
-    var unsubscribe = function() {
-        subscribe();
-        console.log("==> ".concat(config.collectionName, " unsubscribed."));
-    };
     return {
         promise: promise,
         unsubscribe: unsubscribe
@@ -308,6 +313,9 @@ var snapshot = function(config, snapshotsFirstTime) {
 // src/helpers/global.ts
 import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+// src/helpers/global.ts
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         var response, error;
@@ -360,8 +368,6 @@ var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
 var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu");
 var addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu");
 var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
-// src/helpers/phoneNumber.ts
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -446,29 +452,7 @@ var useSetUserCountry = function(setUserCountry, changLang) {
     }, []);
     return null;
 };
-var getUserPermeations = function(user) {
-    if (!(user === null || user === void 0 ? void 0 : user.features)) {
-        return {};
-    }
-    var features = user.features;
-    var result = {};
-    features.forEach(function(feature) {
-        result[feature] = true;
-    });
-    return result;
-};
-var getClientPermeations = function(client) {
-    if (!(client === null || client === void 0 ? void 0 : client.features)) {
-        return {};
-    }
-    var features = client.features;
-    var result = {};
-    features.forEach(function(feature) {
-        result[feature] = true;
-    });
-    return result;
-};
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect2, useRef as useRef2 } from "react";
-export { getClientPermeations, getUserPermeations, useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
+export { useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
 //# sourceMappingURL=index.mjs.map

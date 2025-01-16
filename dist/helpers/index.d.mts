@@ -1,25 +1,38 @@
 import { FirebaseStorage } from 'firebase/storage';
-import { Unsubscribe, Timestamp, DocumentSnapshot, DocumentData, WhereFilterOp, CollectionReference } from 'firebase/firestore';
-import { TObject, CountryOptions } from 'akeyless-types-commons';
+import { WhereFilterOp, Unsubscribe, Timestamp, DocumentSnapshot, DocumentData, CollectionReference } from 'firebase/firestore';
+import { TObject, CountryOptions, NxUser, Client } from 'akeyless-types-commons';
 import React from 'react';
 import { ClassValue } from 'clsx';
 
-type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+type OnSnapshotCallback = (documents: TObject<any>[], config: OnSnapshotConfig) => void;
 interface OnSnapshotParsers {
     onFirstTime?: OnSnapshotCallback;
     onAdd?: OnSnapshotCallback;
     onModify?: OnSnapshotCallback;
     onRemove?: OnSnapshotCallback;
 }
+interface WhereCondition {
+    field_name: string;
+    operator: WhereFilterOp;
+    value: any;
+}
 interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
+    conditions?: WhereCondition[];
+}
+interface OnSnapshotConfigDocument extends Omit<OnSnapshotParsers, "onAdd"> {
+    collectionName: string;
+    documentId: string;
+    extraParsers?: Omit<OnSnapshotParsers, "onAdd">[];
+    conditions?: WhereCondition[];
 }
 interface SnapshotResult {
     promise: Promise<void>;
     unsubscribe: Unsubscribe;
 }
 type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
+type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: string[]) => SnapshotResult;
 
 declare const db: any;
 declare const auth: any;
@@ -99,19 +112,30 @@ declare const add_document: (collection_path: string, data: DocumentData, includ
 declare const delete_document: (collection_path: string, doc_id: string) => Promise<boolean>;
 declare const query_document: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any, ignore_log?: boolean) => Promise<null | TObject<any>>;
 declare const query_documents: (collection_path: string, field_name: string, operator: WhereFilterOp, value: any) => Promise<TObject<any>[]>;
-interface WhereCondition {
-    field_name: string;
-    operator: WhereFilterOp;
-    value: any;
-}
 declare const query_documents_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<TObject<any>[]>;
 declare const query_document_by_conditions: (collection_path: string, where_conditions: WhereCondition[]) => Promise<TObject<any>>;
 declare const snapshot: Snapshot;
+declare const snapshotDocument: SnapshotDocument;
 declare const cleanNxSites: () => Promise<void>;
 
 declare const calculateBearing: (startLat: any, startLng: any, endLat: any, endLng: any) => number;
 declare const renderOnce: () => boolean;
 declare const getUserCountryByIp: () => Promise<CountryOptions>;
+declare const parsePermissions: (object: NxUser | Client) => TObject<TObject<boolean>>;
+interface InitializeUserPermissionsProps {
+    phoneNumber: string;
+    firstTimeArray: string[];
+    getUpdatePermissions: (permissions: TObject<TObject<boolean>>) => void;
+}
+declare const initializeUserPermissions: ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => Promise<{
+    success: boolean;
+    unsubscribeSnapshot: () => void;
+    error?: undefined;
+} | {
+    success: boolean;
+    error: any;
+    unsubscribeSnapshot?: undefined;
+}>;
 
 declare const textRegex: RegExp;
 declare const numbersRegex: RegExp;
@@ -153,4 +177,4 @@ declare const is_iccid: (number: string) => boolean;
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };

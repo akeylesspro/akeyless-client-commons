@@ -22,10 +22,11 @@ import {
     Unsubscribe,
     onSnapshot,
     QuerySnapshot,
+    Query,
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 import { TObject } from "akeyless-types-commons";
-import { Snapshot } from "../types";
+import { Snapshot, SnapshotDocument, WhereCondition } from "../types";
 
 const initApp = () => {
     const isNodeEnv = typeof process !== "undefined" && process.env;
@@ -314,12 +315,6 @@ export const query_documents = async (collection_path: string, field_name: strin
     }
 };
 
-interface WhereCondition {
-    field_name: string;
-    operator: WhereFilterOp;
-    value: any;
-}
-
 export const query_documents_by_conditions = async (collection_path: string, where_conditions: WhereCondition[]) => {
     try {
         let db_query: any = collection(db, collection_path);
@@ -355,14 +350,25 @@ export const query_document_by_conditions = async (collection_path: string, wher
 
 export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
     let resolvePromise: () => void;
+    let isResolved = false;
     const promise = new Promise<void>((resolve) => {
         console.log(`==> ${config.collectionName} subscribed.`);
-
-        resolvePromise = resolve;
+        resolvePromise = () => {
+            if (!isResolved) {
+                isResolved = true;
+                resolve();
+            }
+        };
     });
-    const collectionRef = collection(db, config.collectionName);
 
-    const subscribe = onSnapshot(
+    let collectionRef: Query<DocumentData> = collection(db, config.collectionName);
+    if (config.conditions) {
+        config.conditions.forEach((condition) => {
+            collectionRef = query(collectionRef, where(condition.field_name, condition.operator, condition.value));
+        });
+    }
+
+    const unsubscribe = onSnapshot(
         collectionRef,
         (snapshot: QuerySnapshot<DocumentData>) => {
             if (!snapshotsFirstTime.includes(config.collectionName)) {
@@ -375,20 +381,19 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
                 });
                 resolvePromise();
             } else {
-                const addedDocs = [];
-                const modifiedDocs = [];
-                const removedDocs = [];
+                const addedDocs: DocumentData[] = [];
+                const modifiedDocs: DocumentData[] = [];
+                const removedDocs: DocumentData[] = [];
                 snapshot.docChanges().forEach((change) => {
                     if (change.type === "added") {
                         addedDocs.push(simpleExtractData(change.doc));
-                    }
-                    if (change.type === "modified") {
+                    } else if (change.type === "modified") {
                         modifiedDocs.push(simpleExtractData(change.doc));
-                    }
-                    if (change.type === "removed") {
+                    } else if (change.type === "removed") {
                         removedDocs.push(simpleExtractData(change.doc));
                     }
                 });
+
                 addedDocs.length && config.onAdd?.(addedDocs, config);
                 modifiedDocs.length && config.onModify?.(modifiedDocs, config);
                 removedDocs.length && config.onRemove?.(removedDocs, config);
@@ -405,12 +410,93 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
             resolvePromise();
         }
     );
-    const unsubscribe = () => {
-        subscribe();
-        console.log(`==> ${config.collectionName} unsubscribed.`);
-    };
 
     return { promise, unsubscribe };
+};
+
+export const snapshotDocument: SnapshotDocument = (config, snapshotsFirstTime) => {
+    let resolvePromise: () => void;
+    let isResolved = false;
+    const promise = new Promise<void>((resolve) => {
+        console.log(`==> Document in ${config.collectionName} subscribed.`);
+        resolvePromise = () => {
+            if (!isResolved) {
+                isResolved = true;
+                resolve();
+            }
+        };
+    });
+
+    const documentRef = doc(db, config.collectionName, config.documentId);
+
+    const unsubscribe = onSnapshot(
+        documentRef,
+        (docSnapshot: DocumentSnapshot<DocumentData>) => {
+            if (!snapshotsFirstTime.includes(config.collectionName)) {
+                snapshotsFirstTime.push(config.collectionName);
+                if (docSnapshot.exists()) {
+                    const document = simpleExtractData(docSnapshot);
+                    if (checkConditions(document, config.conditions)) {
+                        config.onFirstTime?.([document], config);
+                        config.extraParsers?.forEach((extraParser) => {
+                            extraParser.onFirstTime?.([document], config);
+                        });
+                    } else {
+                        console.warn(`Document in ${config.collectionName} does not meet conditions.`);
+                    }
+                } else {
+                    console.warn(`Document not found in ${config.collectionName}.`);
+                }
+                resolvePromise();
+            } else {
+                if (docSnapshot.exists()) {
+                    const document = simpleExtractData(docSnapshot);
+                    if (checkConditions(document, config.conditions)) {
+                        config.onModify?.([document], config);
+                        config.extraParsers?.forEach((extraParser) => {
+                            extraParser.onModify?.([document], config);
+                        });
+                    }
+                } else {
+                    config.onRemove?.([], config);
+                    config.extraParsers?.forEach((extraParser) => {
+                        extraParser.onRemove?.([], config);
+                    });
+                }
+            }
+        },
+        (error) => {
+            console.error(`Error listening to document in ${config.collectionName}:`, error);
+            resolvePromise();
+        }
+    );
+
+    return { promise, unsubscribe };
+};
+
+const checkConditions = (document: DocumentData, conditions?: WhereCondition[]): boolean => {
+    if (!conditions || conditions.length === 0) return true;
+    return conditions.every((condition) => {
+        const fieldValue = document[condition.field_name];
+        switch (condition.operator) {
+            case "==":
+                return fieldValue === condition.value;
+            case "!=":
+                return fieldValue !== condition.value;
+            case "<":
+                return fieldValue < condition.value;
+            case "<=":
+                return fieldValue <= condition.value;
+            case ">":
+                return fieldValue > condition.value;
+            case ">=":
+                return fieldValue >= condition.value;
+            case "array-contains":
+                return Array.isArray(fieldValue) && fieldValue.includes(condition.value);
+            default:
+                return false;
+        }
+    });
 };
 
 export const cleanNxSites = async () => {

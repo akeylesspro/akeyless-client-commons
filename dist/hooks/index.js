@@ -240,12 +240,6 @@ var __toCommonJS = function(mod) {
 // src/hooks/index.ts
 var hooks_exports = {};
 __export(hooks_exports, {
-    getClientPermeations: function() {
-        return getClientPermeations;
-    },
-    getUserPermeations: function() {
-        return getUserPermeations;
-    },
     useDocumentTitle: function() {
         return useDocumentTitle;
     },
@@ -335,12 +329,23 @@ var simpleExtractData = function(doc2) {
 };
 var snapshot = function(config, snapshotsFirstTime) {
     var resolvePromise;
+    var isResolved = false;
     var promise = new Promise(function(resolve) {
         console.log("==> ".concat(config.collectionName, " subscribed."));
-        resolvePromise = resolve;
+        resolvePromise = function() {
+            if (!isResolved) {
+                isResolved = true;
+                resolve();
+            }
+        };
     });
     var collectionRef = (0, import_firestore.collection)(db, config.collectionName);
-    var subscribe = (0, import_firestore.onSnapshot)(collectionRef, function(snapshot2) {
+    if (config.conditions) {
+        config.conditions.forEach(function(condition) {
+            collectionRef = (0, import_firestore.query)(collectionRef, (0, import_firestore.where)(condition.field_name, condition.operator, condition.value));
+        });
+    }
+    var unsubscribe = (0, import_firestore.onSnapshot)(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {
             var _config_onFirstTime, _config_extraParsers;
             snapshotsFirstTime.push(config.collectionName);
@@ -361,11 +366,9 @@ var snapshot = function(config, snapshotsFirstTime) {
             snapshot2.docChanges().forEach(function(change) {
                 if (change.type === "added") {
                     addedDocs.push(simpleExtractData(change.doc));
-                }
-                if (change.type === "modified") {
+                } else if (change.type === "modified") {
                     modifiedDocs.push(simpleExtractData(change.doc));
-                }
-                if (change.type === "removed") {
+                } else if (change.type === "removed") {
                     removedDocs.push(simpleExtractData(change.doc));
                 }
             });
@@ -383,10 +386,6 @@ var snapshot = function(config, snapshotsFirstTime) {
         console.error("Error listening to collection: ".concat(config.collectionName), error);
         resolvePromise();
     });
-    var unsubscribe = function() {
-        subscribe();
-        console.log("==> ".concat(config.collectionName, " unsubscribed."));
-    };
     return {
         promise: promise,
         unsubscribe: unsubscribe
@@ -395,6 +394,9 @@ var snapshot = function(config, snapshotsFirstTime) {
 // src/helpers/global.ts
 var import_akeyless_types_commons = require("akeyless-types-commons");
 var import_axios = __toESM(require("axios"));
+// src/helpers/phoneNumber.ts
+var import_libphonenumber_js = require("libphonenumber-js");
+// src/helpers/global.ts
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         var response, error;
@@ -447,8 +449,6 @@ var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
 var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
 var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
 var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
-// src/helpers/phoneNumber.ts
-var import_libphonenumber_js = require("libphonenumber-js");
 // src/lib/utils.ts
 var import_clsx = require("clsx");
 var import_tailwind_merge = require("tailwind-merge");
@@ -533,34 +533,10 @@ var useSetUserCountry = function(setUserCountry, changLang) {
     }, []);
     return null;
 };
-var getUserPermeations = function(user) {
-    if (!(user === null || user === void 0 ? void 0 : user.features)) {
-        return {};
-    }
-    var features = user.features;
-    var result = {};
-    features.forEach(function(feature) {
-        result[feature] = true;
-    });
-    return result;
-};
-var getClientPermeations = function(client) {
-    if (!(client === null || client === void 0 ? void 0 : client.features)) {
-        return {};
-    }
-    var features = client.features;
-    var result = {};
-    features.forEach(function(feature) {
-        result[feature] = true;
-    });
-    return result;
-};
 // src/hooks/WebWorker.ts
 var import_react2 = require("react");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-    getClientPermeations: getClientPermeations,
-    getUserPermeations: getUserPermeations,
     useDocumentTitle: useDocumentTitle,
     useSafeEffect: useSafeEffect,
     useSetUserCountry: useSetUserCountry,

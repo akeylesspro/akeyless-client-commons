@@ -1379,6 +1379,8 @@ var fire_base_TIME_TEMP = Timestamp.now;
 // src/helpers/global.ts
 import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
@@ -1456,8 +1458,6 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
-// src/helpers/phoneNumber.ts
-import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/components/forms/index.tsx
 import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
 var InputContainer = function(param) {

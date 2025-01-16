@@ -1,4 +1,4 @@
-import { Client, ClientPermeations, CountryOptions, NxUser, NxUserPermeations } from "akeyless-types-commons";
+import { CountryOptions } from "akeyless-types-commons";
 import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useRef } from "react";
 import { getUserCountryByIp, snapshot } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
@@ -27,7 +27,6 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
     useEffect(() => {
         const start = performance.now();
         console.log(`==> ${label || "Custom snapshots"} started... `);
-
         const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current));
 
         unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
@@ -60,27 +59,4 @@ export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<Countr
         }
     }, []);
     return null;
-};
-
-export const getUserPermeations = (user: NxUser): NxUserPermeations => {
-    if (!user?.features) {
-        return {};
-    }
-    const features = user.features;
-    let result: NxUserPermeations = {};
-    features.forEach((feature) => {
-        result[feature] = true;
-    });
-    return result;
-};
-export const getClientPermeations = (client: Client): ClientPermeations => {
-    if (!client?.features) {
-        return {};
-    }
-    const features = client.features;
-    let result: ClientPermeations = {};
-    features.forEach((feature) => {
-        result[feature] = true;
-    });
-    return result;
 };

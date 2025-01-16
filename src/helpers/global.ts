@@ -1,5 +1,7 @@
-import { CountryOptions } from "akeyless-types-commons";
+import { Client, CountryOptions, NxUser, TObject } from "akeyless-types-commons";
 import axios from "axios";
+import { query_document, snapshot } from "./firebase";
+import { local_israel_phone_format } from "./phoneNumber";
 
 export const calculateBearing = (startLat, startLng, endLat, endLng) => {
     if (startLat === endLat || startLng === endLng) {
@@ -32,5 +34,61 @@ export const getUserCountryByIp = async (): Promise<CountryOptions> => {
     } catch (error) {
         console.error("Error fetching Country:", error);
         return CountryOptions.IL;
+    }
+};
+
+export const parsePermissions = (object: NxUser | Client): TObject<TObject<boolean>> => {
+    if (!object?.features) {
+        return {};
+    }
+    const features = object.features;
+    let result: TObject<TObject<boolean>> = {};
+    features.forEach((feature) => {
+        const featureType = feature.split("__")[0];
+        const featureName = feature.split("__")[1];
+        if (!featureType || !featureName) {
+            return;
+        }
+        if (!result[featureType]) {
+            result[featureType] = {};
+        }
+        result[featureType][featureName] = true;
+    });
+    return result;
+};
+
+interface InitializeUserPermissionsProps {
+    phoneNumber: string;
+    firstTimeArray: string[];
+    getUpdatePermissions: (permissions: TObject<TObject<boolean>>) => void;
+}
+export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => {
+    let unsubscribeSnapshot: (() => void) | null = null;
+    try {
+        const { promise, unsubscribe } = snapshot(
+            {
+                collectionName: "nx-users",
+                conditions: [{ field_name: "phone_number", operator: "in", value: [phoneNumber, local_israel_phone_format(phoneNumber)] }],
+                onFirstTime: (docs) => {
+                    if (!docs.length) {
+                        throw new Error("User not found");
+                    }
+                    getUpdatePermissions(parsePermissions(docs[0]));
+                },
+                onModify: (docs) => {
+                    getUpdatePermissions(parsePermissions(docs[0]));
+                },
+            },
+            firstTimeArray
+        );
+        unsubscribeSnapshot = unsubscribe;
+        await promise;
+        return { success: true, unsubscribeSnapshot };
+    } catch (error: any) {
+        if (unsubscribeSnapshot) {
+            unsubscribeSnapshot();
+        }
+        console.error("Error initializing user permissions:", error.message);
+        return { success: false, error };
     }
 };

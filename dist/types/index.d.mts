@@ -1,6 +1,6 @@
 import { TObject } from 'akeyless-types-commons';
 import { ReactNode } from 'react';
-import { Unsubscribe } from 'firebase/firestore';
+import { WhereFilterOp, Unsubscribe } from 'firebase/firestore';
 
 type Direction = "rtl" | "ltr";
 type SetState<T> = (updater: ((prev: T) => T) | T) => void;
@@ -15,22 +15,35 @@ type ModularPopUp = null | {
     background?: string;
 };
 
-type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+type OnSnapshotCallback = (documents: TObject<any>[], config: OnSnapshotConfig) => void;
 interface OnSnapshotParsers {
     onFirstTime?: OnSnapshotCallback;
     onAdd?: OnSnapshotCallback;
     onModify?: OnSnapshotCallback;
     onRemove?: OnSnapshotCallback;
 }
+interface WhereCondition {
+    field_name: string;
+    operator: WhereFilterOp;
+    value: any;
+}
 interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
+    conditions?: WhereCondition[];
+}
+interface OnSnapshotConfigDocument extends Omit<OnSnapshotParsers, "onAdd"> {
+    collectionName: string;
+    documentId: string;
+    extraParsers?: Omit<OnSnapshotParsers, "onAdd">[];
+    conditions?: WhereCondition[];
 }
 interface SnapshotResult {
     promise: Promise<void>;
     unsubscribe: Unsubscribe;
 }
 type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
+type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: string[]) => SnapshotResult;
 
 interface FilterableColumn {
     header: string;
@@ -186,4 +199,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotResult, TableProps, TableProviderType, UseFilterProps };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, TableProps, TableProviderType, UseFilterProps, WhereCondition };

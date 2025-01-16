@@ -1534,6 +1534,8 @@ var fire_base_TIME_TEMP = import_firestore.Timestamp.now;
 // src/helpers/global.ts
 var import_akeyless_types_commons = require("akeyless-types-commons");
 var import_axios = __toESM(require("axios"));
+// src/helpers/phoneNumber.ts
+var import_libphonenumber_js = require("libphonenumber-js");
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -1611,8 +1613,6 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
-// src/helpers/phoneNumber.ts
-var import_libphonenumber_js = require("libphonenumber-js");
 // src/components/forms/index.tsx
 var import_jsx_runtime9 = require("react/jsx-runtime");
 var InputContainer = function(param) {

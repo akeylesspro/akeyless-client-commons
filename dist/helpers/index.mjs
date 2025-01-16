@@ -767,12 +767,23 @@ var query_document_by_conditions = /*#__PURE__*/ function() {
 }();
 var snapshot = function(config, snapshotsFirstTime) {
     var resolvePromise;
+    var isResolved = false;
     var promise = new Promise(function(resolve) {
         console.log("==> ".concat(config.collectionName, " subscribed."));
-        resolvePromise = resolve;
+        resolvePromise = function() {
+            if (!isResolved) {
+                isResolved = true;
+                resolve();
+            }
+        };
     });
     var collectionRef = collection(db, config.collectionName);
-    var subscribe = onSnapshot(collectionRef, function(snapshot2) {
+    if (config.conditions) {
+        config.conditions.forEach(function(condition) {
+            collectionRef = query(collectionRef, where(condition.field_name, condition.operator, condition.value));
+        });
+    }
+    var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {
             var _config_onFirstTime, _config_extraParsers;
             snapshotsFirstTime.push(config.collectionName);
@@ -793,11 +804,9 @@ var snapshot = function(config, snapshotsFirstTime) {
             snapshot2.docChanges().forEach(function(change) {
                 if (change.type === "added") {
                     addedDocs.push(simpleExtractData(change.doc));
-                }
-                if (change.type === "modified") {
+                } else if (change.type === "modified") {
                     modifiedDocs.push(simpleExtractData(change.doc));
-                }
-                if (change.type === "removed") {
+                } else if (change.type === "removed") {
                     removedDocs.push(simpleExtractData(change.doc));
                 }
             });
@@ -815,14 +824,103 @@ var snapshot = function(config, snapshotsFirstTime) {
         console.error("Error listening to collection: ".concat(config.collectionName), error);
         resolvePromise();
     });
-    var unsubscribe = function() {
-        subscribe();
-        console.log("==> ".concat(config.collectionName, " unsubscribed."));
-    };
     return {
         promise: promise,
         unsubscribe: unsubscribe
     };
+};
+var snapshotDocument = function(config, snapshotsFirstTime) {
+    var resolvePromise;
+    var isResolved = false;
+    var promise = new Promise(function(resolve) {
+        console.log("==> Document in ".concat(config.collectionName, " subscribed."));
+        resolvePromise = function() {
+            if (!isResolved) {
+                isResolved = true;
+                resolve();
+            }
+        };
+    });
+    var documentRef = doc(db, config.collectionName, config.documentId);
+    var unsubscribe = onSnapshot(documentRef, function(docSnapshot) {
+        if (!snapshotsFirstTime.includes(config.collectionName)) {
+            snapshotsFirstTime.push(config.collectionName);
+            if (docSnapshot.exists()) {
+                var document2 = simpleExtractData(docSnapshot);
+                if (checkConditions(document2, config.conditions)) {
+                    var _config_onFirstTime, _config_extraParsers;
+                    (_config_onFirstTime = config.onFirstTime) === null || _config_onFirstTime === void 0 ? void 0 : _config_onFirstTime.call(config, [
+                        document2
+                    ], config);
+                    (_config_extraParsers = config.extraParsers) === null || _config_extraParsers === void 0 ? void 0 : _config_extraParsers.forEach(function(extraParser) {
+                        var _extraParser_onFirstTime;
+                        (_extraParser_onFirstTime = extraParser.onFirstTime) === null || _extraParser_onFirstTime === void 0 ? void 0 : _extraParser_onFirstTime.call(extraParser, [
+                            document2
+                        ], config);
+                    });
+                } else {
+                    console.warn("Document in ".concat(config.collectionName, " does not meet conditions."));
+                }
+            } else {
+                console.warn("Document not found in ".concat(config.collectionName, "."));
+            }
+            resolvePromise();
+        } else {
+            if (docSnapshot.exists()) {
+                var document21 = simpleExtractData(docSnapshot);
+                if (checkConditions(document21, config.conditions)) {
+                    var _config_onModify, _config_extraParsers1;
+                    (_config_onModify = config.onModify) === null || _config_onModify === void 0 ? void 0 : _config_onModify.call(config, [
+                        document21
+                    ], config);
+                    (_config_extraParsers1 = config.extraParsers) === null || _config_extraParsers1 === void 0 ? void 0 : _config_extraParsers1.forEach(function(extraParser) {
+                        var _extraParser_onModify;
+                        (_extraParser_onModify = extraParser.onModify) === null || _extraParser_onModify === void 0 ? void 0 : _extraParser_onModify.call(extraParser, [
+                            document21
+                        ], config);
+                    });
+                }
+            } else {
+                var _config_onRemove, _config_extraParsers2;
+                (_config_onRemove = config.onRemove) === null || _config_onRemove === void 0 ? void 0 : _config_onRemove.call(config, [], config);
+                (_config_extraParsers2 = config.extraParsers) === null || _config_extraParsers2 === void 0 ? void 0 : _config_extraParsers2.forEach(function(extraParser) {
+                    var _extraParser_onRemove;
+                    (_extraParser_onRemove = extraParser.onRemove) === null || _extraParser_onRemove === void 0 ? void 0 : _extraParser_onRemove.call(extraParser, [], config);
+                });
+            }
+        }
+    }, function(error) {
+        console.error("Error listening to document in ".concat(config.collectionName, ":"), error);
+        resolvePromise();
+    });
+    return {
+        promise: promise,
+        unsubscribe: unsubscribe
+    };
+};
+var checkConditions = function(document2, conditions) {
+    if (!conditions || conditions.length === 0) return true;
+    return conditions.every(function(condition) {
+        var fieldValue = document2[condition.field_name];
+        switch(condition.operator){
+            case "==":
+                return fieldValue === condition.value;
+            case "!=":
+                return fieldValue !== condition.value;
+            case "<":
+                return fieldValue < condition.value;
+            case "<=":
+                return fieldValue <= condition.value;
+            case ">":
+                return fieldValue > condition.value;
+            case ">=":
+                return fieldValue >= condition.value;
+            case "array-contains":
+                return Array.isArray(fieldValue) && fieldValue.includes(condition.value);
+            default:
+                return false;
+        }
+    });
 };
 var cleanNxSites = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
@@ -883,6 +981,38 @@ var cleanNxSites = /*#__PURE__*/ function() {
 // src/helpers/global.ts
 import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
+// src/helpers/phoneNumber.ts
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+var isInternational = function(phone_number) {
+    return phone_number.startsWith("+");
+};
+var isInternationalIsraelPhone = function(phone_number) {
+    return phone_number.startsWith("+9725");
+};
+var local_israel_phone_format = function(international_number) {
+    return international_number.replace("+972", "0");
+};
+var international_israel_phone_format = function(phone) {
+    var validNumber = phone.slice(1, phone.length);
+    return "+972".concat(validNumber);
+};
+var displayFormatPhoneNumber = function(phoneNumber) {
+    if (isInternational(phoneNumber)) {
+        var phoneNumberObject = parsePhoneNumberFromString(phoneNumber);
+        if (!phoneNumberObject) {
+            return phoneNumber;
+        }
+        return phoneNumberObject.formatInternational().replace(/\s/g, "-");
+    }
+    return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+};
+var is_iccid = function(number) {
+    if (number.length < 19 || number.length > 22) return false;
+    if (!/^\d+$/.test(number)) return false;
+    if (!number.startsWith("89")) return false;
+    return true;
+};
+// src/helpers/global.ts
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
         return 0;
@@ -940,6 +1070,101 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
         });
     });
     return function getUserCountryByIp() {
+        return _ref.apply(this, arguments);
+    };
+}();
+var parsePermissions = function(object) {
+    if (!(object === null || object === void 0 ? void 0 : object.features)) {
+        return {};
+    }
+    var features = object.features;
+    var result = {};
+    features.forEach(function(feature) {
+        var featureType = feature.split("__")[0];
+        var featureName = feature.split("__")[1];
+        if (!featureType || !featureName) {
+            return;
+        }
+        if (!result[featureType]) {
+            result[featureType] = {};
+        }
+        result[featureType][featureName] = true;
+    });
+    return result;
+};
+var initializeUserPermissions = /*#__PURE__*/ function() {
+    var _ref = _async_to_generator(function(param) {
+        var phoneNumber, firstTimeArray, getUpdatePermissions, unsubscribeSnapshot, _snapshot, promise, unsubscribe, error;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    phoneNumber = param.phoneNumber, firstTimeArray = param.firstTimeArray, getUpdatePermissions = param.getUpdatePermissions;
+                    unsubscribeSnapshot = null;
+                    _state.label = 1;
+                case 1:
+                    _state.trys.push([
+                        1,
+                        3,
+                        ,
+                        4
+                    ]);
+                    _snapshot = snapshot({
+                        collectionName: "nx-users",
+                        conditions: [
+                            {
+                                field_name: "phone_number",
+                                operator: "in",
+                                value: [
+                                    phoneNumber,
+                                    local_israel_phone_format(phoneNumber)
+                                ]
+                            }
+                        ],
+                        onFirstTime: function(docs) {
+                            if (!docs.length) {
+                                throw new Error("User not found");
+                            }
+                            getUpdatePermissions(parsePermissions(docs[0]));
+                        },
+                        onModify: function(docs) {
+                            getUpdatePermissions(parsePermissions(docs[0]));
+                        }
+                    }, firstTimeArray), promise = _snapshot.promise, unsubscribe = _snapshot.unsubscribe;
+                    unsubscribeSnapshot = unsubscribe;
+                    return [
+                        4,
+                        promise
+                    ];
+                case 2:
+                    _state.sent();
+                    return [
+                        2,
+                        {
+                            success: true,
+                            unsubscribeSnapshot: unsubscribeSnapshot
+                        }
+                    ];
+                case 3:
+                    error = _state.sent();
+                    if (unsubscribeSnapshot) {
+                        unsubscribeSnapshot();
+                    }
+                    console.error("Error initializing user permissions:", error.message);
+                    return [
+                        2,
+                        {
+                            success: false,
+                            error: error
+                        }
+                    ];
+                case 4:
+                    return [
+                        2
+                    ];
+            }
+        });
+    });
+    return function initializeUserPermissions(_) {
         return _ref.apply(this, arguments);
     };
 }();
@@ -1062,37 +1287,6 @@ var useStoreValues = function(store, keys) {
     });
     return result;
 };
-// src/helpers/phoneNumber.ts
-import { parsePhoneNumberFromString } from "libphonenumber-js";
-var isInternational = function(phone_number) {
-    return phone_number.startsWith("+");
-};
-var isInternationalIsraelPhone = function(phone_number) {
-    return phone_number.startsWith("+9725");
-};
-var local_israel_phone_format = function(international_number) {
-    return international_number.replace("+972", "0");
-};
-var international_israel_phone_format = function(phone) {
-    var validNumber = phone.slice(1, phone.length);
-    return "+972".concat(validNumber);
-};
-var displayFormatPhoneNumber = function(phoneNumber) {
-    if (isInternational(phoneNumber)) {
-        var phoneNumberObject = parsePhoneNumberFromString(phoneNumber);
-        if (!phoneNumberObject) {
-            return phoneNumber;
-        }
-        return phoneNumberObject.formatInternational().replace(/\s/g, "-");
-    }
-    return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-};
-var is_iccid = function(number) {
-    if (number.length < 19 || number.length > 22) return false;
-    if (!/^\d+$/.test(number)) return false;
-    if (!number.startsWith("89")) return false;
-    return true;
-};
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -1102,5 +1296,5 @@ function cn() {
     }
     return twMerge(clsx(inputs));
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
 //# sourceMappingURL=index.mjs.map
