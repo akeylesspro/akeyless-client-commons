@@ -1,7 +1,7 @@
 import { TObject } from "akeyless-types-commons";
 import { Unsubscribe, WhereFilterOp } from "firebase/firestore";
 
-export type OnSnapshotCallback = (documents: TObject<any>[], config: OnSnapshotConfig) => void;
+export type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
 
 export interface OnSnapshotParsers {
     onFirstTime?: OnSnapshotCallback;

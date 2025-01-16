@@ -4,7 +4,7 @@ import { TObject, CountryOptions, NxUser, Client } from 'akeyless-types-commons'
 import React from 'react';
 import { ClassValue } from 'clsx';
 
-type OnSnapshotCallback = (documents: TObject<any>[], config: OnSnapshotConfig) => void;
+type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
 interface OnSnapshotParsers {
     onFirstTime?: OnSnapshotCallback;
     onAdd?: OnSnapshotCallback;

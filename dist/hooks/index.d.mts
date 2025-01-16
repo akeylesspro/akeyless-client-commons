@@ -1,8 +1,8 @@
-import { TObject, CountryOptions } from 'akeyless-types-commons';
+import { CountryOptions } from 'akeyless-types-commons';
 import { Dispatch, SetStateAction } from 'react';
 import { WhereFilterOp } from 'firebase/firestore';
 
-type OnSnapshotCallback = (documents: TObject<any>[], config: OnSnapshotConfig) => void;
+type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
 interface OnSnapshotParsers {
     onFirstTime?: OnSnapshotCallback;
     onAdd?: OnSnapshotCallback;
