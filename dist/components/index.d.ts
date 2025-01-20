@@ -214,10 +214,11 @@ declare const Summary: React__default.MemoExoticComponent<() => react_jsx_runtim
 interface TimesUIProps {
     timestamp: any;
     format?: string;
+    fromFormat?: string;
     tz?: string;
     direction?: Direction;
 }
-declare const TimesUI: ({ timestamp, format, tz, direction }: TimesUIProps) => react_jsx_runtime.JSX.Element;
+declare const TimesUI: ({ timestamp, format, tz, direction, fromFormat }: TimesUIProps) => react_jsx_runtime.JSX.Element;
 interface TableButtonProps {
     onClick: () => void;
     title?: string;

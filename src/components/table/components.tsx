@@ -259,12 +259,13 @@ export const Summary = memo(() => {
 interface TimesUIProps {
     timestamp: any;
     format?: string;
+    fromFormat?: string;
     tz?: string;
     direction?: Direction;
 }
 
-export const TimesUI = ({ timestamp, format, tz, direction }: TimesUIProps) => {
-    const time = timestamp_to_string(timestamp as Timestamp, { format: format || "DD/MM/YYYY HH:mm:ss", tz });
+export const TimesUI = ({ timestamp, format, tz, direction, fromFormat }: TimesUIProps) => {
+    const time = timestamp_to_string(timestamp as Timestamp, { format, fromFormat, tz });
     return (
         <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`)} title={time}>
             {time}

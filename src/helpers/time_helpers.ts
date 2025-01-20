@@ -2,6 +2,7 @@ import { Timestamp } from "firebase/firestore";
 import moment from "moment-timezone";
 interface TimeOptions {
     format?: string;
+    fromFormat?: string;
     tz?: string;
 }
 export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string {
@@ -11,7 +12,7 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
     } else if (firebaseTimestamp instanceof Date) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = moment(firebaseTimestamp, "DD/MM/YYYY HH:mm").toDate();
+        date = moment(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
             throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
         }
