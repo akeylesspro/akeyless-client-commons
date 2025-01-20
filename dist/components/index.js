@@ -1315,7 +1315,7 @@ function timestamp_to_string(firebaseTimestamp, options) {
     } else if (_instanceof(firebaseTimestamp, Date)) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = import_moment_timezone.default.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = (0, import_moment_timezone.default)(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
             throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
         }
