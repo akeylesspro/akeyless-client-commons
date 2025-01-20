@@ -215,8 +215,9 @@ interface TimesUIProps {
     timestamp: any;
     format?: string;
     tz?: string;
+    direction?: Direction;
 }
-declare const TimesUI: ({ timestamp, format, tz }: TimesUIProps) => react_jsx_runtime.JSX.Element;
+declare const TimesUI: ({ timestamp, format, tz, direction }: TimesUIProps) => react_jsx_runtime.JSX.Element;
 interface TableButtonProps {
     onClick: () => void;
     title?: string;

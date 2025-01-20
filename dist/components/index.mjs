@@ -1601,8 +1601,11 @@ var Summary = memo(function() {
     });
 }, renderOnce);
 var TimesUI = function(param) {
-    var timestamp = param.timestamp, format = param.format, tz = param.tz;
+    var timestamp = param.timestamp, format = param.format, tz = param.tz, _param_direction = param.direction, direction = _param_direction === void 0 ? "ltr" : _param_direction;
     return /* @__PURE__ */ jsx11("div", {
+        style: {
+            direction: direction
+        },
         className: "_ellipsis ",
         title: timestamp_to_string(timestamp, {
             format: format || "DD/MM/YYYY HH:mm:ss",

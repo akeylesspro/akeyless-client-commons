@@ -11,6 +11,7 @@ import { renderOnce } from "src/helpers";
 import { Timestamp } from "firebase/firestore";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
+import { Direction } from "src/types";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -259,11 +260,16 @@ interface TimesUIProps {
     timestamp: any;
     format?: string;
     tz?: string;
+    direction?: Direction;
 }
 
-export const TimesUI = ({ timestamp, format, tz }: TimesUIProps) => {
+export const TimesUI = ({ timestamp, format, tz, direction = "ltr" }: TimesUIProps) => {
     return (
-        <div className="_ellipsis " title={timestamp_to_string(timestamp as Timestamp, { format: format || "DD/MM/YYYY HH:mm:ss", tz })}>
+        <div
+            style={{ direction }}
+            className="_ellipsis "
+            title={timestamp_to_string(timestamp as Timestamp, { format: format || "DD/MM/YYYY HH:mm:ss", tz })}
+        >
             {timestamp_to_string(timestamp as Timestamp, { format: format || "DD/MM/YYYY HH:mm:ss", tz })}
         </div>
     );
