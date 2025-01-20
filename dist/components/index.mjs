@@ -1603,9 +1603,6 @@ var Summary = memo(function() {
 var TimesUI = function(param) {
     var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction;
     return /* @__PURE__ */ jsx11("div", {
-        style: {
-            direction: direction
-        },
         className: cn("_ellipsis ltr ".concat(direction === "rtl" ? "text-right" : "text-left")),
         title: timestamp_to_string(timestamp, {
             format: format || "DD/MM/YYYY HH:mm:ss",
