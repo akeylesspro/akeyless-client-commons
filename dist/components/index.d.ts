@@ -47,6 +47,75 @@ declare const Version: ({ version, className }: {
 
 type Direction = "rtl" | "ltr";
 
+interface BaseElementProps {
+    name?: string;
+    labelContent: string;
+    required?: boolean;
+    containerClassName?: string;
+    labelClassName?: string;
+    elementClassName?: string;
+}
+interface InputElement extends BaseElementProps {
+    type: "input";
+    inputType?: string;
+    defaultValue?: string;
+    validationName?: string;
+    validationError?: string;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    placeholder?: string;
+    minLength?: number;
+    props?: React.InputHTMLAttributes<HTMLInputElement>;
+}
+interface SelectElement extends BaseElementProps {
+    type: "select";
+    optionsContainerClassName?: string;
+    options: {
+        value: any;
+        label: string;
+    }[];
+    defaultValue?: any;
+    optionClassName?: string;
+}
+interface InputContainerProps extends Partial<InputElement> {
+}
+interface SelectContainerProps extends Partial<SelectElement> {
+}
+type FormElement = InputElement | SelectElement;
+interface ModularFormProps {
+    submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    elements: FormElement[];
+    buttonContent: React.ReactNode;
+    headerContent?: React.ReactNode;
+    buttonClassName?: string;
+    formClassName?: string;
+    headerClassName?: string;
+    direction?: Direction;
+    submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
+}
+interface ConfirmFormProps {
+    onV: () => Promise<void> | void;
+    onX: () => Promise<void> | void;
+    headline?: string;
+    direction?: Direction;
+    containerClassName?: string;
+    headlineClassName?: string;
+    buttonsContainerClassName?: string;
+}
+interface DatePickerProps {
+    submit?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    formClassName?: string;
+    labelsClassName?: string;
+    inputsClassName?: string;
+    buttonClassName?: string;
+    buttonStyle?: React.CSSProperties;
+    defaultFrom?: string;
+    defaultTo?: string;
+    direction?: Direction;
+    fromText?: string;
+    toText?: string;
+    buttonText?: string;
+}
+
 interface FilterableColumn {
     header: string;
     dataKey: string;
@@ -128,75 +197,6 @@ interface FilterProps {
     filterableColumn: FilterableColumn;
 }
 
-interface BaseElementProps {
-    name?: string;
-    labelContent: string;
-    required?: boolean;
-    containerClassName?: string;
-    labelClassName?: string;
-    elementClassName?: string;
-}
-interface InputElement extends BaseElementProps {
-    type: "input";
-    inputType?: string;
-    defaultValue?: string;
-    validationName?: string;
-    validationError?: string;
-    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-    placeholder?: string;
-    minLength?: number;
-    props?: React.InputHTMLAttributes<HTMLInputElement>;
-}
-interface SelectElement extends BaseElementProps {
-    type: "select";
-    optionsContainerClassName?: string;
-    options: {
-        value: any;
-        label: string;
-    }[];
-    defaultValue?: any;
-    optionClassName?: string;
-}
-interface InputContainerProps extends Partial<InputElement> {
-}
-interface SelectContainerProps extends Partial<SelectElement> {
-}
-type FormElement = InputElement | SelectElement;
-interface ModularFormProps {
-    submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
-    elements: FormElement[];
-    buttonContent: React.ReactNode;
-    headerContent?: React.ReactNode;
-    buttonClassName?: string;
-    formClassName?: string;
-    headerClassName?: string;
-    direction?: Direction;
-    submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
-}
-interface ConfirmFormProps {
-    onV: () => Promise<void> | void;
-    onX: () => Promise<void> | void;
-    headline?: string;
-    direction?: Direction;
-    containerClassName?: string;
-    headlineClassName?: string;
-    buttonsContainerClassName?: string;
-}
-interface DatePickerProps {
-    submit?: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
-    formClassName?: string;
-    labelsClassName?: string;
-    inputsClassName?: string;
-    buttonClassName?: string;
-    buttonStyle?: React.CSSProperties;
-    defaultFrom?: string;
-    defaultTo?: string;
-    direction?: Direction;
-    fromText?: string;
-    toText?: string;
-    buttonText?: string;
-}
-
 declare const getFixedNumber: (number?: number, fix?: number) => string;
 declare const TableRow: ({ item }: {
     item: TObject<any>;
@@ -204,13 +204,27 @@ declare const TableRow: ({ item }: {
 declare const TableCell: ({ value }: {
     value: any;
 }) => react_jsx_runtime.JSX.Element;
-declare const TableHead: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const TableBody: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
 declare const Filter: React__default.NamedExoticComponent<FilterProps>;
-declare const MaxRowsLabel: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const ExportToExcel: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const Search: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
-declare const Summary: React__default.MemoExoticComponent<(props: any) => react_jsx_runtime.JSX.Element>;
+declare const TableHead: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
+declare const TableBody: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
+declare const MaxRowsLabel: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
+declare const ExportToExcel: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
+declare const Search: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
+declare const Summary: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
+interface TimesUIProps {
+    timestamp: any;
+    format?: string;
+    tz?: string;
+}
+declare const TimesUI: ({ timestamp, format, tz }: TimesUIProps) => react_jsx_runtime.JSX.Element;
+interface TableButtonProps {
+    onClick: () => void;
+    title?: string;
+    className?: string;
+    type: "add" | "edit" | "delete" | "custom";
+    children?: ReactNode;
+}
+declare const TableButton: ({ onClick, title, className, type, children }: TableButtonProps) => react_jsx_runtime.JSX.Element;
 
 declare const TableContext: React__default.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {
@@ -274,4 +288,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow, Version, badgeVariants, buttonVariants, getFixedNumber };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber };

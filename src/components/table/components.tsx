@@ -1,12 +1,16 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import React, { memo, useMemo } from "react";
+import React, { memo, ReactNode, useMemo } from "react";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
-import { FilterProps } from "../../types";
+import { FilterProps } from "./types";
 import { TObject } from "akeyless-types-commons";
 import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { useTableContext } from "./hooks";
+import { renderOnce } from "src/helpers";
+import { Timestamp } from "firebase/firestore";
+import { timestamp_to_string } from "src/helpers/time_helpers";
+import { Button } from "../ui";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -41,58 +45,6 @@ export const TableCell = ({ value }: { value: any }) => {
         </td>
     );
 };
-
-export const TableHead = memo((props: any) => {
-    const {
-        headers,
-        headerStyle,
-        headerCellStyle,
-        sortColumn,
-        handleSort,
-        sortKeys,
-        sortOrder,
-        filterableColumns = [],
-        sortLabel,
-    } = useTableContext();
-    const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys?.length), [sortKeys]);
-    return (
-        <thead className="bg-[#282828] text-white sticky top-0">
-            <tr style={headerStyle}>
-                {headers.map((header, index) => {
-                    const filterableColumn = filterableColumns.find((col) => col.header === header);
-                    return (
-                        <th
-                            title={sortDisplay ? `${sortLabel} ${header}` : header}
-                            style={headerCellStyle}
-                            key={index}
-                            className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
-                        >
-                            {/* header value */}
-                            <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
-                                {header}
-                            </div>
-                            {/* sort */}
-                            {sortDisplay && sortColumn === index && (sortOrder === "asc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
-                            {/* filter */}
-                            {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
-                        </th>
-                    );
-                })}
-            </tr>
-        </thead>
-    );
-});
-
-export const TableBody = memo((props: any) => {
-    const { dataToRender } = useTableContext();
-    return (
-        <tbody>
-            {dataToRender.renderedData.map((item, index) => (
-                <TableRow key={index} item={item} />
-            ))}
-        </tbody>
-    );
-});
 
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, closeFilterWindow, filterLabel } =
@@ -149,7 +101,59 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     );
 });
 
-export const MaxRowsLabel = memo((props: any) => {
+export const TableHead = memo(() => {
+    const {
+        headers,
+        headerStyle,
+        headerCellStyle,
+        sortColumn,
+        handleSort,
+        sortKeys,
+        sortOrder,
+        filterableColumns = [],
+        sortLabel,
+    } = useTableContext();
+    const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys?.length), [sortKeys]);
+    return (
+        <thead className="bg-[#282828] text-white sticky top-0">
+            <tr style={headerStyle}>
+                {headers.map((header, index) => {
+                    const filterableColumn = filterableColumns.find((col) => col.header === header);
+                    return (
+                        <th
+                            title={sortDisplay ? `${sortLabel} ${header}` : header}
+                            style={headerCellStyle}
+                            key={index}
+                            className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
+                        >
+                            {/* header value */}
+                            <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
+                                {header}
+                            </div>
+                            {/* sort */}
+                            {sortDisplay && sortColumn === index && (sortOrder === "asc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
+                            {/* filter */}
+                            {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
+                        </th>
+                    );
+                })}
+            </tr>
+        </thead>
+    );
+}, renderOnce);
+
+export const TableBody = memo(() => {
+    const { dataToRender } = useTableContext();
+    return (
+        <tbody>
+            {dataToRender.renderedData.map((item, index) => (
+                <TableRow key={index} item={item} />
+            ))}
+        </tbody>
+    );
+}, renderOnce);
+
+export const MaxRowsLabel = memo(() => {
     const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, maxRowsContainerClassName } = useTableContext();
     return (
         <div className={cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || "")}>
@@ -159,9 +163,9 @@ export const MaxRowsLabel = memo((props: any) => {
             <div>{dataToRender.filtered.length}</div>
         </div>
     );
-});
+}, renderOnce);
 
-export const ExportToExcel = memo((props: any) => {
+export const ExportToExcel = memo(() => {
     const { exportToExcelKeys, dataToAddToExcelTable, excelFileName, dataToRender, headers, sumColumns, exportExcelLabel } = useTableContext();
     const addPropertiesToExcel = (properties: { key: string; value: any; header: string }[]) => {
         let newData = [...dataToRender.renderedData];
@@ -209,9 +213,9 @@ export const ExportToExcel = memo((props: any) => {
             {exportToExcelSvg()}
         </button>
     );
-});
+}, renderOnce);
 
-export const Search = memo((props: any) => {
+export const Search = memo(() => {
     const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle } = useTableContext();
     return (
         <input
@@ -223,9 +227,9 @@ export const Search = memo((props: any) => {
             style={searchInputStyle}
         />
     );
-});
+}, renderOnce);
 
-export const Summary = memo((props: any) => {
+export const Summary = memo(() => {
     const { summaryContainerStyle, summaryLabelStyle, summaryLabel, summaryRowStyle, sumColumns, dataToRender, direction } = useTableContext();
 
     return (
@@ -249,4 +253,50 @@ export const Summary = memo((props: any) => {
             </div>
         </div>
     );
-});
+}, renderOnce);
+
+interface TimesUIProps {
+    timestamp: any;
+    format?: string;
+    tz?: string;
+}
+
+export const TimesUI = ({ timestamp, format, tz }: TimesUIProps) => {
+    return (
+        <div className="_ellipsis " title={timestamp_to_string(timestamp as Timestamp, { format: format || "DD/MM/YYYY HH:mm:ss", tz })}>
+            {timestamp_to_string(timestamp as Timestamp, { format: format || "DD/MM/YYYY HH:mm:ss", tz })}
+        </div>
+    );
+};
+
+interface TableButtonProps {
+    onClick: () => void;
+    title?: string;
+    className?: string;
+    type: "add" | "edit" | "delete" | "custom";
+    children?: ReactNode;
+}
+export const TableButton = ({ onClick, title, className, type, children }: TableButtonProps) => {
+    const icon = {
+        add: "fa-regular fa-plus text-2xl",
+        edit: "fa-light fa-pen-to-square text-xl",
+        delete: "fa-light fa-trash text-xl",
+    };
+    return (
+        <>
+            {type === "custom" ? (
+                <button className={className} title={title} onClick={onClick}>
+                    {children}
+                </button>
+            ) : type === "add" ? (
+                <Button title={title} onClick={onClick}>
+                    <i className={cn("fa-regular fa-plus text-2xl", className)}></i>
+                </Button>
+            ) : (
+                <button title={title} onClick={onClick}>
+                    <i className={cn(icon[type], className)}></i>
+                </button>
+            )}
+        </>
+    );
+};

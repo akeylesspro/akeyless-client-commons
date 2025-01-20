@@ -1,5 +1,3 @@
-import { TObject } from 'akeyless-types-commons';
-import { ReactNode } from 'react';
 import { WhereFilterOp, Unsubscribe } from 'firebase/firestore';
 
 type Direction = "rtl" | "ltr";
@@ -44,91 +42,6 @@ interface SnapshotResult {
 }
 type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: string[]) => SnapshotResult;
-
-interface FilterableColumn {
-    header: string;
-    dataKey: string;
-    ui?: (value: any) => ReactNode;
-}
-interface TableProviderType {
-    sortColumn: number;
-    sortOrder: "asc" | "desc";
-    handleSort: (columnIndex: number) => void;
-    searchQuery: string;
-    deferredSearchQuery: string;
-    handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    dataToRender: {
-        renderedData: TObject<any>[];
-        filtered: TObject<any>[];
-    };
-    filters: TObject<string[]>;
-    filterPopupsDisplay: string;
-    filterOptions: any;
-    handleFilterChange: (dataKey: string, value: string) => void;
-    handleFilterClick: (dataKey: string) => void;
-    closeFilterWindow: () => void;
-}
-interface UseFilterProps {
-    data: Record<string, any>[];
-    filterableColumns: FilterableColumn[];
-}
-interface TableProps {
-    data: Record<string, any>[];
-    headers: string[];
-    keysToRender: string[];
-    optionalElement?: ReactNode;
-    containerStyle?: React.CSSProperties;
-    containerClassName?: string;
-    containerHeaderClassName?: string;
-    includeSearch?: boolean;
-    searchInputStyle?: React.CSSProperties;
-    searchInputClassName?: string;
-    tableContainerStyle?: React.CSSProperties;
-    tableContainerClass?: string;
-    tableStyle?: React.CSSProperties;
-    rowStyles?: React.CSSProperties;
-    rowClassName?: string;
-    headerStyle?: React.CSSProperties;
-    headerCellStyle?: React.CSSProperties;
-    cellStyle?: React.CSSProperties;
-    cellClassName?: string;
-    filterableColumns?: {
-        header: string;
-        dataKey: string;
-        ui?: (value: any) => ReactNode;
-    }[];
-    sortKeys?: string[];
-    exportToExcelKeys?: string[];
-    excelFileName?: string;
-    dataToAddToExcelTable?: {
-        key: string;
-        value: any;
-        header: string;
-    }[];
-    sumColumns?: {
-        label: string;
-        dataKey: string;
-        ui?: (value: any) => ReactNode;
-    }[];
-    searchPlaceHolder?: string;
-    summaryContainerStyle?: React.CSSProperties;
-    summaryLabelStyle?: React.CSSProperties;
-    summaryRowStyle?: React.CSSProperties;
-    summaryLabel?: string;
-    filterLabel?: string;
-    sortLabel?: string;
-    exportExcelLabel?: string;
-    onRowClick?: (data?: any) => void;
-    direction?: Direction;
-    maxRows?: number;
-    maxRowsLabel1?: string;
-    maxRowsLabel2?: string;
-    maxRowsContainerClassName?: string;
-}
-interface FilterProps {
-    index: number;
-    filterableColumn: FilterableColumn;
-}
 
 interface BaseElementProps {
     name?: string;
@@ -199,4 +112,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FilterProps, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, TableProps, TableProviderType, UseFilterProps, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };

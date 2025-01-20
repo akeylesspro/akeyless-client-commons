@@ -1,7 +1,6 @@
 import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
 import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./components";
-import { TableProps, TableProviderType } from "../../types";
-import { TObject } from "akeyless-types-commons";
+import { TableProps, TableProviderType } from "./types";
 import { useFilter, useSort, useSearch } from "./hooks";
 import { TableSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
@@ -62,7 +61,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     // rendered data
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
-    const { searchQuery, handleSearch, clearSearch,deferredSearchQuery } = useSearch();
+    const { searchQuery, handleSearch, clearSearch, deferredSearchQuery } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
         filterableColumns,
@@ -162,9 +161,9 @@ const TableBase = (props: TableProps) => {
             {/* container header */}
             <div style={{ direction: direction }} className={cn("flex justify-start items-center gap-2", containerHeaderClassName || "")}>
                 {/* search */}
-                {includeSearch && <Search render={false} />}
+                {includeSearch && <Search />}
                 {/* export to excel */}
-                {exportToExcelKeys && <ExportToExcel render={false} />}
+                {exportToExcelKeys && <ExportToExcel />}
                 {/* max rows */}
                 {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
                 {/* optional element */}
@@ -177,11 +176,11 @@ const TableBase = (props: TableProps) => {
             >
                 <table style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />
-                    <TableBody render={false} />
+                    <TableBody />
                 </table>
             </div>
             {/* summary */}
-            {sumColumns && <Summary render={false} />}
+            {sumColumns && <Summary />}
         </TableProvider>
     );
 };

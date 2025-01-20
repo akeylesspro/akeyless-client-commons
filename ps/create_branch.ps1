@@ -12,7 +12,6 @@ if ($branchExists) {
 }
 git checkout -b $branchName
 git stash pop
-git status
 git add -A
 $response = Read-Host "Did you want to add all changes and add a commit: '$branchName' and publish the branch? (y/n)"
 if ($response -ne "y") {

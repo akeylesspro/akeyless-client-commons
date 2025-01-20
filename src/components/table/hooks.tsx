@@ -3,7 +3,7 @@ import { TObject } from "akeyless-types-commons";
 import { create } from "zustand";
 import { isEqual } from "lodash";
 import { TableContext } from "./Table";
-import { UseFilterProps } from "src/types";
+import { UseFilterProps } from "./types";
 export const useTableContext = () => {
     const context = useContext(TableContext);
     if (!context) {

@@ -871,6 +871,10 @@ body {
 .align-middle {
   vertical-align: middle;
 }
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
 .text-\[12px\] {
   font-size: 12px;
 }
@@ -897,6 +901,10 @@ body {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 .text-xs {
   font-size: 0.75rem;
