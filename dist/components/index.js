@@ -1323,9 +1323,9 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var withTZ = import_moment_timezone.default.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var withTZ = (0, import_moment_timezone.default)(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
         var withoutTZ = import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        var result = import_moment_timezone.default.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var result = (0, import_moment_timezone.default)(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
         console.log("with tz", withTZ);
         console.log("without tz", withoutTZ);
         console.log("result", result);

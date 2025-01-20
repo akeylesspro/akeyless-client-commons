@@ -20,9 +20,13 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options?.tz) {
-        const withTZ = moment.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        const withTZ = moment(date)
+            .tz(options.tz)
+            .format(options.format || "DD-MM-YYYY HH:mm:ss");
         const withoutTZ = moment.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        const result = moment.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        const result = moment(date)
+            .tz(options.tz)
+            .format(options.format || "DD-MM-YYYY HH:mm:ss");
         console.log("with tz", withTZ);
         console.log("without tz", withoutTZ);
         console.log("result", result);

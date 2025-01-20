@@ -1159,9 +1159,9 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var withTZ = moment2.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var withTZ = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
         var withoutTZ = moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        var result = moment2.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var result = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
         console.log("with tz", withTZ);
         console.log("without tz", withoutTZ);
         console.log("result", result);
