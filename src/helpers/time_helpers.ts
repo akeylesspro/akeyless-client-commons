@@ -12,7 +12,7 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
     } else if (firebaseTimestamp instanceof Date) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = moment(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = moment.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
             throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
         }
@@ -28,10 +28,7 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
         console.log("with tz", withTZ);
         console.log("without tz", withoutTZ);
 
-        return moment
-            .utc(date)
-            .tz(options.tz)
-            .format(options.format || "DD-MM-YYYY HH:mm:ss");
+        return moment.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
     }
     return moment.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
 }

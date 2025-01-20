@@ -1151,7 +1151,7 @@ function timestamp_to_string(firebaseTimestamp, options) {
     } else if (_instanceof(firebaseTimestamp, Date)) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = moment2(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = moment2.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
             throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
         }
@@ -1163,7 +1163,7 @@ function timestamp_to_string(firebaseTimestamp, options) {
         var withoutTZ = moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
         console.log("with tz", withTZ);
         console.log("without tz", withoutTZ);
-        return moment2.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        return moment2.tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
     }
     return moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
 }
