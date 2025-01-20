@@ -1138,7 +1138,9 @@ var useValidation = function(validationType, requireError) {
 import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
 function timestamp_to_string(firebaseTimestamp, options) {
+    console.log("firebaseTimestamp", firebaseTimestamp);
     var timestamp = new Timestamp2(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);
+    console.log("timestamp", timestamp);
     if (options === null || options === void 0 ? void 0 : options.tz) {
         return moment2.utc(timestamp.toDate()).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
     }

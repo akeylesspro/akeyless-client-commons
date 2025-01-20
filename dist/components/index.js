@@ -1302,7 +1302,9 @@ var useValidation = function(validationType, requireError) {
 var import_firestore2 = require("firebase/firestore");
 var import_moment_timezone = __toESM(require("moment-timezone"));
 function timestamp_to_string(firebaseTimestamp, options) {
+    console.log("firebaseTimestamp", firebaseTimestamp);
     var timestamp = new import_firestore2.Timestamp(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);
+    console.log("timestamp", timestamp);
     if (options === null || options === void 0 ? void 0 : options.tz) {
         return import_moment_timezone.default.utc(timestamp.toDate()).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
     }

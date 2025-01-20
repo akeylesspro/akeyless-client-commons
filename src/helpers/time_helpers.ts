@@ -12,7 +12,10 @@ interface TimeOptions {
  * @returns {string} - A formatted date string according to the specified format or the default format.
  */
 export function timestamp_to_string(firebaseTimestamp: Timestamp, options?: TimeOptions): string {
+    console.log("firebaseTimestamp", firebaseTimestamp);
     const timestamp = new Timestamp(firebaseTimestamp?.seconds, firebaseTimestamp?.nanoseconds);
+    console.log("timestamp", timestamp);
+
     if (options?.tz) {
         return moment
             .utc(timestamp.toDate())
