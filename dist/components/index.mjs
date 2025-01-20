@@ -1146,7 +1146,6 @@ import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
 function timestamp_to_string(firebaseTimestamp, options) {
     var date;
-    console.log("user 2 tz", options === null || options === void 0 ? void 0 : options.tz);
     if (_instanceof(firebaseTimestamp, Timestamp2)) {
         date = firebaseTimestamp.toDate();
     } else if (_instanceof(firebaseTimestamp, Date)) {
@@ -1160,6 +1159,10 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
+        var withTZ = moment2.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var withoutTZ = moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        console.log("with tz", withTZ);
+        console.log("without tz", withoutTZ);
         return moment2.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
     }
     return moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
@@ -1603,7 +1606,6 @@ var Summary = memo(function() {
 }, renderOnce);
 var TimesUI = function(param) {
     var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction;
-    console.log("user tz", tz);
     var time = timestamp_to_string(timestamp, {
         format: format || "DD/MM/YYYY HH:mm:ss",
         tz: tz

@@ -6,8 +6,6 @@ interface TimeOptions {
 }
 export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string {
     let date: Date;
-    console.log("user 2 tz", options?.tz);
-
     if (firebaseTimestamp instanceof Timestamp) {
         date = firebaseTimestamp.toDate();
     } else if (firebaseTimestamp instanceof Date) {
@@ -20,8 +18,15 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
     } else {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
-
     if (options?.tz) {
+        const withTZ = moment
+            .utc(date)
+            .tz(options.tz)
+            .format(options.format || "DD-MM-YYYY HH:mm:ss");
+        const withoutTZ = moment.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        console.log("with tz", withTZ);
+        console.log("without tz", withoutTZ);
+
         return moment
             .utc(date)
             .tz(options.tz)

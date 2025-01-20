@@ -1310,7 +1310,6 @@ var import_firestore2 = require("firebase/firestore");
 var import_moment_timezone = __toESM(require("moment-timezone"));
 function timestamp_to_string(firebaseTimestamp, options) {
     var date;
-    console.log("user 2 tz", options === null || options === void 0 ? void 0 : options.tz);
     if (_instanceof(firebaseTimestamp, import_firestore2.Timestamp)) {
         date = firebaseTimestamp.toDate();
     } else if (_instanceof(firebaseTimestamp, Date)) {
@@ -1324,6 +1323,10 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
+        var withTZ = import_moment_timezone.default.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var withoutTZ = import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        console.log("with tz", withTZ);
+        console.log("without tz", withoutTZ);
         return import_moment_timezone.default.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
     }
     return import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
@@ -1767,7 +1770,6 @@ var Summary = (0, import_react4.memo)(function() {
 }, renderOnce);
 var TimesUI = function(param) {
     var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction;
-    console.log("user tz", tz);
     var time = timestamp_to_string(timestamp, {
         format: format || "DD/MM/YYYY HH:mm:ss",
         tz: tz
