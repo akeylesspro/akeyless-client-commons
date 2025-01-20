@@ -6,7 +6,6 @@ interface TimeOptions {
 }
 export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string {
     let date: Date;
-    console.log("user tz", options?.tz);
 
     if (firebaseTimestamp instanceof Timestamp) {
         date = firebaseTimestamp.toDate();
