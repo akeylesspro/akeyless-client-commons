@@ -100,6 +100,13 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _set_prototype_of(subClass, superClass);
 }
+function _instanceof(left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+        return !!right[Symbol.hasInstance](left);
+    } else {
+        return left instanceof right;
+    }
+}
 function _iterable_to_array(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
@@ -1302,13 +1309,23 @@ var useValidation = function(validationType, requireError) {
 var import_firestore2 = require("firebase/firestore");
 var import_moment_timezone = __toESM(require("moment-timezone"));
 function timestamp_to_string(firebaseTimestamp, options) {
-    console.log("firebaseTimestamp", firebaseTimestamp);
-    var timestamp = new import_firestore2.Timestamp(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);
-    console.log("timestamp", timestamp);
-    if (options === null || options === void 0 ? void 0 : options.tz) {
-        return import_moment_timezone.default.utc(timestamp.toDate()).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    var date;
+    if (_instanceof(firebaseTimestamp, import_firestore2.Timestamp)) {
+        date = firebaseTimestamp.toDate();
+    } else if (_instanceof(firebaseTimestamp, Date)) {
+        date = firebaseTimestamp;
+    } else if (typeof firebaseTimestamp === "string") {
+        date = (0, import_moment_timezone.default)(firebaseTimestamp, "DD/MM/YYYY HH:mm").toDate();
+        if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
+        }
+    } else {
+        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
-    return import_moment_timezone.default.utc(timestamp.toDate()).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    if (options === null || options === void 0 ? void 0 : options.tz) {
+        return import_moment_timezone.default.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    }
+    return import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
 }
 // src/components/ui/badge.tsx
 var import_class_variance_authority = require("class-variance-authority");

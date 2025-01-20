@@ -4,32 +4,31 @@ interface TimeOptions {
     format?: string;
     tz?: string;
 }
-/**
- * Converts a Firebase Timestamp object into a formatted string.
- *
- * @param {Timestamp} firebaseTimestamp - The Firebase timestamp object containing _seconds and _nanoseconds.
- * @param {TimeOptions} [options] - Optional the format string used to format the date. Default is "DD-MM-YYYY HH:mm:ss".
- * @returns {string} - A formatted date string according to the specified format or the default format.
- */
-export function timestamp_to_string(firebaseTimestamp: Timestamp, options?: TimeOptions): string {
-    console.log("firebaseTimestamp", firebaseTimestamp);
-    const timestamp = new Timestamp(firebaseTimestamp?.seconds, firebaseTimestamp?.nanoseconds);
-    console.log("timestamp", timestamp);
+export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string {
+    let date: Date;
+
+    if (firebaseTimestamp instanceof Timestamp) {
+        date = firebaseTimestamp.toDate();
+    } else if (firebaseTimestamp instanceof Date) {
+        date = firebaseTimestamp;
+    } else if (typeof firebaseTimestamp === "string") {
+        date = moment(firebaseTimestamp, "DD/MM/YYYY HH:mm").toDate();
+        if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
+        }
+    } else {
+        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
+    }
 
     if (options?.tz) {
         return moment
-            .utc(timestamp.toDate())
+            .utc(date)
             .tz(options.tz)
             .format(options.format || "DD-MM-YYYY HH:mm:ss");
     }
-    return moment.utc(timestamp.toDate()).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    return moment.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
 }
-/**
- * Converts a Firebase Timestamp object into milliseconds since the Unix epoch.
- *
- * @param {Timestamp} firebaseTimestamp - The Firebase timestamp object containing _seconds and _nanoseconds.
- * @returns {number} - Time in milliseconds
- */
+
 export function timestamp_to_millis(firebaseTimestamp: Timestamp): number {
     const timestamp = new Timestamp(firebaseTimestamp?.seconds, firebaseTimestamp?.nanoseconds);
     return timestamp.toMillis();

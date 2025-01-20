@@ -100,6 +100,13 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _set_prototype_of(subClass, superClass);
 }
+function _instanceof(left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+        return !!right[Symbol.hasInstance](left);
+    } else {
+        return left instanceof right;
+    }
+}
 function _iterable_to_array(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
@@ -1138,13 +1145,23 @@ var useValidation = function(validationType, requireError) {
 import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
 function timestamp_to_string(firebaseTimestamp, options) {
-    console.log("firebaseTimestamp", firebaseTimestamp);
-    var timestamp = new Timestamp2(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);
-    console.log("timestamp", timestamp);
-    if (options === null || options === void 0 ? void 0 : options.tz) {
-        return moment2.utc(timestamp.toDate()).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    var date;
+    if (_instanceof(firebaseTimestamp, Timestamp2)) {
+        date = firebaseTimestamp.toDate();
+    } else if (_instanceof(firebaseTimestamp, Date)) {
+        date = firebaseTimestamp;
+    } else if (typeof firebaseTimestamp === "string") {
+        date = moment2(firebaseTimestamp, "DD/MM/YYYY HH:mm").toDate();
+        if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
+        }
+    } else {
+        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
-    return moment2.utc(timestamp.toDate()).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    if (options === null || options === void 0 ? void 0 : options.tz) {
+        return moment2.utc(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    }
+    return moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
 }
 // src/components/ui/badge.tsx
 import { cva } from "class-variance-authority";
