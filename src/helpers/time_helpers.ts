@@ -7,8 +7,8 @@ interface TimeOptions {
 /**
  * Converts a Firebase Timestamp object into a formatted string.
  *
- * @param {firebase_timestamp} firebaseTimestamp - The Firebase timestamp object containing _seconds and _nanoseconds.
- * @param {string} [format="DD-MM-YYYY HH:mm:ss"] - Optional the format string used to format the date. Default is "DD-MM-YYYY HH:mm:ss".
+ * @param {Timestamp} firebaseTimestamp - The Firebase timestamp object containing _seconds and _nanoseconds.
+ * @param {TimeOptions} [options] - Optional the format string used to format the date. Default is "DD-MM-YYYY HH:mm:ss".
  * @returns {string} - A formatted date string according to the specified format or the default format.
  */
 export function timestamp_to_string(firebaseTimestamp: Timestamp, options?: TimeOptions): string {
