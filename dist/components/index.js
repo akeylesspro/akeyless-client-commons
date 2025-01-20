@@ -1310,6 +1310,7 @@ var import_firestore2 = require("firebase/firestore");
 var import_moment_timezone = __toESM(require("moment-timezone"));
 function timestamp_to_string(firebaseTimestamp, options) {
     var date;
+    console.log("user 2 tz", options === null || options === void 0 ? void 0 : options.tz);
     if (_instanceof(firebaseTimestamp, import_firestore2.Timestamp)) {
         date = firebaseTimestamp.toDate();
     } else if (_instanceof(firebaseTimestamp, Date)) {
@@ -1766,19 +1767,18 @@ var Summary = (0, import_react4.memo)(function() {
 }, renderOnce);
 var TimesUI = function(param) {
     var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction;
+    console.log("user tz", tz);
+    var time = timestamp_to_string(timestamp, {
+        format: format || "DD/MM/YYYY HH:mm:ss",
+        tz: tz
+    });
     return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
         style: {
             direction: "ltr"
         },
         className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
-        title: timestamp_to_string(timestamp, {
-            format: format || "DD/MM/YYYY HH:mm:ss",
-            tz: tz
-        }),
-        children: timestamp_to_string(timestamp, {
-            format: format || "DD/MM/YYYY HH:mm:ss",
-            tz: tz
-        })
+        title: time,
+        children: time
     });
 };
 var TableButton = function(param) {

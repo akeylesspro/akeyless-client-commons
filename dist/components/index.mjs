@@ -1146,6 +1146,7 @@ import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
 function timestamp_to_string(firebaseTimestamp, options) {
     var date;
+    console.log("user 2 tz", options === null || options === void 0 ? void 0 : options.tz);
     if (_instanceof(firebaseTimestamp, Timestamp2)) {
         date = firebaseTimestamp.toDate();
     } else if (_instanceof(firebaseTimestamp, Date)) {
@@ -1602,19 +1603,18 @@ var Summary = memo(function() {
 }, renderOnce);
 var TimesUI = function(param) {
     var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction;
+    console.log("user tz", tz);
+    var time = timestamp_to_string(timestamp, {
+        format: format || "DD/MM/YYYY HH:mm:ss",
+        tz: tz
+    });
     return /* @__PURE__ */ jsx11("div", {
         style: {
             direction: "ltr"
         },
         className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
-        title: timestamp_to_string(timestamp, {
-            format: format || "DD/MM/YYYY HH:mm:ss",
-            tz: tz
-        }),
-        children: timestamp_to_string(timestamp, {
-            format: format || "DD/MM/YYYY HH:mm:ss",
-            tz: tz
-        })
+        title: time,
+        children: time
     });
 };
 var TableButton = function(param) {
