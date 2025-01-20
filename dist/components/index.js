@@ -1767,7 +1767,10 @@ var Summary = (0, import_react4.memo)(function() {
 var TimesUI = function(param) {
     var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction;
     return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", {
-        className: cn("_ellipsis ltr ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        style: {
+            direction: "ltr"
+        },
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
         title: timestamp_to_string(timestamp, {
             format: format || "DD/MM/YYYY HH:mm:ss",
             tz: tz
