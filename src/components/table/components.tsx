@@ -300,3 +300,43 @@ export const TableButton = ({ onClick, title, className, type, children }: Table
         </>
     );
 };
+
+interface DurationUIProps {
+    duration: string;
+    minutesLabel?: string;
+    hoursLabel?: string;
+    secondsLabel?: string;
+}
+export const DurationUI = ({ duration, hoursLabel = "H", minutesLabel = "M", secondsLabel = "S" }: DurationUIProps) => {
+    const durationTime = duration.split(":");
+    const hours = parseInt(durationTime[0], 10);
+    const minutes = parseInt(durationTime[1], 10);
+    const isWithSeconds = durationTime.length === 3;
+    const seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
+
+    return (
+        <div
+            title={`${hours > 0 ? `${hours} ${hoursLabel} ` : ""}${minutes > 0 ? `${minutes} ${minutesLabel} ` : ""}${
+                seconds > 0 ? `${seconds} ${secondsLabel}` : ""
+            }`}
+        >
+            {hours > 0 && (
+                <span>
+                    {hours} {hoursLabel}
+                </span>
+            )}
+            {minutes > 0 && (
+                <span>
+                    {" "}
+                    {minutes} {minutesLabel}
+                </span>
+            )}
+            {seconds > 0 && (
+                <span>
+                    {" "}
+                    {seconds} {secondsLabel}
+                </span>
+            )}
+        </div>
+    );
+};

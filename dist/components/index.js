@@ -412,6 +412,9 @@ __export(components_exports, {
     DatePicker: function() {
         return DatePicker;
     },
+    DurationUI: function() {
+        return DurationUI;
+    },
     ErrorBoundary: function() {
         return ErrorBoundary;
     },
@@ -1784,6 +1787,42 @@ var TableButton = function(param) {
         })
     });
 };
+var DurationUI = function(param) {
+    var duration = param.duration, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "H" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "M" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "S" : _param_secondsLabel;
+    var durationTime = duration.split(":");
+    var hours = parseInt(durationTime[0], 10);
+    var minutes = parseInt(durationTime[1], 10);
+    var isWithSeconds = durationTime.length === 3;
+    var seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", {
+        title: "".concat(hours > 0 ? "".concat(hours, " ").concat(hoursLabel, " ") : "").concat(minutes > 0 ? "".concat(minutes, " ").concat(minutesLabel, " ") : "").concat(seconds > 0 ? "".concat(seconds, " ").concat(secondsLabel) : ""),
+        children: [
+            hours > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
+                children: [
+                    hours,
+                    " ",
+                    hoursLabel
+                ]
+            }),
+            minutes > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
+                children: [
+                    " ",
+                    minutes,
+                    " ",
+                    minutesLabel
+                ]
+            }),
+            seconds > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
+                children: [
+                    " ",
+                    seconds,
+                    " ",
+                    secondsLabel
+                ]
+            })
+        ]
+    });
+};
 // src/components/forms/index.tsx
 var import_react5 = require("react");
 var import_moment2 = __toESM(require("moment"));
@@ -2422,6 +2461,7 @@ function Slot2(props) {
     CodeInput: CodeInput,
     ConfirmForm: ConfirmForm,
     DatePicker: DatePicker,
+    DurationUI: DurationUI,
     ErrorBoundary: ErrorBoundary,
     ExportToExcel: ExportToExcel,
     Filter: Filter,
