@@ -322,7 +322,7 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
     return (
         <div title={duration} className={className}>
             {hours > 0 && (
-                <div>
+                <span>
                     <span>
                         {hours} {hoursLabel}
                     </span>
@@ -332,7 +332,7 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
                             {"0"} {minutesLabel}
                         </span>
                     )}
-                </div>
+                </span>
             )}
             {minutes > 0 && (
                 <span>

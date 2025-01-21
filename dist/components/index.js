@@ -1820,7 +1820,7 @@ var DurationUI = function(param) {
         title: duration,
         className: className,
         children: [
-            hours > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", {
+            hours > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                 children: [
                     /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                         children: [

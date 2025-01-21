@@ -1656,7 +1656,7 @@ var DurationUI = function(param) {
         title: duration,
         className: className,
         children: [
-            hours > 0 && /* @__PURE__ */ jsxs6("div", {
+            hours > 0 && /* @__PURE__ */ jsxs6("span", {
                 children: [
                     /* @__PURE__ */ jsxs6("span", {
                         children: [
