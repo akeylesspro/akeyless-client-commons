@@ -304,8 +304,9 @@ interface MultipleSelectProps {
         dropdownClassName?: string;
         dropdownOptionClassName?: string;
     };
+    unremovableOptions?: MultipleSelectorOption[];
 }
-declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsLabel, styles, unremovableOptions, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 
 interface InputProps {
     phoneValue?: string;

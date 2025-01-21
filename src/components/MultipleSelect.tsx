@@ -13,6 +13,7 @@ export interface MultipleSelectProps {
         dropdownClassName?: string;
         dropdownOptionClassName?: string;
     };
+    unremovableOptions?: MultipleSelectorOption[];
 }
 export function MultipleSelect({
     options,
@@ -20,6 +21,7 @@ export function MultipleSelect({
     selectedOptions,
     emptyOptionsLabel = "all options selected.",
     styles = {},
+    unremovableOptions,
 }: MultipleSelectProps) {
     return (
         <div className={cn("", styles.containerClassName)}>
@@ -30,6 +32,7 @@ export function MultipleSelect({
                 value={selectedOptions}
                 onChange={onChange}
                 defaultOptions={options}
+                unremovableOptions={unremovableOptions}
                 placeholder="Select frameworks"
                 hideClearAllButton
                 hidePlaceholderWhenSelected

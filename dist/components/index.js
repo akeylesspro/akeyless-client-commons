@@ -3071,7 +3071,7 @@ var DatePicker = function(param) {
 // src/components/MultipleSelect.tsx
 var import_jsx_runtime17 = require("react/jsx-runtime");
 function MultipleSelect(param) {
-    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
+    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, unremovableOptions = param.unremovableOptions;
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
         className: cn("", styles.containerClassName),
         children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(multiselect_default, {
@@ -3081,6 +3081,7 @@ function MultipleSelect(param) {
             value: selectedOptions,
             onChange: onChange,
             defaultOptions: options,
+            unremovableOptions: unremovableOptions,
             placeholder: "Select frameworks",
             hideClearAllButton: true,
             hidePlaceholderWhenSelected: true,
