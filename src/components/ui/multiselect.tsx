@@ -78,6 +78,7 @@ interface MultipleSelectorProps {
     dropdownOptionClassName?: string;
     emptyIndicatorClassName?: string;
     unremovableOptions?: MultipleSelectorOption[];
+    name?: string;
 }
 
 export interface MultipleSelectorRef {
@@ -186,6 +187,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             dropdownOptionClassName,
             emptyIndicatorClassName,
             unremovableOptions = [],
+            name,
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>
     ) => {
@@ -393,7 +395,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 );
             }
 
-            return <CommandEmpty className={emptyIndicatorClassName} >{emptyIndicator}</CommandEmpty>;
+            return <CommandEmpty className={emptyIndicatorClassName}>{emptyIndicator}</CommandEmpty>;
         }, [creatable, emptyIndicator, onSearch, options]);
 
         const selectables = React.useMemo<GroupOption>(() => removePickedOption(options, selected), [options, selected]);
@@ -601,6 +603,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         )}
                     </div>
                 </div>
+                <input value={JSON.stringify(selected)} type="hidden" name={name} />
             </Command>
         );
     }

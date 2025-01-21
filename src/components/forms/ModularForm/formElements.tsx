@@ -98,7 +98,6 @@ export const SelectContainer = ({
     );
 };
 
-
 export function MultipleSelect({
     onChange,
     selectedOptions,
@@ -115,6 +114,7 @@ export function MultipleSelect({
                 commandProps={{
                     label: selectLabel,
                 }}
+                name={name}
                 value={selectedOptions}
                 onChange={onChange}
                 defaultOptions={options}
@@ -129,7 +129,7 @@ export function MultipleSelect({
                 emptyIndicator={emptyOptionsElement || <p className="text-center text-sm">{"all options selected."}</p>}
                 emptyIndicatorClassName={styles.emptyIndicatorClassName}
             />
-            <input value={JSON.stringify(selectedOptions)} type="hidden" name={name} />
+            {/* <input value={JSON.stringify(selectedOptions)} type="hidden" name={name} /> */}
         </div>
     );
 }

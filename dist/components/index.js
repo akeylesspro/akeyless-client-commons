@@ -1749,7 +1749,7 @@ var CommandEmpty2 = (0, import_react4.forwardRef)(function(_param, forwardedRef)
 });
 CommandEmpty2.displayName = "CommandEmpty";
 var MultipleSelector = React8.forwardRef(function(param, ref) {
-    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions;
+    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name;
     var inputRef = React8.useRef(null);
     var _React8_useState = _sliced_to_array(React8.useState(false), 2), open = _React8_useState[0], setOpen = _React8_useState[1];
     var _React8_useState1 = _sliced_to_array(React8.useState(false), 2), onScrollbar = _React8_useState1[0], setOnScrollbar = _React8_useState1[1];
@@ -2219,6 +2219,11 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                         })
                     })
                 })
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", {
+                value: JSON.stringify(selected),
+                type: "hidden",
+                name: name
             })
         ]
     }));
@@ -2759,36 +2764,30 @@ var SelectContainer = function(param) {
 };
 function MultipleSelect(param) {
     var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_selectLabel = param.selectLabel, selectLabel = _param_selectLabel === void 0 ? "Select items" : _param_selectLabel;
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
         className: cn("", styles.containerClassName),
-        children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
-                commandProps: {
-                    label: selectLabel
-                },
-                value: selectedOptions,
-                onChange: onChange,
-                defaultOptions: options,
-                unremovableOptions: unremovableOptions,
-                placeholder: selectLabel,
-                hideClearAllButton: true,
-                hidePlaceholderWhenSelected: true,
-                badgeClassName: styles.badgeClassName,
-                className: styles.className,
-                dropdownClassName: styles.dropdownClassName,
-                dropdownOptionClassName: styles.dropdownOptionClassName,
-                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
-                    className: "text-center text-sm",
-                    children: "all options selected."
-                }),
-                emptyIndicatorClassName: styles.emptyIndicatorClassName
+        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
+            commandProps: {
+                label: selectLabel
+            },
+            name: name,
+            value: selectedOptions,
+            onChange: onChange,
+            defaultOptions: options,
+            unremovableOptions: unremovableOptions,
+            placeholder: selectLabel,
+            hideClearAllButton: true,
+            hidePlaceholderWhenSelected: true,
+            badgeClassName: styles.badgeClassName,
+            className: styles.className,
+            dropdownClassName: styles.dropdownClassName,
+            dropdownOptionClassName: styles.dropdownOptionClassName,
+            emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
+                className: "text-center text-sm",
+                children: "all options selected."
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
-                value: JSON.stringify(selectedOptions),
-                type: "hidden",
-                name: name
-            })
-        ]
+            emptyIndicatorClassName: styles.emptyIndicatorClassName
+        })
     });
 }
 // src/components/forms/ModularForm/ModularForm.tsx
