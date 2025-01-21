@@ -275,6 +275,23 @@ interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof Progress
 }
 declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
 
+interface MultipleSelectorOption {
+    value: string;
+    label: string;
+    disable?: boolean;
+    /** fixed option that can&lsquo;t be removed. */
+    fixed?: boolean;
+    /** Group the options by providing key. */
+    [key: string]: string | boolean | undefined;
+}
+interface MultipleSelectorRef {
+    selectedValue: MultipleSelectorOption[];
+    input: HTMLInputElement;
+    focus: () => void;
+    reset: () => void;
+}
+declare function useDebounce<T>(value: T, delay?: number): T;
+
 interface InputProps {
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
@@ -299,4 +316,12 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber };
+interface TeatMultipleSelectorProps {
+    emptyOptionsLabel?: string;
+    options: MultipleSelectorOption[];
+    onChange: (value: MultipleSelectorOption[]) => void;
+    selectedOptions: MultipleSelectorOption[];
+}
+declare function TeatMultipleSelector({ options, onChange, selectedOptions, emptyOptionsLabel, }: TeatMultipleSelectorProps): react_jsx_runtime.JSX.Element;
+
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TeatMultipleSelector, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

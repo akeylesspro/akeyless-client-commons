@@ -5,4 +5,4 @@ export * from "./forms";
 export * from "./ui";
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 export { default as CodeInput } from "./CodeInput";
-
+export { default as TeatMultipleSelector } from "./TestMultipleSelector";
