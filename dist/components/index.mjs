@@ -2890,12 +2890,39 @@ var DatePicker = function(param) {
         ]
     });
 };
+// src/components/MultipleSelect.tsx
+import { jsx as jsx16 } from "react/jsx-runtime";
+function MultipleSelect(param) {
+    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
+    return /* @__PURE__ */ jsx16("div", {
+        className: cn("", styles.containerClassName),
+        children: /* @__PURE__ */ jsx16(multiselect_default, {
+            commandProps: {
+                label: "Select frameworks"
+            },
+            value: selectedOptions,
+            onChange: onChange,
+            defaultOptions: options,
+            placeholder: "Select frameworks",
+            hideClearAllButton: true,
+            hidePlaceholderWhenSelected: true,
+            badgeClassName: styles.badgeClassName,
+            className: styles.className,
+            dropdownClassName: styles.dropdownClassName,
+            emptyIndicator: /* @__PURE__ */ jsx16("p", {
+                className: "text-center text-sm",
+                children: emptyOptionsLabel
+            }),
+            dropdownOptionClassName: styles.dropdownOptionClassName
+        })
+    });
+}
 // src/components/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
 import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState5 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
-import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs11 } from "react/jsx-runtime";
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
@@ -2922,7 +2949,7 @@ function InternationalPhonePicker(param) {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
         children: [
-            /* @__PURE__ */ jsx16(RPNInput.default, {
+            /* @__PURE__ */ jsx17(RPNInput.default, {
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -2952,7 +2979,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ jsx16("input", {
+            /* @__PURE__ */ jsx17("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -2973,7 +3000,7 @@ var PhoneInput = forwardRef8(function(_param, ref) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ jsx16(Input, _object_spread({
+    return /* @__PURE__ */ jsx17(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -3004,14 +3031,14 @@ var CountrySelect = function(param) {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ jsx16(FlagComponent, {
+                    /* @__PURE__ */ jsx17(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ jsx16("span", {
+                    /* @__PURE__ */ jsx17("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ jsx16(ChevronDown, {
+                        children: /* @__PURE__ */ jsx17(ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -3019,7 +3046,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx16("select", {
+            /* @__PURE__ */ jsx17("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -3046,11 +3073,11 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = flags[country];
-    return /* @__PURE__ */ jsx16("span", {
+    return /* @__PURE__ */ jsx17("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ jsx16(Flag, {
+        children: Flag ? /* @__PURE__ */ jsx17(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ jsx16(Phone, {
+        }) : /* @__PURE__ */ jsx17(Phone, {
             size: 16,
             "aria-hidden": "true"
         })
@@ -3059,7 +3086,7 @@ var FlagComponent = function(param) {
 // src/components/CodeInput.tsx
 import { OTPInput } from "input-otp";
 import { useEffect as useEffect5, useRef as useRef4 } from "react";
-import { jsx as jsx17 } from "react/jsx-runtime";
+import { jsx as jsx18 } from "react/jsx-runtime";
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
     var firstInputRef = useRef4(null);
@@ -3068,9 +3095,9 @@ function CodeInput(param) {
             firstInputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ jsx17("div", {
+    return /* @__PURE__ */ jsx18("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
-        children: /* @__PURE__ */ jsx17(OTPInput, {
+        children: /* @__PURE__ */ jsx18(OTPInput, {
             ref: firstInputRef,
             value: codeValue,
             onChange: function(newVal) {
@@ -3080,10 +3107,10 @@ function CodeInput(param) {
             maxLength: 6,
             render: function(param) {
                 var slots = param.slots;
-                return /* @__PURE__ */ jsx17("div", {
+                return /* @__PURE__ */ jsx18("div", {
                     className: cn("flex gap-5", slotContainerClassName),
                     children: slots.map(function(slot, idx) {
-                        return /* @__PURE__ */ jsx17(Slot2, _object_spread({}, slot), idx);
+                        return /* @__PURE__ */ jsx18(Slot2, _object_spread({}, slot), idx);
                     })
                 });
             }
@@ -3091,41 +3118,14 @@ function CodeInput(param) {
     });
 }
 function Slot2(props) {
-    return /* @__PURE__ */ jsx17("div", {
+    return /* @__PURE__ */ jsx18("div", {
         className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
             "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
         }),
-        children: props.char !== null && /* @__PURE__ */ jsx17("div", {
+        children: props.char !== null && /* @__PURE__ */ jsx18("div", {
             children: props.char
         })
     });
 }
-// src/components/TestMultipleSelector.tsx
-import { jsx as jsx18 } from "react/jsx-runtime";
-function MultipleSelect(param) {
-    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
-    return /* @__PURE__ */ jsx18("div", {
-        className: cn("", styles.containerClassName),
-        children: /* @__PURE__ */ jsx18(multiselect_default, {
-            commandProps: {
-                label: "Select frameworks"
-            },
-            value: selectedOptions,
-            onChange: onChange,
-            defaultOptions: options,
-            placeholder: "Select frameworks",
-            hideClearAllButton: true,
-            hidePlaceholderWhenSelected: true,
-            badgeClassName: styles.badgeClassName,
-            className: styles.className,
-            dropdownClassName: styles.dropdownClassName,
-            emptyIndicator: /* @__PURE__ */ jsx18("p", {
-                className: "text-center text-sm",
-                children: emptyOptionsLabel
-            }),
-            dropdownOptionClassName: styles.dropdownOptionClassName
-        })
-    });
-}
-export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, MultipleSelect as TeatMultipleSelector, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
 //# sourceMappingURL=index.mjs.map

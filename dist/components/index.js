@@ -449,6 +449,9 @@ __export(components_exports, {
     ModularForm: function() {
         return ModularForm;
     },
+    MultipleSelect: function() {
+        return MultipleSelect;
+    },
     ProgressComponent: function() {
         return ProgressComponent;
     },
@@ -484,9 +487,6 @@ __export(components_exports, {
     },
     TableRow: function() {
         return TableRow2;
-    },
-    TeatMultipleSelector: function() {
-        return MultipleSelect;
     },
     TimesUI: function() {
         return TimesUI;
@@ -3060,12 +3060,39 @@ var DatePicker = function(param) {
         ]
     });
 };
+// src/components/MultipleSelect.tsx
+var import_jsx_runtime17 = require("react/jsx-runtime");
+function MultipleSelect(param) {
+    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+        className: cn("", styles.containerClassName),
+        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(multiselect_default, {
+            commandProps: {
+                label: "Select frameworks"
+            },
+            value: selectedOptions,
+            onChange: onChange,
+            defaultOptions: options,
+            placeholder: "Select frameworks",
+            hideClearAllButton: true,
+            hidePlaceholderWhenSelected: true,
+            badgeClassName: styles.badgeClassName,
+            className: styles.className,
+            dropdownClassName: styles.dropdownClassName,
+            emptyIndicator: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", {
+                className: "text-center text-sm",
+                children: emptyOptionsLabel
+            }),
+            dropdownOptionClassName: styles.dropdownOptionClassName
+        })
+    });
+}
 // src/components/InternationalPhonePicker.tsx
 var import_lucide_react4 = require("lucide-react");
 var import_react7 = require("react");
 var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
-var import_jsx_runtime17 = require("react/jsx-runtime");
+var import_jsx_runtime18 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
@@ -3088,11 +3115,11 @@ function InternationalPhonePicker(param) {
         defaultValue,
         setPhoneValue
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(RPNInput.default, {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(RPNInput.default, {
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -3122,7 +3149,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("input", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -3143,7 +3170,7 @@ var PhoneInput = (0, import_react7.forwardRef)(function(_param, ref) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Input, _object_spread({
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -3167,21 +3194,21 @@ var CountrySelect = function(param) {
     var originalClassName = (0, import_react7.useMemo)(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
         className: cn(originalClassName, className),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(FlagComponent, {
+                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", {
+                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react4.ChevronDown, {
+                        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react4.ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -3189,7 +3216,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("select", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -3199,7 +3226,7 @@ var CountrySelect = function(param) {
                     return x.value;
                 }).map(function(option, i) {
                     var _option_value;
-                    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("option", {
+                    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("option", {
                         className: "text-black",
                         value: option.value,
                         children: [
@@ -3216,11 +3243,11 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = import_flags.default[country];
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", {
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Flag, {
+        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react4.Phone, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react4.Phone, {
             size: 16,
             "aria-hidden": "true"
         })
@@ -3229,7 +3256,7 @@ var FlagComponent = function(param) {
 // src/components/CodeInput.tsx
 var import_input_otp = require("input-otp");
 var import_react8 = require("react");
-var import_jsx_runtime18 = require("react/jsx-runtime");
+var import_jsx_runtime19 = require("react/jsx-runtime");
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
     var firstInputRef = (0, import_react8.useRef)(null);
@@ -3238,9 +3265,9 @@ function CodeInput(param) {
             firstInputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
-        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_input_otp.OTPInput, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_input_otp.OTPInput, {
             ref: firstInputRef,
             value: codeValue,
             onChange: function(newVal) {
@@ -3250,10 +3277,10 @@ function CodeInput(param) {
             maxLength: 6,
             render: function(param) {
                 var slots = param.slots;
-                return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", {
+                return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
                     className: cn("flex gap-5", slotContainerClassName),
                     children: slots.map(function(slot, idx) {
-                        return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Slot2, _object_spread({}, slot), idx);
+                        return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Slot2, _object_spread({}, slot), idx);
                     })
                 });
             }
@@ -3261,39 +3288,12 @@ function CodeInput(param) {
     });
 }
 function Slot2(props) {
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
         className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
             "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
         }),
-        children: props.char !== null && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", {
+        children: props.char !== null && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
             children: props.char
-        })
-    });
-}
-// src/components/TestMultipleSelector.tsx
-var import_jsx_runtime19 = require("react/jsx-runtime");
-function MultipleSelect(param) {
-    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
-        className: cn("", styles.containerClassName),
-        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(multiselect_default, {
-            commandProps: {
-                label: "Select frameworks"
-            },
-            value: selectedOptions,
-            onChange: onChange,
-            defaultOptions: options,
-            placeholder: "Select frameworks",
-            hideClearAllButton: true,
-            hidePlaceholderWhenSelected: true,
-            badgeClassName: styles.badgeClassName,
-            className: styles.className,
-            dropdownClassName: styles.dropdownClassName,
-            emptyIndicator: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("p", {
-                className: "text-center text-sm",
-                children: emptyOptionsLabel
-            }),
-            dropdownOptionClassName: styles.dropdownOptionClassName
         })
     });
 }
@@ -3315,6 +3315,7 @@ function MultipleSelect(param) {
     Loader: Loader,
     MaxRowsLabel: MaxRowsLabel,
     ModularForm: ModularForm,
+    MultipleSelect: MultipleSelect,
     ProgressComponent: ProgressComponent,
     Search: Search,
     SelectContainer: SelectContainer,
@@ -3327,7 +3328,6 @@ function MultipleSelect(param) {
     TableHead: TableHead,
     TableProvider: TableProvider,
     TableRow: TableRow,
-    TeatMultipleSelector: TeatMultipleSelector,
     TimesUI: TimesUI,
     Version: Version,
     badgeVariants: badgeVariants,

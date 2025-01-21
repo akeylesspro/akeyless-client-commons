@@ -292,6 +292,21 @@ interface MultipleSelectorRef {
 }
 declare function useDebounce<T>(value: T, delay?: number): T;
 
+interface MultipleSelectProps {
+    emptyOptionsLabel?: string;
+    options: MultipleSelectorOption[];
+    onChange: (value: MultipleSelectorOption[]) => void;
+    selectedOptions: MultipleSelectorOption[];
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+    };
+}
+declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+
 interface InputProps {
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
@@ -316,19 +331,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-interface MultipleSelectProps {
-    emptyOptionsLabel?: string;
-    options: MultipleSelectorOption[];
-    onChange: (value: MultipleSelectorOption[]) => void;
-    selectedOptions: MultipleSelectorOption[];
-    styles?: {
-        containerClassName?: string;
-        badgeClassName?: string;
-        className?: string;
-        dropdownClassName?: string;
-        dropdownOptionClassName?: string;
-    };
-}
-declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
-
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, MultipleSelect as TeatMultipleSelector, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, type MultipleSelectProps, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

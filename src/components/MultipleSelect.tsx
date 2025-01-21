@@ -1,7 +1,7 @@
 import MultipleSelector, { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { cn } from "src/helpers";
 
-interface MultipleSelectProps {
+export interface MultipleSelectProps {
     emptyOptionsLabel?: string;
     options: MultipleSelectorOption[];
     onChange: (value: MultipleSelectorOption[]) => void;
@@ -14,7 +14,7 @@ interface MultipleSelectProps {
         dropdownOptionClassName?: string;
     };
 }
-export default function MultipleSelect({
+export function MultipleSelect({
     options,
     onChange,
     selectedOptions,
