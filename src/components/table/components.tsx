@@ -310,8 +310,9 @@ interface DurationUIProps {
     minutesLabel?: string;
     hoursLabel?: string;
     secondsLabel?: string;
+    className?: string;
 }
-export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s" }: DurationUIProps) => {
+export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s", className = "" }: DurationUIProps) => {
     const durationTime = duration.split(":");
     const hours = parseInt(durationTime[0], 10);
     const minutes = parseInt(durationTime[1], 10);
@@ -319,11 +320,7 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
     const seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
 
     return (
-        <div
-            title={`${hours > 0 ? `${hours} ${hoursLabel} ` : ""}${minutes > 0 ? `${minutes} ${minutesLabel} ` : ""}${
-                seconds > 0 ? `${seconds} ${secondsLabel}` : ""
-            }`}
-        >
+        <div title={duration} className={className}>
             {hours > 0 && (
                 <div>
                     <span>
@@ -332,7 +329,7 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
                     {minutes === 0 && (
                         <span>
                             {" "}
-                            {"00"} {minutesLabel}
+                            {"0"} {minutesLabel}
                         </span>
                     )}
                 </div>
