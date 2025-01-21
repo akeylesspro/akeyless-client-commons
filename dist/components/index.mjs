@@ -100,6 +100,13 @@ function _inherits(subClass, superClass) {
     });
     if (superClass) _set_prototype_of(subClass, superClass);
 }
+function _instanceof(left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+        return !!right[Symbol.hasInstance](left);
+    } else {
+        return left instanceof right;
+    }
+}
 function _iterable_to_array(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
@@ -846,12 +853,8 @@ var TableBase = function(props) {
                 },
                 className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
                 children: [
-                    includeSearch && /* @__PURE__ */ jsx6(Search, {
-                        render: false
-                    }),
-                    exportToExcelKeys && /* @__PURE__ */ jsx6(ExportToExcel, {
-                        render: false
-                    }),
+                    includeSearch && /* @__PURE__ */ jsx6(Search, {}),
+                    exportToExcelKeys && /* @__PURE__ */ jsx6(ExportToExcel, {}),
                     maxRowsLabel1 && maxRowsLabel2 && /* @__PURE__ */ jsx6(MaxRowsLabel, {}),
                     optionalElement && optionalElement
                 ]
@@ -866,15 +869,11 @@ var TableBase = function(props) {
                     className: "min-w-full text-sm font-light relative",
                     children: [
                         /* @__PURE__ */ jsx6(TableHead, {}),
-                        /* @__PURE__ */ jsx6(TableBody, {
-                            render: false
-                        })
+                        /* @__PURE__ */ jsx6(TableBody, {})
                     ]
                 })
             }),
-            sumColumns && /* @__PURE__ */ jsx6(Summary, {
-                render: false
-            })
+            sumColumns && /* @__PURE__ */ jsx6(Summary, {})
         ]
     }));
 };
@@ -993,326 +992,6 @@ var useSearch = function() {
         deferredSearchQuery: deferredSearchQuery
     };
 };
-// src/components/table/components.tsx
-import { Fragment as Fragment2, jsx as jsx7, jsxs as jsxs6 } from "react/jsx-runtime";
-var getFixedNumber = function() {
-    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
-    var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
-    return String(sum_value);
-};
-var TableRow2 = function(param) {
-    var item = param.item;
-    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
-    return /* @__PURE__ */ jsx7("tr", {
-        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
-        onClick: function() {
-            return onRowClick && onRowClick(item);
-        },
-        style: rowStyles,
-        children: keysToRender.map(function(key, index) {
-            return /* @__PURE__ */ jsx7(TableCell, {
-                value: item[key]
-            }, index);
-        })
-    });
-};
-var TableCell = function(param) {
-    var value = param.value;
-    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
-    return /* @__PURE__ */ jsx7("td", {
-        title: [
-            "string",
-            "number",
-            "boolean"
-        ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
-        style: cellStyle,
-        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
-        children: value
-    });
-};
-var TableHead = memo(function(props) {
-    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
-    var sortDisplay = useMemo3(function() {
-        return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
-    }, [
-        sortKeys
-    ]);
-    return /* @__PURE__ */ jsx7("thead", {
-        className: "bg-[#282828] text-white sticky top-0",
-        children: /* @__PURE__ */ jsx7("tr", {
-            style: headerStyle,
-            children: headers.map(function(header, index) {
-                var filterableColumn = filterableColumns.find(function(col) {
-                    return col.header === header;
-                });
-                return /* @__PURE__ */ jsxs6("th", {
-                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
-                    style: headerCellStyle,
-                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
-                    children: [
-                        /* @__PURE__ */ jsx7("div", {
-                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
-                            onClick: function() {
-                                return sortDisplay && handleSort(index);
-                            },
-                            children: header
-                        }),
-                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx7(Fragment2, {
-                            children: sortSvg()
-                        }) : /* @__PURE__ */ jsx7(Fragment2, {
-                            children: sortSvg(true)
-                        })),
-                        filterableColumn && /* @__PURE__ */ jsx7(Filter, {
-                            filterableColumn: filterableColumn,
-                            index: index
-                        })
-                    ]
-                }, index);
-            })
-        })
-    });
-});
-var TableBody = memo(function(props) {
-    var dataToRender = useTableContext().dataToRender;
-    return /* @__PURE__ */ jsx7("tbody", {
-        children: dataToRender.renderedData.map(function(item, index) {
-            return /* @__PURE__ */ jsx7(TableRow2, {
-                item: item
-            }, index);
-        })
-    });
-});
-var Filter = memo(function(param) {
-    var filterableColumn = param.filterableColumn, index = param.index;
-    var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
-    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
-    var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ jsxs6("div", {
-        className: "absolute top-1 right-1 ",
-        children: [
-            /* @__PURE__ */ jsx7("button", {
-                title: filterLabel + " " + filterableColumn.header,
-                className: "text-[12px]",
-                onClick: function() {
-                    return handleFilterClick(filterableColumn.dataKey);
-                },
-                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ jsx7(Fragment2, {
-                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ jsx7(Fragment2, {
-                        children: slashFilterSvg(true)
-                    }) : /* @__PURE__ */ jsx7(Fragment2, {
-                        children: emptyFilterSvg(true)
-                    })
-                }) : /* @__PURE__ */ jsx7(Fragment2, {
-                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ jsx7(Fragment2, {
-                        children: slashFilterSvg()
-                    }) : /* @__PURE__ */ jsx7(Fragment2, {
-                        children: emptyFilterSvg()
-                    })
-                })
-            }),
-            /* @__PURE__ */ jsx7("div", {
-                className: "relative",
-                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs6("div", {
-                    className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
-                    children: [
-                        /* @__PURE__ */ jsxs6("div", {
-                            className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
-                            children: [
-                                /* @__PURE__ */ jsx7("div", {
-                                    className: "text-start",
-                                    children: filterLabel + " " + filterableColumn.header
-                                }),
-                                /* @__PURE__ */ jsx7("button", {
-                                    onClick: closeFilterWindow,
-                                    children: /* @__PURE__ */ jsx7(RedXSvg2, {})
-                                })
-                            ]
-                        }),
-                        /* @__PURE__ */ jsx7("div", {
-                            className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
-                            children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
-                                var _filters_filterableColumn_dataKey;
-                                return /* @__PURE__ */ jsxs6("div", {
-                                    className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
-                                    children: [
-                                        /* @__PURE__ */ jsx7("input", {
-                                            type: "checkbox",
-                                            className: "cursor-pointer",
-                                            checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
-                                            onChange: function() {
-                                                return handleFilterChange(filterableColumn.dataKey, option);
-                                            }
-                                        }),
-                                        /* @__PURE__ */ jsx7("button", {
-                                            className: "flex-1 text-start px-2",
-                                            onClick: function() {
-                                                return handleFilterChange(filterableColumn.dataKey, option);
-                                            },
-                                            children: filterableColumn.ui ? filterableColumn.ui(option) : option
-                                        })
-                                    ]
-                                }, i);
-                            })
-                        })
-                    ]
-                })
-            })
-        ]
-    });
-});
-var MaxRowsLabel = memo(function(props) {
-    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
-    return /* @__PURE__ */ jsxs6("div", {
-        className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
-        children: [
-            /* @__PURE__ */ jsx7("div", {
-                children: maxRowsLabel1
-            }),
-            /* @__PURE__ */ jsx7("div", {
-                children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
-            }),
-            /* @__PURE__ */ jsx7("div", {
-                children: maxRowsLabel2
-            }),
-            /* @__PURE__ */ jsx7("div", {
-                children: dataToRender.filtered.length
-            })
-        ]
-    });
-});
-var ExportToExcel = memo(function(props) {
-    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
-    var addPropertiesToExcel = function(properties) {
-        var newData = _to_consumable_array(dataToRender.renderedData);
-        var newHeaders = _to_consumable_array(headers);
-        properties.forEach(function(val) {
-            newHeaders.unshift(val.header);
-            newData = newData.map(function(v) {
-                return _object_spread_props(_object_spread({}, v), _define_property({}, val.key, val.value));
-            });
-        });
-        return {
-            data: newData,
-            headers: newHeaders
-        };
-    };
-    var onExportExcelClick = /*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function() {
-            var workbook, worksheet, dataToExport, buffer, blob;
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        if (!exportToExcelKeys) return [
-                            3,
-                            2
-                        ];
-                        workbook = new ExcelJS.Workbook();
-                        worksheet = workbook.addWorksheet("Sheet1");
-                        dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
-                            data: dataToRender.renderedData,
-                            headers: headers
-                        };
-                        worksheet.addRow(dataToExport.headers);
-                        dataToExport.data.forEach(function(item) {
-                            var row = exportToExcelKeys.map(function(key) {
-                                return item[key];
-                            });
-                            worksheet.addRow(row);
-                        });
-                        if (sumColumns) {
-                            sumColumns.forEach(function(val) {
-                                var sumRow = worksheet.addRow([]);
-                                sumRow.getCell(1).value = val.label;
-                                var value = dataToRender.renderedData.reduce(function(acc, v) {
-                                    return acc + Number(v[val.dataKey]) || 0;
-                                }, 0).toFixed(2);
-                                sumRow.getCell(2).value = value;
-                            });
-                        }
-                        return [
-                            4,
-                            workbook.xlsx.writeBuffer()
-                        ];
-                    case 1:
-                        buffer = _state.sent();
-                        blob = new Blob([
-                            buffer
-                        ], {
-                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                        });
-                        saveAs(blob, "".concat(excelFileName || "table_data", ".xlsx"));
-                        _state.label = 2;
-                    case 2:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return function onExportExcelClick() {
-            return _ref.apply(this, arguments);
-        };
-    }();
-    return /* @__PURE__ */ jsx7("button", {
-        onClick: onExportExcelClick,
-        title: exportExcelLabel,
-        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
-        children: exportToExcelSvg()
-    });
-});
-var Search = memo(function(props) {
-    var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
-    return /* @__PURE__ */ jsx7("input", {
-        className: cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName),
-        type: "text",
-        placeholder: searchPlaceHolder,
-        value: searchQuery,
-        onChange: handleSearch,
-        style: searchInputStyle
-    });
-});
-var Summary = memo(function(props) {
-    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
-    return /* @__PURE__ */ jsxs6("div", {
-        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
-            direction: direction
-        }),
-        className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
-        children: [
-            /* @__PURE__ */ jsx7("div", {
-                style: summaryLabelStyle,
-                children: summaryLabel
-            }),
-            /* @__PURE__ */ jsx7("div", {
-                style: summaryRowStyle,
-                className: "flex gap-3",
-                children: sumColumns.map(function(val) {
-                    var sum_res = dataToRender.renderedData.reduce(function(acc, v) {
-                        return acc + Number(v[val.dataKey]) || 0;
-                    }, 0);
-                    var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ jsxs6("div", {
-                        className: "flex gap-1 justify-start",
-                        children: [
-                            /* @__PURE__ */ jsx7("div", {
-                                children: val.label
-                            }),
-                            /* @__PURE__ */ jsx7("span", {
-                                children: ":"
-                            }),
-                            /* @__PURE__ */ jsx7("div", {
-                                children: val.ui ? val.ui(sum_value) : sum_value
-                            })
-                        ]
-                    }, val.dataKey + val.label);
-                })
-            })
-        ]
-    });
-});
-// src/components/forms/index.tsx
-import { useState as useState3 } from "react";
-import moment2 from "moment";
 // src/helpers/firebase.ts
 import moment from "moment";
 import { initializeApp } from "firebase/app";
@@ -1381,6 +1060,10 @@ import { CountryOptions } from "akeyless-types-commons";
 import axios from "axios";
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
+// src/helpers/global.ts
+var renderOnce = function() {
+    return true;
+};
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
@@ -1458,8 +1141,578 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
+// src/helpers/time_helpers.ts
+import { Timestamp as Timestamp2 } from "firebase/firestore";
+import moment2 from "moment-timezone";
+function timestamp_to_string(firebaseTimestamp, options) {
+    var date;
+    if (_instanceof(firebaseTimestamp, Timestamp2)) {
+        date = firebaseTimestamp.toDate();
+    } else if (_instanceof(firebaseTimestamp, Date)) {
+        date = firebaseTimestamp;
+    } else if (typeof firebaseTimestamp === "string") {
+        date = moment2.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string format");
+        }
+    } else {
+        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
+    }
+    if (options === null || options === void 0 ? void 0 : options.tz) {
+        var result = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        return result;
+    }
+    return moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+}
+// src/components/ui/badge.tsx
+import { cva } from "class-variance-authority";
+import { jsx as jsx7 } from "react/jsx-runtime";
+var badgeVariants = cva("inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", {
+    variants: {
+        variant: {
+            default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+            secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+            destructive: "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+            outline: "text-foreground"
+        }
+    },
+    defaultVariants: {
+        variant: "default"
+    }
+});
+function Badge(_param) {
+    var className = _param.className, variant = _param.variant, props = _object_without_properties(_param, [
+        "className",
+        "variant"
+    ]);
+    return /* @__PURE__ */ jsx7("div", _object_spread({
+        className: cn(badgeVariants({
+            variant: variant
+        }), className)
+    }, props));
+}
+// src/components/ui/button.tsx
+import * as React3 from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva as cva2 } from "class-variance-authority";
+import { jsx as jsx8 } from "react/jsx-runtime";
+var buttonVariants = cva2("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
+    variants: {
+        variant: {
+            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+            ghost: "hover:bg-accent hover:text-accent-foreground",
+            link: "text-primary underline-offset-4 hover:underline"
+        },
+        size: {
+            default: "h-9 px-4 py-2",
+            sm: "h-8 rounded-md px-3 text-xs",
+            lg: "h-10 rounded-md px-8",
+            icon: "h-9 w-9"
+        }
+    },
+    defaultVariants: {
+        variant: "default",
+        size: "default"
+    }
+});
+var Button = React3.forwardRef(function(_param, ref) {
+    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
+        "className",
+        "variant",
+        "size",
+        "asChild"
+    ]);
+    var Comp = asChild ? Slot : "button";
+    return /* @__PURE__ */ jsx8(Comp, _object_spread({
+        className: cn(buttonVariants({
+            variant: variant,
+            size: size,
+            className: className
+        })),
+        ref: ref
+    }, props));
+});
+Button.displayName = "Button";
+// src/components/ui/input.tsx
+import * as React4 from "react";
+import { jsx as jsx9 } from "react/jsx-runtime";
+var Input = React4.forwardRef(function(_param, ref) {
+    var className = _param.className, type = _param.type, props = _object_without_properties(_param, [
+        "className",
+        "type"
+    ]);
+    return /* @__PURE__ */ jsx9("input", _object_spread({
+        type: type,
+        className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
+        ref: ref
+    }, props));
+});
+Input.displayName = "Input";
+// src/components/ui/progress.tsx
+import * as React5 from "react";
+import * as ProgressPrimitive from "@radix-ui/react-progress";
+import { jsx as jsx10 } from "react/jsx-runtime";
+var ProgressComponent = React5.forwardRef(function(_param, ref) {
+    var className = _param.className, value = _param.value, containerClassName = _param.containerClassName, indicatorClassName = _param.indicatorClassName, showValueClassName = _param.showValueClassName, _param_showValue = _param.showValue, showValue = _param_showValue === void 0 ? false : _param_showValue, props = _object_without_properties(_param, [
+        "className",
+        "value",
+        "containerClassName",
+        "indicatorClassName",
+        "showValueClassName",
+        "showValue"
+    ]);
+    return /* @__PURE__ */ jsx10("div", {
+        className: cn("relative w-full", containerClassName),
+        children: /* @__PURE__ */ jsx10(ProgressPrimitive.Root, _object_spread_props(_object_spread({
+            ref: ref,
+            className: cn("w-full h-5 bg-[#e5e7eb] relative overflow-hidden rounded-full", className)
+        }, props), {
+            children: /* @__PURE__ */ jsx10(ProgressPrimitive.Indicator, {
+                className: cn("h-full w-full flex-1 bg-[green] transition-all rounded-full", indicatorClassName),
+                style: {
+                    transform: "translateX(-".concat(100 - (value || 0), "%)")
+                },
+                children: showValue && /* @__PURE__ */ jsx10("div", {
+                    className: cn("absolute right-1 top-[-2px] font-medium text-white", showValueClassName),
+                    children: "".concat(value || 0, "%")
+                })
+            })
+        }))
+    });
+});
+ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
+// src/components/table/components.tsx
+import { Fragment as Fragment2, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+var getFixedNumber = function() {
+    var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
+    var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
+    return String(sum_value);
+};
+var TableRow2 = function(param) {
+    var item = param.item;
+    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
+    return /* @__PURE__ */ jsx11("tr", {
+        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
+        onClick: function() {
+            return onRowClick && onRowClick(item);
+        },
+        style: rowStyles,
+        children: keysToRender.map(function(key, index) {
+            return /* @__PURE__ */ jsx11(TableCell, {
+                value: item[key]
+            }, index);
+        })
+    });
+};
+var TableCell = function(param) {
+    var value = param.value;
+    var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
+    return /* @__PURE__ */ jsx11("td", {
+        title: [
+            "string",
+            "number",
+            "boolean"
+        ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
+        style: cellStyle,
+        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
+        children: value
+    });
+};
+var Filter = memo(function(param) {
+    var filterableColumn = param.filterableColumn, index = param.index;
+    var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
+    var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
+    var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
+    return /* @__PURE__ */ jsxs6("div", {
+        className: "absolute top-1 right-1 ",
+        children: [
+            /* @__PURE__ */ jsx11("button", {
+                title: filterLabel + " " + filterableColumn.header,
+                className: "text-[12px]",
+                onClick: function() {
+                    return handleFilterClick(filterableColumn.dataKey);
+                },
+                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ jsx11(Fragment2, {
+                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ jsx11(Fragment2, {
+                        children: slashFilterSvg(true)
+                    }) : /* @__PURE__ */ jsx11(Fragment2, {
+                        children: emptyFilterSvg(true)
+                    })
+                }) : /* @__PURE__ */ jsx11(Fragment2, {
+                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ jsx11(Fragment2, {
+                        children: slashFilterSvg()
+                    }) : /* @__PURE__ */ jsx11(Fragment2, {
+                        children: emptyFilterSvg()
+                    })
+                })
+            }),
+            /* @__PURE__ */ jsx11("div", {
+                className: "relative",
+                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs6("div", {
+                    className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
+                    children: [
+                        /* @__PURE__ */ jsxs6("div", {
+                            className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
+                            children: [
+                                /* @__PURE__ */ jsx11("div", {
+                                    className: "text-start",
+                                    children: filterLabel + " " + filterableColumn.header
+                                }),
+                                /* @__PURE__ */ jsx11("button", {
+                                    onClick: closeFilterWindow,
+                                    children: /* @__PURE__ */ jsx11(RedXSvg2, {})
+                                })
+                            ]
+                        }),
+                        /* @__PURE__ */ jsx11("div", {
+                            className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
+                            children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
+                                var _filters_filterableColumn_dataKey;
+                                return /* @__PURE__ */ jsxs6("div", {
+                                    className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
+                                    children: [
+                                        /* @__PURE__ */ jsx11("input", {
+                                            type: "checkbox",
+                                            className: "cursor-pointer",
+                                            checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
+                                            onChange: function() {
+                                                return handleFilterChange(filterableColumn.dataKey, option);
+                                            }
+                                        }),
+                                        /* @__PURE__ */ jsx11("button", {
+                                            className: "flex-1 text-start px-2",
+                                            onClick: function() {
+                                                return handleFilterChange(filterableColumn.dataKey, option);
+                                            },
+                                            children: filterableColumn.ui ? filterableColumn.ui(option) : option
+                                        })
+                                    ]
+                                }, i);
+                            })
+                        })
+                    ]
+                })
+            })
+        ]
+    });
+});
+var TableHead = memo(function() {
+    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
+    var sortDisplay = useMemo3(function() {
+        return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
+    }, [
+        sortKeys
+    ]);
+    return /* @__PURE__ */ jsx11("thead", {
+        className: "bg-[#282828] text-white sticky top-0",
+        children: /* @__PURE__ */ jsx11("tr", {
+            style: headerStyle,
+            children: headers.map(function(header, index) {
+                var filterableColumn = filterableColumns.find(function(col) {
+                    return col.header === header;
+                });
+                return /* @__PURE__ */ jsxs6("th", {
+                    title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
+                    style: headerCellStyle,
+                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
+                    children: [
+                        /* @__PURE__ */ jsx11("div", {
+                            className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
+                            onClick: function() {
+                                return sortDisplay && handleSort(index);
+                            },
+                            children: header
+                        }),
+                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx11(Fragment2, {
+                            children: sortSvg()
+                        }) : /* @__PURE__ */ jsx11(Fragment2, {
+                            children: sortSvg(true)
+                        })),
+                        filterableColumn && /* @__PURE__ */ jsx11(Filter, {
+                            filterableColumn: filterableColumn,
+                            index: index
+                        })
+                    ]
+                }, index);
+            })
+        })
+    });
+}, renderOnce);
+var TableBody = memo(function() {
+    var dataToRender = useTableContext().dataToRender;
+    return /* @__PURE__ */ jsx11("tbody", {
+        children: dataToRender.renderedData.map(function(item, index) {
+            return /* @__PURE__ */ jsx11(TableRow2, {
+                item: item
+            }, index);
+        })
+    });
+}, renderOnce);
+var MaxRowsLabel = memo(function() {
+    var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
+    return /* @__PURE__ */ jsxs6("div", {
+        className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
+        children: [
+            /* @__PURE__ */ jsx11("div", {
+                children: maxRowsLabel1
+            }),
+            /* @__PURE__ */ jsx11("div", {
+                children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
+            }),
+            /* @__PURE__ */ jsx11("div", {
+                children: maxRowsLabel2
+            }),
+            /* @__PURE__ */ jsx11("div", {
+                children: dataToRender.filtered.length
+            })
+        ]
+    });
+}, renderOnce);
+var ExportToExcel = memo(function() {
+    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
+    var addPropertiesToExcel = function(properties) {
+        var newData = _to_consumable_array(dataToRender.renderedData);
+        var newHeaders = _to_consumable_array(headers);
+        properties.forEach(function(val) {
+            newHeaders.unshift(val.header);
+            newData = newData.map(function(v) {
+                return _object_spread_props(_object_spread({}, v), _define_property({}, val.key, val.value));
+            });
+        });
+        return {
+            data: newData,
+            headers: newHeaders
+        };
+    };
+    var onExportExcelClick = /*#__PURE__*/ function() {
+        var _ref = _async_to_generator(function() {
+            var workbook, worksheet, dataToExport, buffer, blob;
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        if (!exportToExcelKeys) return [
+                            3,
+                            2
+                        ];
+                        workbook = new ExcelJS.Workbook();
+                        worksheet = workbook.addWorksheet("Sheet1");
+                        dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : {
+                            data: dataToRender.renderedData,
+                            headers: headers
+                        };
+                        worksheet.addRow(dataToExport.headers);
+                        dataToExport.data.forEach(function(item) {
+                            var row = exportToExcelKeys.map(function(key) {
+                                return item[key];
+                            });
+                            worksheet.addRow(row);
+                        });
+                        if (sumColumns) {
+                            sumColumns.forEach(function(val) {
+                                var sumRow = worksheet.addRow([]);
+                                sumRow.getCell(1).value = val.label;
+                                var value = dataToRender.renderedData.reduce(function(acc, v) {
+                                    return acc + Number(v[val.dataKey]) || 0;
+                                }, 0).toFixed(2);
+                                sumRow.getCell(2).value = value;
+                            });
+                        }
+                        return [
+                            4,
+                            workbook.xlsx.writeBuffer()
+                        ];
+                    case 1:
+                        buffer = _state.sent();
+                        blob = new Blob([
+                            buffer
+                        ], {
+                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        });
+                        saveAs(blob, "".concat(excelFileName || "table_data", ".xlsx"));
+                        _state.label = 2;
+                    case 2:
+                        return [
+                            2
+                        ];
+                }
+            });
+        });
+        return function onExportExcelClick() {
+            return _ref.apply(this, arguments);
+        };
+    }();
+    return /* @__PURE__ */ jsx11("button", {
+        onClick: onExportExcelClick,
+        title: exportExcelLabel,
+        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
+        children: exportToExcelSvg()
+    });
+}, renderOnce);
+var Search = memo(function() {
+    var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
+    return /* @__PURE__ */ jsx11("input", {
+        className: cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName),
+        type: "text",
+        placeholder: searchPlaceHolder,
+        value: searchQuery,
+        onChange: handleSearch,
+        style: searchInputStyle
+    });
+}, renderOnce);
+var Summary = memo(function() {
+    var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
+    return /* @__PURE__ */ jsxs6("div", {
+        style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
+            direction: direction
+        }),
+        className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
+        children: [
+            /* @__PURE__ */ jsx11("div", {
+                style: summaryLabelStyle,
+                children: summaryLabel
+            }),
+            /* @__PURE__ */ jsx11("div", {
+                style: summaryRowStyle,
+                className: "flex gap-3",
+                children: sumColumns.map(function(val) {
+                    var sum_res = dataToRender.renderedData.reduce(function(acc, v) {
+                        return acc + Number(v[val.dataKey]) || 0;
+                    }, 0);
+                    var sum_value = getFixedNumber(sum_res);
+                    return /* @__PURE__ */ jsxs6("div", {
+                        className: "flex gap-1 justify-start",
+                        children: [
+                            /* @__PURE__ */ jsx11("div", {
+                                children: val.label
+                            }),
+                            /* @__PURE__ */ jsx11("span", {
+                                children: ":"
+                            }),
+                            /* @__PURE__ */ jsx11("div", {
+                                children: val.ui ? val.ui(sum_value) : sum_value
+                            })
+                        ]
+                    }, val.dataKey + val.label);
+                })
+            })
+        ]
+    });
+}, renderOnce);
+var TimesUI = function(param) {
+    var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction, fromFormat = param.fromFormat;
+    var time = timestamp_to_string(timestamp, {
+        format: format,
+        fromFormat: fromFormat,
+        tz: tz
+    });
+    return /* @__PURE__ */ jsx11("div", {
+        style: {
+            direction: "ltr"
+        },
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        title: time,
+        children: time
+    });
+};
+var TableButton = function(param) {
+    var onClick = param.onClick, title = param.title, className = param.className, type = param.type, children = param.children;
+    var icon = {
+        add: "fa-regular fa-plus text-2xl",
+        edit: "fa-light fa-pen-to-square text-xl",
+        delete: "fa-light fa-trash text-xl"
+    };
+    return /* @__PURE__ */ jsx11(Fragment2, {
+        children: type === "custom" ? /* @__PURE__ */ jsx11("button", {
+            className: className,
+            title: title,
+            onClick: onClick,
+            children: children
+        }) : type === "add" ? /* @__PURE__ */ jsx11(Button, {
+            title: title,
+            onClick: onClick,
+            children: /* @__PURE__ */ jsx11("i", {
+                className: cn("fa-regular fa-plus text-2xl", className)
+            })
+        }) : /* @__PURE__ */ jsx11("button", {
+            title: title,
+            onClick: onClick,
+            children: /* @__PURE__ */ jsx11("i", {
+                className: cn(icon[type], className)
+            })
+        })
+    });
+};
+var DurationUI = function(param) {
+    var duration = param.duration, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
+    var durationTime = duration.split(":");
+    var hours = parseInt(durationTime[0], 10);
+    var minutes = parseInt(durationTime[1], 10);
+    var isWithSeconds = durationTime.length === 3;
+    var seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
+    return /* @__PURE__ */ jsxs6("div", {
+        title: duration,
+        style: {
+            direction: "ltr"
+        },
+        className: cn("flex gap-1 ".concat(direction === "rtl" ? "justify-end" : "justify-start"), className),
+        children: [
+            hours > 0 && /* @__PURE__ */ jsxs6(Fragment2, {
+                children: [
+                    /* @__PURE__ */ jsxs6("span", {
+                        style: {
+                            display: "inline-block"
+                        },
+                        children: [
+                            hours,
+                            " ",
+                            hoursLabel
+                        ]
+                    }),
+                    minutes === 0 && /* @__PURE__ */ jsxs6("span", {
+                        style: {
+                            display: "inline-block"
+                        },
+                        children: [
+                            " ",
+                            "0",
+                            " ",
+                            minutesLabel
+                        ]
+                    })
+                ]
+            }),
+            minutes > 0 && /* @__PURE__ */ jsxs6("span", {
+                style: {
+                    display: "inline-block"
+                },
+                children: [
+                    " ",
+                    minutes,
+                    " ",
+                    minutesLabel
+                ]
+            }),
+            seconds > 0 && /* @__PURE__ */ jsxs6("span", {
+                style: {
+                    display: "inline-block"
+                },
+                children: [
+                    " ",
+                    seconds,
+                    " ",
+                    secondsLabel
+                ]
+            })
+        ]
+    });
+};
 // src/components/forms/index.tsx
-import { jsx as jsx8, jsxs as jsxs7 } from "react/jsx-runtime";
+import { useState as useState3 } from "react";
+import moment3 from "moment";
+import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
     return /* @__PURE__ */ jsxs7("div", {
@@ -1469,19 +1722,19 @@ var InputContainer = function(param) {
                 className: "text-start w-[30%] flex gap-0.5  ".concat(labelClassName),
                 htmlFor: name,
                 children: [
-                    /* @__PURE__ */ jsx8("div", {
+                    /* @__PURE__ */ jsx12("div", {
                         children: labelContent
                     }),
-                    required && /* @__PURE__ */ jsx8("div", {
+                    required && /* @__PURE__ */ jsx12("div", {
                         className: "text-red-500",
                         children: "*"
                     }),
-                    /* @__PURE__ */ jsx8("div", {
+                    /* @__PURE__ */ jsx12("div", {
                         children: ":"
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx8("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
+            /* @__PURE__ */ jsx12("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
                 placeholder: placeholder,
                 className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
                 defaultValue: defaultValue
@@ -1510,14 +1763,14 @@ var SelectContainer = function(param) {
                 className: "text-start w-[30%] flex gap-0.5 ".concat(labelClassName),
                 htmlFor: name,
                 children: [
-                    /* @__PURE__ */ jsx8("div", {
+                    /* @__PURE__ */ jsx12("div", {
                         children: labelContent
                     }),
-                    required && /* @__PURE__ */ jsx8("div", {
+                    required && /* @__PURE__ */ jsx12("div", {
                         className: "text-red-500",
                         children: "*"
                     }),
-                    /* @__PURE__ */ jsx8("div", {
+                    /* @__PURE__ */ jsx12("div", {
                         children: ":"
                     })
                 ]
@@ -1528,21 +1781,21 @@ var SelectContainer = function(param) {
                     return setIsOpen(!isOpen);
                 },
                 children: [
-                    /* @__PURE__ */ jsx8("div", {
+                    /* @__PURE__ */ jsx12("div", {
                         className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
                         children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
                             return opt.value === selectedValue;
                         })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
                     }),
-                    isOpen ? /* @__PURE__ */ jsx8("i", {
+                    isOpen ? /* @__PURE__ */ jsx12("i", {
                         className: "fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"
-                    }) : /* @__PURE__ */ jsx8("i", {
+                    }) : /* @__PURE__ */ jsx12("i", {
                         className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
                     }),
-                    isOpen && /* @__PURE__ */ jsx8("div", {
+                    isOpen && /* @__PURE__ */ jsx12("div", {
                         className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
                         children: options.map(function(option) {
-                            return /* @__PURE__ */ jsx8("div", {
+                            return /* @__PURE__ */ jsx12("div", {
                                 className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
                                 onClick: function() {
                                     return handleOptionClick(option.value);
@@ -1551,7 +1804,7 @@ var SelectContainer = function(param) {
                             }, option.value);
                         })
                     }),
-                    /* @__PURE__ */ jsx8("input", {
+                    /* @__PURE__ */ jsx12("input", {
                         value: selectedValue,
                         type: "hidden",
                         name: name,
@@ -1645,16 +1898,16 @@ var ModularForm = function(param) {
         },
         className: cn("w-[350px] px-5 py-5 flex flex-col gap-5", formClassName),
         children: [
-            headerContent && /* @__PURE__ */ jsx8("div", {
+            headerContent && /* @__PURE__ */ jsx12("div", {
                 className: cn("border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]", headerClassName),
                 children: headerContent
             }),
             elements.map(function(element, index) {
                 switch(element.type){
                     case "input":
-                        return /* @__PURE__ */ jsx8(InputContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx12(InputContainer, _object_spread({}, element), index);
                     case "select":
-                        return /* @__PURE__ */ jsx8(SelectContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx12(SelectContainer, _object_spread({}, element), index);
                     default:
                         return null;
                 }
@@ -1662,17 +1915,17 @@ var ModularForm = function(param) {
             /* @__PURE__ */ jsxs7("div", {
                 className: "flex justify-between w-full",
                 children: [
-                    /* @__PURE__ */ jsx8("div", {
+                    /* @__PURE__ */ jsx12("div", {
                         title: errorMsg,
                         className: "text-[#f22] text-[18px] max-w-[80%] ellipsis",
                         children: errorMsg
                     }),
-                    /* @__PURE__ */ jsx8("button", {
+                    /* @__PURE__ */ jsx12("button", {
                         ref: submitRef,
                         disabled: isLoading,
                         className: cn("bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20", buttonClassName),
                         type: "submit",
-                        children: isLoading ? /* @__PURE__ */ jsx8(Loader, {
+                        children: isLoading ? /* @__PURE__ */ jsx12(Loader, {
                             size: 25,
                             color: "#fff"
                         }) : buttonContent
@@ -1771,20 +2024,20 @@ var ConfirmForm = function(param) {
         },
         className: cn("full col gap-2", containerClassName),
         children: [
-            /* @__PURE__ */ jsx8("div", {
+            /* @__PURE__ */ jsx12("div", {
                 className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
             /* @__PURE__ */ jsxs7("div", {
                 className: cn("center gap-2 ", buttonsContainerClassName),
                 children: [
-                    /* @__PURE__ */ jsx8("button", {
+                    /* @__PURE__ */ jsx12("button", {
                         onClick: onDenied,
-                        children: /* @__PURE__ */ jsx8(RedXSvg, {})
+                        children: /* @__PURE__ */ jsx12(RedXSvg, {})
                     }),
-                    /* @__PURE__ */ jsx8("button", {
+                    /* @__PURE__ */ jsx12("button", {
                         onClick: onConfirm,
-                        children: /* @__PURE__ */ jsx8(GreenVSvg, {})
+                        children: /* @__PURE__ */ jsx12(GreenVSvg, {})
                     })
                 ]
             })
@@ -1841,11 +2094,11 @@ var DatePicker = function(param) {
                 htmlFor: "from",
                 children: [
                     fromText,
-                    /* @__PURE__ */ jsx8("input", {
+                    /* @__PURE__ */ jsx12("input", {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "from",
-                        defaultValue: defaultFrom || moment2(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
+                        defaultValue: defaultFrom || moment3(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
                     })
                 ]
             }),
@@ -1854,20 +2107,20 @@ var DatePicker = function(param) {
                 htmlFor: "to",
                 children: [
                     toText,
-                    /* @__PURE__ */ jsx8("input", {
+                    /* @__PURE__ */ jsx12("input", {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "to",
-                        defaultValue: defaultTo || moment2(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
+                        defaultValue: defaultTo || moment3(/* @__PURE__ */ new Date()).format("YYYY-MM-DD")
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx8("button", {
+            /* @__PURE__ */ jsx12("button", {
                 disabled: isLoading,
                 style: buttonStyle,
                 className: cn("bg-[#699a2c] text-[#fff] font-[500] w-[75px] h-[27px]", buttonClassName),
                 type: "submit",
-                children: isLoading ? /* @__PURE__ */ jsx8(Loader, {
+                children: isLoading ? /* @__PURE__ */ jsx12(Loader, {
                     className: "pt-[2px]",
                     size: 20,
                     color: "#fff"
@@ -1876,126 +2129,6 @@ var DatePicker = function(param) {
         ]
     });
 };
-// src/components/ui/badge.tsx
-import { cva } from "class-variance-authority";
-import { jsx as jsx9 } from "react/jsx-runtime";
-var badgeVariants = cva("inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", {
-    variants: {
-        variant: {
-            default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
-            secondary: "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
-            destructive: "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
-            outline: "text-foreground"
-        }
-    },
-    defaultVariants: {
-        variant: "default"
-    }
-});
-function Badge(_param) {
-    var className = _param.className, variant = _param.variant, props = _object_without_properties(_param, [
-        "className",
-        "variant"
-    ]);
-    return /* @__PURE__ */ jsx9("div", _object_spread({
-        className: cn(badgeVariants({
-            variant: variant
-        }), className)
-    }, props));
-}
-// src/components/ui/button.tsx
-import * as React4 from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva as cva2 } from "class-variance-authority";
-import { jsx as jsx10 } from "react/jsx-runtime";
-var buttonVariants = cva2("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0", {
-    variants: {
-        variant: {
-            default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
-            destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-            outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
-            secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-            ghost: "hover:bg-accent hover:text-accent-foreground",
-            link: "text-primary underline-offset-4 hover:underline"
-        },
-        size: {
-            default: "h-9 px-4 py-2",
-            sm: "h-8 rounded-md px-3 text-xs",
-            lg: "h-10 rounded-md px-8",
-            icon: "h-9 w-9"
-        }
-    },
-    defaultVariants: {
-        variant: "default",
-        size: "default"
-    }
-});
-var Button = React4.forwardRef(function(_param, ref) {
-    var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
-        "className",
-        "variant",
-        "size",
-        "asChild"
-    ]);
-    var Comp = asChild ? Slot : "button";
-    return /* @__PURE__ */ jsx10(Comp, _object_spread({
-        className: cn(buttonVariants({
-            variant: variant,
-            size: size,
-            className: className
-        })),
-        ref: ref
-    }, props));
-});
-Button.displayName = "Button";
-// src/components/ui/input.tsx
-import * as React5 from "react";
-import { jsx as jsx11 } from "react/jsx-runtime";
-var Input = React5.forwardRef(function(_param, ref) {
-    var className = _param.className, type = _param.type, props = _object_without_properties(_param, [
-        "className",
-        "type"
-    ]);
-    return /* @__PURE__ */ jsx11("input", _object_spread({
-        type: type,
-        className: cn("flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", className),
-        ref: ref
-    }, props));
-});
-Input.displayName = "Input";
-// src/components/ui/progress.tsx
-import * as React6 from "react";
-import * as ProgressPrimitive from "@radix-ui/react-progress";
-import { jsx as jsx12 } from "react/jsx-runtime";
-var ProgressComponent = React6.forwardRef(function(_param, ref) {
-    var className = _param.className, value = _param.value, containerClassName = _param.containerClassName, indicatorClassName = _param.indicatorClassName, showValueClassName = _param.showValueClassName, _param_showValue = _param.showValue, showValue = _param_showValue === void 0 ? false : _param_showValue, props = _object_without_properties(_param, [
-        "className",
-        "value",
-        "containerClassName",
-        "indicatorClassName",
-        "showValueClassName",
-        "showValue"
-    ]);
-    return /* @__PURE__ */ jsx12("div", {
-        className: cn("relative w-full", containerClassName),
-        children: /* @__PURE__ */ jsx12(ProgressPrimitive.Root, _object_spread_props(_object_spread({
-            ref: ref,
-            className: cn("w-full h-5 bg-[#e5e7eb] relative overflow-hidden rounded-full", className)
-        }, props), {
-            children: /* @__PURE__ */ jsx12(ProgressPrimitive.Indicator, {
-                className: cn("h-full w-full flex-1 bg-[green] transition-all rounded-full", indicatorClassName),
-                style: {
-                    transform: "translateX(-".concat(100 - (value || 0), "%)")
-                },
-                children: showValue && /* @__PURE__ */ jsx12("div", {
-                    className: cn("absolute right-1 top-[-2px] font-medium text-white", showValueClassName),
-                    children: "".concat(value || 0, "%")
-                })
-            })
-        }))
-    });
-});
-ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
 // src/components/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
 import { forwardRef as forwardRef4, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2, useState as useState4 } from "react";
@@ -2206,5 +2339,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, Version, badgeVariants, buttonVariants, getFixedNumber };
+export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber };
 //# sourceMappingURL=index.mjs.map

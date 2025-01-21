@@ -1,6 +1,6 @@
 import { TObject } from "akeyless-types-commons";
 import { Dispatch, ReactNode, SetStateAction } from "react";
-import { Direction } from "../types";
+import { Direction } from "../../types";
 
 interface FilterableColumn {
     header: string;
