@@ -321,7 +321,12 @@ interface TeatMultipleSelectorProps {
     options: MultipleSelectorOption[];
     onChange: (value: MultipleSelectorOption[]) => void;
     selectedOptions: MultipleSelectorOption[];
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+    };
 }
-declare function TeatMultipleSelector({ options, onChange, selectedOptions, emptyOptionsLabel, }: TeatMultipleSelectorProps): react_jsx_runtime.JSX.Element;
+declare function TeatMultipleSelector({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: TeatMultipleSelectorProps): react_jsx_runtime.JSX.Element;
 
 export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TeatMultipleSelector, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

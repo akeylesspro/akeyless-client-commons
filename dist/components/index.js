@@ -3273,9 +3273,9 @@ function Slot2(props) {
 // src/components/TestMultipleSelector.tsx
 var import_jsx_runtime19 = require("react/jsx-runtime");
 function TeatMultipleSelector(param) {
-    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel;
+    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
-        className: "space-y-2",
+        className: cn("", styles.containerClassName),
         children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(multiselect_default, {
             commandProps: {
                 label: "Select frameworks"
@@ -3286,6 +3286,8 @@ function TeatMultipleSelector(param) {
             placeholder: "Select frameworks",
             hideClearAllButton: true,
             hidePlaceholderWhenSelected: true,
+            badgeClassName: styles.badgeClassName,
+            className: styles.className,
             emptyIndicator: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("p", {
                 className: "text-center text-sm",
                 children: emptyOptionsLabel

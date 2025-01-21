@@ -1,19 +1,26 @@
 import MultipleSelector, { MultipleSelectorOption } from "@/components/ui/multiselect";
+import { cn } from "src/helpers";
 
 interface TeatMultipleSelectorProps {
     emptyOptionsLabel?: string;
     options: MultipleSelectorOption[];
     onChange: (value: MultipleSelectorOption[]) => void;
     selectedOptions: MultipleSelectorOption[];
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+    };
 }
 export default function TeatMultipleSelector({
     options,
     onChange,
     selectedOptions,
     emptyOptionsLabel = "all options selected.",
+    styles = {},
 }: TeatMultipleSelectorProps) {
     return (
-        <div className="space-y-2">
+        <div className={cn("", styles.containerClassName)}>
             <MultipleSelector
                 commandProps={{
                     label: "Select frameworks",
@@ -24,6 +31,8 @@ export default function TeatMultipleSelector({
                 placeholder="Select frameworks"
                 hideClearAllButton
                 hidePlaceholderWhenSelected
+                badgeClassName={styles.badgeClassName}
+                className={styles.className}
                 emptyIndicator={<p className="text-center text-sm">{emptyOptionsLabel}</p>}
             />
         </div>
