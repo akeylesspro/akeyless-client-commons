@@ -68,7 +68,7 @@ const frameworks: Option[] = [
     },
 ];
 
-export default function Component() {
+export default function TestMultipleSelector() {
     return (
         <div className="space-y-2">
             <Label>Multiselect with placeholder and clear</Label>
@@ -80,7 +80,6 @@ export default function Component() {
                 placeholder="Select frameworks"
                 emptyIndicator={<p className="text-center text-sm">No results found</p>}
             />
-            
         </div>
     );
 }
