@@ -76,6 +76,7 @@ interface MultipleSelectorProps {
     hideClearAllButton?: boolean;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
+    emptyIndicatorClassName?: string;
     unremovableOptions?: MultipleSelectorOption[];
 }
 
@@ -183,6 +184,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             hideClearAllButton = false,
             dropdownClassName,
             dropdownOptionClassName,
+            emptyIndicatorClassName,
             unremovableOptions = [],
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>
@@ -385,13 +387,13 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             // For async search that showing emptyIndicator
             if (onSearch && !creatable && Object.keys(options).length === 0) {
                 return (
-                    <CommandItem value="-" disabled>
+                    <CommandItem className="" value="-" disabled>
                         {emptyIndicator}
                     </CommandItem>
                 );
             }
 
-            return <CommandEmpty>{emptyIndicator}</CommandEmpty>;
+            return <CommandEmpty className={emptyIndicatorClassName} >{emptyIndicator}</CommandEmpty>;
         }, [creatable, emptyIndicator, onSearch, options]);
 
         const selectables = React.useMemo<GroupOption>(() => removePickedOption(options, selected), [options, selected]);

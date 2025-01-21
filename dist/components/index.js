@@ -447,7 +447,7 @@ __export(components_exports, {
         return MaxRowsLabel;
     },
     ModularForm: function() {
-        return ModularForm;
+        return ModularForm_default;
     },
     MultipleSelect: function() {
         return MultipleSelect;
@@ -1749,7 +1749,7 @@ var CommandEmpty2 = (0, import_react4.forwardRef)(function(_param, forwardedRef)
 });
 CommandEmpty2.displayName = "CommandEmpty";
 var MultipleSelector = React8.forwardRef(function(param, ref) {
-    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions;
+    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions;
     var inputRef = React8.useRef(null);
     var _React8_useState = _sliced_to_array(React8.useState(false), 2), open = _React8_useState[0], setOpen = _React8_useState[1];
     var _React8_useState1 = _sliced_to_array(React8.useState(false), 2), onScrollbar = _React8_useState1[0], setOnScrollbar = _React8_useState1[1];
@@ -2007,12 +2007,14 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
         if (!emptyIndicator) return void 0;
         if (onSearch && !creatable && Object.keys(options).length === 0) {
             return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
+                className: "",
                 value: "-",
                 disabled: true,
                 children: emptyIndicator
             });
         }
         return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandEmpty2, {
+            className: emptyIndicatorClassName,
             children: emptyIndicator
         });
     }, [
@@ -2648,9 +2650,10 @@ var DurationUI = function(param) {
         ]
     });
 };
-// src/components/forms/index.tsx
+// src/components/forms/ModularForm/ModularForm.tsx
+var import_react7 = require("react");
+// src/components/forms/ModularForm/formElements.tsx
 var import_react6 = require("react");
-var import_moment2 = __toESM(require("moment"));
 var import_jsx_runtime16 = require("react/jsx-runtime");
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
@@ -2754,6 +2757,35 @@ var SelectContainer = function(param) {
         ]
     });
 };
+function MultipleSelect(param) {
+    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, unremovableOptions = param.unremovableOptions, _param_selectLabel = param.selectLabel, selectLabel = _param_selectLabel === void 0 ? "Select frameworks" : _param_selectLabel;
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+        className: cn("", styles.containerClassName),
+        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
+            commandProps: {
+                label: selectLabel
+            },
+            value: selectedOptions,
+            onChange: onChange,
+            defaultOptions: options,
+            unremovableOptions: unremovableOptions,
+            placeholder: selectLabel,
+            hideClearAllButton: true,
+            hidePlaceholderWhenSelected: true,
+            badgeClassName: styles.badgeClassName,
+            className: styles.className,
+            dropdownClassName: styles.dropdownClassName,
+            dropdownOptionClassName: styles.dropdownOptionClassName,
+            emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
+                className: "text-center text-sm",
+                children: "all options selected."
+            }),
+            emptyIndicatorClassName: styles.emptyIndicatorClassName
+        })
+    });
+}
+// src/components/forms/ModularForm/ModularForm.tsx
+var import_jsx_runtime17 = require("react/jsx-runtime");
 var ModularForm = function(param) {
     var _param_submitFunction = param.submitFunction, submitFunction = _param_submitFunction === void 0 ? /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(form) {
@@ -2767,8 +2799,8 @@ var ModularForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, buttonContent = param.buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName, submitRef = param.submitRef;
-    var _ref = _sliced_to_array((0, import_react6.useState)(""), 2), errorMsg = _ref[0], setErrorMsg = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react6.useState)(false), 2), isLoading = _ref1[0], setIsLoading = _ref1[1];
+    var _ref = _sliced_to_array((0, import_react7.useState)(""), 2), errorMsg = _ref[0], setErrorMsg = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react7.useState)(false), 2), isLoading = _ref1[0], setIsLoading = _ref1[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
             var form, err;
@@ -2830,41 +2862,41 @@ var ModularForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("form", {
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("form", {
         onSubmit: onSubmit,
         style: {
             direction: direction
         },
         className: cn("w-[350px] px-5 py-5 flex flex-col gap-5", formClassName),
         children: [
-            headerContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+            headerContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
                 className: cn("border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]", headerClassName),
                 children: headerContent
             }),
             elements.map(function(element, index) {
                 switch(element.type){
                     case "input":
-                        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(InputContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(InputContainer, _object_spread({}, element), index);
                     case "select":
-                        return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(SelectContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(SelectContainer, _object_spread({}, element), index);
                     default:
                         return null;
                 }
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
                 className: "flex justify-between w-full",
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
                         title: errorMsg,
                         className: "text-[#f22] text-[18px] max-w-[80%] ellipsis",
                         children: errorMsg
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("button", {
+                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("button", {
                         ref: submitRef,
                         disabled: isLoading,
                         className: cn("bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20", buttonClassName),
                         type: "submit",
-                        children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Loader, {
+                        children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Loader, {
                             size: 25,
                             color: "#fff"
                         }) : buttonContent
@@ -2874,6 +2906,11 @@ var ModularForm = function(param) {
         ]
     });
 };
+var ModularForm_default = ModularForm;
+// src/components/forms/index.tsx
+var import_react8 = require("react");
+var import_moment2 = __toESM(require("moment"));
+var import_jsx_runtime18 = require("react/jsx-runtime");
 var ConfirmForm = function(param) {
     var onV = param.onV, onX = param.onX, _param_headline = param.headline, headline = _param_headline === void 0 ? "" : _param_headline, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_buttonsContainerClassName = param.buttonsContainerClassName, buttonsContainerClassName = _param_buttonsContainerClassName === void 0 ? "" : _param_buttonsContainerClassName, _param_headlineClassName = param.headlineClassName, headlineClassName = _param_headlineClassName === void 0 ? "" : _param_headlineClassName;
     var onConfirm = /*#__PURE__*/ function() {
@@ -2956,27 +2993,27 @@ var ConfirmForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
         style: {
             direction: direction,
             padding: "30px"
         },
         className: cn("full col gap-2", containerClassName),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("div", {
                 className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
                 className: cn("center gap-2 ", buttonsContainerClassName),
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("button", {
+                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", {
                         onClick: onDenied,
-                        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(RedXSvg, {})
+                        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(RedXSvg, {})
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("button", {
+                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", {
                         onClick: onConfirm,
-                        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(GreenVSvg, {})
+                        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(GreenVSvg, {})
                     })
                 ]
             })
@@ -2996,7 +3033,7 @@ var DatePicker = function(param) {
             return _ref.apply(this, arguments);
         };
     }() : _param_submit, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_labelsClassName = param.labelsClassName, labelsClassName = _param_labelsClassName === void 0 ? "" : _param_labelsClassName, _param_inputsClassName = param.inputsClassName, inputsClassName = _param_inputsClassName === void 0 ? "" : _param_inputsClassName, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName, _param_buttonStyle = param.buttonStyle, buttonStyle = _param_buttonStyle === void 0 ? {} : _param_buttonStyle, defaultFrom = param.defaultFrom, defaultTo = param.defaultTo, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_fromText = param.fromText, fromText = _param_fromText === void 0 ? "From date" : _param_fromText, _param_toText = param.toText, toText = _param_toText === void 0 ? "To date" : _param_toText, _param_buttonText = param.buttonText, buttonText = _param_buttonText === void 0 ? "Search" : _param_buttonText;
-    var _ref = _sliced_to_array((0, import_react6.useState)(false), 2), isLoading = _ref[0], setIsLoading = _ref[1];
+    var _ref = _sliced_to_array((0, import_react8.useState)(false), 2), isLoading = _ref[0], setIsLoading = _ref[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
             return _ts_generator(this, function(_state) {
@@ -3021,19 +3058,19 @@ var DatePicker = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("form", {
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("form", {
         style: {
             direction: direction
         },
         onSubmit: onSubmit,
         className: cn("w-full h-10 flex justify-start gap-3 items-center ", formClassName),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("label", {
                 className: cn("center text-[14px] relative gap-2", labelsClassName),
                 htmlFor: "from",
                 children: [
                     fromText,
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
+                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("input", {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "from",
@@ -3041,12 +3078,12 @@ var DatePicker = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("label", {
                 className: cn("center text-[14px] relative gap-2 ", labelsClassName),
                 htmlFor: "to",
                 children: [
                     toText,
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
+                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("input", {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "to",
@@ -3054,12 +3091,12 @@ var DatePicker = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("button", {
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", {
                 disabled: isLoading,
                 style: buttonStyle,
                 className: cn("bg-[#699a2c] text-[#fff] font-[500] w-[75px] h-[27px]", buttonClassName),
                 type: "submit",
-                children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Loader, {
+                children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Loader, {
                     className: "pt-[2px]",
                     size: 20,
                     color: "#fff"
@@ -3068,40 +3105,12 @@ var DatePicker = function(param) {
         ]
     });
 };
-// src/components/MultipleSelect.tsx
-var import_jsx_runtime17 = require("react/jsx-runtime");
-function MultipleSelect(param) {
-    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, unremovableOptions = param.unremovableOptions;
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
-        className: cn("", styles.containerClassName),
-        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(multiselect_default, {
-            commandProps: {
-                label: "Select frameworks"
-            },
-            value: selectedOptions,
-            onChange: onChange,
-            defaultOptions: options,
-            unremovableOptions: unremovableOptions,
-            placeholder: "Select frameworks",
-            hideClearAllButton: true,
-            hidePlaceholderWhenSelected: true,
-            badgeClassName: styles.badgeClassName,
-            className: styles.className,
-            dropdownClassName: styles.dropdownClassName,
-            emptyIndicator: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", {
-                className: "text-center text-sm",
-                children: emptyOptionsLabel
-            }),
-            dropdownOptionClassName: styles.dropdownOptionClassName
-        })
-    });
-}
 // src/components/InternationalPhonePicker.tsx
 var import_lucide_react4 = require("lucide-react");
-var import_react7 = require("react");
+var import_react9 = require("react");
 var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
-var import_jsx_runtime18 = require("react/jsx-runtime");
+var import_jsx_runtime19 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
     var handleKeyDown = function(e) {
@@ -3111,8 +3120,8 @@ function InternationalPhonePicker(param) {
             }
         }
     };
-    var _ref = _sliced_to_array((0, import_react7.useState)(""), 2), tempPhoneValue = _ref[0], setTempPhoneValue = _ref[1];
-    (0, import_react7.useEffect)(function() {
+    var _ref = _sliced_to_array((0, import_react9.useState)(""), 2), tempPhoneValue = _ref[0], setTempPhoneValue = _ref[1];
+    (0, import_react9.useEffect)(function() {
         if (defaultValue) {
             if (setPhoneValue) {
                 setPhoneValue(defaultValue);
@@ -3124,11 +3133,11 @@ function InternationalPhonePicker(param) {
         defaultValue,
         setPhoneValue
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
         className: cn("space-y-2", containerClassName),
         dir: "ltr",
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(RPNInput.default, {
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(RPNInput.default, {
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -3158,7 +3167,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("input", {
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -3166,20 +3175,20 @@ function InternationalPhonePicker(param) {
         ]
     });
 }
-var PhoneInput = (0, import_react7.forwardRef)(function(_param, ref) {
+var PhoneInput = (0, import_react9.forwardRef)(function(_param, ref) {
     var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, style = _param.style, props = _object_without_properties(_param, [
         "className",
         "onKeyDown",
         "defaultValue",
         "style"
     ]);
-    var inputRef = (0, import_react7.useRef)(null);
-    (0, import_react7.useEffect)(function() {
+    var inputRef = (0, import_react9.useRef)(null);
+    (0, import_react9.useEffect)(function() {
         if (inputRef.current) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Input, _object_spread({
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -3200,24 +3209,24 @@ var CountrySelect = function(param) {
     var handleSelect = function(event) {
         onChange(event.target.value);
     };
-    var originalClassName = (0, import_react7.useMemo)(function() {
+    var originalClassName = (0, import_react9.useMemo)(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
         className: cn(originalClassName, className),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(FlagComponent, {
+                    /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", {
+                    /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react4.ChevronDown, {
+                        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_lucide_react4.ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -3225,7 +3234,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("select", {
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -3235,7 +3244,7 @@ var CountrySelect = function(param) {
                     return x.value;
                 }).map(function(option, i) {
                     var _option_value;
-                    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("option", {
+                    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("option", {
                         className: "text-black",
                         value: option.value,
                         children: [
@@ -3252,11 +3261,11 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = import_flags.default[country];
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", {
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Flag, {
+        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(import_lucide_react4.Phone, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_lucide_react4.Phone, {
             size: 16,
             "aria-hidden": "true"
         })
@@ -3264,19 +3273,19 @@ var FlagComponent = function(param) {
 };
 // src/components/CodeInput.tsx
 var import_input_otp = require("input-otp");
-var import_react8 = require("react");
-var import_jsx_runtime19 = require("react/jsx-runtime");
+var import_react10 = require("react");
+var import_jsx_runtime20 = require("react/jsx-runtime");
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
-    var firstInputRef = (0, import_react8.useRef)(null);
-    (0, import_react8.useEffect)(function() {
+    var firstInputRef = (0, import_react10.useRef)(null);
+    (0, import_react10.useEffect)(function() {
         if (firstInputRef.current) {
             firstInputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
-        children: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(import_input_otp.OTPInput, {
+        children: /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(import_input_otp.OTPInput, {
             ref: firstInputRef,
             value: codeValue,
             onChange: function(newVal) {
@@ -3286,10 +3295,10 @@ function CodeInput(param) {
             maxLength: 6,
             render: function(param) {
                 var slots = param.slots;
-                return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
+                return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", {
                     className: cn("flex gap-5", slotContainerClassName),
                     children: slots.map(function(slot, idx) {
-                        return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(Slot2, _object_spread({}, slot), idx);
+                        return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Slot2, _object_spread({}, slot), idx);
                     })
                 });
             }
@@ -3297,11 +3306,11 @@ function CodeInput(param) {
     });
 }
 function Slot2(props) {
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", {
         className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
             "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
         }),
-        children: props.char !== null && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
+        children: props.char !== null && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", {
             children: props.char
         })
     });

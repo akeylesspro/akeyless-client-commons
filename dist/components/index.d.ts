@@ -243,9 +243,45 @@ declare const TableProvider: (props: TableProps & {
 }) => react_jsx_runtime.JSX.Element;
 declare const Table: React__default.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
 
+declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
+
+interface MultipleSelectorOption {
+    value: string;
+    label: string;
+    disable?: boolean;
+    /** fixed option that can&lsquo;t be removed. */
+    fixed?: boolean;
+    /** Group the options by providing key. */
+    [key: string]: string | boolean | undefined;
+}
+interface MultipleSelectorRef {
+    selectedValue: MultipleSelectorOption[];
+    input: HTMLInputElement;
+    focus: () => void;
+    reset: () => void;
+}
+declare function useDebounce<T>(value: T, delay?: number): T;
+
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
+interface MultipleSelectProps {
+    emptyOptionsElement?: ReactNode;
+    options: MultipleSelectorOption[];
+    onChange: (value: MultipleSelectorOption[]) => void;
+    selectedOptions: MultipleSelectorOption[];
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+        emptyIndicatorClassName?: string;
+    };
+    unremovableOptions?: MultipleSelectorOption[];
+    selectLabel?: string;
+}
+declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsElement, styles, unremovableOptions, selectLabel, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
@@ -274,39 +310,6 @@ interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof Progress
     showValueClassName?: string;
 }
 declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
-
-interface MultipleSelectorOption {
-    value: string;
-    label: string;
-    disable?: boolean;
-    /** fixed option that can&lsquo;t be removed. */
-    fixed?: boolean;
-    /** Group the options by providing key. */
-    [key: string]: string | boolean | undefined;
-}
-interface MultipleSelectorRef {
-    selectedValue: MultipleSelectorOption[];
-    input: HTMLInputElement;
-    focus: () => void;
-    reset: () => void;
-}
-declare function useDebounce<T>(value: T, delay?: number): T;
-
-interface MultipleSelectProps {
-    emptyOptionsLabel?: string;
-    options: MultipleSelectorOption[];
-    onChange: (value: MultipleSelectorOption[]) => void;
-    selectedOptions: MultipleSelectorOption[];
-    styles?: {
-        containerClassName?: string;
-        badgeClassName?: string;
-        className?: string;
-        dropdownClassName?: string;
-        dropdownOptionClassName?: string;
-    };
-    unremovableOptions?: MultipleSelectorOption[];
-}
-declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsLabel, styles, unremovableOptions, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 
 interface InputProps {
     phoneValue?: string;
