@@ -2073,7 +2073,9 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                 "data-disabled": disabled || void 0,
                                 children: [
                                     option.label,
-                                    /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", {
+                                    !unremovableOptions.find(function(v) {
+                                        return (0, import_lodash3.isEqual)(v.value, option.value);
+                                    }) && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", {
                                         className: "absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70",
                                         onKeyDown: function(e) {
                                             if (e.key === "Enter") {
@@ -2088,9 +2090,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                             return handleUnselect(option);
                                         },
                                         "aria-label": "Remove",
-                                        children: !unremovableOptions.find(function(v) {
-                                            return (0, import_lodash3.isEqual)(v.value, option.value);
-                                        }) && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.X, {
+                                        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.X, {
                                             size: 14,
                                             strokeWidth: 2,
                                             "aria-hidden": "true"

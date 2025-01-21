@@ -1903,7 +1903,9 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                 "data-disabled": disabled || void 0,
                                 children: [
                                     option.label,
-                                    /* @__PURE__ */ jsx13("button", {
+                                    !unremovableOptions.find(function(v) {
+                                        return isEqual3(v.value, option.value);
+                                    }) && /* @__PURE__ */ jsx13("button", {
                                         className: "absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70",
                                         onKeyDown: function(e) {
                                             if (e.key === "Enter") {
@@ -1918,9 +1920,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                             return handleUnselect(option);
                                         },
                                         "aria-label": "Remove",
-                                        children: !unremovableOptions.find(function(v) {
-                                            return isEqual3(v.value, option.value);
-                                        }) && /* @__PURE__ */ jsx13(X2, {
+                                        children: /* @__PURE__ */ jsx13(X2, {
                                             size: 14,
                                             strokeWidth: 2,
                                             "aria-hidden": "true"

@@ -452,24 +452,24 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                     data-disabled={disabled || undefined}
                                 >
                                     {option.label}
-                                    <button
-                                        className="absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70"
-                                        onKeyDown={(e) => {
-                                            if (e.key === "Enter") {
-                                                handleUnselect(option);
-                                            }
-                                        }}
-                                        onMouseDown={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                        }}
-                                        onClick={() => handleUnselect(option)}
-                                        aria-label="Remove"
-                                    >
-                                        {!unremovableOptions.find((v) => isEqual(v.value, option.value)) && (
+                                    {!unremovableOptions.find((v) => isEqual(v.value, option.value)) && (
+                                        <button
+                                            className="absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70"
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter") {
+                                                    handleUnselect(option);
+                                                }
+                                            }}
+                                            onMouseDown={(e) => {
+                                                e.preventDefault();
+                                                e.stopPropagation();
+                                            }}
+                                            onClick={() => handleUnselect(option)}
+                                            aria-label="Remove"
+                                        >
                                             <X size={14} strokeWidth={2} aria-hidden="true" />
-                                        )}
-                                    </button>
+                                        </button>
+                                    )}
                                 </div>
                             );
                         })}
