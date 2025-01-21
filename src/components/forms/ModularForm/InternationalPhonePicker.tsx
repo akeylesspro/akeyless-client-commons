@@ -5,21 +5,8 @@ import { ChevronDown, Phone } from "lucide-react";
 import React, { cloneElement, Dispatch, forwardRef, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
+import { InternationalInputProps } from "src/types";
 
-interface InputProps {
-    phoneValue?: string;
-    setPhoneValue?: Dispatch<SetStateAction<string>>;
-    placeholder?: string;
-    className?: string;
-    containerClassName?: string;
-    name?: string;
-    style?: React.CSSProperties;
-    flagContainerClassName?: string;
-    inputClassName?: string;
-    defaultValue?: string;
-    defaultCountry?: RPNInput.Country;
-    onEnter?: () => void;
-}
 export default function InternationalPhonePicker({
     setPhoneValue,
     phoneValue = "",
@@ -33,7 +20,7 @@ export default function InternationalPhonePicker({
     name,
     style,
     onEnter,
-}: InputProps) {
+}: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             if (onEnter) {

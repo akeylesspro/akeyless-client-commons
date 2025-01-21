@@ -1,4 +1,5 @@
-import { ReactNode } from 'react';
+import { ReactNode, Dispatch, SetStateAction } from 'react';
+import * as RPNInput from 'react-phone-number-input';
 import { WhereFilterOp, Unsubscribe } from 'firebase/firestore';
 
 interface MultipleSelectorOption {
@@ -101,11 +102,26 @@ interface MultipleSelectProps {
     unremovableOptions?: MultipleSelectorOption[];
     selectLabel?: string;
 }
+interface InternationalInputProps {
+    type?: "internationalPhoneInput";
+    phoneValue?: string;
+    setPhoneValue?: Dispatch<SetStateAction<string>>;
+    placeholder?: string;
+    className?: string;
+    containerClassName?: string;
+    name?: string;
+    style?: React.CSSProperties;
+    flagContainerClassName?: string;
+    inputClassName?: string;
+    defaultValue?: string;
+    defaultCountry?: RPNInput.Country;
+    onEnter?: () => void;
+}
 interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement | MultipleSelectProps;
+type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -141,4 +157,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, MultipleSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultipleSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };

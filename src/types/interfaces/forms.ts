@@ -1,6 +1,7 @@
 import { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { Direction } from "../types";
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import * as RPNInput from "react-phone-number-input";
 
 export interface BaseElementProps {
     name?: string;
@@ -48,11 +49,26 @@ export interface MultipleSelectProps {
     unremovableOptions?: MultipleSelectorOption[];
     selectLabel?: string;
 }
+export interface InternationalInputProps {
+    type?: "internationalPhoneInput";
+    phoneValue?: string;
+    setPhoneValue?: Dispatch<SetStateAction<string>>;
+    placeholder?: string;
+    className?: string;
+    containerClassName?: string;
+    name?: string;
+    style?: React.CSSProperties;
+    flagContainerClassName?: string;
+    inputClassName?: string;
+    defaultValue?: string;
+    defaultCountry?: RPNInput.Country;
+    onEnter?: () => void;
+}
 
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 
-export type FormElement = InputElement | SelectElement | MultipleSelectProps;
+export type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;

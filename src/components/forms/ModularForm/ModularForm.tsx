@@ -3,6 +3,7 @@ import { ModularFormProps } from "src/types";
 import { InputContainer, MultipleSelect, SelectContainer } from "./formElements";
 import { Loader } from "@/components/utils";
 import { cn } from "src/helpers";
+import InternationalPhonePicker from "./InternationalPhonePicker";
 
 const ModularForm = ({
     submitFunction = async (form) => {},
@@ -56,6 +57,8 @@ const ModularForm = ({
                         return <SelectContainer key={index} {...element} />;
                     case "multipleSelect":
                         return <MultipleSelect key={index} {...element} />;
+                    case "internationalPhoneInput":
+                        return <InternationalPhonePicker key={index} {...element} />;
                     default:
                         return null;
                 }

@@ -1,4 +1,4 @@
-import MultipleSelector, { MultipleSelectorOption } from "@/components/ui/multiselect";
+import MultipleSelector from "@/components/ui/multiselect";
 import { ReactNode, useState } from "react";
 import { cn, useValidation } from "src/helpers";
 import { InputContainerProps, MultipleSelectProps, SelectContainerProps } from "src/types";
@@ -129,7 +129,6 @@ export function MultipleSelect({
                 emptyIndicator={emptyOptionsElement || <p className="text-center text-sm">{"all options selected."}</p>}
                 emptyIndicatorClassName={styles.emptyIndicatorClassName}
             />
-            {/* <input value={JSON.stringify(selectedOptions)} type="hidden" name={name} /> */}
         </div>
     );
 }
