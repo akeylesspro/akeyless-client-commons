@@ -321,7 +321,11 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
     const seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
 
     return (
-        <div title={duration} style={{ direction: "ltr" }} className={cn(`${direction === "rtl" ? "text-right" : "text-left"}`, className)}>
+        <div
+            title={duration}
+            style={{ direction: "ltr" }}
+            className={cn(`flex gap-1 ${direction === "rtl" ? "justify-end" : "justify-start"}`, className)}
+        >
             {hours > 0 && (
                 <>
                     <span style={{ display: "inline-block" }}>

@@ -1821,7 +1821,7 @@ var DurationUI = function(param) {
         style: {
             direction: "ltr"
         },
-        className: cn("".concat(direction === "rtl" ? "text-right" : "text-left"), className),
+        className: cn("flex gap-1 ".concat(direction === "rtl" ? "justify-end" : "justify-start"), className),
         children: [
             hours > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, {
                 children: [
