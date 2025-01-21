@@ -233,8 +233,9 @@ interface DurationUIProps {
     hoursLabel?: string;
     secondsLabel?: string;
     className?: string;
+    direction?: Direction;
 }
-declare const DurationUI: ({ duration, hoursLabel, minutesLabel, secondsLabel, className }: DurationUIProps) => react_jsx_runtime.JSX.Element;
+declare const DurationUI: ({ duration, hoursLabel, minutesLabel, secondsLabel, className, direction }: DurationUIProps) => react_jsx_runtime.JSX.Element;
 
 declare const TableContext: React__default.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {

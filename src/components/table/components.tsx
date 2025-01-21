@@ -311,8 +311,9 @@ interface DurationUIProps {
     hoursLabel?: string;
     secondsLabel?: string;
     className?: string;
+    direction?: Direction;
 }
-export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s", className = "" }: DurationUIProps) => {
+export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s", className = "", direction }: DurationUIProps) => {
     const durationTime = duration.split(":");
     const hours = parseInt(durationTime[0], 10);
     const minutes = parseInt(durationTime[1], 10);
@@ -320,7 +321,7 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
     const seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
 
     return (
-        <div title={duration} className={className}>
+        <div title={duration} style={{ direction: "ltr" }} className={cn(`${direction === "rtl" ? "text-right" : "text-left"}`, className)}>
             {hours > 0 && (
                 <span>
                     <span>

@@ -1810,7 +1810,7 @@ var TableButton = function(param) {
     });
 };
 var DurationUI = function(param) {
-    var duration = param.duration, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
+    var duration = param.duration, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
     var durationTime = duration.split(":");
     var hours = parseInt(durationTime[0], 10);
     var minutes = parseInt(durationTime[1], 10);
@@ -1818,7 +1818,10 @@ var DurationUI = function(param) {
     var seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
     return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", {
         title: duration,
-        className: className,
+        style: {
+            direction: "ltr"
+        },
+        className: cn("".concat(direction === "rtl" ? "text-right" : "text-left"), className),
         children: [
             hours > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                 children: [
