@@ -10,6 +10,7 @@ interface TeatMultipleSelectorProps {
         containerClassName?: string;
         badgeClassName?: string;
         className?: string;
+        dropdownClassName?: string;
     };
 }
 export default function TeatMultipleSelector({
@@ -33,6 +34,7 @@ export default function TeatMultipleSelector({
                 hidePlaceholderWhenSelected
                 badgeClassName={styles.badgeClassName}
                 className={styles.className}
+                dropdownClassName={styles.dropdownClassName}
                 emptyIndicator={<p className="text-center text-sm">{emptyOptionsLabel}</p>}
             />
         </div>

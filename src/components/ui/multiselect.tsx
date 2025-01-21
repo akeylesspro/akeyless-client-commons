@@ -73,6 +73,7 @@ interface MultipleSelectorProps {
     inputProps?: Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>, "value" | "placeholder" | "disabled">;
     /** hide the clear all button. */
     hideClearAllButton?: boolean;
+    dropdownClassName?: string;
 }
 
 export interface MultipleSelectorRef {
@@ -177,6 +178,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             commandProps,
             inputProps,
             hideClearAllButton = false,
+            dropdownClassName,
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>
     ) => {
@@ -545,7 +547,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                         {CreatableItem()}
                                         {!selectFirstItem && <CommandItem value="-" className="hidden" />}
                                         {Object.entries(selectables).map(([key, dropdowns]) => (
-                                            <CommandGroup key={key} heading={key} className="h-full overflow-auto">
+                                            <CommandGroup key={key} heading={key} className={cn("h-full overflow-auto", dropdownClassName)}>
                                                 <>
                                                     {dropdowns.map((option) => {
                                                         return (

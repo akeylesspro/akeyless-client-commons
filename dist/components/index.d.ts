@@ -325,6 +325,7 @@ interface TeatMultipleSelectorProps {
         containerClassName?: string;
         badgeClassName?: string;
         className?: string;
+        dropdownClassName?: string;
     };
 }
 declare function TeatMultipleSelector({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: TeatMultipleSelectorProps): react_jsx_runtime.JSX.Element;
