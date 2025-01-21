@@ -1827,7 +1827,7 @@ var DurationUI = function(param) {
                 children: [
                     /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                         style: {
-                            direction: "ltr"
+                            display: "inline-block"
                         },
                         children: [
                             hours,
@@ -1837,7 +1837,7 @@ var DurationUI = function(param) {
                     }),
                     minutes === 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                         style: {
-                            direction: "ltr"
+                            display: "inline-block"
                         },
                         children: [
                             " ",
@@ -1850,7 +1850,7 @@ var DurationUI = function(param) {
             }),
             minutes > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                 style: {
-                    direction: "ltr"
+                    display: "inline-block"
                 },
                 children: [
                     " ",
@@ -1861,7 +1861,7 @@ var DurationUI = function(param) {
             }),
             seconds > 0 && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", {
                 style: {
-                    direction: "ltr"
+                    display: "inline-block"
                 },
                 children: [
                     " ",
