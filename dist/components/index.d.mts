@@ -189,6 +189,10 @@ interface TableProviderType {
     handleFilterClick: (dataKey: string) => void;
     closeFilterWindow: () => void;
 }
+interface UseFilterProps {
+    data: Record<string, any>[];
+    filterableColumns: FilterableColumn[];
+}
 interface TableProps {
     data: Record<string, any>[];
     headers: string[];
@@ -342,4 +346,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, type FilterProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
