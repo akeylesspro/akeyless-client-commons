@@ -1660,6 +1660,9 @@ var DurationUI = function(param) {
         className: cn("".concat(direction === "rtl" ? "text-right" : "text-left"), className),
         children: [
             hours > 0 && /* @__PURE__ */ jsxs6("span", {
+                style: {
+                    direction: "ltr"
+                },
                 children: [
                     /* @__PURE__ */ jsxs6("span", {
                         children: [
@@ -1679,6 +1682,9 @@ var DurationUI = function(param) {
                 ]
             }),
             minutes > 0 && /* @__PURE__ */ jsxs6("span", {
+                style: {
+                    direction: "ltr"
+                },
                 children: [
                     " ",
                     minutes,
@@ -1687,6 +1693,9 @@ var DurationUI = function(param) {
                 ]
             }),
             seconds > 0 && /* @__PURE__ */ jsxs6("span", {
+                style: {
+                    direction: "ltr"
+                },
                 children: [
                     " ",
                     seconds,
