@@ -2485,6 +2485,17 @@ var DurationUI = function(param) {
         ]
     });
 };
+var PhoneUI = function(param) {
+    var phone = param.phone, direction = param.direction;
+    return /* @__PURE__ */ jsx14("div", {
+        style: {
+            direction: "ltr"
+        },
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        title: phone,
+        children: phone
+    });
+};
 // src/components/forms/ModularForm/ModularForm.tsx
 import { useState as useState6 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
@@ -3155,5 +3166,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultipleSelect, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultipleSelect, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
 //# sourceMappingURL=index.mjs.map

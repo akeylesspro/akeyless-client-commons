@@ -452,6 +452,9 @@ __export(components_exports, {
     MultipleSelect: function() {
         return MultipleSelect;
     },
+    PhoneUI: function() {
+        return PhoneUI;
+    },
     ProgressComponent: function() {
         return ProgressComponent;
     },
@@ -2655,6 +2658,17 @@ var DurationUI = function(param) {
         ]
     });
 };
+var PhoneUI = function(param) {
+    var phone = param.phone, direction = param.direction;
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
+        style: {
+            direction: "ltr"
+        },
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        title: phone,
+        children: phone
+    });
+};
 // src/components/forms/ModularForm/ModularForm.tsx
 var import_react8 = require("react");
 // src/components/forms/ModularForm/formElements.tsx
@@ -3344,6 +3358,7 @@ function Slot2(props) {
     MaxRowsLabel: MaxRowsLabel,
     ModularForm: ModularForm,
     MultipleSelect: MultipleSelect,
+    PhoneUI: PhoneUI,
     ProgressComponent: ProgressComponent,
     Search: Search,
     SelectContainer: SelectContainer,

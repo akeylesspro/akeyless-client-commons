@@ -353,3 +353,11 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
         </div>
     );
 };
+
+export const PhoneUI = ({ phone, direction }: { phone: string; direction?: Direction }) => {
+    return (
+        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`)} title={phone}>
+            {phone}
+        </div>
+    );
+};
