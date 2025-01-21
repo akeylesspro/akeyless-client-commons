@@ -2059,7 +2059,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
         filter: commandFilter(),
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", {
-                className: cn("relative min-h-[38px] rounded-lg border border-input text-sm transition-shadow focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50", {
+                className: cn("relative min-h-[38px] py-2 rounded-lg border border-input text-sm transition-shadow focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50", {
                     "p-1": selected.length !== 0,
                     "cursor-text": !disabled && selected.length !== 0
                 }, !hideClearAllButton && "pe-9", className),
