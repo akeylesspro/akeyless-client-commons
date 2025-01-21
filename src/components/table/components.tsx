@@ -8,7 +8,6 @@ import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN }
 import { cn } from "@/lib/utils";
 import { useTableContext } from "./hooks";
 import { renderOnce } from "src/helpers";
-import { Timestamp } from "firebase/firestore";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
 import { Direction } from "src/types";
