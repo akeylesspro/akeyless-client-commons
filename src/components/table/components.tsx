@@ -265,7 +265,7 @@ interface TimesUIProps {
 }
 
 export const TimesUI = ({ timestamp, format, tz, direction, fromFormat }: TimesUIProps) => {
-    const time = timestamp_to_string(timestamp as Timestamp, { format, fromFormat, tz });
+    const time = timestamp_to_string(timestamp, { format, fromFormat, tz });
     return (
         <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`)} title={time}>
             {time}
