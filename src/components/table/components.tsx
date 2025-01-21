@@ -323,17 +323,17 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
     return (
         <div title={duration} style={{ direction: "ltr" }} className={cn(`${direction === "rtl" ? "text-right" : "text-left"}`, className)}>
             {hours > 0 && (
-                <span style={{ direction: "ltr" }}>
-                    <span>
+                <>
+                    <span style={{ direction: "ltr" }}>
                         {hours} {hoursLabel}
                     </span>
                     {minutes === 0 && (
-                        <span>
+                        <span style={{ direction: "ltr" }}>
                             {" "}
                             {"0"} {minutesLabel}
                         </span>
                     )}
-                </span>
+                </>
             )}
             {minutes > 0 && (
                 <span style={{ direction: "ltr" }}>
