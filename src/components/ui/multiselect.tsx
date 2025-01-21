@@ -7,6 +7,7 @@ import { forwardRef, useEffect } from "react";
 
 import { cn } from "@/lib/utils";
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
+import { isEqual } from "lodash";
 
 export interface MultipleSelectorOption {
     value: string;
@@ -75,6 +76,7 @@ interface MultipleSelectorProps {
     hideClearAllButton?: boolean;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
+    unremovableOptions?: MultipleSelectorOption[];
 }
 
 export interface MultipleSelectorRef {
@@ -181,6 +183,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             hideClearAllButton = false,
             dropdownClassName,
             dropdownOptionClassName,
+            unremovableOptions = [],
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>
     ) => {
@@ -220,6 +223,9 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
 
         const handleUnselect = React.useCallback(
             (option: MultipleSelectorOption) => {
+                if (unremovableOptions.find((v) => isEqual(v.value, option.value))) {
+                    return;
+                }
                 const newOptions = selected.filter((s) => s.value !== option.value);
                 setSelected(newOptions);
                 onChange?.(newOptions);
@@ -417,6 +423,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 shouldFilter={commandProps?.shouldFilter !== undefined ? commandProps.shouldFilter : !onSearch} // When onSearch is provided, we don&lsquo;t want to filter the options. You can still override it.
                 filter={commandFilter()}
             >
+                {/* selected */}
                 <div
                     className={cn(
                         "relative min-h-[38px] rounded-lg border border-input text-sm transition-shadow focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
@@ -459,7 +466,9 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                         onClick={() => handleUnselect(option)}
                                         aria-label="Remove"
                                     >
-                                        <X size={14} strokeWidth={2} aria-hidden="true" />
+                                        {!unremovableOptions.find((v) => isEqual(v.value, option.value)) && (
+                                            <X size={14} strokeWidth={2} aria-hidden="true" />
+                                        )}
                                     </button>
                                 </div>
                             );
@@ -518,7 +527,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         </button>
                     </div>
                 </div>
-
+                {/* dropdown */}
                 <div className="relative">
                     <div
                         className={cn(

@@ -1639,6 +1639,7 @@ var CommandShortcut = function(_param) {
 };
 CommandShortcut.displayName = "CommandShortcut";
 // src/components/ui/multiselect.tsx
+var import_lodash3 = require("lodash");
 var import_jsx_runtime14 = require("react/jsx-runtime");
 function useDebounce(value, delay) {
     var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
@@ -1748,7 +1749,7 @@ var CommandEmpty2 = (0, import_react4.forwardRef)(function(_param, forwardedRef)
 });
 CommandEmpty2.displayName = "CommandEmpty";
 var MultipleSelector = React8.forwardRef(function(param, ref) {
-    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName;
+    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions;
     var inputRef = React8.useRef(null);
     var _React8_useState = _sliced_to_array(React8.useState(false), 2), open = _React8_useState[0], setOpen = _React8_useState[1];
     var _React8_useState1 = _sliced_to_array(React8.useState(false), 2), onScrollbar = _React8_useState1[0], setOnScrollbar = _React8_useState1[1];
@@ -1780,6 +1781,11 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
         }
     };
     var handleUnselect = React8.useCallback(function(option) {
+        if (unremovableOptions.find(function(v) {
+            return (0, import_lodash3.isEqual)(v.value, option.value);
+        })) {
+            return;
+        }
         var newOptions = selected.filter(function(s) {
             return s.value !== option.value;
         });
@@ -2082,7 +2088,9 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                             return handleUnselect(option);
                                         },
                                         "aria-label": "Remove",
-                                        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.X, {
+                                        children: !unremovableOptions.find(function(v) {
+                                            return (0, import_lodash3.isEqual)(v.value, option.value);
+                                        }) && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_lucide_react3.X, {
                                             size: 14,
                                             strokeWidth: 2,
                                             "aria-hidden": "true"
