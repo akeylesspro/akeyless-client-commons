@@ -1,4 +1,15 @@
+import { ReactNode } from 'react';
 import { WhereFilterOp, Unsubscribe } from 'firebase/firestore';
+
+interface MultipleSelectorOption {
+    value: string;
+    label: string;
+    disable?: boolean;
+    /** fixed option that can&lsquo;t be removed. */
+    fixed?: boolean;
+    /** Group the options by providing key. */
+    [key: string]: string | boolean | undefined;
+}
 
 type Direction = "rtl" | "ltr";
 type SetState<T> = (updater: ((prev: T) => T) | T) => void;
@@ -72,11 +83,29 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
+interface MultipleSelectProps {
+    type: "multipleSelect";
+    options?: MultipleSelectorOption[];
+    emptyOptionsElement?: ReactNode;
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    selectedOptions?: MultipleSelectorOption[];
+    name?: string;
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+        emptyIndicatorClassName?: string;
+    };
+    unremovableOptions?: MultipleSelectorOption[];
+    selectLabel?: string;
+}
 interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement;
+type FormElement = InputElement | SelectElement | MultipleSelectProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -112,4 +141,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, ModularFormProps, ModularPopUp, MultipleSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };

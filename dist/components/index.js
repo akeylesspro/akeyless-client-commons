@@ -2758,30 +2758,37 @@ var SelectContainer = function(param) {
     });
 };
 function MultipleSelect(param) {
-    var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, unremovableOptions = param.unremovableOptions, _param_selectLabel = param.selectLabel, selectLabel = _param_selectLabel === void 0 ? "Select frameworks" : _param_selectLabel;
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_selectLabel = param.selectLabel, selectLabel = _param_selectLabel === void 0 ? "Select items" : _param_selectLabel;
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: cn("", styles.containerClassName),
-        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
-            commandProps: {
-                label: selectLabel
-            },
-            value: selectedOptions,
-            onChange: onChange,
-            defaultOptions: options,
-            unremovableOptions: unremovableOptions,
-            placeholder: selectLabel,
-            hideClearAllButton: true,
-            hidePlaceholderWhenSelected: true,
-            badgeClassName: styles.badgeClassName,
-            className: styles.className,
-            dropdownClassName: styles.dropdownClassName,
-            dropdownOptionClassName: styles.dropdownOptionClassName,
-            emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
-                className: "text-center text-sm",
-                children: "all options selected."
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
+                commandProps: {
+                    label: selectLabel
+                },
+                value: selectedOptions,
+                onChange: onChange,
+                defaultOptions: options,
+                unremovableOptions: unremovableOptions,
+                placeholder: selectLabel,
+                hideClearAllButton: true,
+                hidePlaceholderWhenSelected: true,
+                badgeClassName: styles.badgeClassName,
+                className: styles.className,
+                dropdownClassName: styles.dropdownClassName,
+                dropdownOptionClassName: styles.dropdownOptionClassName,
+                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
+                    className: "text-center text-sm",
+                    children: "all options selected."
+                }),
+                emptyIndicatorClassName: styles.emptyIndicatorClassName
             }),
-            emptyIndicatorClassName: styles.emptyIndicatorClassName
-        })
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
+                value: JSON.stringify(selectedOptions),
+                type: "hidden",
+                name: name
+            })
+        ]
     });
 }
 // src/components/forms/ModularForm/ModularForm.tsx
@@ -2879,6 +2886,8 @@ var ModularForm = function(param) {
                         return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(InputContainer, _object_spread({}, element), index);
                     case "select":
                         return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(SelectContainer, _object_spread({}, element), index);
+                    case "multipleSelect":
+                        return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MultipleSelect, _object_spread({}, element), index);
                     default:
                         return null;
                 }

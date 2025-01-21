@@ -1,7 +1,7 @@
 import MultipleSelector, { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { ReactNode, useState } from "react";
 import { cn, useValidation } from "src/helpers";
-import { InputContainerProps, SelectContainerProps } from "src/types";
+import { InputContainerProps, MultipleSelectProps, SelectContainerProps } from "src/types";
 
 export const InputContainer = ({
     validationError,
@@ -98,30 +98,16 @@ export const SelectContainer = ({
     );
 };
 
-export interface MultipleSelectProps {
-    emptyOptionsElement?: ReactNode;
-    options: MultipleSelectorOption[];
-    onChange: (value: MultipleSelectorOption[]) => void;
-    selectedOptions: MultipleSelectorOption[];
-    styles?: {
-        containerClassName?: string;
-        badgeClassName?: string;
-        className?: string;
-        dropdownClassName?: string;
-        dropdownOptionClassName?: string;
-        emptyIndicatorClassName?: string;
-    };
-    unremovableOptions?: MultipleSelectorOption[];
-    selectLabel?: string;
-}
+
 export function MultipleSelect({
-    options,
     onChange,
     selectedOptions,
     emptyOptionsElement,
-    styles = {},
     unremovableOptions,
-    selectLabel = "Select frameworks",
+    options = [],
+    styles = {},
+    name = "multipleSelect",
+    selectLabel = "Select items",
 }: MultipleSelectProps) {
     return (
         <div className={cn("", styles.containerClassName)}>
@@ -143,6 +129,7 @@ export function MultipleSelect({
                 emptyIndicator={emptyOptionsElement || <p className="text-center text-sm">{"all options selected."}</p>}
                 emptyIndicatorClassName={styles.emptyIndicatorClassName}
             />
+            <input value={JSON.stringify(selectedOptions)} type="hidden" name={name} />
         </div>
     );
 }

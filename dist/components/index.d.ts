@@ -45,6 +45,23 @@ declare const Version: ({ version, className }: {
     className?: string;
 }) => react_jsx_runtime.JSX.Element;
 
+interface MultipleSelectorOption {
+    value: string;
+    label: string;
+    disable?: boolean;
+    /** fixed option that can&lsquo;t be removed. */
+    fixed?: boolean;
+    /** Group the options by providing key. */
+    [key: string]: string | boolean | undefined;
+}
+interface MultipleSelectorRef {
+    selectedValue: MultipleSelectorOption[];
+    input: HTMLInputElement;
+    focus: () => void;
+    reset: () => void;
+}
+declare function useDebounce<T>(value: T, delay?: number): T;
+
 type Direction = "rtl" | "ltr";
 
 interface BaseElementProps {
@@ -76,11 +93,29 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
+interface MultipleSelectProps {
+    type: "multipleSelect";
+    options?: MultipleSelectorOption[];
+    emptyOptionsElement?: ReactNode;
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    selectedOptions?: MultipleSelectorOption[];
+    name?: string;
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+        emptyIndicatorClassName?: string;
+    };
+    unremovableOptions?: MultipleSelectorOption[];
+    selectLabel?: string;
+}
 interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement;
+type FormElement = InputElement | SelectElement | MultipleSelectProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -245,42 +280,9 @@ declare const Table: React__default.MemoExoticComponent<(props: TableProps) => r
 
 declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
 
-interface MultipleSelectorOption {
-    value: string;
-    label: string;
-    disable?: boolean;
-    /** fixed option that can&lsquo;t be removed. */
-    fixed?: boolean;
-    /** Group the options by providing key. */
-    [key: string]: string | boolean | undefined;
-}
-interface MultipleSelectorRef {
-    selectedValue: MultipleSelectorOption[];
-    input: HTMLInputElement;
-    focus: () => void;
-    reset: () => void;
-}
-declare function useDebounce<T>(value: T, delay?: number): T;
-
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-interface MultipleSelectProps {
-    emptyOptionsElement?: ReactNode;
-    options: MultipleSelectorOption[];
-    onChange: (value: MultipleSelectorOption[]) => void;
-    selectedOptions: MultipleSelectorOption[];
-    styles?: {
-        containerClassName?: string;
-        badgeClassName?: string;
-        className?: string;
-        dropdownClassName?: string;
-        dropdownOptionClassName?: string;
-        emptyIndicatorClassName?: string;
-    };
-    unremovableOptions?: MultipleSelectorOption[];
-    selectLabel?: string;
-}
-declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsElement, styles, unremovableOptions, selectLabel, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, selectLabel, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
@@ -335,4 +337,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, type MultipleSelectProps, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

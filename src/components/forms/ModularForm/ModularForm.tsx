@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ModularFormProps } from "src/types";
-import { InputContainer, SelectContainer } from "./formElements";
+import { InputContainer, MultipleSelect, SelectContainer } from "./formElements";
 import { Loader } from "@/components/utils";
 import { cn } from "src/helpers";
 
@@ -54,6 +54,8 @@ const ModularForm = ({
                         return <InputContainer key={index} {...element} />;
                     case "select":
                         return <SelectContainer key={index} {...element} />;
+                    case "multipleSelect":
+                        return <MultipleSelect key={index} {...element} />;
                     default:
                         return null;
                 }

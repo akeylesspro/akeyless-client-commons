@@ -1,4 +1,6 @@
+import { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { Direction } from "../types";
+import { ReactNode } from "react";
 
 export interface BaseElementProps {
     name?: string;
@@ -28,11 +30,29 @@ export interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
+export interface MultipleSelectProps {
+    type: "multipleSelect";
+    options?: MultipleSelectorOption[];
+    emptyOptionsElement?: ReactNode;
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    selectedOptions?: MultipleSelectorOption[];
+    name?: string;
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+        emptyIndicatorClassName?: string;
+    };
+    unremovableOptions?: MultipleSelectorOption[];
+    selectLabel?: string;
+}
 
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 
-export type FormElement = InputElement | SelectElement;
+export type FormElement = InputElement | SelectElement | MultipleSelectProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
