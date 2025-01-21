@@ -1151,18 +1151,17 @@ function timestamp_to_string(firebaseTimestamp, options) {
     } else if (_instanceof(firebaseTimestamp, Date)) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = moment2(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = moment2.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
-            throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
+            throw new Error("Invalid date string format");
         }
     } else {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var withTZ = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        var withoutTZ = moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var withoutTZ = moment2(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
         var result = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        console.log("with tz", withTZ);
+        console.log("firebaseTimestamp", firebaseTimestamp);
         console.log("without tz", withoutTZ);
         console.log("result", result);
         return result;

@@ -1315,18 +1315,17 @@ function timestamp_to_string(firebaseTimestamp, options) {
     } else if (_instanceof(firebaseTimestamp, Date)) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = (0, import_moment_timezone.default)(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = import_moment_timezone.default.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
-            throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
+            throw new Error("Invalid date string format");
         }
     } else {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var withTZ = (0, import_moment_timezone.default)(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        var withoutTZ = import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var withoutTZ = (0, import_moment_timezone.default)(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
         var result = (0, import_moment_timezone.default)(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
-        console.log("with tz", withTZ);
+        console.log("firebaseTimestamp", firebaseTimestamp);
         console.log("without tz", withoutTZ);
         console.log("result", result);
         return result;

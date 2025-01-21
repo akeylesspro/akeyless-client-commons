@@ -12,22 +12,20 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
     } else if (firebaseTimestamp instanceof Date) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = moment(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = moment.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
-            throw new Error("Invalid date string format. Expected 'DD/MM/YYYY HH:mm'.");
+            throw new Error("Invalid date string format");
         }
     } else {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options?.tz) {
-        const withTZ = moment(date)
-            .tz(options.tz)
-            .format(options.format || "DD-MM-YYYY HH:mm:ss");
-        const withoutTZ = moment.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        const withoutTZ = moment(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
         const result = moment(date)
             .tz(options.tz)
             .format(options.format || "DD-MM-YYYY HH:mm:ss");
-        console.log("with tz", withTZ);
+
+        console.log("firebaseTimestamp", firebaseTimestamp);
         console.log("without tz", withoutTZ);
         console.log("result", result);
 
