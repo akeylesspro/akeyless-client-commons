@@ -74,6 +74,7 @@ interface MultipleSelectorProps {
     /** hide the clear all button. */
     hideClearAllButton?: boolean;
     dropdownClassName?: string;
+    dropdownOptionClassName?: string;
 }
 
 export interface MultipleSelectorRef {
@@ -179,6 +180,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             inputProps,
             hideClearAllButton = false,
             dropdownClassName,
+            dropdownOptionClassName,
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>
     ) => {
@@ -569,7 +571,11 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                                                     setSelected(newOptions);
                                                                     onChange?.(newOptions);
                                                                 }}
-                                                                className={cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50")}
+                                                                className={cn(
+                                                                    "cursor-pointer",
+                                                                    option.disable && "cursor-not-allowed opacity-50",
+                                                                    dropdownOptionClassName
+                                                                )}
                                                             >
                                                                 {option.label}
                                                             </CommandItem>

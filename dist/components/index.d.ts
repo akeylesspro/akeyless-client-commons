@@ -316,7 +316,7 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-interface TeatMultipleSelectorProps {
+interface MultipleSelectProps {
     emptyOptionsLabel?: string;
     options: MultipleSelectorOption[];
     onChange: (value: MultipleSelectorOption[]) => void;
@@ -326,8 +326,9 @@ interface TeatMultipleSelectorProps {
         badgeClassName?: string;
         className?: string;
         dropdownClassName?: string;
+        dropdownOptionClassName?: string;
     };
 }
-declare function TeatMultipleSelector({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: TeatMultipleSelectorProps): react_jsx_runtime.JSX.Element;
+declare function MultipleSelect({ options, onChange, selectedOptions, emptyOptionsLabel, styles, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TeatMultipleSelector, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, type MultipleSelectorOption, type MultipleSelectorRef, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, MultipleSelect as TeatMultipleSelector, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

@@ -486,7 +486,7 @@ __export(components_exports, {
         return TableRow2;
     },
     TeatMultipleSelector: function() {
-        return TeatMultipleSelector;
+        return MultipleSelect;
     },
     TimesUI: function() {
         return TimesUI;
@@ -1748,7 +1748,7 @@ var CommandEmpty2 = (0, import_react4.forwardRef)(function(_param, forwardedRef)
 });
 CommandEmpty2.displayName = "CommandEmpty";
 var MultipleSelector = React8.forwardRef(function(param, ref) {
-    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName;
+    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? false : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName;
     var inputRef = React8.useRef(null);
     var _React8_useState = _sliced_to_array(React8.useState(false), 2), open = _React8_useState[0], setOpen = _React8_useState[1];
     var _React8_useState1 = _sliced_to_array(React8.useState(false), 2), onScrollbar = _React8_useState1[0], setOnScrollbar = _React8_useState1[1];
@@ -2198,7 +2198,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                                         setSelected(newOptions);
                                                         onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
                                                     },
-                                                    className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50"),
+                                                    className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
                                                     children: option.label
                                                 }, option.value);
                                             })
@@ -3272,7 +3272,7 @@ function Slot2(props) {
 }
 // src/components/TestMultipleSelector.tsx
 var import_jsx_runtime19 = require("react/jsx-runtime");
-function TeatMultipleSelector(param) {
+function MultipleSelect(param) {
     var options = param.options, onChange = param.onChange, selectedOptions = param.selectedOptions, _param_emptyOptionsLabel = param.emptyOptionsLabel, emptyOptionsLabel = _param_emptyOptionsLabel === void 0 ? "all options selected." : _param_emptyOptionsLabel, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles;
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
         className: cn("", styles.containerClassName),
@@ -3292,7 +3292,8 @@ function TeatMultipleSelector(param) {
             emptyIndicator: /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("p", {
                 className: "text-center text-sm",
                 children: emptyOptionsLabel
-            })
+            }),
+            dropdownOptionClassName: styles.dropdownOptionClassName
         })
     });
 }

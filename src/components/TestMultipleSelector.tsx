@@ -1,7 +1,7 @@
 import MultipleSelector, { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { cn } from "src/helpers";
 
-interface TeatMultipleSelectorProps {
+interface MultipleSelectProps {
     emptyOptionsLabel?: string;
     options: MultipleSelectorOption[];
     onChange: (value: MultipleSelectorOption[]) => void;
@@ -11,15 +11,16 @@ interface TeatMultipleSelectorProps {
         badgeClassName?: string;
         className?: string;
         dropdownClassName?: string;
+        dropdownOptionClassName?: string;
     };
 }
-export default function TeatMultipleSelector({
+export default function MultipleSelect({
     options,
     onChange,
     selectedOptions,
     emptyOptionsLabel = "all options selected.",
     styles = {},
-}: TeatMultipleSelectorProps) {
+}: MultipleSelectProps) {
     return (
         <div className={cn("", styles.containerClassName)}>
             <MultipleSelector
@@ -36,76 +37,8 @@ export default function TeatMultipleSelector({
                 className={styles.className}
                 dropdownClassName={styles.dropdownClassName}
                 emptyIndicator={<p className="text-center text-sm">{emptyOptionsLabel}</p>}
+                dropdownOptionClassName={styles.dropdownOptionClassName}
             />
         </div>
     );
 }
-
-// const frameworks: MultipleSelectorOption[] = [
-//   {
-//       value: "next.js",
-//       label: "Next.js",
-//   },
-//   {
-//       value: "sveltekit",
-//       label: "SvelteKit",
-//   },
-//   {
-//       value: "nuxt.js",
-//       label: "Nuxt.js",
-//       disable: true,
-//   },
-//   {
-//       value: "remix",
-//       label: "Remix",
-//   },
-//   {
-//       value: "astro",
-//       label: "Astro",
-//   },
-//   {
-//       value: "angular",
-//       label: "Angular",
-//   },
-//   {
-//       value: "vue",
-//       label: "Vue.js",
-//   },
-//   {
-//       value: "react",
-//       label: "React",
-//   },
-//   {
-//       value: "ember",
-//       label: "Ember.js",
-//   },
-//   {
-//       value: "gatsby",
-//       label: "Gatsby",
-//   },
-//   {
-//       value: "eleventy",
-//       label: "Eleventy",
-//       disable: true,
-//   },
-//   {
-//       value: "solid",
-//       label: "SolidJS",
-//   },
-//   {
-//       value: "preact",
-//       label: "Preact",
-//   },
-//   {
-//       value: "qwik",
-//       label: "Qwik",
-//   },
-//   {
-//       value: "alpine",
-//       label: "Alpine.js",
-//   },
-//   {
-//       value: "lit",
-//       label: "Lit",
-//   },
-// ];
