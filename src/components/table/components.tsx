@@ -311,7 +311,7 @@ interface DurationUIProps {
     hoursLabel?: string;
     secondsLabel?: string;
 }
-export const DurationUI = ({ duration, hoursLabel = "H", minutesLabel = "M", secondsLabel = "S" }: DurationUIProps) => {
+export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s" }: DurationUIProps) => {
     const durationTime = duration.split(":");
     const hours = parseInt(durationTime[0], 10);
     const minutes = parseInt(durationTime[1], 10);
@@ -325,9 +325,17 @@ export const DurationUI = ({ duration, hoursLabel = "H", minutesLabel = "M", sec
             }`}
         >
             {hours > 0 && (
-                <span>
-                    {hours} {hoursLabel}
-                </span>
+                <div>
+                    <span>
+                        {hours} {hoursLabel}
+                    </span>
+                    {minutes === 0 && (
+                        <span>
+                            {" "}
+                            {"00"} {minutesLabel}
+                        </span>
+                    )}
+                </div>
             )}
             {minutes > 0 && (
                 <span>
