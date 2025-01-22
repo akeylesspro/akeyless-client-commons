@@ -2762,7 +2762,7 @@ var SelectContainer = function(param) {
 function MultipleSelect(param) {
     var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName;
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
-        className: cn("", styles.containerClassName),
+        className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
         children: [
             labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
                 labelContent: labelContent,
@@ -2846,7 +2846,7 @@ function InternationalPhonePicker(param) {
         style: {
             direction: direction
         },
-        className: cn("space-y-2", containerClassName),
+        className: cn("space-y-2", "".concat(labelContent ? "flex gap-1 items-center" : ""), containerClassName),
         children: [
             labelContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ElementLabel, {
                 labelContent: labelContent,

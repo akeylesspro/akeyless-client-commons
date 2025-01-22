@@ -103,7 +103,7 @@ export function MultipleSelect({
     labelClassName,
 }: MultipleSelectProps) {
     return (
-        <div className={cn("", styles.containerClassName)}>
+        <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <MultipleSelector
                 commandProps={{

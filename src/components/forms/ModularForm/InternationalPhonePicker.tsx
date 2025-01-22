@@ -44,7 +44,7 @@ export default function InternationalPhonePicker({
         }
     }, [defaultValue, setPhoneValue]);
     return (
-        <div style={{ direction }} className={cn("space-y-2", containerClassName)}>
+        <div style={{ direction }} className={cn("space-y-2", `${labelContent ? "flex gap-1 items-center" : ""}`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <RPNInput.default
                 style={{ direction: "ltr" }}
