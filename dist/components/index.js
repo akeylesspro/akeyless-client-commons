@@ -3015,6 +3015,7 @@ var ModularForm = function(param) {
                 switch(_state.label){
                     case 0:
                         e.preventDefault();
+                        setErrorMsg("");
                         setIsLoading(true);
                         _state.label = 1;
                     case 1:

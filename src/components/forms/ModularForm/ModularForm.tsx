@@ -20,6 +20,7 @@ const ModularForm = ({
     const [isLoading, setIsLoading] = useState(false);
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorMsg("");
         setIsLoading(true);
         try {
             const form = e.currentTarget;
