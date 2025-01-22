@@ -76,17 +76,17 @@ interface InputElement extends BaseElementProps {
 }
 interface SelectElement extends BaseElementProps {
     type: "select";
-    optionsContainerClassName?: string;
     options: {
         value: any;
         label: string;
     }[];
+    optionsContainerClassName?: string;
     defaultValue?: any;
     optionClassName?: string;
 }
 interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
     type: "multipleSelect";
-    options?: MultipleSelectorOption[];
+    options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
     selectedOptions?: MultipleSelectorOption[];
