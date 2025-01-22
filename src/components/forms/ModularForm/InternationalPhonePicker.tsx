@@ -51,7 +51,7 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue, style }}
+                numberInputProps={{ className: cn("min-h-10", inputClassName), onKeyDown: handleKeyDown, defaultValue, style }}
                 placeholder={placeholder}
                 value={tempPhoneValue || phoneValue}
                 onChange={(newValue) => {

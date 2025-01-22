@@ -2853,7 +2853,7 @@ function InternationalPhonePicker(param) {
                 },
                 inputComponent: PhoneInput,
                 numberInputProps: {
-                    className: inputClassName,
+                    className: cn("min-h-10", inputClassName),
                     onKeyDown: handleKeyDown,
                     defaultValue: defaultValue,
                     style: style
