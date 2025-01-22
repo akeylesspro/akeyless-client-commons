@@ -5,7 +5,7 @@ import * as RPNInput from "react-phone-number-input";
 
 export interface BaseElementProps {
     name?: string;
-    labelContent: string;
+    labelContent?: string;
     required?: boolean;
     labelClassName?: string;
     containerClassName?: string;
@@ -50,7 +50,7 @@ export interface MultipleSelectProps extends Omit<BaseElementProps, "containerCl
     placeholder?: string;
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
-    type?: "internationalPhoneInput";
+    type: "internationalPhoneInput";
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;

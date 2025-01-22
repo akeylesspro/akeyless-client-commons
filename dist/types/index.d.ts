@@ -57,7 +57,7 @@ type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: s
 
 interface BaseElementProps {
     name?: string;
-    labelContent: string;
+    labelContent?: string;
     required?: boolean;
     labelClassName?: string;
     containerClassName?: string;
@@ -102,7 +102,7 @@ interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName
     placeholder?: string;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
-    type?: "internationalPhoneInput";
+    type: "internationalPhoneInput";
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
