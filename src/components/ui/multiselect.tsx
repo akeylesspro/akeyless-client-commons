@@ -103,9 +103,11 @@ export function useDebounce<T>(value: T, delay?: number): T {
 }
 
 function transToGroupOption(options: MultipleSelectorOption[], groupBy?: string) {
+    
     if (options.length === 0) {
         return {};
     }
+
     if (!groupBy) {
         return {
             "": options,
@@ -444,6 +446,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                     }}
                 >
                     <div className="flex flex-wrap gap-1">
+                        {/* badges */}
                         {selected.map((option) => {
                             return (
                                 <div

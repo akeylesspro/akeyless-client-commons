@@ -24,7 +24,7 @@ const ModularForm = ({
         try {
             const form = e.currentTarget;
             elements.forEach((element) => {
-                if (element.type === "input" && element.minLength) {
+                if (element.minLength) {
                     const inputValue = (form.elements.namedItem(element.name) as HTMLInputElement)?.value || "";
                     if (inputValue.length < element.minLength) {
                         throw element.validationError || `${element.labelContent} must be at least ${element.minLength} characters`;

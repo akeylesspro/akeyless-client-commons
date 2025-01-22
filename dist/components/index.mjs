@@ -2850,7 +2850,7 @@ var ModularForm = function(param) {
                         ]);
                         form = e.currentTarget;
                         elements.forEach(function(element) {
-                            if (element.type === "input" && element.minLength) {
+                            if (element.minLength) {
                                 var _form_elements_namedItem;
                                 var inputValue = ((_form_elements_namedItem = form.elements.namedItem(element.name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
                                 if (inputValue.length < element.minLength) {

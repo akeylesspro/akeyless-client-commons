@@ -10,6 +10,8 @@ export interface BaseElementProps {
     labelClassName?: string;
     containerClassName?: string;
     elementClassName?: string;
+    minLength?: number;
+    validationError?: string;
 }
 
 export interface InputElement extends BaseElementProps {
@@ -17,10 +19,8 @@ export interface InputElement extends BaseElementProps {
     inputType?: string;
     defaultValue?: string;
     validationName?: string;
-    validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
-    minLength?: number;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
@@ -64,7 +64,7 @@ export interface InternationalInputProps extends Omit<BaseElementProps, "element
     onEnter?: () => void;
     direction?: Direction;
 }
-export interface CustomElementProps {
+export interface CustomElementProps extends BaseElementProps {
     type: "custom";
     element: ReactNode;
 }

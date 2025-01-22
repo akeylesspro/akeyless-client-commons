@@ -358,6 +358,9 @@ __export(helpers_exports, {
     formatCarNumber: function() {
         return formatCarNumber;
     },
+    getElementValue: function() {
+        return getElementValue;
+    },
     getUserCountryByIp: function() {
         return getUserCountryByIp;
     },
@@ -1526,6 +1529,10 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
+var getElementValue = function(form, name) {
+    var _form_elements_namedItem;
+    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+};
 var parseMultiSelectInput = function(input) {
     var value = JSON.parse(input) || [];
     return value.map(function(v) {
@@ -1609,6 +1616,7 @@ function cn() {
     extractSiteData: extractSiteData,
     fire_base_TIME_TEMP: fire_base_TIME_TEMP,
     formatCarNumber: formatCarNumber,
+    getElementValue: getElementValue,
     getUserCountryByIp: getUserCountryByIp,
     get_all_documents: get_all_documents,
     get_document_by_id: get_document_by_id,
