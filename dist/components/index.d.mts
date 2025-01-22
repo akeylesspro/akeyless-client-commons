@@ -113,6 +113,7 @@ interface MultipleSelectProps {
 }
 interface InternationalInputProps {
     type?: "internationalPhoneInput";
+    labelContent?: string;
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
@@ -307,7 +308,7 @@ declare const InputContainer: ({ validationError, name, inputType, labelContent,
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, selectLabel, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 
-declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;

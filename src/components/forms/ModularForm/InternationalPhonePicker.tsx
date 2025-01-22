@@ -20,6 +20,7 @@ export default function InternationalPhonePicker({
     name,
     style,
     onEnter,
+    labelContent,
 }: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -40,6 +41,7 @@ export default function InternationalPhonePicker({
     }, [defaultValue, setPhoneValue]);
     return (
         <div className={cn("space-y-2", containerClassName)} dir="ltr">
+            {labelContent && labelContent}
             <RPNInput.default
                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international

@@ -51,6 +51,7 @@ export interface MultipleSelectProps {
 }
 export interface InternationalInputProps {
     type?: "internationalPhoneInput";
+    labelContent?: string;
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
