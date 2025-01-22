@@ -1,7 +1,7 @@
 import MultipleSelector from "@/components/ui/multiselect";
 import { ReactNode, useState } from "react";
 import { cn, useValidation } from "src/helpers";
-import { InputContainerProps, MultipleSelectProps, SelectContainerProps } from "src/types";
+import { BaseElementProps, InputContainerProps, MultipleSelectProps, SelectContainerProps } from "src/types";
 
 export const InputContainer = ({
     validationError,
@@ -20,11 +20,7 @@ export const InputContainer = ({
 }: InputContainerProps) => {
     return (
         <div className={`center ${containerClassName}`}>
-            <label className={`text-start w-[30%] flex gap-0.5  ${labelClassName}`} htmlFor={name}>
-                <div>{labelContent}</div>
-                {required && <div className="text-red-500">*</div>}
-                <div>:</div>
-            </label>
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <input
                 {...props}
                 placeholder={placeholder}
@@ -62,12 +58,7 @@ export const SelectContainer = ({
 
     return (
         <div className={`center ${containerClassName}`}>
-            <label className={`text-start w-[30%] flex gap-0.5 ${labelClassName}`} htmlFor={name}>
-                <div>{labelContent}</div>
-                {required && <div className="text-red-500">*</div>}
-                <div>:</div>
-            </label>
-
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <div className={`w-[70%] relative ${elementClassName}`} onClick={() => setIsOpen(!isOpen)}>
                 <div className={`border-b-[1px] border-black max-h-6 cursor-pointer ${elementClassName}`}>
                     {options?.find((opt) => opt.value === selectedValue)?.label || selectedValue}
@@ -106,20 +97,24 @@ export function MultipleSelect({
     options = [],
     styles = {},
     name = "multipleSelect",
-    selectLabel = "Select items",
+    placeholder = "Select items",
+    labelContent,
+    required,
+    labelClassName,
 }: MultipleSelectProps) {
     return (
         <div className={cn("", styles.containerClassName)}>
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <MultipleSelector
                 commandProps={{
-                    label: selectLabel,
+                    label: placeholder,
                 }}
                 name={name}
                 value={selectedOptions}
                 onChange={onChange}
                 defaultOptions={options}
                 unremovableOptions={unremovableOptions}
-                placeholder={selectLabel}
+                placeholder={placeholder}
                 hideClearAllButton
                 hidePlaceholderWhenSelected
                 badgeClassName={styles.badgeClassName}
@@ -132,3 +127,13 @@ export function MultipleSelect({
         </div>
     );
 }
+
+export const ElementLabel = ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => {
+    return (
+        <label className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
+            <div>{labelContent}</div>
+            {required && <div className="text-red-500">*</div>}
+            <div>:</div>
+        </label>
+    );
+};

@@ -422,6 +422,9 @@ __export(components_exports, {
     DurationUI: function() {
         return DurationUI;
     },
+    ElementLabel: function() {
+        return ElementLabel;
+    },
     ErrorBoundary: function() {
         return ErrorBoundary;
     },
@@ -2679,21 +2682,11 @@ var InputContainer = function(param) {
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: "center ".concat(containerClassName),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", {
-                className: "text-start w-[30%] flex gap-0.5  ".concat(labelClassName),
-                htmlFor: name,
-                children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        children: labelContent
-                    }),
-                    required && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        className: "text-red-500",
-                        children: "*"
-                    }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        children: ":"
-                    })
-                ]
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
             }),
             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
                 placeholder: placeholder,
@@ -2720,21 +2713,11 @@ var SelectContainer = function(param) {
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: "center ".concat(containerClassName),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", {
-                className: "text-start w-[30%] flex gap-0.5 ".concat(labelClassName),
-                htmlFor: name,
-                children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        children: labelContent
-                    }),
-                    required && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        className: "text-red-500",
-                        children: "*"
-                    }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        children: ":"
-                    })
-                ]
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
             }),
             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
                 className: "w-[70%] relative ".concat(elementClassName),
@@ -2777,33 +2760,60 @@ var SelectContainer = function(param) {
     });
 };
 function MultipleSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_selectLabel = param.selectLabel, selectLabel = _param_selectLabel === void 0 ? "Select items" : _param_selectLabel;
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName;
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: cn("", styles.containerClassName),
-        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
-            commandProps: {
-                label: selectLabel
-            },
-            name: name,
-            value: selectedOptions,
-            onChange: onChange,
-            defaultOptions: options,
-            unremovableOptions: unremovableOptions,
-            placeholder: selectLabel,
-            hideClearAllButton: true,
-            hidePlaceholderWhenSelected: true,
-            badgeClassName: styles.badgeClassName,
-            className: styles.className,
-            dropdownClassName: styles.dropdownClassName,
-            dropdownOptionClassName: styles.dropdownOptionClassName,
-            emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
-                className: "text-center text-sm",
-                children: "all options selected."
+        children: [
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
             }),
-            emptyIndicatorClassName: styles.emptyIndicatorClassName
-        })
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
+                commandProps: {
+                    label: placeholder
+                },
+                name: name,
+                value: selectedOptions,
+                onChange: onChange,
+                defaultOptions: options,
+                unremovableOptions: unremovableOptions,
+                placeholder: placeholder,
+                hideClearAllButton: true,
+                hidePlaceholderWhenSelected: true,
+                badgeClassName: styles.badgeClassName,
+                className: styles.className,
+                dropdownClassName: styles.dropdownClassName,
+                dropdownOptionClassName: styles.dropdownOptionClassName,
+                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
+                    className: "text-center text-sm",
+                    children: "all options selected."
+                }),
+                emptyIndicatorClassName: styles.emptyIndicatorClassName
+            })
+        ]
     });
 }
+var ElementLabel = function(param) {
+    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", {
+        className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
+        htmlFor: name,
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+                children: labelContent
+            }),
+            required && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+                className: "text-red-500",
+                children: "*"
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
+                children: ":"
+            })
+        ]
+    });
+};
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 var import_lucide_react4 = require("lucide-react");
 var import_react7 = require("react");
@@ -2811,7 +2821,7 @@ var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
 var import_jsx_runtime17 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
-    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter, labelContent = param.labelContent;
+    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter, labelContent = param.labelContent, labelClassName = param.labelClassName, required = param.required, direction = param.direction;
     var handleKeyDown = function(e) {
         if (e.key === "Enter") {
             if (onEnter) {
@@ -2833,11 +2843,21 @@ function InternationalPhonePicker(param) {
         setPhoneValue
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+        style: {
+            direction: direction
+        },
         className: cn("space-y-2", containerClassName),
-        dir: "ltr",
         children: [
-            labelContent && labelContent,
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(RPNInput.default, {
+                style: {
+                    direction: "ltr"
+                },
                 className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
                 international: true,
                 countries: [
@@ -3070,6 +3090,8 @@ var ModularForm = function(param) {
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MultipleSelect, _object_spread({}, element), index);
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(InternationalPhonePicker, _object_spread({}, element), index);
+                    case "custom":
+                        return element.element;
                     default:
                         return null;
                 }
@@ -3349,6 +3371,7 @@ function Slot2(props) {
     ConfirmForm: ConfirmForm,
     DatePicker: DatePicker,
     DurationUI: DurationUI,
+    ElementLabel: ElementLabel,
     ErrorBoundary: ErrorBoundary,
     ExportToExcel: ExportToExcel,
     Filter: Filter,

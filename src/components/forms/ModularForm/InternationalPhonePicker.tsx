@@ -6,6 +6,7 @@ import React, { cloneElement, Dispatch, forwardRef, SetStateAction, useEffect, u
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { InternationalInputProps } from "src/types";
+import { ElementLabel } from "./formElements";
 
 export default function InternationalPhonePicker({
     setPhoneValue,
@@ -21,6 +22,9 @@ export default function InternationalPhonePicker({
     style,
     onEnter,
     labelContent,
+    labelClassName,
+    required,
+    direction,
 }: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -40,9 +44,10 @@ export default function InternationalPhonePicker({
         }
     }, [defaultValue, setPhoneValue]);
     return (
-        <div className={cn("space-y-2", containerClassName)} dir="ltr">
-            {labelContent && labelContent}
+        <div style={{ direction }} className={cn("space-y-2", containerClassName)}>
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <RPNInput.default
+                style={{ direction: "ltr" }}
                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}

@@ -7,8 +7,8 @@ export interface BaseElementProps {
     name?: string;
     labelContent: string;
     required?: boolean;
-    containerClassName?: string;
     labelClassName?: string;
+    containerClassName?: string;
     elementClassName?: string;
 }
 
@@ -31,13 +31,13 @@ export interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
-export interface MultipleSelectProps {
+
+export interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
     type: "multipleSelect";
     options?: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
     selectedOptions?: MultipleSelectorOption[];
-    name?: string;
     styles?: {
         containerClassName?: string;
         badgeClassName?: string;
@@ -47,29 +47,32 @@ export interface MultipleSelectProps {
         emptyIndicatorClassName?: string;
     };
     unremovableOptions?: MultipleSelectorOption[];
-    selectLabel?: string;
+    placeholder?: string;
 }
-export interface InternationalInputProps {
+export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
-    labelContent?: string;
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
     className?: string;
     containerClassName?: string;
-    name?: string;
     style?: React.CSSProperties;
     flagContainerClassName?: string;
     inputClassName?: string;
     defaultValue?: string;
     defaultCountry?: RPNInput.Country;
     onEnter?: () => void;
+    direction?: Direction;
+}
+export interface CustomElementProps {
+    type: "custom";
+    element: ReactNode;
 }
 
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 
-export type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps;
+export type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps | CustomElementProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;

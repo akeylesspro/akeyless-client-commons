@@ -59,8 +59,8 @@ interface BaseElementProps {
     name?: string;
     labelContent: string;
     required?: boolean;
-    containerClassName?: string;
     labelClassName?: string;
+    containerClassName?: string;
     elementClassName?: string;
 }
 interface InputElement extends BaseElementProps {
@@ -84,13 +84,12 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
-interface MultipleSelectProps {
+interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
     type: "multipleSelect";
     options?: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
     selectedOptions?: MultipleSelectorOption[];
-    name?: string;
     styles?: {
         containerClassName?: string;
         badgeClassName?: string;
@@ -100,29 +99,32 @@ interface MultipleSelectProps {
         emptyIndicatorClassName?: string;
     };
     unremovableOptions?: MultipleSelectorOption[];
-    selectLabel?: string;
+    placeholder?: string;
 }
-interface InternationalInputProps {
+interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
-    labelContent?: string;
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
     className?: string;
     containerClassName?: string;
-    name?: string;
     style?: React.CSSProperties;
     flagContainerClassName?: string;
     inputClassName?: string;
     defaultValue?: string;
     defaultCountry?: RPNInput.Country;
     onEnter?: () => void;
+    direction?: Direction;
+}
+interface CustomElementProps {
+    type: "custom";
+    element: ReactNode;
 }
 interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps;
+type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps | CustomElementProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -158,4 +160,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultipleSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultipleSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };

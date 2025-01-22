@@ -59,6 +59,8 @@ const ModularForm = ({
                         return <MultipleSelect key={index} {...element} />;
                     case "internationalPhoneInput":
                         return <InternationalPhonePicker key={index} {...element} />;
+                    case "custom":
+                        return element.element;
                     default:
                         return null;
                 }
