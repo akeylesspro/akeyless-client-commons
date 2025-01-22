@@ -1141,6 +1141,10 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
+var getFormElementValue = function(form, name) {
+    var _form_elements_namedItem;
+    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+};
 // src/helpers/time_helpers.ts
 import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
@@ -2852,10 +2856,9 @@ var ModularForm = function(param) {
                         form = e.currentTarget;
                         elements.forEach(function(element) {
                             if (element.minLength) {
-                                var _form_elements_namedItem;
-                                var inputValue = ((_form_elements_namedItem = form.elements.namedItem(element.name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
-                                if (inputValue.length < element.minLength) {
-                                    throw element.validationError || "".concat(element.labelContent, " must be at least ").concat(element.minLength, " characters");
+                                var elementValue = getFormElementValue(form, element.name);
+                                if (elementValue.length < element.minLength) {
+                                    throw element.validationError || "".concat(element.labelContent || element.name, " must be at least ").concat(element.minLength, " characters");
                                 }
                             }
                         });

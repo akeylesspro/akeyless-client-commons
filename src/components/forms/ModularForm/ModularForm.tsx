@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ModularFormProps } from "src/types";
 import { InputContainer, MultipleSelect, SelectContainer } from "./formElements";
 import { Loader } from "@/components/utils";
-import { cn } from "src/helpers";
+import { cn, getFormElementValue } from "src/helpers";
 import InternationalPhonePicker from "./InternationalPhonePicker";
 
 const ModularForm = ({
@@ -26,9 +26,9 @@ const ModularForm = ({
             const form = e.currentTarget;
             elements.forEach((element) => {
                 if (element.minLength) {
-                    const inputValue = (form.elements.namedItem(element.name) as HTMLInputElement)?.value || "";
-                    if (inputValue.length < element.minLength) {
-                        throw element.validationError || `${element.labelContent} must be at least ${element.minLength} characters`;
+                    const elementValue = getFormElementValue(form, element.name);
+                    if (elementValue.length < element.minLength) {
+                        throw element.validationError || `${element.labelContent || element.name} must be at least ${element.minLength} characters`;
                     }
                 }
             });
