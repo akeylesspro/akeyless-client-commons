@@ -152,7 +152,7 @@ declare const useValidation: (validationType: ValidationType, requireError?: str
     onInvalid: (e: React.InvalidEvent<HTMLInputElement>) => void;
     "data-validation": ValidationType;
 };
-declare const getElementValue: (form: EventTarget & HTMLFormElement, name: string) => string;
+declare const getFormElementValue: (form: EventTarget & HTMLFormElement, name: string) => string;
 declare const parseMultiSelectInput: (input: string) => any;
 
 declare const setState: <T>(updater: T | ((state: T) => T), set: (fn: (state: any) => any) => void, stateName: string) => void;
@@ -174,4 +174,4 @@ declare const is_iccid: (number: string) => boolean;
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };

@@ -93,7 +93,7 @@ export const useValidation = (validationType: ValidationType, requireError?: str
     };
 };
 
-export const getElementValue = (form: EventTarget & HTMLFormElement, name: string) => {
+export const getFormElementValue = (form: EventTarget & HTMLFormElement, name: string) => {
     return (form.elements.namedItem(name) as HTMLInputElement)?.value || "";
 };
 
