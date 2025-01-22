@@ -400,6 +400,9 @@ __export(helpers_exports, {
     numbersRegex: function() {
         return numbersRegex;
     },
+    parseMultiSelectInput: function() {
+        return parseMultiSelectInput;
+    },
     parsePermissions: function() {
         return parsePermissions;
     },
@@ -1523,6 +1526,12 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
+var parseMultiSelectInput = function(input) {
+    var value = JSON.parse(input) || [];
+    return value.map(function(v) {
+        return v.value;
+    });
+};
 // src/helpers/store.ts
 var setState = function(updater, set, stateName) {
     return set(function(state) {
@@ -1614,6 +1623,7 @@ function cn() {
     local_israel_phone_format: local_israel_phone_format,
     numbersOnlyRegex: numbersOnlyRegex,
     numbersRegex: numbersRegex,
+    parseMultiSelectInput: parseMultiSelectInput,
     parsePermissions: parsePermissions,
     priceRegex: priceRegex,
     query_document: query_document,

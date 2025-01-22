@@ -92,3 +92,8 @@ export const useValidation = (validationType: ValidationType, requireError?: str
         "data-validation": validationType,
     };
 };
+
+export const parseMultiSelectInput = (input: string) => {
+    const value = JSON.parse(input) || [];
+    return value.map((v: any) => v.value);
+};
