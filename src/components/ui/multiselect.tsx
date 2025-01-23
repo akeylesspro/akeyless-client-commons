@@ -365,7 +365,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         const newOptions = [...selected, { value, label: value }];
                         setSelected(newOptions);
                         onChange?.(newOptions);
-                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                     }}
                 >
                     {`Create "${inputValue}"`}
@@ -592,6 +591,11 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                                                     option.disable && "cursor-not-allowed opacity-50",
                                                                     dropdownOptionClassName
                                                                 )}
+                                                                onClick={() => {
+                                                                    console.log("option", option);
+
+                                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                                }}
                                                             >
                                                                 {option.label}
                                                             </CommandItem>

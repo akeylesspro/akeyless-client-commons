@@ -2002,7 +2002,6 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                 ]);
                 setSelected(newOptions);
                 onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
-                setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
             },
             children: 'Create "'.concat(inputValue, '"')
         });
@@ -2220,6 +2219,10 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                                         onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
                                                     },
                                                     className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
+                                                    onClick: function() {
+                                                        console.log("option", option);
+                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                    },
                                                     children: option.label
                                                 }, option.value);
                                             })
