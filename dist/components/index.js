@@ -2002,6 +2002,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                 ]);
                 setSelected(newOptions);
                 onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+                setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
             },
             children: 'Create "'.concat(inputValue, '"')
         });

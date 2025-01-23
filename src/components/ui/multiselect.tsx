@@ -365,6 +365,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         const newOptions = [...selected, { value, label: value }];
                         setSelected(newOptions);
                         onChange?.(newOptions);
+                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                     }}
                 >
                     {`Create "${inputValue}"`}
