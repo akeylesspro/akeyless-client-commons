@@ -103,7 +103,6 @@ export function useDebounce<T>(value: T, delay?: number): T {
 }
 
 function transToGroupOption(options: MultipleSelectorOption[], groupBy?: string) {
-    
     if (options.length === 0) {
         return {};
     }
@@ -613,5 +612,3 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
 );
 MultipleSelector.displayName = "MultipleSelector";
 export default MultipleSelector;
-
-

@@ -37,6 +37,8 @@ export interface MultipleSelectProps extends Omit<BaseElementProps, "containerCl
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
+    onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    onSearchSync?: (value: string) => MultipleSelectorOption[];
     selectedOptions?: MultipleSelectorOption[];
     styles?: {
         containerClassName?: string;
@@ -48,7 +50,7 @@ export interface MultipleSelectProps extends Omit<BaseElementProps, "containerCl
     };
     unremovableOptions?: MultipleSelectorOption[];
     placeholder?: string;
-    searchBy?: "label" | "value" | (string & {});
+    groupBy?: string;
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type: "internationalPhoneInput";

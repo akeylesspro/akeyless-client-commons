@@ -98,6 +98,8 @@ interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
+    onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    onSearchSync?: (value: string) => MultipleSelectorOption[];
     selectedOptions?: MultipleSelectorOption[];
     styles?: {
         containerClassName?: string;
@@ -109,7 +111,7 @@ interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName
     };
     unremovableOptions?: MultipleSelectorOption[];
     placeholder?: string;
-    searchBy?: "label" | "value" | (string & {});
+    groupBy?: string;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type: "internationalPhoneInput";
@@ -309,7 +311,7 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, searchBy, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => react_jsx_runtime.JSX.Element;
 
 declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;

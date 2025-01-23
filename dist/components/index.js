@@ -2764,7 +2764,7 @@ var SelectContainer = function(param) {
     });
 };
 function MultipleSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, searchBy = param.searchBy;
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync;
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
         children: [
@@ -2778,10 +2778,12 @@ function MultipleSelect(param) {
                 commandProps: {
                     label: placeholder
                 },
-                groupBy: searchBy,
+                groupBy: groupBy,
                 name: name,
                 value: selectedOptions,
                 onChange: onChange,
+                onSearch: onSearch,
+                onSearchSync: onSearchSync,
                 defaultOptions: options,
                 unremovableOptions: unremovableOptions,
                 placeholder: placeholder,
