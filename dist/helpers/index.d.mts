@@ -131,7 +131,7 @@ declare const initializeUserPermissions: ({ phoneNumber, firstTimeArray, getUpda
     unsubscribe: () => void;
     permissions: TObject<TObject<boolean>>;
 }>;
-declare const userNameFormat: (user: NxUser) => string;
+declare const userNameFormat: (user?: NxUser) => string;
 declare const multiStringFormat: (str1: string, str2?: string, str3?: string) => string;
 
 declare const textRegex: RegExp;

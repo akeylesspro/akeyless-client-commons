@@ -97,7 +97,7 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
     }
 };
 
-export const userNameFormat = (user: NxUser) => {
+export const userNameFormat = (user?: NxUser) => {
     return `${user?.first_name || ""} ${user?.last_name || ""}`.trim();
 };
 
