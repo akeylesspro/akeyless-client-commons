@@ -101,6 +101,7 @@ export function MultipleSelect({
     labelContent,
     required,
     labelClassName,
+    searchBy,
 }: MultipleSelectProps) {
     return (
         <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
@@ -109,6 +110,7 @@ export function MultipleSelect({
                 commandProps={{
                     label: placeholder,
                 }}
+                groupBy={searchBy}
                 name={name}
                 value={selectedOptions}
                 onChange={onChange}

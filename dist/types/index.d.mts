@@ -100,6 +100,7 @@ interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName
     };
     unremovableOptions?: MultipleSelectorOption[];
     placeholder?: string;
+    searchBy?: "label" | "value";
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type: "internationalPhoneInput";
