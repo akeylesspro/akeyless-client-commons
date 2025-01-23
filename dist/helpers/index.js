@@ -397,6 +397,9 @@ __export(helpers_exports, {
     local_israel_phone_format: function() {
         return local_israel_phone_format;
     },
+    multiStringFormat: function() {
+        return multiStringFormat;
+    },
     numbersOnlyRegex: function() {
         return numbersOnlyRegex;
     },
@@ -456,6 +459,9 @@ __export(helpers_exports, {
     },
     useValidation: function() {
         return useValidation;
+    },
+    userNameFormat: function() {
+        return userNameFormat;
     }
 });
 module.exports = __toCommonJS(helpers_exports);
@@ -1452,6 +1458,12 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var userNameFormat = function(user) {
+    return "".concat((user === null || user === void 0 ? void 0 : user.first_name) || "", " ").concat((user === null || user === void 0 ? void 0 : user.last_name) || "").trim();
+};
+var multiStringFormat = function(str1, str2, str3) {
+    return "".concat(str1, " ").concat(str2 || "", " ").concat(str3 || "").trim();
+};
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -1629,6 +1641,7 @@ function cn() {
     isInternationalIsraelPhone: isInternationalIsraelPhone,
     is_iccid: is_iccid,
     local_israel_phone_format: local_israel_phone_format,
+    multiStringFormat: multiStringFormat,
     numbersOnlyRegex: numbersOnlyRegex,
     numbersRegex: numbersRegex,
     parseMultiSelectInput: parseMultiSelectInput,
@@ -1648,6 +1661,7 @@ function cn() {
     textNumbersRegex: textNumbersRegex,
     textRegex: textRegex,
     useStoreValues: useStoreValues,
-    useValidation: useValidation
+    useValidation: useValidation,
+    userNameFormat: userNameFormat
 });
 //# sourceMappingURL=index.js.map

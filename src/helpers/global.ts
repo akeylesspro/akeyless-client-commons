@@ -96,3 +96,12 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
         throw error;
     }
 };
+
+export const userNameFormat = (user: NxUser) => {
+    return `${user?.first_name || ""} ${user?.last_name || ""}`.trim();
+};
+
+export const multiStringFormat = (str1: string, str2?: string, str3?: string) => {
+    return `${str1} ${str2 || ""} ${str3 || ""}`.trim();
+};
+

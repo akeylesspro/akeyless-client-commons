@@ -1212,6 +1212,12 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var userNameFormat = function(user) {
+    return "".concat((user === null || user === void 0 ? void 0 : user.first_name) || "", " ").concat((user === null || user === void 0 ? void 0 : user.last_name) || "").trim();
+};
+var multiStringFormat = function(str1, str2, str3) {
+    return "".concat(str1, " ").concat(str2 || "", " ").concat(str3 || "").trim();
+};
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
@@ -1350,5 +1356,5 @@ function cn() {
     }
     return twMerge(clsx(inputs));
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation, userNameFormat };
 //# sourceMappingURL=index.mjs.map
