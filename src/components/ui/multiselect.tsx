@@ -577,6 +577,8 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                                                     e.stopPropagation();
                                                                 }}
                                                                 onSelect={() => {
+                                                                    console.log("option", option);
+                                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                                                                     if (selected.length >= maxSelected) {
                                                                         onMaxSelected?.(selected.length);
                                                                         return;
@@ -591,11 +593,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                                                     option.disable && "cursor-not-allowed opacity-50",
                                                                     dropdownOptionClassName
                                                                 )}
-                                                                onClick={() => {
-                                                                    console.log("option", option);
-
-                                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                                }}
                                                             >
                                                                 {option.label}
                                                             </CommandItem>

@@ -2031,6 +2031,8 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                                         e.stopPropagation();
                                                     },
                                                     onSelect: function() {
+                                                        console.log("option", option);
+                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                                                         if (selected.length >= maxSelected) {
                                                             onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
                                                             return;
@@ -2043,10 +2045,6 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                                         onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
                                                     },
                                                     className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
-                                                    onClick: function() {
-                                                        console.log("option", option);
-                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                    },
                                                     children: option.label
                                                 }, option.value);
                                             })
