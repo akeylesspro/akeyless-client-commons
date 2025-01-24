@@ -90,6 +90,7 @@ interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
     onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    triggerSearchOnFocus?: boolean;
     onSearchSync?: (value: string) => MultipleSelectorOption[];
     selectedOptions?: MultipleSelectorOption[];
     styles?: {

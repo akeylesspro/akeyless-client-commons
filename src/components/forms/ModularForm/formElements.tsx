@@ -104,6 +104,7 @@ export function MultipleSelect({
     groupBy,
     onSearch,
     onSearchSync,
+    triggerSearchOnFocus,
 }: MultipleSelectProps) {
     return (
         <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
@@ -118,6 +119,7 @@ export function MultipleSelect({
                 onChange={onChange}
                 onSearch={onSearch}
                 onSearchSync={onSearchSync}
+                triggerSearchOnFocus={triggerSearchOnFocus}
                 defaultOptions={options}
                 unremovableOptions={unremovableOptions}
                 placeholder={placeholder}

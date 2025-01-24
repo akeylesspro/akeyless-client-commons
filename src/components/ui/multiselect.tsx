@@ -180,7 +180,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             badgeClassName,
             selectFirstItem = true,
             creatable = false,
-            triggerSearchOnFocus = false,
+            triggerSearchOnFocus = true,
             commandProps,
             inputProps,
             hideClearAllButton = false,

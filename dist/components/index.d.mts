@@ -99,6 +99,7 @@ interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
     onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    triggerSearchOnFocus?: boolean;
     onSearchSync?: (value: string) => MultipleSelectorOption[];
     selectedOptions?: MultipleSelectorOption[];
     styles?: {
@@ -311,7 +312,7 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => react_jsx_runtime.JSX.Element;
 
 declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
