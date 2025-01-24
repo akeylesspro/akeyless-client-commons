@@ -2031,7 +2031,6 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                                         e.stopPropagation();
                                                     },
                                                     onSelect: function() {
-                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                                                         if (selected.length >= maxSelected) {
                                                             onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
                                                             return;
