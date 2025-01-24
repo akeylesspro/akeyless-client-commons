@@ -310,12 +310,12 @@ declare const Table: React__default.MemoExoticComponent<(props: TableProps) => r
 
 declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
 
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
+
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare function MultipleSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => react_jsx_runtime.JSX.Element;
-
-declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
@@ -354,4 +354,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultipleSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

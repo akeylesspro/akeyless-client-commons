@@ -2504,155 +2504,13 @@ var PhoneUI = function(param) {
 // src/components/forms/ModularForm/ModularForm.tsx
 import { useState as useState6 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
-import { useState as useState4 } from "react";
-import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
-var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
-    return /* @__PURE__ */ jsxs10("div", {
-        className: "center ".concat(containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ jsx15(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ jsx15("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
-                placeholder: placeholder,
-                className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
-                defaultValue: defaultValue
-            }), useValidation(validationName, validationError)), {
-                required: required,
-                name: name,
-                onKeyDown: onKeyDown,
-                type: inputType
-            }))
-        ]
-    });
-};
-var SelectContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
-    var _options_, _options_find;
-    var _useState4 = _sliced_to_array(useState4(false), 2), isOpen = _useState4[0], setIsOpen = _useState4[1];
-    var _useState41 = _sliced_to_array(useState4(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
-    var handleOptionClick = function(value) {
-        setSelectedValue(value);
-        setIsOpen(false);
-    };
-    return /* @__PURE__ */ jsxs10("div", {
-        className: "center ".concat(containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ jsx15(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ jsxs10("div", {
-                className: "w-[70%] relative ".concat(elementClassName),
-                onClick: function() {
-                    return setIsOpen(!isOpen);
-                },
-                children: [
-                    /* @__PURE__ */ jsx15("div", {
-                        className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
-                        children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
-                            return opt.value === selectedValue;
-                        })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
-                    }),
-                    isOpen ? /* @__PURE__ */ jsx15("i", {
-                        className: "fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"
-                    }) : /* @__PURE__ */ jsx15("i", {
-                        className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
-                    }),
-                    isOpen && /* @__PURE__ */ jsx15("div", {
-                        className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
-                        children: options.map(function(option) {
-                            return /* @__PURE__ */ jsx15("div", {
-                                className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
-                                onClick: function() {
-                                    return handleOptionClick(option.value);
-                                },
-                                children: option.label
-                            }, option.value);
-                        })
-                    }),
-                    /* @__PURE__ */ jsx15("input", {
-                        value: selectedValue,
-                        type: "hidden",
-                        name: name,
-                        required: required
-                    })
-                ]
-            })
-        ]
-    });
-};
-function MultipleSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus;
-    return /* @__PURE__ */ jsxs10("div", {
-        className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ jsx15(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ jsx15(multiselect_default, {
-                commandProps: {
-                    label: placeholder
-                },
-                name: name,
-                defaultOptions: options,
-                unremovableOptions: unremovableOptions,
-                value: selectedOptions,
-                onChange: onChange,
-                onSearch: onSearch,
-                onSearchSync: onSearchSync,
-                triggerSearchOnFocus: triggerSearchOnFocus,
-                groupBy: groupBy,
-                placeholder: placeholder,
-                hideClearAllButton: true,
-                hidePlaceholderWhenSelected: true,
-                badgeClassName: styles.badgeClassName,
-                className: styles.className,
-                dropdownClassName: styles.dropdownClassName,
-                dropdownOptionClassName: styles.dropdownOptionClassName,
-                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ jsx15("p", {
-                    className: "text-center text-sm",
-                    children: "all options selected."
-                }),
-                emptyIndicatorClassName: styles.emptyIndicatorClassName
-            })
-        ]
-    });
-}
-var ElementLabel = function(param) {
-    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
-    return /* @__PURE__ */ jsxs10("label", {
-        className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
-        htmlFor: name,
-        children: [
-            /* @__PURE__ */ jsx15("div", {
-                children: labelContent
-            }),
-            required && /* @__PURE__ */ jsx15("div", {
-                className: "text-red-500",
-                children: "*"
-            }),
-            /* @__PURE__ */ jsx15("div", {
-                children: ":"
-            })
-        ]
-    });
-};
+import { useState as useState5 } from "react";
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState5 } from "react";
+import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState4 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
-import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter, labelContent = param.labelContent, labelClassName = param.labelClassName, required = param.required, direction = param.direction;
     var handleKeyDown = function(e) {
@@ -2662,7 +2520,7 @@ function InternationalPhonePicker(param) {
             }
         }
     };
-    var _useState5 = _sliced_to_array(useState5(""), 2), tempPhoneValue = _useState5[0], setTempPhoneValue = _useState5[1];
+    var _useState4 = _sliced_to_array(useState4(""), 2), tempPhoneValue = _useState4[0], setTempPhoneValue = _useState4[1];
     useEffect4(function() {
         if (defaultValue) {
             if (setPhoneValue) {
@@ -2675,19 +2533,19 @@ function InternationalPhonePicker(param) {
         defaultValue,
         setPhoneValue
     ]);
-    return /* @__PURE__ */ jsxs11("div", {
+    return /* @__PURE__ */ jsxs10("div", {
         style: {
             direction: direction
         },
         className: cn("space-y-2", "".concat(labelContent ? "flex gap-1 items-center" : ""), containerClassName),
         children: [
-            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+            labelContent && /* @__PURE__ */ jsx15(ElementLabel, {
                 labelContent: labelContent,
                 labelClassName: labelClassName,
                 name: name,
                 required: required
             }),
-            /* @__PURE__ */ jsx16(RPNInput.default, {
+            /* @__PURE__ */ jsx15(RPNInput.default, {
                 style: {
                     direction: "ltr"
                 },
@@ -2720,7 +2578,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ jsx16("input", {
+            /* @__PURE__ */ jsx15("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -2741,7 +2599,7 @@ var PhoneInput = forwardRef8(function(_param, ref) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ jsx16(Input, _object_spread({
+    return /* @__PURE__ */ jsx15(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -2765,21 +2623,21 @@ var CountrySelect = function(param) {
     var originalClassName = useMemo5(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
-    return /* @__PURE__ */ jsxs11("div", {
+    return /* @__PURE__ */ jsxs10("div", {
         className: cn(originalClassName, className),
         children: [
-            /* @__PURE__ */ jsxs11("div", {
+            /* @__PURE__ */ jsxs10("div", {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ jsx16(FlagComponent, {
+                    /* @__PURE__ */ jsx15(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ jsx16("span", {
+                    /* @__PURE__ */ jsx15("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ jsx16(ChevronDown, {
+                        children: /* @__PURE__ */ jsx15(ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -2787,7 +2645,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx16("select", {
+            /* @__PURE__ */ jsx15("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -2797,7 +2655,7 @@ var CountrySelect = function(param) {
                     return x.value;
                 }).map(function(option, i) {
                     var _option_value;
-                    return /* @__PURE__ */ jsxs11("option", {
+                    return /* @__PURE__ */ jsxs10("option", {
                         className: "text-black",
                         value: option.value,
                         children: [
@@ -2814,14 +2672,157 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = flags[country];
-    return /* @__PURE__ */ jsx16("span", {
+    return /* @__PURE__ */ jsx15("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ jsx16(Flag, {
+        children: Flag ? /* @__PURE__ */ jsx15(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ jsx16(Phone, {
+        }) : /* @__PURE__ */ jsx15(Phone, {
             size: 16,
             "aria-hidden": "true"
         })
+    });
+};
+// src/components/forms/ModularForm/formElements.tsx
+import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
+var InputContainer = function(param) {
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
+    return /* @__PURE__ */ jsxs11("div", {
+        className: "center ".concat(containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsx16("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
+                placeholder: placeholder,
+                className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
+                defaultValue: defaultValue
+            }), useValidation(validationName, validationError)), {
+                required: required,
+                name: name,
+                onKeyDown: onKeyDown,
+                type: inputType
+            }))
+        ]
+    });
+};
+var SelectContainer = function(param) {
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
+    var _options_, _options_find;
+    var _useState5 = _sliced_to_array(useState5(false), 2), isOpen = _useState5[0], setIsOpen = _useState5[1];
+    var _useState51 = _sliced_to_array(useState5(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _useState51[0], setSelectedValue = _useState51[1];
+    var handleOptionClick = function(value) {
+        setSelectedValue(value);
+        setIsOpen(false);
+    };
+    return /* @__PURE__ */ jsxs11("div", {
+        className: "center ".concat(containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsxs11("div", {
+                className: "w-[70%] relative ".concat(elementClassName),
+                onClick: function() {
+                    return setIsOpen(!isOpen);
+                },
+                children: [
+                    /* @__PURE__ */ jsx16("div", {
+                        className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
+                        children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
+                            return opt.value === selectedValue;
+                        })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
+                    }),
+                    isOpen ? /* @__PURE__ */ jsx16("i", {
+                        className: "fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"
+                    }) : /* @__PURE__ */ jsx16("i", {
+                        className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
+                    }),
+                    isOpen && /* @__PURE__ */ jsx16("div", {
+                        className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
+                        children: options.map(function(option) {
+                            return /* @__PURE__ */ jsx16("div", {
+                                className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
+                                onClick: function() {
+                                    return handleOptionClick(option.value);
+                                },
+                                children: option.label
+                            }, option.value);
+                        })
+                    }),
+                    /* @__PURE__ */ jsx16("input", {
+                        value: selectedValue,
+                        type: "hidden",
+                        name: name,
+                        required: required
+                    })
+                ]
+            })
+        ]
+    });
+};
+function MultiSelect(param) {
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus;
+    return /* @__PURE__ */ jsxs11("div", {
+        className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsx16(multiselect_default, {
+                commandProps: {
+                    label: placeholder
+                },
+                name: name,
+                defaultOptions: options,
+                unremovableOptions: unremovableOptions,
+                value: selectedOptions,
+                onChange: onChange,
+                onSearch: onSearch,
+                onSearchSync: onSearchSync,
+                triggerSearchOnFocus: triggerSearchOnFocus,
+                groupBy: groupBy,
+                placeholder: placeholder,
+                hideClearAllButton: true,
+                hidePlaceholderWhenSelected: true,
+                badgeClassName: styles.badgeClassName,
+                className: styles.className,
+                dropdownClassName: styles.dropdownClassName,
+                dropdownOptionClassName: styles.dropdownOptionClassName,
+                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ jsx16("p", {
+                    className: "text-center text-sm",
+                    children: "all options selected."
+                }),
+                emptyIndicatorClassName: styles.emptyIndicatorClassName
+            })
+        ]
+    });
+}
+var ElementLabel = function(param) {
+    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
+    return /* @__PURE__ */ jsxs11("label", {
+        className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
+        htmlFor: name,
+        children: [
+            /* @__PURE__ */ jsx16("div", {
+                children: labelContent
+            }),
+            required && /* @__PURE__ */ jsx16("div", {
+                className: "text-red-500",
+                children: "*"
+            }),
+            /* @__PURE__ */ jsx16("div", {
+                children: ":"
+            })
+        ]
     });
 };
 // src/components/forms/ModularForm/ModularForm.tsx
@@ -2920,7 +2921,7 @@ var ModularForm = function(param) {
                     case "select":
                         return /* @__PURE__ */ jsx17(SelectContainer, _object_spread({}, element), index);
                     case "multipleSelect":
-                        return /* @__PURE__ */ jsx17(MultipleSelect, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx17(MultiSelect, _object_spread({}, element), index);
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ jsx17(InternationalPhonePicker, _object_spread({}, element), index);
                     case "custom":
@@ -3195,5 +3196,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultipleSelect, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
 //# sourceMappingURL=index.mjs.map

@@ -452,8 +452,8 @@ __export(components_exports, {
     ModularForm: function() {
         return ModularForm_default;
     },
-    MultipleSelect: function() {
-        return MultipleSelect;
+    MultiSelect: function() {
+        return MultiSelect;
     },
     PhoneUI: function() {
         return PhoneUI;
@@ -2680,155 +2680,13 @@ var PhoneUI = function(param) {
 // src/components/forms/ModularForm/ModularForm.tsx
 var import_react8 = require("react");
 // src/components/forms/ModularForm/formElements.tsx
-var import_react6 = require("react");
-var import_jsx_runtime16 = require("react/jsx-runtime");
-var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
-        className: "center ".concat(containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
-                placeholder: placeholder,
-                className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
-                defaultValue: defaultValue
-            }), useValidation(validationName, validationError)), {
-                required: required,
-                name: name,
-                onKeyDown: onKeyDown,
-                type: inputType
-            }))
-        ]
-    });
-};
-var SelectContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
-    var _options_, _options_find;
-    var _ref = _sliced_to_array((0, import_react6.useState)(false), 2), isOpen = _ref[0], setIsOpen = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react6.useState)(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
-    var handleOptionClick = function(value) {
-        setSelectedValue(value);
-        setIsOpen(false);
-    };
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
-        className: "center ".concat(containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
-                className: "w-[70%] relative ".concat(elementClassName),
-                onClick: function() {
-                    return setIsOpen(!isOpen);
-                },
-                children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
-                        children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
-                            return opt.value === selectedValue;
-                        })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
-                    }),
-                    isOpen ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("i", {
-                        className: "fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"
-                    }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("i", {
-                        className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
-                    }),
-                    isOpen && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                        className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
-                        children: options.map(function(option) {
-                            return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                                className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
-                                onClick: function() {
-                                    return handleOptionClick(option.value);
-                                },
-                                children: option.label
-                            }, option.value);
-                        })
-                    }),
-                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
-                        value: selectedValue,
-                        type: "hidden",
-                        name: name,
-                        required: required
-                    })
-                ]
-            })
-        ]
-    });
-};
-function MultipleSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus;
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
-        className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(multiselect_default, {
-                commandProps: {
-                    label: placeholder
-                },
-                name: name,
-                defaultOptions: options,
-                unremovableOptions: unremovableOptions,
-                value: selectedOptions,
-                onChange: onChange,
-                onSearch: onSearch,
-                onSearchSync: onSearchSync,
-                triggerSearchOnFocus: triggerSearchOnFocus,
-                groupBy: groupBy,
-                placeholder: placeholder,
-                hideClearAllButton: true,
-                hidePlaceholderWhenSelected: true,
-                badgeClassName: styles.badgeClassName,
-                className: styles.className,
-                dropdownClassName: styles.dropdownClassName,
-                dropdownOptionClassName: styles.dropdownOptionClassName,
-                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", {
-                    className: "text-center text-sm",
-                    children: "all options selected."
-                }),
-                emptyIndicatorClassName: styles.emptyIndicatorClassName
-            })
-        ]
-    });
-}
-var ElementLabel = function(param) {
-    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", {
-        className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
-        htmlFor: name,
-        children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                children: labelContent
-            }),
-            required && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                className: "text-red-500",
-                children: "*"
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-                children: ":"
-            })
-        ]
-    });
-};
+var import_react7 = require("react");
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 var import_lucide_react4 = require("lucide-react");
-var import_react7 = require("react");
+var import_react6 = require("react");
 var RPNInput = __toESM(require("react-phone-number-input"));
 var import_flags = __toESM(require("react-phone-number-input/flags"));
-var import_jsx_runtime17 = require("react/jsx-runtime");
+var import_jsx_runtime16 = require("react/jsx-runtime");
 function InternationalPhonePicker(param) {
     var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter, labelContent = param.labelContent, labelClassName = param.labelClassName, required = param.required, direction = param.direction;
     var handleKeyDown = function(e) {
@@ -2838,8 +2696,8 @@ function InternationalPhonePicker(param) {
             }
         }
     };
-    var _ref = _sliced_to_array((0, import_react7.useState)(""), 2), tempPhoneValue = _ref[0], setTempPhoneValue = _ref[1];
-    (0, import_react7.useEffect)(function() {
+    var _ref = _sliced_to_array((0, import_react6.useState)(""), 2), tempPhoneValue = _ref[0], setTempPhoneValue = _ref[1];
+    (0, import_react6.useEffect)(function() {
         if (defaultValue) {
             if (setPhoneValue) {
                 setPhoneValue(defaultValue);
@@ -2851,19 +2709,19 @@ function InternationalPhonePicker(param) {
         defaultValue,
         setPhoneValue
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         style: {
             direction: direction
         },
         className: cn("space-y-2", "".concat(labelContent ? "flex gap-1 items-center" : ""), containerClassName),
         children: [
-            labelContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ElementLabel, {
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(ElementLabel, {
                 labelContent: labelContent,
                 labelClassName: labelClassName,
                 name: name,
                 required: required
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(RPNInput.default, {
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(RPNInput.default, {
                 style: {
                     direction: "ltr"
                 },
@@ -2896,7 +2754,7 @@ function InternationalPhonePicker(param) {
                     setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
                 }
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("input", {
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
                 type: "hidden",
                 name: name,
                 value: tempPhoneValue
@@ -2904,20 +2762,20 @@ function InternationalPhonePicker(param) {
         ]
     });
 }
-var PhoneInput = (0, import_react7.forwardRef)(function(_param, ref) {
+var PhoneInput = (0, import_react6.forwardRef)(function(_param, ref) {
     var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, style = _param.style, props = _object_without_properties(_param, [
         "className",
         "onKeyDown",
         "defaultValue",
         "style"
     ]);
-    var inputRef = (0, import_react7.useRef)(null);
-    (0, import_react7.useEffect)(function() {
+    var inputRef = (0, import_react6.useRef)(null);
+    (0, import_react6.useEffect)(function() {
         if (inputRef.current) {
             inputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Input, _object_spread({
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Input, _object_spread({
         className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
         onKeyDown: onKeyDown,
         defaultValue: defaultValue,
@@ -2938,24 +2796,24 @@ var CountrySelect = function(param) {
     var handleSelect = function(event) {
         onChange(event.target.value);
     };
-    var originalClassName = (0, import_react7.useMemo)(function() {
+    var originalClassName = (0, import_react6.useMemo)(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: cn(originalClassName, className),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
                 className: "inline-flex items-center gap-1",
                 "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(FlagComponent, {
+                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(FlagComponent, {
                         country: value,
                         countryName: value,
                         "aria-hidden": "true"
                     }),
-                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", {
+                    /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", {
                         className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react4.ChevronDown, {
+                        children: /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ChevronDown, {
                             size: 16,
                             strokeWidth: 2,
                             "aria-hidden": "true"
@@ -2963,7 +2821,7 @@ var CountrySelect = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("select", {
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("select", {
                 disabled: disabled,
                 value: value,
                 onChange: handleSelect,
@@ -2973,7 +2831,7 @@ var CountrySelect = function(param) {
                     return x.value;
                 }).map(function(option, i) {
                     var _option_value;
-                    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("option", {
+                    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("option", {
                         className: "text-black",
                         value: option.value,
                         children: [
@@ -2990,14 +2848,157 @@ var CountrySelect = function(param) {
 var FlagComponent = function(param) {
     var country = param.country, countryName = param.countryName;
     var Flag = import_flags.default[country];
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", {
         className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Flag, {
+        children: Flag ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(Flag, {
             title: countryName
-        }) : /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(import_lucide_react4.Phone, {
+        }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.Phone, {
             size: 16,
             "aria-hidden": "true"
         })
+    });
+};
+// src/components/forms/ModularForm/formElements.tsx
+var import_jsx_runtime17 = require("react/jsx-runtime");
+var InputContainer = function(param) {
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+        className: "center ".concat(containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
+                placeholder: placeholder,
+                className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
+                defaultValue: defaultValue
+            }), useValidation(validationName, validationError)), {
+                required: required,
+                name: name,
+                onKeyDown: onKeyDown,
+                type: inputType
+            }))
+        ]
+    });
+};
+var SelectContainer = function(param) {
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
+    var _options_, _options_find;
+    var _ref = _sliced_to_array((0, import_react7.useState)(false), 2), isOpen = _ref[0], setIsOpen = _ref[1];
+    var _ref1 = _sliced_to_array((0, import_react7.useState)(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
+    var handleOptionClick = function(value) {
+        setSelectedValue(value);
+        setIsOpen(false);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+        className: "center ".concat(containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+                className: "w-[70%] relative ".concat(elementClassName),
+                onClick: function() {
+                    return setIsOpen(!isOpen);
+                },
+                children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+                        className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
+                        children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
+                            return opt.value === selectedValue;
+                        })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
+                    }),
+                    isOpen ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("i", {
+                        className: "fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"
+                    }) : /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("i", {
+                        className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
+                    }),
+                    isOpen && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+                        className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
+                        children: options.map(function(option) {
+                            return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+                                className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
+                                onClick: function() {
+                                    return handleOptionClick(option.value);
+                                },
+                                children: option.label
+                            }, option.value);
+                        })
+                    }),
+                    /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("input", {
+                        value: selectedValue,
+                        type: "hidden",
+                        name: name,
+                        required: required
+                    })
+                ]
+            })
+        ]
+    });
+};
+function MultiSelect(param) {
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus;
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
+        className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(multiselect_default, {
+                commandProps: {
+                    label: placeholder
+                },
+                name: name,
+                defaultOptions: options,
+                unremovableOptions: unremovableOptions,
+                value: selectedOptions,
+                onChange: onChange,
+                onSearch: onSearch,
+                onSearchSync: onSearchSync,
+                triggerSearchOnFocus: triggerSearchOnFocus,
+                groupBy: groupBy,
+                placeholder: placeholder,
+                hideClearAllButton: true,
+                hidePlaceholderWhenSelected: true,
+                badgeClassName: styles.badgeClassName,
+                className: styles.className,
+                dropdownClassName: styles.dropdownClassName,
+                dropdownOptionClassName: styles.dropdownOptionClassName,
+                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("p", {
+                    className: "text-center text-sm",
+                    children: "all options selected."
+                }),
+                emptyIndicatorClassName: styles.emptyIndicatorClassName
+            })
+        ]
+    });
+}
+var ElementLabel = function(param) {
+    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("label", {
+        className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
+        htmlFor: name,
+        children: [
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+                children: labelContent
+            }),
+            required && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+                className: "text-red-500",
+                children: "*"
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", {
+                children: ":"
+            })
+        ]
     });
 };
 // src/components/forms/ModularForm/ModularForm.tsx
@@ -3096,7 +3097,7 @@ var ModularForm = function(param) {
                     case "select":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContainer, _object_spread({}, element), index);
                     case "multipleSelect":
-                        return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MultipleSelect, _object_spread({}, element), index);
+                        return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MultiSelect, _object_spread({}, element), index);
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(InternationalPhonePicker, _object_spread({}, element), index);
                     case "custom":
@@ -3390,7 +3391,7 @@ function Slot2(props) {
     Loader: Loader,
     MaxRowsLabel: MaxRowsLabel,
     ModularForm: ModularForm,
-    MultipleSelect: MultipleSelect,
+    MultiSelect: MultiSelect,
     PhoneUI: PhoneUI,
     ProgressComponent: ProgressComponent,
     Search: Search,

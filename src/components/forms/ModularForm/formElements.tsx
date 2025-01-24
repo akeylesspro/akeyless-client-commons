@@ -3,6 +3,8 @@ import { ReactNode, useState } from "react";
 import { cn, useValidation } from "src/helpers";
 import { BaseElementProps, InputContainerProps, MultipleSelectProps, SelectContainerProps } from "src/types";
 
+export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
+
 export const InputContainer = ({
     validationError,
     name = "",
@@ -89,7 +91,7 @@ export const SelectContainer = ({
     );
 };
 
-export function MultipleSelect({
+export function MultiSelect({
     onChange,
     selectedOptions,
     emptyOptionsElement,

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ModularFormProps } from "src/types";
-import { InputContainer, MultipleSelect, SelectContainer } from "./formElements";
+import { InputContainer, MultiSelect, SelectContainer } from "./formElements";
 import { Loader } from "@/components/utils";
 import { cn, getFormElementValue } from "src/helpers";
 import InternationalPhonePicker from "./InternationalPhonePicker";
@@ -57,7 +57,7 @@ const ModularForm = ({
                     case "select":
                         return <SelectContainer key={index} {...element} />;
                     case "multipleSelect":
-                        return <MultipleSelect key={index} {...element} />;
+                        return <MultiSelect key={index} {...element} />;
                     case "internationalPhoneInput":
                         return <InternationalPhonePicker key={index} {...element} />;
                     case "custom":
