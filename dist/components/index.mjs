@@ -2031,6 +2031,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                                         e.stopPropagation();
                                                     },
                                                     onSelect: function() {
+                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                                                         if (selected.length >= maxSelected) {
                                                             onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
                                                             return;
@@ -2602,15 +2603,16 @@ function MultipleSelect(param) {
                 commandProps: {
                     label: placeholder
                 },
-                groupBy: groupBy,
                 name: name,
+                defaultOptions: options,
+                options: options,
+                unremovableOptions: unremovableOptions,
                 value: selectedOptions,
                 onChange: onChange,
                 onSearch: onSearch,
                 onSearchSync: onSearchSync,
                 triggerSearchOnFocus: triggerSearchOnFocus,
-                defaultOptions: options,
-                unremovableOptions: unremovableOptions,
+                groupBy: groupBy,
                 placeholder: placeholder,
                 hideClearAllButton: true,
                 hidePlaceholderWhenSelected: true,

@@ -113,15 +113,16 @@ export function MultipleSelect({
                 commandProps={{
                     label: placeholder,
                 }}
-                groupBy={groupBy}
                 name={name}
+                defaultOptions={options}
+                options={options}
+                unremovableOptions={unremovableOptions}
                 value={selectedOptions}
                 onChange={onChange}
                 onSearch={onSearch}
                 onSearchSync={onSearchSync}
                 triggerSearchOnFocus={triggerSearchOnFocus}
-                defaultOptions={options}
-                unremovableOptions={unremovableOptions}
+                groupBy={groupBy}
                 placeholder={placeholder}
                 hideClearAllButton
                 hidePlaceholderWhenSelected
