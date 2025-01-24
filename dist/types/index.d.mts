@@ -84,8 +84,8 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
-interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
-    type: "multipleSelect";
+interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type: "multiSelect";
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
@@ -128,7 +128,7 @@ interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps | CustomElementProps;
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -164,4 +164,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultipleSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultiSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };

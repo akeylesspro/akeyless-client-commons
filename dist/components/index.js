@@ -3096,7 +3096,7 @@ var ModularForm = function(param) {
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(InputContainer, _object_spread({}, element), index);
                     case "select":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(SelectContainer, _object_spread({}, element), index);
-                    case "multipleSelect":
+                    case "multiSelect":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(MultiSelect, _object_spread({}, element), index);
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(InternationalPhonePicker, _object_spread({}, element), index);

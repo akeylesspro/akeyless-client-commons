@@ -32,8 +32,8 @@ export interface SelectElement extends BaseElementProps {
     optionClassName?: string;
 }
 
-export interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
-    type: "multipleSelect";
+export interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type: "multiSelect";
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
@@ -76,7 +76,7 @@ export interface CustomElementProps extends BaseElementProps {
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 
-export type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps | CustomElementProps;
+export type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;

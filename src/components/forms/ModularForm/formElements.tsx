@@ -1,7 +1,7 @@
 import MultipleSelector from "@/components/ui/multiselect";
 import { ReactNode, useState } from "react";
 import { cn, useValidation } from "src/helpers";
-import { BaseElementProps, InputContainerProps, MultipleSelectProps, SelectContainerProps } from "src/types";
+import { BaseElementProps, InputContainerProps, MultiSelectProps, SelectContainerProps } from "src/types";
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 
@@ -107,7 +107,7 @@ export function MultiSelect({
     onSearch,
     onSearchSync,
     triggerSearchOnFocus,
-}: MultipleSelectProps) {
+}: MultiSelectProps) {
     return (
         <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}

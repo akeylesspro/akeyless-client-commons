@@ -93,8 +93,8 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     optionClassName?: string;
 }
-interface MultipleSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
-    type: "multipleSelect";
+interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type: "multiSelect";
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
@@ -137,7 +137,7 @@ interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement | MultipleSelectProps | InternationalInputProps | CustomElementProps;
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -314,7 +314,7 @@ declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placehold
 
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultipleSelectProps): react_jsx_runtime.JSX.Element;
+declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;

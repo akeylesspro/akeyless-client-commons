@@ -2920,7 +2920,7 @@ var ModularForm = function(param) {
                         return /* @__PURE__ */ jsx17(InputContainer, _object_spread({}, element), index);
                     case "select":
                         return /* @__PURE__ */ jsx17(SelectContainer, _object_spread({}, element), index);
-                    case "multipleSelect":
+                    case "multiSelect":
                         return /* @__PURE__ */ jsx17(MultiSelect, _object_spread({}, element), index);
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ jsx17(InternationalPhonePicker, _object_spread({}, element), index);
