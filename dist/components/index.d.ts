@@ -2,10 +2,10 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as React$1 from 'react';
 import React__default, { SetStateAction, ReactNode, Dispatch } from 'react';
 import { TObject } from 'akeyless-types-commons';
+import * as RPNInput from 'react-phone-number-input';
 import * as class_variance_authority_dist_types from 'class-variance-authority/dist/types';
 import { VariantProps } from 'class-variance-authority';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
-import * as RPNInput from 'react-phone-number-input';
 
 interface CheckBoxProps {
     id: string;
@@ -45,42 +45,99 @@ declare const Version: ({ version, className }: {
     className?: string;
 }) => react_jsx_runtime.JSX.Element;
 
+interface MultipleSelectorOption {
+    value: string;
+    label: string;
+    disable?: boolean;
+    /** fixed option that can&lsquo;t be removed. */
+    fixed?: boolean;
+    /** Group the options by providing key. */
+    [key: string]: string | boolean | undefined;
+}
+interface MultipleSelectorRef {
+    selectedValue: MultipleSelectorOption[];
+    input: HTMLInputElement;
+    focus: () => void;
+    reset: () => void;
+}
+declare function useDebounce<T>(value: T, delay?: number): T;
+
 type Direction = "rtl" | "ltr";
 
 interface BaseElementProps {
     name?: string;
-    labelContent: string;
+    labelContent?: string;
     required?: boolean;
-    containerClassName?: string;
     labelClassName?: string;
+    containerClassName?: string;
     elementClassName?: string;
+    minLength?: number;
+    validationError?: string;
 }
 interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
     defaultValue?: string;
     validationName?: string;
-    validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
-    minLength?: number;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 interface SelectElement extends BaseElementProps {
     type: "select";
-    optionsContainerClassName?: string;
     options: {
         value: any;
         label: string;
     }[];
+    optionsContainerClassName?: string;
     defaultValue?: any;
     optionClassName?: string;
+}
+interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type: "multiSelect";
+    options: MultipleSelectorOption[];
+    emptyOptionsElement?: ReactNode;
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    triggerSearchOnFocus?: boolean;
+    onSearchSync?: (value: string) => MultipleSelectorOption[];
+    selectedOptions?: MultipleSelectorOption[];
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+        emptyIndicatorClassName?: string;
+    };
+    unremovableOptions?: MultipleSelectorOption[];
+    placeholder?: string;
+    groupBy?: string;
+}
+interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
+    type: "internationalPhoneInput";
+    phoneValue?: string;
+    setPhoneValue?: Dispatch<SetStateAction<string>>;
+    placeholder?: string;
+    className?: string;
+    containerClassName?: string;
+    style?: React.CSSProperties;
+    flagContainerClassName?: string;
+    inputClassName?: string;
+    defaultValue?: string;
+    defaultCountry?: RPNInput.Country;
+    onEnter?: () => void;
+    direction?: Direction;
+}
+interface CustomElementProps extends BaseElementProps {
+    type: "custom";
+    element: ReactNode;
 }
 interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement;
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -138,6 +195,10 @@ interface TableProviderType {
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
     closeFilterWindow: () => void;
+}
+interface UseFilterProps {
+    data: Record<string, any>[];
+    filterableColumns: FilterableColumn[];
 }
 interface TableProps {
     data: Record<string, any>[];
@@ -236,6 +297,10 @@ interface DurationUIProps {
     direction?: Direction;
 }
 declare const DurationUI: ({ duration, hoursLabel, minutesLabel, secondsLabel, className, direction }: DurationUIProps) => react_jsx_runtime.JSX.Element;
+declare const PhoneUI: ({ phone, direction }: {
+    phone: string;
+    direction?: Direction;
+}) => react_jsx_runtime.JSX.Element;
 
 declare const TableContext: React__default.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {
@@ -243,9 +308,15 @@ declare const TableProvider: (props: TableProps & {
 }) => react_jsx_runtime.JSX.Element;
 declare const Table: React__default.MemoExoticComponent<(props: TableProps) => react_jsx_runtime.JSX.Element>;
 
+declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
+
+declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
+
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare const ModularForm: ({ submitFunction, elements, headerContent, buttonContent, formClassName, headerClassName, direction, buttonClassName, submitRef, }: ModularFormProps) => react_jsx_runtime.JSX.Element;
+declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
+declare const ElementLabel: ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => react_jsx_runtime.JSX.Element;
+
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
 
@@ -275,22 +346,6 @@ interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof Progress
 }
 declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
 
-interface InputProps {
-    phoneValue?: string;
-    setPhoneValue?: Dispatch<SetStateAction<string>>;
-    placeholder?: string;
-    className?: string;
-    containerClassName?: string;
-    name?: string;
-    style?: React__default.CSSProperties;
-    flagContainerClassName?: string;
-    inputClassName?: string;
-    defaultValue?: string;
-    defaultCountry?: RPNInput.Country;
-    onEnter?: () => void;
-}
-declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, }: InputProps): react_jsx_runtime.JSX.Element;
-
 interface CodeInputProps {
     codeValue: string;
     setCodeValue: Dispatch<SetStateAction<string>>;
@@ -299,4 +354,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber };
+export { Badge, type BadgeProps, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

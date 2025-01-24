@@ -1,12 +1,17 @@
+import { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { Direction } from "../types";
+import { Dispatch, ReactNode, SetStateAction } from "react";
+import * as RPNInput from "react-phone-number-input";
 
 export interface BaseElementProps {
     name?: string;
-    labelContent: string;
+    labelContent?: string;
     required?: boolean;
-    containerClassName?: string;
     labelClassName?: string;
+    containerClassName?: string;
     elementClassName?: string;
+    minLength?: number;
+    validationError?: string;
 }
 
 export interface InputElement extends BaseElementProps {
@@ -14,25 +19,64 @@ export interface InputElement extends BaseElementProps {
     inputType?: string;
     defaultValue?: string;
     validationName?: string;
-    validationError?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
-    minLength?: number;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
 
 export interface SelectElement extends BaseElementProps {
     type: "select";
-    optionsContainerClassName?: string;
     options: { value: any; label: string }[];
+    optionsContainerClassName?: string;
     defaultValue?: any;
     optionClassName?: string;
+}
+
+export interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type: "multiSelect";
+    options: MultipleSelectorOption[];
+    emptyOptionsElement?: ReactNode;
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    triggerSearchOnFocus?: boolean;
+    onSearchSync?: (value: string) => MultipleSelectorOption[];
+    selectedOptions?: MultipleSelectorOption[];
+    styles?: {
+        containerClassName?: string;
+        badgeClassName?: string;
+        className?: string;
+        dropdownClassName?: string;
+        dropdownOptionClassName?: string;
+        emptyIndicatorClassName?: string;
+    };
+    unremovableOptions?: MultipleSelectorOption[];
+    placeholder?: string;
+    groupBy?: string;
+}
+export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
+    type: "internationalPhoneInput";
+    phoneValue?: string;
+    setPhoneValue?: Dispatch<SetStateAction<string>>;
+    placeholder?: string;
+    className?: string;
+    containerClassName?: string;
+    style?: React.CSSProperties;
+    flagContainerClassName?: string;
+    inputClassName?: string;
+    defaultValue?: string;
+    defaultCountry?: RPNInput.Country;
+    onEnter?: () => void;
+    direction?: Direction;
+}
+export interface CustomElementProps extends BaseElementProps {
+    type: "custom";
+    element: ReactNode;
 }
 
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 
-export type FormElement = InputElement | SelectElement;
+export type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;

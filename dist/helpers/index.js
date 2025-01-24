@@ -358,6 +358,9 @@ __export(helpers_exports, {
     formatCarNumber: function() {
         return formatCarNumber;
     },
+    getFormElementValue: function() {
+        return getFormElementValue;
+    },
     getUserCountryByIp: function() {
         return getUserCountryByIp;
     },
@@ -394,11 +397,17 @@ __export(helpers_exports, {
     local_israel_phone_format: function() {
         return local_israel_phone_format;
     },
+    multiStringFormat: function() {
+        return multiStringFormat;
+    },
     numbersOnlyRegex: function() {
         return numbersOnlyRegex;
     },
     numbersRegex: function() {
         return numbersRegex;
+    },
+    parseMultiSelectInput: function() {
+        return parseMultiSelectInput;
     },
     parsePermissions: function() {
         return parsePermissions;
@@ -450,6 +459,9 @@ __export(helpers_exports, {
     },
     useValidation: function() {
         return useValidation;
+    },
+    userNameFormat: function() {
+        return userNameFormat;
     }
 });
 module.exports = __toCommonJS(helpers_exports);
@@ -1446,6 +1458,12 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var userNameFormat = function(user) {
+    return "".concat((user === null || user === void 0 ? void 0 : user.first_name) || "", " ").concat((user === null || user === void 0 ? void 0 : user.last_name) || "").trim();
+};
+var multiStringFormat = function(str1, str2, str3) {
+    return "".concat(str1, " ").concat(str2 || "", " ").concat(str3 || "").trim();
+};
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -1522,6 +1540,16 @@ var useValidation = function(validationType, requireError) {
         },
         "data-validation": validationType
     };
+};
+var getFormElementValue = function(form, name) {
+    var _form_elements_namedItem;
+    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+};
+var parseMultiSelectInput = function(input) {
+    var value = JSON.parse(input) || [];
+    return value.map(function(v) {
+        return v.value;
+    });
 };
 // src/helpers/store.ts
 var setState = function(updater, set, stateName) {
@@ -1600,6 +1628,7 @@ function cn() {
     extractSiteData: extractSiteData,
     fire_base_TIME_TEMP: fire_base_TIME_TEMP,
     formatCarNumber: formatCarNumber,
+    getFormElementValue: getFormElementValue,
     getUserCountryByIp: getUserCountryByIp,
     get_all_documents: get_all_documents,
     get_document_by_id: get_document_by_id,
@@ -1612,8 +1641,10 @@ function cn() {
     isInternationalIsraelPhone: isInternationalIsraelPhone,
     is_iccid: is_iccid,
     local_israel_phone_format: local_israel_phone_format,
+    multiStringFormat: multiStringFormat,
     numbersOnlyRegex: numbersOnlyRegex,
     numbersRegex: numbersRegex,
+    parseMultiSelectInput: parseMultiSelectInput,
     parsePermissions: parsePermissions,
     priceRegex: priceRegex,
     query_document: query_document,
@@ -1630,6 +1661,7 @@ function cn() {
     textNumbersRegex: textNumbersRegex,
     textRegex: textRegex,
     useStoreValues: useStoreValues,
-    useValidation: useValidation
+    useValidation: useValidation,
+    userNameFormat: userNameFormat
 });
 //# sourceMappingURL=index.js.map

@@ -5,21 +5,9 @@ import { ChevronDown, Phone } from "lucide-react";
 import React, { cloneElement, Dispatch, forwardRef, SetStateAction, useEffect, useMemo, useRef, useState } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
+import { InternationalInputProps } from "src/types";
+import { ElementLabel } from "./formElements";
 
-interface InputProps {
-    phoneValue?: string;
-    setPhoneValue?: Dispatch<SetStateAction<string>>;
-    placeholder?: string;
-    className?: string;
-    containerClassName?: string;
-    name?: string;
-    style?: React.CSSProperties;
-    flagContainerClassName?: string;
-    inputClassName?: string;
-    defaultValue?: string;
-    defaultCountry?: RPNInput.Country;
-    onEnter?: () => void;
-}
 export default function InternationalPhonePicker({
     setPhoneValue,
     phoneValue = "",
@@ -33,7 +21,11 @@ export default function InternationalPhonePicker({
     name,
     style,
     onEnter,
-}: InputProps) {
+    labelContent,
+    labelClassName,
+    required,
+    direction,
+}: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             if (onEnter) {
@@ -52,8 +44,10 @@ export default function InternationalPhonePicker({
         }
     }, [defaultValue, setPhoneValue]);
     return (
-        <div className={cn("space-y-2", containerClassName)} dir="ltr">
+        <div style={{ direction }} className={cn("space-y-2", `${labelContent ? "flex gap-1 items-center" : ""}`, containerClassName)}>
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <RPNInput.default
+                style={{ direction: "ltr" }}
                 className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}
@@ -62,7 +56,7 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: inputClassName, onKeyDown: handleKeyDown, defaultValue, style }}
+                numberInputProps={{ className: cn("min-h-10", inputClassName), onKeyDown: handleKeyDown, defaultValue, style }}
                 placeholder={placeholder}
                 value={tempPhoneValue || phoneValue}
                 onChange={(newValue) => {

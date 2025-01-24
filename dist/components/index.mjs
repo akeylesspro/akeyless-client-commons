@@ -484,7 +484,7 @@ var Version = function(param) {
 // src/components/table/components.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { memo, useMemo as useMemo3 } from "react";
+import { memo, useMemo as useMemo4 } from "react";
 // src/assets/svg.tsx
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var RedXSvg = function(param) {
@@ -1141,6 +1141,10 @@ var useValidation = function(validationType, requireError) {
         "data-validation": validationType
     };
 };
+var getFormElementValue = function(form, name) {
+    var _form_elements_namedItem;
+    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+};
 // src/helpers/time_helpers.ts
 import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
@@ -1284,8 +1288,785 @@ var ProgressComponent = React5.forwardRef(function(_param, ref) {
     });
 });
 ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
+// src/components/ui/multiselect.tsx
+import { Command as CommandPrimitive2, useCommandState } from "cmdk";
+import { X as X2 } from "lucide-react";
+import * as React8 from "react";
+import { forwardRef as forwardRef7, useEffect as useEffect3 } from "react";
+// src/components/ui/command.tsx
+import { Command as CommandPrimitive } from "cmdk";
+import { Search as Search2 } from "lucide-react";
+import * as React7 from "react";
+// src/components/ui/dialog.tsx
+import * as React6 from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { X } from "lucide-react";
+import { jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+var DialogPortal = DialogPrimitive.Portal;
+var DialogOverlay = React6.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx11(DialogPrimitive.Overlay, _object_spread({
+        ref: ref,
+        className: cn("fixed inset-0 z-50 bg-black/80  data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0", className)
+    }, props));
+});
+DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
+var DialogContent = React6.forwardRef(function(_param, ref) {
+    var className = _param.className, children = _param.children, props = _object_without_properties(_param, [
+        "className",
+        "children"
+    ]);
+    return /* @__PURE__ */ jsxs6(DialogPortal, {
+        children: [
+            /* @__PURE__ */ jsx11(DialogOverlay, {}),
+            /* @__PURE__ */ jsxs6(DialogPrimitive.Content, _object_spread_props(_object_spread({
+                ref: ref,
+                className: cn("fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg", className)
+            }, props), {
+                children: [
+                    children,
+                    /* @__PURE__ */ jsxs6(DialogPrimitive.Close, {
+                        className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground",
+                        children: [
+                            /* @__PURE__ */ jsx11(X, {
+                                className: "h-4 w-4"
+                            }),
+                            /* @__PURE__ */ jsx11("span", {
+                                className: "sr-only",
+                                children: "Close"
+                            })
+                        ]
+                    })
+                ]
+            }))
+        ]
+    });
+});
+DialogContent.displayName = DialogPrimitive.Content.displayName;
+var DialogHeader = function(_param) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx11("div", _object_spread({
+        className: cn("flex flex-col space-y-1.5 text-center sm:text-left", className)
+    }, props));
+};
+DialogHeader.displayName = "DialogHeader";
+var DialogFooter = function(_param) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx11("div", _object_spread({
+        className: cn("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2", className)
+    }, props));
+};
+DialogFooter.displayName = "DialogFooter";
+var DialogTitle = React6.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx11(DialogPrimitive.Title, _object_spread({
+        ref: ref,
+        className: cn("text-lg font-semibold leading-none tracking-tight", className)
+    }, props));
+});
+DialogTitle.displayName = DialogPrimitive.Title.displayName;
+var DialogDescription = React6.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx11(DialogPrimitive.Description, _object_spread({
+        ref: ref,
+        className: cn("text-sm text-muted-foreground", className)
+    }, props));
+});
+DialogDescription.displayName = DialogPrimitive.Description.displayName;
+// src/components/ui/command.tsx
+import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
+var Command = React7.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx12(CommandPrimitive, _object_spread({
+        ref: ref,
+        className: cn("flex h-full w-full flex-col overflow-hidden rounded-lg bg-popover text-popover-foreground", className)
+    }, props));
+});
+Command.displayName = CommandPrimitive.displayName;
+var CommandInput = React7.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsxs7("div", {
+        className: "flex items-center border-b border-input px-5",
+        "cmdk-input-wrapper": "",
+        children: [
+            /* @__PURE__ */ jsx12(Search2, {
+                size: 20,
+                strokeWidth: 2,
+                className: "me-3 text-muted-foreground/80"
+            }),
+            /* @__PURE__ */ jsx12(CommandPrimitive.Input, _object_spread({
+                ref: ref,
+                className: cn("flex h-10 w-full rounded-lg bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground/70 disabled:cursor-not-allowed disabled:opacity-50", className)
+            }, props))
+        ]
+    });
+});
+CommandInput.displayName = CommandPrimitive.Input.displayName;
+var CommandList = React7.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx12(CommandPrimitive.List, _object_spread({
+        ref: ref,
+        className: cn("max-h-80 overflow-y-auto overflow-x-hidden", className)
+    }, props));
+});
+CommandList.displayName = CommandPrimitive.List.displayName;
+var CommandEmpty = React7.forwardRef(function(props, ref) {
+    return /* @__PURE__ */ jsx12(CommandPrimitive.Empty, _object_spread({
+        ref: ref,
+        className: "py-6 text-center text-sm"
+    }, props));
+});
+CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
+var CommandGroup = React7.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx12(CommandPrimitive.Group, _object_spread({
+        ref: ref,
+        className: cn("overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground", className)
+    }, props));
+});
+CommandGroup.displayName = CommandPrimitive.Group.displayName;
+var CommandSeparator = React7.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx12(CommandPrimitive.Separator, _object_spread({
+        ref: ref,
+        className: cn("-mx-1 h-px bg-border", className)
+    }, props));
+});
+CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
+var CommandItem = React7.forwardRef(function(_param, ref) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx12(CommandPrimitive.Item, _object_spread({
+        ref: ref,
+        className: cn("relative flex cursor-default select-none items-center gap-3 rounded-md px-2 py-1.5 text-sm outline-none data-[disabled=true]:pointer-events-none data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0", className)
+    }, props));
+});
+CommandItem.displayName = CommandPrimitive.Item.displayName;
+var CommandShortcut = function(_param) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    return /* @__PURE__ */ jsx12("kbd", _object_spread({
+        className: cn("-me-1 ms-auto inline-flex h-5 max-h-full items-center rounded border border-border bg-background px-1 font-[inherit] text-[0.625rem] font-medium text-muted-foreground/70", className)
+    }, props));
+};
+CommandShortcut.displayName = "CommandShortcut";
+// src/components/ui/multiselect.tsx
+import { isEqual as isEqual3 } from "lodash";
+import { Fragment as Fragment2, jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
+function useDebounce(value, delay) {
+    var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
+    useEffect3(function() {
+        var timer = setTimeout(function() {
+            return setDebouncedValue(value);
+        }, delay || 500);
+        return function() {
+            clearTimeout(timer);
+        };
+    }, [
+        value,
+        delay
+    ]);
+    return debouncedValue;
+}
+function transToGroupOption(options, groupBy) {
+    if (options.length === 0) {
+        return {};
+    }
+    if (!groupBy) {
+        return {
+            "": options
+        };
+    }
+    var groupOption = {};
+    options.forEach(function(option) {
+        var key = option[groupBy] || "";
+        if (!groupOption[key]) {
+            groupOption[key] = [];
+        }
+        groupOption[key].push(option);
+    });
+    return groupOption;
+}
+function removePickedOption(groupOption, picked) {
+    var cloneOption = JSON.parse(JSON.stringify(groupOption));
+    var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+    try {
+        for(var _iterator = Object.entries(cloneOption)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+            var _step_value = _sliced_to_array(_step.value, 2), key = _step_value[0], value = _step_value[1];
+            cloneOption[key] = value.filter(function(val) {
+                return !picked.find(function(p) {
+                    return p.value === val.value;
+                });
+            });
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally{
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return != null) {
+                _iterator.return();
+            }
+        } finally{
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+    return cloneOption;
+}
+function isOptionsExist(groupOption, targetOption) {
+    var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
+    try {
+        for(var _iterator = Object.entries(groupOption)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+            var _step_value = _sliced_to_array(_step.value, 2), value = _step_value[1];
+            if (value.some(function(option) {
+                return targetOption.find(function(p) {
+                    return p.value === option.value;
+                });
+            })) {
+                return true;
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally{
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return != null) {
+                _iterator.return();
+            }
+        } finally{
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+    return false;
+}
+var CommandEmpty2 = forwardRef7(function(_param, forwardedRef) {
+    var className = _param.className, props = _object_without_properties(_param, [
+        "className"
+    ]);
+    var render = useCommandState(function(state) {
+        return state.filtered.count === 0;
+    });
+    if (!render) return null;
+    return /* @__PURE__ */ jsx13("div", _object_spread({
+        ref: forwardedRef,
+        className: cn("px-2 py-4 text-center text-sm", className),
+        "cmdk-empty": "",
+        role: "presentation"
+    }, props));
+});
+CommandEmpty2.displayName = "CommandEmpty";
+var MultipleSelector = React8.forwardRef(function(param, ref) {
+    var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? true : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name;
+    var inputRef = React8.useRef(null);
+    var _React8_useState = _sliced_to_array(React8.useState(false), 2), open = _React8_useState[0], setOpen = _React8_useState[1];
+    var _React8_useState1 = _sliced_to_array(React8.useState(false), 2), onScrollbar = _React8_useState1[0], setOnScrollbar = _React8_useState1[1];
+    var _React8_useState2 = _sliced_to_array(React8.useState(false), 2), isLoading = _React8_useState2[0], setIsLoading = _React8_useState2[1];
+    var dropdownRef = React8.useRef(null);
+    var _React8_useState3 = _sliced_to_array(React8.useState(value || []), 2), selected = _React8_useState3[0], setSelected = _React8_useState3[1];
+    var _React8_useState4 = _sliced_to_array(React8.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React8_useState4[0], setOptions = _React8_useState4[1];
+    var _React8_useState5 = _sliced_to_array(React8.useState(""), 2), inputValue = _React8_useState5[0], setInputValue = _React8_useState5[1];
+    var debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+    React8.useImperativeHandle(ref, function() {
+        return {
+            selectedValue: _to_consumable_array(selected),
+            input: inputRef.current,
+            focus: function() {
+                var _inputRef_current;
+                return inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
+            },
+            reset: function() {
+                return setSelected([]);
+            }
+        };
+    }, [
+        selected
+    ]);
+    var handleClickOutside = function(event) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && inputRef.current && !inputRef.current.contains(event.target)) {
+            setOpen(false);
+            inputRef.current.blur();
+        }
+    };
+    var handleUnselect = React8.useCallback(function(option) {
+        if (unremovableOptions.find(function(v) {
+            return isEqual3(v.value, option.value);
+        })) {
+            return;
+        }
+        var newOptions = selected.filter(function(s) {
+            return s.value !== option.value;
+        });
+        setSelected(newOptions);
+        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+    }, [
+        onChange,
+        selected
+    ]);
+    var handleKeyDown = React8.useCallback(function(e) {
+        var input = inputRef.current;
+        if (input) {
+            if (e.key === "Delete" || e.key === "Backspace") {
+                if (input.value === "" && selected.length > 0) {
+                    var lastSelectOption = selected[selected.length - 1];
+                    if (!lastSelectOption.fixed) {
+                        handleUnselect(selected[selected.length - 1]);
+                    }
+                }
+            }
+            if (e.key === "Escape") {
+                input.blur();
+            }
+        }
+    }, [
+        handleUnselect,
+        selected
+    ]);
+    useEffect3(function() {
+        if (open) {
+            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("touchend", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchend", handleClickOutside);
+        }
+        return function() {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("touchend", handleClickOutside);
+        };
+    }, [
+        open
+    ]);
+    useEffect3(function() {
+        if (value) {
+            setSelected(value);
+        }
+    }, [
+        value
+    ]);
+    useEffect3(function() {
+        if (!arrayOptions || onSearch) {
+            return;
+        }
+        var newOption = transToGroupOption(arrayOptions || [], groupBy);
+        if (JSON.stringify(newOption) !== JSON.stringify(options)) {
+            setOptions(newOption);
+        }
+    }, [
+        arrayDefaultOptions,
+        arrayOptions,
+        groupBy,
+        onSearch,
+        options
+    ]);
+    useEffect3(function() {
+        var doSearchSync = function() {
+            var res = onSearchSync === null || onSearchSync === void 0 ? void 0 : onSearchSync(debouncedSearchTerm);
+            setOptions(transToGroupOption(res || [], groupBy));
+        };
+        var exec = /*#__PURE__*/ function() {
+            var _ref = _async_to_generator(function() {
+                return _ts_generator(this, function(_state) {
+                    if (!onSearchSync || !open) return [
+                        2
+                    ];
+                    if (triggerSearchOnFocus) {
+                        doSearchSync();
+                    }
+                    if (debouncedSearchTerm) {
+                        doSearchSync();
+                    }
+                    return [
+                        2
+                    ];
+                });
+            });
+            return function exec() {
+                return _ref.apply(this, arguments);
+            };
+        }();
+        void exec();
+    }, [
+        debouncedSearchTerm,
+        groupBy,
+        open,
+        triggerSearchOnFocus
+    ]);
+    useEffect3(function() {
+        var doSearch = /*#__PURE__*/ function() {
+            var _ref = _async_to_generator(function() {
+                var res;
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            setIsLoading(true);
+                            return [
+                                4,
+                                onSearch === null || onSearch === void 0 ? void 0 : onSearch(debouncedSearchTerm)
+                            ];
+                        case 1:
+                            res = _state.sent();
+                            setOptions(transToGroupOption(res || [], groupBy));
+                            setIsLoading(false);
+                            return [
+                                2
+                            ];
+                    }
+                });
+            });
+            return function doSearch() {
+                return _ref.apply(this, arguments);
+            };
+        }();
+        var exec = /*#__PURE__*/ function() {
+            var _ref = _async_to_generator(function() {
+                return _ts_generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            if (!onSearch || !open) return [
+                                2
+                            ];
+                            if (!triggerSearchOnFocus) return [
+                                3,
+                                2
+                            ];
+                            return [
+                                4,
+                                doSearch()
+                            ];
+                        case 1:
+                            _state.sent();
+                            _state.label = 2;
+                        case 2:
+                            if (!debouncedSearchTerm) return [
+                                3,
+                                4
+                            ];
+                            return [
+                                4,
+                                doSearch()
+                            ];
+                        case 3:
+                            _state.sent();
+                            _state.label = 4;
+                        case 4:
+                            return [
+                                2
+                            ];
+                    }
+                });
+            });
+            return function exec() {
+                return _ref.apply(this, arguments);
+            };
+        }();
+        void exec();
+    }, [
+        debouncedSearchTerm,
+        groupBy,
+        open,
+        triggerSearchOnFocus
+    ]);
+    var CreatableItem = function() {
+        if (!creatable) return void 0;
+        if (isOptionsExist(options, [
+            {
+                value: inputValue,
+                label: inputValue
+            }
+        ]) || selected.find(function(s) {
+            return s.value === inputValue;
+        })) {
+            return void 0;
+        }
+        var Item = /* @__PURE__ */ jsx13(CommandItem, {
+            value: inputValue,
+            className: "cursor-pointer",
+            onMouseDown: function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            },
+            onSelect: function(value2) {
+                if (selected.length >= maxSelected) {
+                    onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
+                    return;
+                }
+                setInputValue("");
+                var newOptions = _to_consumable_array(selected).concat([
+                    {
+                        value: value2,
+                        label: value2
+                    }
+                ]);
+                setSelected(newOptions);
+                onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+            },
+            children: 'Create "'.concat(inputValue, '"')
+        });
+        if (!onSearch && inputValue.length > 0) {
+            return Item;
+        }
+        if (onSearch && debouncedSearchTerm.length > 0 && !isLoading) {
+            return Item;
+        }
+        return void 0;
+    };
+    var EmptyItem = React8.useCallback(function() {
+        if (!emptyIndicator) return void 0;
+        if (onSearch && !creatable && Object.keys(options).length === 0) {
+            return /* @__PURE__ */ jsx13(CommandItem, {
+                className: "",
+                value: "-",
+                disabled: true,
+                children: emptyIndicator
+            });
+        }
+        return /* @__PURE__ */ jsx13(CommandEmpty2, {
+            className: emptyIndicatorClassName,
+            children: emptyIndicator
+        });
+    }, [
+        creatable,
+        emptyIndicator,
+        onSearch,
+        options
+    ]);
+    var selectables = React8.useMemo(function() {
+        return removePickedOption(options, selected);
+    }, [
+        options,
+        selected
+    ]);
+    var commandFilter = React8.useCallback(function() {
+        if (commandProps === null || commandProps === void 0 ? void 0 : commandProps.filter) {
+            return commandProps.filter;
+        }
+        if (creatable) {
+            return function(value2, search) {
+                return value2.toLowerCase().includes(search.toLowerCase()) ? 1 : -1;
+            };
+        }
+        return void 0;
+    }, [
+        creatable,
+        commandProps === null || commandProps === void 0 ? void 0 : commandProps.filter
+    ]);
+    return /* @__PURE__ */ jsxs8(Command, _object_spread_props(_object_spread({
+        ref: dropdownRef
+    }, commandProps), {
+        onKeyDown: function(e) {
+            var _commandProps_onKeyDown;
+            handleKeyDown(e);
+            commandProps === null || commandProps === void 0 ? void 0 : (_commandProps_onKeyDown = commandProps.onKeyDown) === null || _commandProps_onKeyDown === void 0 ? void 0 : _commandProps_onKeyDown.call(commandProps, e);
+        },
+        className: cn("h-auto overflow-visible bg-transparent", commandProps === null || commandProps === void 0 ? void 0 : commandProps.className),
+        shouldFilter: (commandProps === null || commandProps === void 0 ? void 0 : commandProps.shouldFilter) !== void 0 ? commandProps.shouldFilter : !onSearch,
+        filter: commandFilter(),
+        children: [
+            /* @__PURE__ */ jsx13("div", {
+                className: cn("relative min-h-[38px] py-2 rounded-lg border border-input text-sm transition-shadow focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50", {
+                    "p-1": selected.length !== 0,
+                    "cursor-text": !disabled && selected.length !== 0
+                }, !hideClearAllButton && "pe-9", className),
+                onClick: function() {
+                    var _inputRef_current;
+                    if (disabled) return;
+                    inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
+                },
+                children: /* @__PURE__ */ jsxs8("div", {
+                    className: "flex flex-wrap gap-1",
+                    children: [
+                        selected.map(function(option) {
+                            return /* @__PURE__ */ jsxs8("div", {
+                                className: cn("animate-fadeIn relative inline-flex px-0.5 h-7 cursor-default items-center rounded-md border border-solid bg-background pe-7 pl-2 ps-2 text-xs font-medium text-secondary-foreground transition-all hover:bg-background disabled:cursor-not-allowed disabled:opacity-50 data-[fixed]:pe-2", badgeClassName),
+                                "data-fixed": option.fixed,
+                                "data-disabled": disabled || void 0,
+                                children: [
+                                    option.label,
+                                    !unremovableOptions.find(function(v) {
+                                        return isEqual3(v.value, option.value);
+                                    }) && /* @__PURE__ */ jsx13("button", {
+                                        className: "absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70",
+                                        onKeyDown: function(e) {
+                                            if (e.key === "Enter") {
+                                                handleUnselect(option);
+                                            }
+                                        },
+                                        onMouseDown: function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                        },
+                                        onClick: function() {
+                                            return handleUnselect(option);
+                                        },
+                                        "aria-label": "Remove",
+                                        children: /* @__PURE__ */ jsx13(X2, {
+                                            size: 14,
+                                            strokeWidth: 2,
+                                            "aria-hidden": "true"
+                                        })
+                                    })
+                                ]
+                            }, option.value);
+                        }),
+                        /* @__PURE__ */ jsx13(CommandPrimitive2.Input, _object_spread_props(_object_spread({}, inputProps), {
+                            ref: inputRef,
+                            value: inputValue,
+                            disabled: disabled,
+                            onValueChange: function(value2) {
+                                var _inputProps_onValueChange;
+                                setInputValue(value2);
+                                inputProps === null || inputProps === void 0 ? void 0 : (_inputProps_onValueChange = inputProps.onValueChange) === null || _inputProps_onValueChange === void 0 ? void 0 : _inputProps_onValueChange.call(inputProps, value2);
+                            },
+                            onBlur: function(event) {
+                                var _inputProps_onBlur;
+                                if (!onScrollbar) {
+                                    setOpen(false);
+                                }
+                                inputProps === null || inputProps === void 0 ? void 0 : (_inputProps_onBlur = inputProps.onBlur) === null || _inputProps_onBlur === void 0 ? void 0 : _inputProps_onBlur.call(inputProps, event);
+                            },
+                            onFocus: function(event) {
+                                var _inputProps_onFocus;
+                                setOpen(true);
+                                if (triggerSearchOnFocus) {
+                                    onSearch === null || onSearch === void 0 ? void 0 : onSearch(debouncedSearchTerm);
+                                }
+                                inputProps === null || inputProps === void 0 ? void 0 : (_inputProps_onFocus = inputProps.onFocus) === null || _inputProps_onFocus === void 0 ? void 0 : _inputProps_onFocus.call(inputProps, event);
+                            },
+                            placeholder: hidePlaceholderWhenSelected && selected.length !== 0 ? "" : placeholder,
+                            className: cn("flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed", {
+                                "w-full": hidePlaceholderWhenSelected,
+                                "px-3 py-2": selected.length === 0,
+                                "ml-1": selected.length !== 0
+                            }, inputProps === null || inputProps === void 0 ? void 0 : inputProps.className)
+                        })),
+                        /* @__PURE__ */ jsx13("button", {
+                            type: "button",
+                            onClick: function() {
+                                setSelected(selected.filter(function(s) {
+                                    return s.fixed;
+                                }));
+                                onChange === null || onChange === void 0 ? void 0 : onChange(selected.filter(function(s) {
+                                    return s.fixed;
+                                }));
+                            },
+                            className: cn("absolute end-0 top-0 flex size-9 items-center justify-center rounded-lg border border-transparent text-muted-foreground/80 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70", (hideClearAllButton || disabled || selected.length < 1 || selected.filter(function(s) {
+                                return s.fixed;
+                            }).length === selected.length) && "hidden"),
+                            "aria-label": "Clear all",
+                            children: /* @__PURE__ */ jsx13(X2, {
+                                size: 16,
+                                strokeWidth: 2,
+                                "aria-hidden": "true"
+                            })
+                        })
+                    ]
+                })
+            }),
+            /* @__PURE__ */ jsx13("div", {
+                className: "relative",
+                children: /* @__PURE__ */ jsx13("div", {
+                    className: cn("absolute top-2 z-10 w-full overflow-hidden rounded-lg border border-input", "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95", !open && "hidden"),
+                    "data-state": open ? "open" : "closed",
+                    children: open && /* @__PURE__ */ jsx13(CommandList, {
+                        className: "bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none",
+                        onMouseLeave: function() {
+                            setOnScrollbar(false);
+                        },
+                        onMouseEnter: function() {
+                            setOnScrollbar(true);
+                        },
+                        onMouseUp: function() {
+                            var _inputRef_current;
+                            inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
+                        },
+                        children: isLoading ? /* @__PURE__ */ jsx13(Fragment2, {
+                            children: loadingIndicator
+                        }) : /* @__PURE__ */ jsxs8(Fragment2, {
+                            children: [
+                                EmptyItem(),
+                                CreatableItem(),
+                                !selectFirstItem && /* @__PURE__ */ jsx13(CommandItem, {
+                                    value: "-",
+                                    className: "hidden"
+                                }),
+                                Object.entries(selectables).map(function(param) {
+                                    var _param = _sliced_to_array(param, 2), key = _param[0], dropdowns = _param[1];
+                                    return /* @__PURE__ */ jsx13(CommandGroup, {
+                                        heading: key,
+                                        className: cn("h-full overflow-auto", dropdownClassName),
+                                        children: /* @__PURE__ */ jsx13(Fragment2, {
+                                            children: dropdowns.map(function(option) {
+                                                return /* @__PURE__ */ jsx13(CommandItem, {
+                                                    value: option.value,
+                                                    disabled: option.disable,
+                                                    onMouseDown: function(e) {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                    },
+                                                    onSelect: function() {
+                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                        if (selected.length >= maxSelected) {
+                                                            onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
+                                                            return;
+                                                        }
+                                                        setInputValue("");
+                                                        var newOptions = _to_consumable_array(selected).concat([
+                                                            option
+                                                        ]);
+                                                        setSelected(newOptions);
+                                                        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+                                                    },
+                                                    className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
+                                                    children: option.label
+                                                }, option.value);
+                                            })
+                                        })
+                                    }, key);
+                                })
+                            ]
+                        })
+                    })
+                })
+            }),
+            /* @__PURE__ */ jsx13("input", {
+                value: JSON.stringify(selected),
+                type: "hidden",
+                name: name
+            })
+        ]
+    }));
+});
+MultipleSelector.displayName = "MultipleSelector";
+var multiselect_default = MultipleSelector;
 // src/components/table/components.tsx
-import { Fragment as Fragment2, jsx as jsx11, jsxs as jsxs6 } from "react/jsx-runtime";
+import { Fragment as Fragment3, jsx as jsx14, jsxs as jsxs9 } from "react/jsx-runtime";
 var getFixedNumber = function() {
     var number = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0, fix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4;
     var sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -1294,14 +2075,14 @@ var getFixedNumber = function() {
 var TableRow2 = function(param) {
     var item = param.item;
     var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
-    return /* @__PURE__ */ jsx11("tr", {
+    return /* @__PURE__ */ jsx14("tr", {
         className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
         onClick: function() {
             return onRowClick && onRowClick(item);
         },
         style: rowStyles,
         children: keysToRender.map(function(key, index) {
-            return /* @__PURE__ */ jsx11(TableCell, {
+            return /* @__PURE__ */ jsx14(TableCell, {
                 value: item[key]
             }, index);
         })
@@ -1310,7 +2091,7 @@ var TableRow2 = function(param) {
 var TableCell = function(param) {
     var value = param.value;
     var _useTableContext = useTableContext(), cellStyle = _useTableContext.cellStyle, cellClassName = _useTableContext.cellClassName;
-    return /* @__PURE__ */ jsx11("td", {
+    return /* @__PURE__ */ jsx14("td", {
         title: [
             "string",
             "number",
@@ -1326,55 +2107,55 @@ var Filter = memo(function(param) {
     var _filters_filterableColumn_dataKey, _filters_filterableColumn_dataKey1, _filterOptions_filterableColumn_dataKey;
     var _useTableContext = useTableContext(), direction = _useTableContext.direction, headers = _useTableContext.headers, filters = _useTableContext.filters, filterOptions = _useTableContext.filterOptions, filterPopupsDisplay = _useTableContext.filterPopupsDisplay, handleFilterChange = _useTableContext.handleFilterChange, handleFilterClick = _useTableContext.handleFilterClick, closeFilterWindow = _useTableContext.closeFilterWindow, filterLabel = _useTableContext.filterLabel;
     var displayRight = direction === "rtl" && index === headers.length - 1 || direction === "ltr" && index !== headers.length - 1;
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs9("div", {
         className: "absolute top-1 right-1 ",
         children: [
-            /* @__PURE__ */ jsx11("button", {
+            /* @__PURE__ */ jsx14("button", {
                 title: filterLabel + " " + filterableColumn.header,
                 className: "text-[12px]",
                 onClick: function() {
                     return handleFilterClick(filterableColumn.dataKey);
                 },
-                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ jsx11(Fragment2, {
-                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ jsx11(Fragment2, {
+                children: filterPopupsDisplay === filterableColumn.dataKey ? /* @__PURE__ */ jsx14(Fragment3, {
+                    children: ((_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.length) > 0 ? /* @__PURE__ */ jsx14(Fragment3, {
                         children: slashFilterSvg(true)
-                    }) : /* @__PURE__ */ jsx11(Fragment2, {
+                    }) : /* @__PURE__ */ jsx14(Fragment3, {
                         children: emptyFilterSvg(true)
                     })
-                }) : /* @__PURE__ */ jsx11(Fragment2, {
-                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ jsx11(Fragment2, {
+                }) : /* @__PURE__ */ jsx14(Fragment3, {
+                    children: ((_filters_filterableColumn_dataKey1 = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey1 === void 0 ? void 0 : _filters_filterableColumn_dataKey1.length) > 0 ? /* @__PURE__ */ jsx14(Fragment3, {
                         children: slashFilterSvg()
-                    }) : /* @__PURE__ */ jsx11(Fragment2, {
+                    }) : /* @__PURE__ */ jsx14(Fragment3, {
                         children: emptyFilterSvg()
                     })
                 })
             }),
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 className: "relative",
-                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs6("div", {
+                children: filterPopupsDisplay === filterableColumn.dataKey && /* @__PURE__ */ jsxs9("div", {
                     className: "absolute top-[-20px] z-20 ".concat(displayRight ? " left-[100%]" : "right-[100%]", " w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow"),
                     children: [
-                        /* @__PURE__ */ jsxs6("div", {
+                        /* @__PURE__ */ jsxs9("div", {
                             className: "flex justify-between items-center border-black border-b-[1px] w-[90%]",
                             children: [
-                                /* @__PURE__ */ jsx11("div", {
+                                /* @__PURE__ */ jsx14("div", {
                                     className: "text-start",
                                     children: filterLabel + " " + filterableColumn.header
                                 }),
-                                /* @__PURE__ */ jsx11("button", {
+                                /* @__PURE__ */ jsx14("button", {
                                     onClick: closeFilterWindow,
-                                    children: /* @__PURE__ */ jsx11(RedXSvg2, {})
+                                    children: /* @__PURE__ */ jsx14(RedXSvg2, {})
                                 })
                             ]
                         }),
-                        /* @__PURE__ */ jsx11("div", {
+                        /* @__PURE__ */ jsx14("div", {
                             className: "overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ",
                             children: (_filterOptions_filterableColumn_dataKey = filterOptions[filterableColumn.dataKey]) === null || _filterOptions_filterableColumn_dataKey === void 0 ? void 0 : _filterOptions_filterableColumn_dataKey.map(function(option, i) {
                                 var _filters_filterableColumn_dataKey;
-                                return /* @__PURE__ */ jsxs6("div", {
+                                return /* @__PURE__ */ jsxs9("div", {
                                     className: "flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white",
                                     children: [
-                                        /* @__PURE__ */ jsx11("input", {
+                                        /* @__PURE__ */ jsx14("input", {
                                             type: "checkbox",
                                             className: "cursor-pointer",
                                             checked: (_filters_filterableColumn_dataKey = filters[filterableColumn.dataKey]) === null || _filters_filterableColumn_dataKey === void 0 ? void 0 : _filters_filterableColumn_dataKey.includes(option),
@@ -1382,7 +2163,7 @@ var Filter = memo(function(param) {
                                                 return handleFilterChange(filterableColumn.dataKey, option);
                                             }
                                         }),
-                                        /* @__PURE__ */ jsx11("button", {
+                                        /* @__PURE__ */ jsx14("button", {
                                             className: "flex-1 text-start px-2",
                                             onClick: function() {
                                                 return handleFilterChange(filterableColumn.dataKey, option);
@@ -1401,37 +2182,37 @@ var Filter = memo(function(param) {
 });
 var TableHead = memo(function() {
     var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
-    var sortDisplay = useMemo3(function() {
+    var sortDisplay = useMemo4(function() {
         return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
     }, [
         sortKeys
     ]);
-    return /* @__PURE__ */ jsx11("thead", {
+    return /* @__PURE__ */ jsx14("thead", {
         className: "bg-[#282828] text-white sticky top-0",
-        children: /* @__PURE__ */ jsx11("tr", {
+        children: /* @__PURE__ */ jsx14("tr", {
             style: headerStyle,
             children: headers.map(function(header, index) {
                 var filterableColumn = filterableColumns.find(function(col) {
                     return col.header === header;
                 });
-                return /* @__PURE__ */ jsxs6("th", {
+                return /* @__PURE__ */ jsxs9("th", {
                     title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
                     className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
                     children: [
-                        /* @__PURE__ */ jsx11("div", {
+                        /* @__PURE__ */ jsx14("div", {
                             className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),
                             onClick: function() {
                                 return sortDisplay && handleSort(index);
                             },
                             children: header
                         }),
-                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx11(Fragment2, {
+                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ jsx14(Fragment3, {
                             children: sortSvg()
-                        }) : /* @__PURE__ */ jsx11(Fragment2, {
+                        }) : /* @__PURE__ */ jsx14(Fragment3, {
                             children: sortSvg(true)
                         })),
-                        filterableColumn && /* @__PURE__ */ jsx11(Filter, {
+                        filterableColumn && /* @__PURE__ */ jsx14(Filter, {
                             filterableColumn: filterableColumn,
                             index: index
                         })
@@ -1443,9 +2224,9 @@ var TableHead = memo(function() {
 }, renderOnce);
 var TableBody = memo(function() {
     var dataToRender = useTableContext().dataToRender;
-    return /* @__PURE__ */ jsx11("tbody", {
+    return /* @__PURE__ */ jsx14("tbody", {
         children: dataToRender.renderedData.map(function(item, index) {
-            return /* @__PURE__ */ jsx11(TableRow2, {
+            return /* @__PURE__ */ jsx14(TableRow2, {
                 item: item
             }, index);
         })
@@ -1453,19 +2234,19 @@ var TableBody = memo(function() {
 }, renderOnce);
 var MaxRowsLabel = memo(function() {
     var _useTableContext = useTableContext(), data = _useTableContext.data, dataToRender = _useTableContext.dataToRender, maxRowsLabel1 = _useTableContext.maxRowsLabel1, maxRowsLabel2 = _useTableContext.maxRowsLabel2, maxRows = _useTableContext.maxRows, maxRowsContainerClassName = _useTableContext.maxRowsContainerClassName;
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs9("div", {
         className: cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || ""),
         children: [
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 children: maxRowsLabel1
             }),
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 children: maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows
             }),
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 children: maxRowsLabel2
             }),
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 children: dataToRender.filtered.length
             })
         ]
@@ -1544,7 +2325,7 @@ var ExportToExcel = memo(function() {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsx11("button", {
+    return /* @__PURE__ */ jsx14("button", {
         onClick: onExportExcelClick,
         title: exportExcelLabel,
         className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
@@ -1553,7 +2334,7 @@ var ExportToExcel = memo(function() {
 }, renderOnce);
 var Search = memo(function() {
     var _useTableContext = useTableContext(), searchQuery = _useTableContext.searchQuery, handleSearch = _useTableContext.handleSearch, searchPlaceHolder = _useTableContext.searchPlaceHolder, searchInputClassName = _useTableContext.searchInputClassName, searchInputStyle = _useTableContext.searchInputStyle;
-    return /* @__PURE__ */ jsx11("input", {
+    return /* @__PURE__ */ jsx14("input", {
         className: cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName),
         type: "text",
         placeholder: searchPlaceHolder,
@@ -1564,17 +2345,17 @@ var Search = memo(function() {
 }, renderOnce);
 var Summary = memo(function() {
     var _useTableContext = useTableContext(), summaryContainerStyle = _useTableContext.summaryContainerStyle, summaryLabelStyle = _useTableContext.summaryLabelStyle, summaryLabel = _useTableContext.summaryLabel, summaryRowStyle = _useTableContext.summaryRowStyle, sumColumns = _useTableContext.sumColumns, dataToRender = _useTableContext.dataToRender, direction = _useTableContext.direction;
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs9("div", {
         style: _object_spread_props(_object_spread({}, summaryContainerStyle), {
             direction: direction
         }),
         className: "w-full h-8 flex justify-between items-center px-3 text-[18px] font-bold",
         children: [
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 style: summaryLabelStyle,
                 children: summaryLabel
             }),
-            /* @__PURE__ */ jsx11("div", {
+            /* @__PURE__ */ jsx14("div", {
                 style: summaryRowStyle,
                 className: "flex gap-3",
                 children: sumColumns.map(function(val) {
@@ -1582,16 +2363,16 @@ var Summary = memo(function() {
                         return acc + Number(v[val.dataKey]) || 0;
                     }, 0);
                     var sum_value = getFixedNumber(sum_res);
-                    return /* @__PURE__ */ jsxs6("div", {
+                    return /* @__PURE__ */ jsxs9("div", {
                         className: "flex gap-1 justify-start",
                         children: [
-                            /* @__PURE__ */ jsx11("div", {
+                            /* @__PURE__ */ jsx14("div", {
                                 children: val.label
                             }),
-                            /* @__PURE__ */ jsx11("span", {
+                            /* @__PURE__ */ jsx14("span", {
                                 children: ":"
                             }),
-                            /* @__PURE__ */ jsx11("div", {
+                            /* @__PURE__ */ jsx14("div", {
                                 children: val.ui ? val.ui(sum_value) : sum_value
                             })
                         ]
@@ -1608,7 +2389,7 @@ var TimesUI = function(param) {
         fromFormat: fromFormat,
         tz: tz
     });
-    return /* @__PURE__ */ jsx11("div", {
+    return /* @__PURE__ */ jsx14("div", {
         style: {
             direction: "ltr"
         },
@@ -1624,22 +2405,22 @@ var TableButton = function(param) {
         edit: "fa-light fa-pen-to-square text-xl",
         delete: "fa-light fa-trash text-xl"
     };
-    return /* @__PURE__ */ jsx11(Fragment2, {
-        children: type === "custom" ? /* @__PURE__ */ jsx11("button", {
+    return /* @__PURE__ */ jsx14(Fragment3, {
+        children: type === "custom" ? /* @__PURE__ */ jsx14("button", {
             className: className,
             title: title,
             onClick: onClick,
             children: children
-        }) : type === "add" ? /* @__PURE__ */ jsx11(Button, {
+        }) : type === "add" ? /* @__PURE__ */ jsx14(Button, {
             title: title,
             onClick: onClick,
-            children: /* @__PURE__ */ jsx11("i", {
+            children: /* @__PURE__ */ jsx14("i", {
                 className: cn("fa-regular fa-plus text-2xl", className)
             })
-        }) : /* @__PURE__ */ jsx11("button", {
+        }) : /* @__PURE__ */ jsx14("button", {
             title: title,
             onClick: onClick,
-            children: /* @__PURE__ */ jsx11("i", {
+            children: /* @__PURE__ */ jsx14("i", {
                 className: cn(icon[type], className)
             })
         })
@@ -1652,16 +2433,16 @@ var DurationUI = function(param) {
     var minutes = parseInt(durationTime[1], 10);
     var isWithSeconds = durationTime.length === 3;
     var seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
-    return /* @__PURE__ */ jsxs6("div", {
+    return /* @__PURE__ */ jsxs9("div", {
         title: duration,
         style: {
             direction: "ltr"
         },
         className: cn("flex gap-1 ".concat(direction === "rtl" ? "justify-end" : "justify-start"), className),
         children: [
-            hours > 0 && /* @__PURE__ */ jsxs6(Fragment2, {
+            hours > 0 && /* @__PURE__ */ jsxs9(Fragment3, {
                 children: [
-                    /* @__PURE__ */ jsxs6("span", {
+                    /* @__PURE__ */ jsxs9("span", {
                         style: {
                             display: "inline-block"
                         },
@@ -1671,7 +2452,7 @@ var DurationUI = function(param) {
                             hoursLabel
                         ]
                     }),
-                    minutes === 0 && /* @__PURE__ */ jsxs6("span", {
+                    minutes === 0 && /* @__PURE__ */ jsxs9("span", {
                         style: {
                             display: "inline-block"
                         },
@@ -1684,7 +2465,7 @@ var DurationUI = function(param) {
                     })
                 ]
             }),
-            minutes > 0 && /* @__PURE__ */ jsxs6("span", {
+            minutes > 0 && /* @__PURE__ */ jsxs9("span", {
                 style: {
                     display: "inline-block"
                 },
@@ -1695,7 +2476,7 @@ var DurationUI = function(param) {
                     minutesLabel
                 ]
             }),
-            seconds > 0 && /* @__PURE__ */ jsxs6("span", {
+            seconds > 0 && /* @__PURE__ */ jsxs9("span", {
                 style: {
                     display: "inline-block"
                 },
@@ -1709,32 +2490,212 @@ var DurationUI = function(param) {
         ]
     });
 };
-// src/components/forms/index.tsx
-import { useState as useState3 } from "react";
-import moment3 from "moment";
-import { jsx as jsx12, jsxs as jsxs7 } from "react/jsx-runtime";
-var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
-    return /* @__PURE__ */ jsxs7("div", {
-        className: "center ".concat(containerClassName),
+var PhoneUI = function(param) {
+    var phone = param.phone, direction = param.direction;
+    return /* @__PURE__ */ jsx14("div", {
+        style: {
+            direction: "ltr"
+        },
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        title: phone,
+        children: phone
+    });
+};
+// src/components/forms/ModularForm/ModularForm.tsx
+import { useState as useState6 } from "react";
+// src/components/forms/ModularForm/formElements.tsx
+import { useState as useState5 } from "react";
+// src/components/forms/ModularForm/InternationalPhonePicker.tsx
+import { ChevronDown, Phone } from "lucide-react";
+import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState4 } from "react";
+import * as RPNInput from "react-phone-number-input";
+import flags from "react-phone-number-input/flags";
+import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
+function InternationalPhonePicker(param) {
+    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter, labelContent = param.labelContent, labelClassName = param.labelClassName, required = param.required, direction = param.direction;
+    var handleKeyDown = function(e) {
+        if (e.key === "Enter") {
+            if (onEnter) {
+                onEnter();
+            }
+        }
+    };
+    var _useState4 = _sliced_to_array(useState4(""), 2), tempPhoneValue = _useState4[0], setTempPhoneValue = _useState4[1];
+    useEffect4(function() {
+        if (defaultValue) {
+            if (setPhoneValue) {
+                setPhoneValue(defaultValue);
+            } else {
+                setTempPhoneValue(defaultValue);
+            }
+        }
+    }, [
+        defaultValue,
+        setPhoneValue
+    ]);
+    return /* @__PURE__ */ jsxs10("div", {
+        style: {
+            direction: direction
+        },
+        className: cn("space-y-2", "".concat(labelContent ? "flex gap-1 items-center" : ""), containerClassName),
         children: [
-            /* @__PURE__ */ jsxs7("label", {
-                className: "text-start w-[30%] flex gap-0.5  ".concat(labelClassName),
-                htmlFor: name,
+            labelContent && /* @__PURE__ */ jsx15(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsx15(RPNInput.default, {
+                style: {
+                    direction: "ltr"
+                },
+                className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
+                international: true,
+                countries: [
+                    "US",
+                    "IL",
+                    "NG"
+                ],
+                defaultCountry: defaultCountry,
+                flagComponent: FlagComponent,
+                countrySelectComponent: CountrySelect,
+                countrySelectProps: {
+                    className: flagContainerClassName
+                },
+                inputComponent: PhoneInput,
+                numberInputProps: {
+                    className: cn("min-h-10", inputClassName),
+                    onKeyDown: handleKeyDown,
+                    defaultValue: defaultValue,
+                    style: style
+                },
+                placeholder: placeholder,
+                value: tempPhoneValue || phoneValue,
+                onChange: function(newValue) {
+                    if (setPhoneValue) {
+                        return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
+                    }
+                    setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
+                }
+            }),
+            /* @__PURE__ */ jsx15("input", {
+                type: "hidden",
+                name: name,
+                value: tempPhoneValue
+            })
+        ]
+    });
+}
+var PhoneInput = forwardRef8(function(_param, ref) {
+    var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, style = _param.style, props = _object_without_properties(_param, [
+        "className",
+        "onKeyDown",
+        "defaultValue",
+        "style"
+    ]);
+    var inputRef = useRef3(null);
+    useEffect4(function() {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
+    return /* @__PURE__ */ jsx15(Input, _object_spread({
+        className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
+        onKeyDown: onKeyDown,
+        defaultValue: defaultValue,
+        style: style,
+        ref: function(el) {
+            inputRef.current = el;
+            if (typeof ref === "function") {
+                ref(el);
+            } else if (ref) {
+                ref.current = el;
+            }
+        }
+    }, props));
+});
+PhoneInput.displayName = "PhoneInput";
+var CountrySelect = function(param) {
+    var disabled = param.disabled, value = param.value, onChange = param.onChange, options = param.options, className = param.className;
+    var handleSelect = function(event) {
+        onChange(event.target.value);
+    };
+    var originalClassName = useMemo5(function() {
+        return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
+    }, []);
+    return /* @__PURE__ */ jsxs10("div", {
+        className: cn(originalClassName, className),
+        children: [
+            /* @__PURE__ */ jsxs10("div", {
+                className: "inline-flex items-center gap-1",
+                "aria-hidden": "true",
                 children: [
-                    /* @__PURE__ */ jsx12("div", {
-                        children: labelContent
+                    /* @__PURE__ */ jsx15(FlagComponent, {
+                        country: value,
+                        countryName: value,
+                        "aria-hidden": "true"
                     }),
-                    required && /* @__PURE__ */ jsx12("div", {
-                        className: "text-red-500",
-                        children: "*"
-                    }),
-                    /* @__PURE__ */ jsx12("div", {
-                        children: ":"
+                    /* @__PURE__ */ jsx15("span", {
+                        className: "text-muted-foreground/80",
+                        children: /* @__PURE__ */ jsx15(ChevronDown, {
+                            size: 16,
+                            strokeWidth: 2,
+                            "aria-hidden": "true"
+                        })
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx12("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
+            /* @__PURE__ */ jsx15("select", {
+                disabled: disabled,
+                value: value,
+                onChange: handleSelect,
+                className: "absolute inset-0 text-sm opacity-0",
+                "aria-label": "Select country",
+                children: options.filter(function(x) {
+                    return x.value;
+                }).map(function(option, i) {
+                    var _option_value;
+                    return /* @__PURE__ */ jsxs10("option", {
+                        className: "text-black",
+                        value: option.value,
+                        children: [
+                            option.label,
+                            " ",
+                            option.value && "+".concat(RPNInput.getCountryCallingCode(option.value))
+                        ]
+                    }, (_option_value = option.value) !== null && _option_value !== void 0 ? _option_value : "empty-".concat(i));
+                })
+            })
+        ]
+    });
+};
+var FlagComponent = function(param) {
+    var country = param.country, countryName = param.countryName;
+    var Flag = flags[country];
+    return /* @__PURE__ */ jsx15("span", {
+        className: "w-5 overflow-hidden rounded-sm",
+        children: Flag ? /* @__PURE__ */ jsx15(Flag, {
+            title: countryName
+        }) : /* @__PURE__ */ jsx15(Phone, {
+            size: 16,
+            "aria-hidden": "true"
+        })
+    });
+};
+// src/components/forms/ModularForm/formElements.tsx
+import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
+var InputContainer = function(param) {
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
+    return /* @__PURE__ */ jsxs11("div", {
+        className: "center ".concat(containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsx16("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
                 placeholder: placeholder,
                 className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
                 defaultValue: defaultValue
@@ -1750,52 +2711,42 @@ var InputContainer = function(param) {
 var SelectContainer = function(param) {
     var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
     var _options_, _options_find;
-    var _useState3 = _sliced_to_array(useState3(false), 2), isOpen = _useState3[0], setIsOpen = _useState3[1];
-    var _useState31 = _sliced_to_array(useState3(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _useState31[0], setSelectedValue = _useState31[1];
+    var _useState5 = _sliced_to_array(useState5(false), 2), isOpen = _useState5[0], setIsOpen = _useState5[1];
+    var _useState51 = _sliced_to_array(useState5(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _useState51[0], setSelectedValue = _useState51[1];
     var handleOptionClick = function(value) {
         setSelectedValue(value);
         setIsOpen(false);
     };
-    return /* @__PURE__ */ jsxs7("div", {
+    return /* @__PURE__ */ jsxs11("div", {
         className: "center ".concat(containerClassName),
         children: [
-            /* @__PURE__ */ jsxs7("label", {
-                className: "text-start w-[30%] flex gap-0.5 ".concat(labelClassName),
-                htmlFor: name,
-                children: [
-                    /* @__PURE__ */ jsx12("div", {
-                        children: labelContent
-                    }),
-                    required && /* @__PURE__ */ jsx12("div", {
-                        className: "text-red-500",
-                        children: "*"
-                    }),
-                    /* @__PURE__ */ jsx12("div", {
-                        children: ":"
-                    })
-                ]
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
             }),
-            /* @__PURE__ */ jsxs7("div", {
+            /* @__PURE__ */ jsxs11("div", {
                 className: "w-[70%] relative ".concat(elementClassName),
                 onClick: function() {
                     return setIsOpen(!isOpen);
                 },
                 children: [
-                    /* @__PURE__ */ jsx12("div", {
+                    /* @__PURE__ */ jsx16("div", {
                         className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
                         children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
                             return opt.value === selectedValue;
                         })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
                     }),
-                    isOpen ? /* @__PURE__ */ jsx12("i", {
+                    isOpen ? /* @__PURE__ */ jsx16("i", {
                         className: "fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"
-                    }) : /* @__PURE__ */ jsx12("i", {
+                    }) : /* @__PURE__ */ jsx16("i", {
                         className: "fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"
                     }),
-                    isOpen && /* @__PURE__ */ jsx12("div", {
+                    isOpen && /* @__PURE__ */ jsx16("div", {
                         className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
                         children: options.map(function(option) {
-                            return /* @__PURE__ */ jsx12("div", {
+                            return /* @__PURE__ */ jsx16("div", {
                                 className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
                                 onClick: function() {
                                     return handleOptionClick(option.value);
@@ -1804,7 +2755,7 @@ var SelectContainer = function(param) {
                             }, option.value);
                         })
                     }),
-                    /* @__PURE__ */ jsx12("input", {
+                    /* @__PURE__ */ jsx16("input", {
                         value: selectedValue,
                         type: "hidden",
                         name: name,
@@ -1815,6 +2766,67 @@ var SelectContainer = function(param) {
         ]
     });
 };
+function MultiSelect(param) {
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus;
+    return /* @__PURE__ */ jsxs11("div", {
+        className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsx16(multiselect_default, {
+                commandProps: {
+                    label: placeholder
+                },
+                name: name,
+                defaultOptions: options,
+                unremovableOptions: unremovableOptions,
+                value: selectedOptions,
+                onChange: onChange,
+                onSearch: onSearch,
+                onSearchSync: onSearchSync,
+                triggerSearchOnFocus: triggerSearchOnFocus,
+                groupBy: groupBy,
+                placeholder: placeholder,
+                hideClearAllButton: true,
+                hidePlaceholderWhenSelected: true,
+                badgeClassName: styles.badgeClassName,
+                className: styles.className,
+                dropdownClassName: styles.dropdownClassName,
+                dropdownOptionClassName: styles.dropdownOptionClassName,
+                emptyIndicator: emptyOptionsElement || /* @__PURE__ */ jsx16("p", {
+                    className: "text-center text-sm",
+                    children: "all options selected."
+                }),
+                emptyIndicatorClassName: styles.emptyIndicatorClassName
+            })
+        ]
+    });
+}
+var ElementLabel = function(param) {
+    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
+    return /* @__PURE__ */ jsxs11("label", {
+        className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
+        htmlFor: name,
+        children: [
+            /* @__PURE__ */ jsx16("div", {
+                children: labelContent
+            }),
+            required && /* @__PURE__ */ jsx16("div", {
+                className: "text-red-500",
+                children: "*"
+            }),
+            /* @__PURE__ */ jsx16("div", {
+                children: ":"
+            })
+        ]
+    });
+};
+// src/components/forms/ModularForm/ModularForm.tsx
+import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
 var ModularForm = function(param) {
     var _param_submitFunction = param.submitFunction, submitFunction = _param_submitFunction === void 0 ? /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(form) {
@@ -1828,8 +2840,8 @@ var ModularForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }() : _param_submitFunction, _param_elements = param.elements, elements = _param_elements === void 0 ? [] : _param_elements, headerContent = param.headerContent, buttonContent = param.buttonContent, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_headerClassName = param.headerClassName, headerClassName = _param_headerClassName === void 0 ? "" : _param_headerClassName, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName, submitRef = param.submitRef;
-    var _useState3 = _sliced_to_array(useState3(""), 2), errorMsg = _useState3[0], setErrorMsg = _useState3[1];
-    var _useState31 = _sliced_to_array(useState3(false), 2), isLoading = _useState31[0], setIsLoading = _useState31[1];
+    var _useState6 = _sliced_to_array(useState6(""), 2), errorMsg = _useState6[0], setErrorMsg = _useState6[1];
+    var _useState61 = _sliced_to_array(useState6(false), 2), isLoading = _useState61[0], setIsLoading = _useState61[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
             var form, err;
@@ -1837,6 +2849,7 @@ var ModularForm = function(param) {
                 switch(_state.label){
                     case 0:
                         e.preventDefault();
+                        setErrorMsg("");
                         setIsLoading(true);
                         _state.label = 1;
                     case 1:
@@ -1848,11 +2861,10 @@ var ModularForm = function(param) {
                         ]);
                         form = e.currentTarget;
                         elements.forEach(function(element) {
-                            if (element.type === "input" && element.minLength) {
-                                var _form_elements_namedItem;
-                                var inputValue = ((_form_elements_namedItem = form.elements.namedItem(element.name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
-                                if (inputValue.length < element.minLength) {
-                                    throw element.validationError || "".concat(element.labelContent, " must be at least ").concat(element.minLength, " characters");
+                            if (element.minLength) {
+                                var elementValue = getFormElementValue(form, element.name);
+                                if (elementValue.length < element.minLength) {
+                                    throw element.validationError || "".concat(element.labelContent || element.name, " must be at least ").concat(element.minLength, " characters");
                                 }
                             }
                         });
@@ -1891,41 +2903,47 @@ var ModularForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsxs7("form", {
+    return /* @__PURE__ */ jsxs12("form", {
         onSubmit: onSubmit,
         style: {
             direction: direction
         },
         className: cn("w-[350px] px-5 py-5 flex flex-col gap-5", formClassName),
         children: [
-            headerContent && /* @__PURE__ */ jsx12("div", {
+            headerContent && /* @__PURE__ */ jsx17("div", {
                 className: cn("border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]", headerClassName),
                 children: headerContent
             }),
             elements.map(function(element, index) {
                 switch(element.type){
                     case "input":
-                        return /* @__PURE__ */ jsx12(InputContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx17(InputContainer, _object_spread({}, element), index);
                     case "select":
-                        return /* @__PURE__ */ jsx12(SelectContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx17(SelectContainer, _object_spread({}, element), index);
+                    case "multiSelect":
+                        return /* @__PURE__ */ jsx17(MultiSelect, _object_spread({}, element), index);
+                    case "internationalPhoneInput":
+                        return /* @__PURE__ */ jsx17(InternationalPhonePicker, _object_spread({}, element), index);
+                    case "custom":
+                        return element.element;
                     default:
                         return null;
                 }
             }),
-            /* @__PURE__ */ jsxs7("div", {
+            /* @__PURE__ */ jsxs12("div", {
                 className: "flex justify-between w-full",
                 children: [
-                    /* @__PURE__ */ jsx12("div", {
+                    /* @__PURE__ */ jsx17("div", {
                         title: errorMsg,
                         className: "text-[#f22] text-[18px] max-w-[80%] ellipsis",
                         children: errorMsg
                     }),
-                    /* @__PURE__ */ jsx12("button", {
+                    /* @__PURE__ */ jsx17("button", {
                         ref: submitRef,
                         disabled: isLoading,
                         className: cn("bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20", buttonClassName),
                         type: "submit",
-                        children: isLoading ? /* @__PURE__ */ jsx12(Loader, {
+                        children: isLoading ? /* @__PURE__ */ jsx17(Loader, {
                             size: 25,
                             color: "#fff"
                         }) : buttonContent
@@ -1935,6 +2953,11 @@ var ModularForm = function(param) {
         ]
     });
 };
+var ModularForm_default = ModularForm;
+// src/components/forms/index.tsx
+import { useState as useState7 } from "react";
+import moment3 from "moment";
+import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
 var ConfirmForm = function(param) {
     var onV = param.onV, onX = param.onX, _param_headline = param.headline, headline = _param_headline === void 0 ? "" : _param_headline, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_buttonsContainerClassName = param.buttonsContainerClassName, buttonsContainerClassName = _param_buttonsContainerClassName === void 0 ? "" : _param_buttonsContainerClassName, _param_headlineClassName = param.headlineClassName, headlineClassName = _param_headlineClassName === void 0 ? "" : _param_headlineClassName;
     var onConfirm = /*#__PURE__*/ function() {
@@ -2017,27 +3040,27 @@ var ConfirmForm = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsxs7("div", {
+    return /* @__PURE__ */ jsxs13("div", {
         style: {
             direction: direction,
             padding: "30px"
         },
         className: cn("full col gap-2", containerClassName),
         children: [
-            /* @__PURE__ */ jsx12("div", {
+            /* @__PURE__ */ jsx18("div", {
                 className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
-            /* @__PURE__ */ jsxs7("div", {
+            /* @__PURE__ */ jsxs13("div", {
                 className: cn("center gap-2 ", buttonsContainerClassName),
                 children: [
-                    /* @__PURE__ */ jsx12("button", {
+                    /* @__PURE__ */ jsx18("button", {
                         onClick: onDenied,
-                        children: /* @__PURE__ */ jsx12(RedXSvg, {})
+                        children: /* @__PURE__ */ jsx18(RedXSvg, {})
                     }),
-                    /* @__PURE__ */ jsx12("button", {
+                    /* @__PURE__ */ jsx18("button", {
                         onClick: onConfirm,
-                        children: /* @__PURE__ */ jsx12(GreenVSvg, {})
+                        children: /* @__PURE__ */ jsx18(GreenVSvg, {})
                     })
                 ]
             })
@@ -2057,7 +3080,7 @@ var DatePicker = function(param) {
             return _ref.apply(this, arguments);
         };
     }() : _param_submit, _param_formClassName = param.formClassName, formClassName = _param_formClassName === void 0 ? "" : _param_formClassName, _param_labelsClassName = param.labelsClassName, labelsClassName = _param_labelsClassName === void 0 ? "" : _param_labelsClassName, _param_inputsClassName = param.inputsClassName, inputsClassName = _param_inputsClassName === void 0 ? "" : _param_inputsClassName, _param_buttonClassName = param.buttonClassName, buttonClassName = _param_buttonClassName === void 0 ? "" : _param_buttonClassName, _param_buttonStyle = param.buttonStyle, buttonStyle = _param_buttonStyle === void 0 ? {} : _param_buttonStyle, defaultFrom = param.defaultFrom, defaultTo = param.defaultTo, _param_direction = param.direction, direction = _param_direction === void 0 ? "rtl" : _param_direction, _param_fromText = param.fromText, fromText = _param_fromText === void 0 ? "From date" : _param_fromText, _param_toText = param.toText, toText = _param_toText === void 0 ? "To date" : _param_toText, _param_buttonText = param.buttonText, buttonText = _param_buttonText === void 0 ? "Search" : _param_buttonText;
-    var _useState3 = _sliced_to_array(useState3(false), 2), isLoading = _useState3[0], setIsLoading = _useState3[1];
+    var _useState7 = _sliced_to_array(useState7(false), 2), isLoading = _useState7[0], setIsLoading = _useState7[1];
     var onSubmit = /*#__PURE__*/ function() {
         var _ref = _async_to_generator(function(e) {
             return _ts_generator(this, function(_state) {
@@ -2082,19 +3105,19 @@ var DatePicker = function(param) {
             return _ref.apply(this, arguments);
         };
     }();
-    return /* @__PURE__ */ jsxs7("form", {
+    return /* @__PURE__ */ jsxs13("form", {
         style: {
             direction: direction
         },
         onSubmit: onSubmit,
         className: cn("w-full h-10 flex justify-start gap-3 items-center ", formClassName),
         children: [
-            /* @__PURE__ */ jsxs7("label", {
+            /* @__PURE__ */ jsxs13("label", {
                 className: cn("center text-[14px] relative gap-2", labelsClassName),
                 htmlFor: "from",
                 children: [
                     fromText,
-                    /* @__PURE__ */ jsx12("input", {
+                    /* @__PURE__ */ jsx18("input", {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "from",
@@ -2102,12 +3125,12 @@ var DatePicker = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsxs7("label", {
+            /* @__PURE__ */ jsxs13("label", {
                 className: cn("center text-[14px] relative gap-2 ", labelsClassName),
                 htmlFor: "to",
                 children: [
                     toText,
-                    /* @__PURE__ */ jsx12("input", {
+                    /* @__PURE__ */ jsx18("input", {
                         className: "w-[125px] text-[14px] py-[2px] px-1 rounded-[2px] border-black border-[1px] text-end ".concat(inputsClassName),
                         type: "date",
                         name: "to",
@@ -2115,12 +3138,12 @@ var DatePicker = function(param) {
                     })
                 ]
             }),
-            /* @__PURE__ */ jsx12("button", {
+            /* @__PURE__ */ jsx18("button", {
                 disabled: isLoading,
                 style: buttonStyle,
                 className: cn("bg-[#699a2c] text-[#fff] font-[500] w-[75px] h-[27px]", buttonClassName),
                 type: "submit",
-                children: isLoading ? /* @__PURE__ */ jsx12(Loader, {
+                children: isLoading ? /* @__PURE__ */ jsx18(Loader, {
                     className: "pt-[2px]",
                     size: 20,
                     color: "#fff"
@@ -2129,187 +3152,21 @@ var DatePicker = function(param) {
         ]
     });
 };
-// src/components/InternationalPhonePicker.tsx
-import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef4, useEffect as useEffect3, useMemo as useMemo4, useRef as useRef2, useState as useState4 } from "react";
-import * as RPNInput from "react-phone-number-input";
-import flags from "react-phone-number-input/flags";
-import { jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
-function InternationalPhonePicker(param) {
-    var setPhoneValue = param.setPhoneValue, _param_phoneValue = param.phoneValue, phoneValue = _param_phoneValue === void 0 ? "" : _param_phoneValue, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "" : _param_placeholder, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_defaultCountry = param.defaultCountry, defaultCountry = _param_defaultCountry === void 0 ? "IL" : _param_defaultCountry, _param_flagContainerClassName = param.flagContainerClassName, flagContainerClassName = _param_flagContainerClassName === void 0 ? "" : _param_flagContainerClassName, _param_inputClassName = param.inputClassName, inputClassName = _param_inputClassName === void 0 ? "" : _param_inputClassName, defaultValue = param.defaultValue, name = param.name, style = param.style, onEnter = param.onEnter;
-    var handleKeyDown = function(e) {
-        if (e.key === "Enter") {
-            if (onEnter) {
-                onEnter();
-            }
-        }
-    };
-    var _useState4 = _sliced_to_array(useState4(""), 2), tempPhoneValue = _useState4[0], setTempPhoneValue = _useState4[1];
-    useEffect3(function() {
-        if (defaultValue) {
-            if (setPhoneValue) {
-                setPhoneValue(defaultValue);
-            } else {
-                setTempPhoneValue(defaultValue);
-            }
-        }
-    }, [
-        defaultValue,
-        setPhoneValue
-    ]);
-    return /* @__PURE__ */ jsxs8("div", {
-        className: cn("space-y-2", containerClassName),
-        dir: "ltr",
-        children: [
-            /* @__PURE__ */ jsx13(RPNInput.default, {
-                className: cn("flex rounded-lg shadow-sm shadow-black/5", className),
-                international: true,
-                countries: [
-                    "US",
-                    "IL",
-                    "NG"
-                ],
-                defaultCountry: defaultCountry,
-                flagComponent: FlagComponent,
-                countrySelectComponent: CountrySelect,
-                countrySelectProps: {
-                    className: flagContainerClassName
-                },
-                inputComponent: PhoneInput,
-                numberInputProps: {
-                    className: inputClassName,
-                    onKeyDown: handleKeyDown,
-                    defaultValue: defaultValue,
-                    style: style
-                },
-                placeholder: placeholder,
-                value: tempPhoneValue || phoneValue,
-                onChange: function(newValue) {
-                    if (setPhoneValue) {
-                        return setPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
-                    }
-                    setTempPhoneValue(newValue !== null && newValue !== void 0 ? newValue : "");
-                }
-            }),
-            /* @__PURE__ */ jsx13("input", {
-                type: "hidden",
-                name: name,
-                value: tempPhoneValue
-            })
-        ]
-    });
-}
-var PhoneInput = forwardRef4(function(_param, ref) {
-    var className = _param.className, onKeyDown = _param.onKeyDown, defaultValue = _param.defaultValue, style = _param.style, props = _object_without_properties(_param, [
-        "className",
-        "onKeyDown",
-        "defaultValue",
-        "style"
-    ]);
-    var inputRef = useRef2(null);
-    useEffect3(function() {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, []);
-    return /* @__PURE__ */ jsx13(Input, _object_spread({
-        className: cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className),
-        onKeyDown: onKeyDown,
-        defaultValue: defaultValue,
-        style: style,
-        ref: function(el) {
-            inputRef.current = el;
-            if (typeof ref === "function") {
-                ref(el);
-            } else if (ref) {
-                ref.current = el;
-            }
-        }
-    }, props));
-});
-PhoneInput.displayName = "PhoneInput";
-var CountrySelect = function(param) {
-    var disabled = param.disabled, value = param.value, onChange = param.onChange, options = param.options, className = param.className;
-    var handleSelect = function(event) {
-        onChange(event.target.value);
-    };
-    var originalClassName = useMemo4(function() {
-        return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
-    }, []);
-    return /* @__PURE__ */ jsxs8("div", {
-        className: cn(originalClassName, className),
-        children: [
-            /* @__PURE__ */ jsxs8("div", {
-                className: "inline-flex items-center gap-1",
-                "aria-hidden": "true",
-                children: [
-                    /* @__PURE__ */ jsx13(FlagComponent, {
-                        country: value,
-                        countryName: value,
-                        "aria-hidden": "true"
-                    }),
-                    /* @__PURE__ */ jsx13("span", {
-                        className: "text-muted-foreground/80",
-                        children: /* @__PURE__ */ jsx13(ChevronDown, {
-                            size: 16,
-                            strokeWidth: 2,
-                            "aria-hidden": "true"
-                        })
-                    })
-                ]
-            }),
-            /* @__PURE__ */ jsx13("select", {
-                disabled: disabled,
-                value: value,
-                onChange: handleSelect,
-                className: "absolute inset-0 text-sm opacity-0",
-                "aria-label": "Select country",
-                children: options.filter(function(x) {
-                    return x.value;
-                }).map(function(option, i) {
-                    var _option_value;
-                    return /* @__PURE__ */ jsxs8("option", {
-                        className: "text-black",
-                        value: option.value,
-                        children: [
-                            option.label,
-                            " ",
-                            option.value && "+".concat(RPNInput.getCountryCallingCode(option.value))
-                        ]
-                    }, (_option_value = option.value) !== null && _option_value !== void 0 ? _option_value : "empty-".concat(i));
-                })
-            })
-        ]
-    });
-};
-var FlagComponent = function(param) {
-    var country = param.country, countryName = param.countryName;
-    var Flag = flags[country];
-    return /* @__PURE__ */ jsx13("span", {
-        className: "w-5 overflow-hidden rounded-sm",
-        children: Flag ? /* @__PURE__ */ jsx13(Flag, {
-            title: countryName
-        }) : /* @__PURE__ */ jsx13(Phone, {
-            size: 16,
-            "aria-hidden": "true"
-        })
-    });
-};
 // src/components/CodeInput.tsx
 import { OTPInput } from "input-otp";
-import { useEffect as useEffect4, useRef as useRef3 } from "react";
-import { jsx as jsx14 } from "react/jsx-runtime";
+import { useEffect as useEffect5, useRef as useRef4 } from "react";
+import { jsx as jsx19 } from "react/jsx-runtime";
 function CodeInput(param) {
     var codeValue = param.codeValue, setCodeValue = param.setCodeValue, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, _param_slotContainerClassName = param.slotContainerClassName, slotContainerClassName = _param_slotContainerClassName === void 0 ? "" : _param_slotContainerClassName;
-    var firstInputRef = useRef3(null);
-    useEffect4(function() {
+    var firstInputRef = useRef4(null);
+    useEffect5(function() {
         if (firstInputRef.current) {
             firstInputRef.current.focus();
         }
     }, []);
-    return /* @__PURE__ */ jsx14("div", {
+    return /* @__PURE__ */ jsx19("div", {
         className: cn("space-y-2 flex justify-center items-center", className),
-        children: /* @__PURE__ */ jsx14(OTPInput, {
+        children: /* @__PURE__ */ jsx19(OTPInput, {
             ref: firstInputRef,
             value: codeValue,
             onChange: function(newVal) {
@@ -2319,10 +3176,10 @@ function CodeInput(param) {
             maxLength: 6,
             render: function(param) {
                 var slots = param.slots;
-                return /* @__PURE__ */ jsx14("div", {
+                return /* @__PURE__ */ jsx19("div", {
                     className: cn("flex gap-5", slotContainerClassName),
                     children: slots.map(function(slot, idx) {
-                        return /* @__PURE__ */ jsx14(Slot2, _object_spread({}, slot), idx);
+                        return /* @__PURE__ */ jsx19(Slot2, _object_spread({}, slot), idx);
                     })
                 });
             }
@@ -2330,14 +3187,14 @@ function CodeInput(param) {
     });
 }
 function Slot2(props) {
-    return /* @__PURE__ */ jsx14("div", {
+    return /* @__PURE__ */ jsx19("div", {
         className: cn("flex size-9 items-center justify-center rounded-lg border border-input bg-background font-medium text-foreground shadow-sm shadow-black/5 transition-shadow", {
             "z-10 border border-ring ring-[3px] ring-ring/20": props.isActive
         }),
-        children: props.char !== null && /* @__PURE__ */ jsx14("div", {
+        children: props.char !== null && /* @__PURE__ */ jsx19("div", {
             children: props.char
         })
     });
 }
-export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber };
+export { Badge, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
 //# sourceMappingURL=index.mjs.map
