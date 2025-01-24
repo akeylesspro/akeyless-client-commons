@@ -85,7 +85,7 @@ interface SelectElement extends BaseElementProps {
     optionClassName?: string;
 }
 interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
-    type: "multiSelect";
+    type?: "multiSelect";
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;

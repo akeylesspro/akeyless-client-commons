@@ -33,7 +33,7 @@ export interface SelectElement extends BaseElementProps {
 }
 
 export interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
-    type: "multiSelect";
+    type?: "multiSelect";
     options: MultipleSelectorOption[];
     emptyOptionsElement?: ReactNode;
     onChange?: (value: MultipleSelectorOption[]) => void;
