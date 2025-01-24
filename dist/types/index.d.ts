@@ -106,7 +106,7 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     groupBy?: string;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
-    type: "internationalPhoneInput";
+    type?: "internationalPhoneInput";
     phoneValue?: string;
     setPhoneValue?: Dispatch<SetStateAction<string>>;
     placeholder?: string;
