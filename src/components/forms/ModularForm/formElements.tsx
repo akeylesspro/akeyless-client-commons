@@ -115,7 +115,6 @@ export function MultipleSelect({
                 }}
                 name={name}
                 defaultOptions={options}
-                // options={options}
                 unremovableOptions={unremovableOptions}
                 value={selectedOptions}
                 onChange={onChange}

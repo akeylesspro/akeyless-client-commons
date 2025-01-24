@@ -577,7 +577,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                                                     e.stopPropagation();
                                                                 }}
                                                                 onSelect={() => {
-                                                                    // setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
                                                                     if (selected.length >= maxSelected) {
                                                                         onMaxSelected?.(selected.length);
                                                                         return;
