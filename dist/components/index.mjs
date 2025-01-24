@@ -2604,7 +2604,6 @@ function MultipleSelect(param) {
                 },
                 name: name,
                 defaultOptions: options,
-                options: options,
                 unremovableOptions: unremovableOptions,
                 value: selectedOptions,
                 onChange: onChange,
