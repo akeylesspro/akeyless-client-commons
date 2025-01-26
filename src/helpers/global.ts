@@ -77,6 +77,7 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
                         throw new Error("User not found");
                     }
                     permissions = parsePermissions(docs[0]);
+                    console.log("User permissions first time", docs[0]);
                     getUpdatePermissions(parsePermissions(docs[0]));
                 },
                 onModify: (docs) => {
