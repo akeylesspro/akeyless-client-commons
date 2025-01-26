@@ -1177,6 +1177,7 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
                             getUpdatePermissions(parsePermissions(docs[0]));
                         },
                         onModify: function(docs) {
+                            console.log("User permissions modified:", docs);
                             getUpdatePermissions(parsePermissions(docs[0]));
                         }
                     }, firstTimeArray), promise = _snapshot.promise, unsubscribeSnapshot = _snapshot.unsubscribe;
