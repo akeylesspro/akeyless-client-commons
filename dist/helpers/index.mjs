@@ -1174,11 +1174,9 @@ var initializeUserPermissions = /*#__PURE__*/ function() {
                                 throw new Error("User not found");
                             }
                             permissions = parsePermissions(docs[0]);
-                            console.log("User permissions first time", docs[0]);
                             getUpdatePermissions(parsePermissions(docs[0]));
                         },
                         onModify: function(docs) {
-                            console.log("User permissions modified:", docs);
                             getUpdatePermissions(parsePermissions(docs[0]));
                         }
                     }, firstTimeArray), promise = _snapshot.promise, unsubscribeSnapshot = _snapshot.unsubscribe;

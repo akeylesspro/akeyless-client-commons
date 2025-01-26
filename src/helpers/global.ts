@@ -77,12 +77,9 @@ export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, g
                         throw new Error("User not found");
                     }
                     permissions = parsePermissions(docs[0]);
-                    console.log("User permissions first time", docs[0]);
                     getUpdatePermissions(parsePermissions(docs[0]));
                 },
                 onModify: (docs) => {
-                    console.log("User permissions modified:", docs);
-
                     getUpdatePermissions(parsePermissions(docs[0]));
                 },
             },
@@ -107,3 +104,4 @@ export const userNameFormat = (user?: NxUser) => {
 export const multiStringFormat = (str1: string, str2?: string, str3?: string) => {
     return `${str1} ${str2 || ""} ${str3 || ""}`.trim();
 };
+
