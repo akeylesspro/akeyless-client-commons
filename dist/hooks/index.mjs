@@ -406,6 +406,11 @@ var useSnapshotBulk = function(configs, label) {
         })).then(function() {
             console.log("==> ".concat(label || "Custom snapshots", " ended. It took ").concat((performance.now() - start).toFixed(2), " ms"));
         });
+    }, [
+        JSON.stringify(configs),
+        label
+    ]);
+    useEffect(function() {
         return function() {
             unsubscribeFunctions.current.forEach(function(unsubscribe) {
                 if (unsubscribe) {
@@ -413,10 +418,7 @@ var useSnapshotBulk = function(configs, label) {
                 }
             });
         };
-    }, [
-        configs,
-        label
-    ]);
+    }, []);
 };
 var useSetUserCountry = function(setUserCountry, changLang) {
     useLayoutEffect(function() {

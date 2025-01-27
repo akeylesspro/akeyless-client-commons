@@ -34,7 +34,8 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
             console.log(`==> ${label || "Custom snapshots"} ended. It took ${(performance.now() - start).toFixed(2)} ms`);
         });
-
+    }, [JSON.stringify(configs), label]);
+    useEffect(() => {
         return () => {
             unsubscribeFunctions.current.forEach((unsubscribe) => {
                 if (unsubscribe) {
@@ -42,7 +43,7 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
                 }
             });
         };
-    }, [configs, label]);
+    }, []);
 };
 
 export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<CountryOptions>>, changLang: (lang: string) => void) => {
