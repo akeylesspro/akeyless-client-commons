@@ -1373,7 +1373,7 @@ function timestamp_to_string(firebaseTimestamp, options) {
     } else if (_instanceof(firebaseTimestamp, Date)) {
         date = firebaseTimestamp;
     } else if (typeof firebaseTimestamp === "string") {
-        date = moment2.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        date = moment2.utc(firebaseTimestamp, (options === null || options === void 0 ? void 0 : options.fromFormat) || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
             throw new Error("Invalid date string format");
         }
@@ -1381,7 +1381,7 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var result = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        var result = moment2(date).tz(options === null || options === void 0 ? void 0 : options.tz).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
         return result;
     }
     return moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
