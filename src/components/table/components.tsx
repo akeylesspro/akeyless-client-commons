@@ -257,7 +257,7 @@ export const Summary = memo(() => {
 }, renderOnce);
 
 interface TimesUIProps {
-    timestamp: Timestamp | Date | string;
+    timestamp: any;
     format?: string;
     fromFormat?: string;
     tz?: string;
