@@ -2,6 +2,7 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as React$1 from 'react';
 import React__default, { SetStateAction, ReactNode, Dispatch } from 'react';
 import { TObject } from 'akeyless-types-commons';
+import { Timestamp } from 'firebase/firestore';
 import * as RPNInput from 'react-phone-number-input';
 import * as class_variance_authority_dist_types from 'class-variance-authority/dist/types';
 import { VariantProps } from 'class-variance-authority';
@@ -273,7 +274,7 @@ declare const ExportToExcel: React__default.MemoExoticComponent<() => react_jsx_
 declare const Search: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
 declare const Summary: React__default.MemoExoticComponent<() => react_jsx_runtime.JSX.Element>;
 interface TimesUIProps {
-    timestamp: any;
+    timestamp: Timestamp | Date | string;
     format?: string;
     fromFormat?: string;
     tz?: string;

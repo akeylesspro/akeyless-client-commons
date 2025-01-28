@@ -11,6 +11,7 @@ import { renderOnce } from "src/helpers";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
 import { Direction } from "src/types";
+import { Timestamp } from "firebase/firestore";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
@@ -256,7 +257,7 @@ export const Summary = memo(() => {
 }, renderOnce);
 
 interface TimesUIProps {
-    timestamp: any;
+    timestamp: Timestamp | Date | string;
     format?: string;
     fromFormat?: string;
     tz?: string;
