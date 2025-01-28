@@ -22,7 +22,7 @@ export const displayFormatPhoneNumber: ConvertFunction = (phoneNumber) => {
         if (!phoneNumberObject) {
             return phoneNumber;
         }
-        return phoneNumberObject.formatInternational().replace(/\s/g, "-");
+        return phoneNumberObject.formatInternational().replace(/\s/g, "");
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
