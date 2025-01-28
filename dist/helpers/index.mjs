@@ -49,6 +49,13 @@ function _define_property(obj, key, value) {
     }
     return obj;
 }
+function _instanceof(left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+        return !!right[Symbol.hasInstance](left);
+    } else {
+        return left instanceof right;
+    }
+}
 function _iterable_to_array_limit(arr, i) {
     var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
     if (_i == null) return;
@@ -1356,5 +1363,36 @@ function cn() {
     }
     return twMerge(clsx(inputs));
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation, userNameFormat };
+// src/helpers/time_helpers.ts
+import { Timestamp as Timestamp2 } from "firebase/firestore";
+import moment2 from "moment-timezone";
+function timestamp_to_string(firebaseTimestamp, options) {
+    var date;
+    if (_instanceof(firebaseTimestamp, Timestamp2)) {
+        date = firebaseTimestamp.toDate();
+    } else if (_instanceof(firebaseTimestamp, Date)) {
+        date = firebaseTimestamp;
+    } else if (typeof firebaseTimestamp === "string") {
+        date = moment2.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string format");
+        }
+    } else {
+        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
+    }
+    if (options === null || options === void 0 ? void 0 : options.tz) {
+        var result = moment2(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        return result;
+    }
+    return moment2.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+}
+function timestamp_to_millis(firebaseTimestamp) {
+    var timestamp = new Timestamp2(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);
+    return timestamp.toMillis();
+}
+function sort_by_timestamp(a, b) {
+    var reverse = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
+    return reverse ? timestamp_to_millis(b) - timestamp_to_millis(a) : timestamp_to_millis(a) - timestamp_to_millis(b);
+}
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
 //# sourceMappingURL=index.mjs.map

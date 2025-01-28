@@ -176,4 +176,13 @@ declare const is_iccid: (number: string) => boolean;
 
 declare function cn(...inputs: ClassValue[]): string;
 
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, storage, textNumbersRegex, textRegex, useStoreValues, useValidation, userNameFormat };
+interface TimeOptions {
+    format?: string;
+    fromFormat?: string;
+    tz?: string;
+}
+declare function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string;
+declare function timestamp_to_millis(firebaseTimestamp: Timestamp): number;
+declare function sort_by_timestamp(a: Timestamp, b: Timestamp, reverse?: boolean): number;
+
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };

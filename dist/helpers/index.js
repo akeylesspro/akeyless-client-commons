@@ -49,6 +49,13 @@ function _define_property(obj, key, value) {
     }
     return obj;
 }
+function _instanceof(left, right) {
+    if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
+        return !!right[Symbol.hasInstance](left);
+    } else {
+        return left instanceof right;
+    }
+}
 function _iterable_to_array_limit(arr, i) {
     var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
     if (_i == null) return;
@@ -445,6 +452,9 @@ __export(helpers_exports, {
     snapshotDocument: function() {
         return snapshotDocument;
     },
+    sort_by_timestamp: function() {
+        return sort_by_timestamp;
+    },
     storage: function() {
         return storage;
     },
@@ -453,6 +463,12 @@ __export(helpers_exports, {
     },
     textRegex: function() {
         return textRegex;
+    },
+    timestamp_to_millis: function() {
+        return timestamp_to_millis;
+    },
+    timestamp_to_string: function() {
+        return timestamp_to_string;
     },
     useStoreValues: function() {
         return useStoreValues;
@@ -1602,6 +1618,37 @@ function cn() {
     }
     return (0, import_tailwind_merge.twMerge)((0, import_clsx.clsx)(inputs));
 }
+// src/helpers/time_helpers.ts
+var import_firestore2 = require("firebase/firestore");
+var import_moment_timezone = __toESM(require("moment-timezone"));
+function timestamp_to_string(firebaseTimestamp, options) {
+    var date;
+    if (_instanceof(firebaseTimestamp, import_firestore2.Timestamp)) {
+        date = firebaseTimestamp.toDate();
+    } else if (_instanceof(firebaseTimestamp, Date)) {
+        date = firebaseTimestamp;
+    } else if (typeof firebaseTimestamp === "string") {
+        date = import_moment_timezone.default.utc(firebaseTimestamp, options.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
+        if (isNaN(date.getTime())) {
+            throw new Error("Invalid date string format");
+        }
+    } else {
+        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
+    }
+    if (options === null || options === void 0 ? void 0 : options.tz) {
+        var result = (0, import_moment_timezone.default)(date).tz(options.tz).format(options.format || "DD-MM-YYYY HH:mm:ss");
+        return result;
+    }
+    return import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+}
+function timestamp_to_millis(firebaseTimestamp) {
+    var timestamp = new import_firestore2.Timestamp(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);
+    return timestamp.toMillis();
+}
+function sort_by_timestamp(a, b) {
+    var reverse = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
+    return reverse ? timestamp_to_millis(b) - timestamp_to_millis(a) : timestamp_to_millis(a) - timestamp_to_millis(b);
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
     add_document: add_document,
@@ -1657,9 +1704,12 @@ function cn() {
     simpleExtractData: simpleExtractData,
     snapshot: snapshot,
     snapshotDocument: snapshotDocument,
+    sort_by_timestamp: sort_by_timestamp,
     storage: storage,
     textNumbersRegex: textNumbersRegex,
     textRegex: textRegex,
+    timestamp_to_millis: timestamp_to_millis,
+    timestamp_to_string: timestamp_to_string,
     useStoreValues: useStoreValues,
     useValidation: useValidation,
     userNameFormat: userNameFormat
