@@ -2389,6 +2389,9 @@ var TimesUI = function(param) {
         fromFormat: fromFormat,
         tz: tz
     });
+    console.log("timestamp", timestamp);
+    console.log("type of timestamp", typeof timestamp === "undefined" ? "undefined" : _type_of(timestamp));
+    console.log("time", time);
     return /* @__PURE__ */ jsx14("div", {
         style: {
             direction: "ltr"

@@ -2565,6 +2565,9 @@ var TimesUI = function(param) {
         fromFormat: fromFormat,
         tz: tz
     });
+    console.log("timestamp", timestamp);
+    console.log("type of timestamp", typeof timestamp === "undefined" ? "undefined" : _type_of(timestamp));
+    console.log("time", time);
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
         style: {
             direction: "ltr"
