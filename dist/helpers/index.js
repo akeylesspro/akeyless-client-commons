@@ -1636,10 +1636,10 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var result = (0, import_moment_timezone.default)(date).tz(options === null || options === void 0 ? void 0 : options.tz).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
+        var result = (0, import_moment_timezone.default)(date).tz(options === null || options === void 0 ? void 0 : options.tz).format((options === null || options === void 0 ? void 0 : options.format) || "DD/MM/YYYY HH:mm:ss");
         return result;
     }
-    return import_moment_timezone.default.utc(date).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
+    return import_moment_timezone.default.utc(date).format((options === null || options === void 0 ? void 0 : options.format) || "DD/MM/YYYY HH:mm:ss");
 }
 function timestamp_to_millis(firebaseTimestamp) {
     var timestamp = new import_firestore2.Timestamp(firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.seconds, firebaseTimestamp === null || firebaseTimestamp === void 0 ? void 0 : firebaseTimestamp.nanoseconds);

@@ -1163,10 +1163,10 @@ function timestamp_to_string(firebaseTimestamp, options) {
         throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
     }
     if (options === null || options === void 0 ? void 0 : options.tz) {
-        var result = moment2(date).tz(options === null || options === void 0 ? void 0 : options.tz).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
+        var result = moment2(date).tz(options === null || options === void 0 ? void 0 : options.tz).format((options === null || options === void 0 ? void 0 : options.format) || "DD/MM/YYYY HH:mm:ss");
         return result;
     }
-    return moment2.utc(date).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
+    return moment2.utc(date).format((options === null || options === void 0 ? void 0 : options.format) || "DD/MM/YYYY HH:mm:ss");
 }
 // src/components/ui/badge.tsx
 import { cva } from "class-variance-authority";

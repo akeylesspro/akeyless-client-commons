@@ -22,11 +22,11 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
     if (options?.tz) {
         const result = moment(date)
             .tz(options?.tz)
-            .format(options?.format || "DD-MM-YYYY HH:mm:ss");
+            .format(options?.format || "DD/MM/YYYY HH:mm:ss");
 
         return result;
     }
-    return moment.utc(date).format(options?.format || "DD-MM-YYYY HH:mm:ss");
+    return moment.utc(date).format(options?.format || "DD/MM/YYYY HH:mm:ss");
 }
 
 export function timestamp_to_millis(firebaseTimestamp: Timestamp): number {
