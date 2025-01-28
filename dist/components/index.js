@@ -1342,7 +1342,7 @@ function timestamp_to_string(firebaseTimestamp, options) {
         var result = (0, import_moment_timezone.default)(date).tz(options === null || options === void 0 ? void 0 : options.tz).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
         return result;
     }
-    return import_moment_timezone.default.utc(date).format(options.format || "DD-MM-YYYY HH:mm:ss");
+    return import_moment_timezone.default.utc(date).format((options === null || options === void 0 ? void 0 : options.format) || "DD-MM-YYYY HH:mm:ss");
 }
 // src/components/ui/badge.tsx
 var import_class_variance_authority = require("class-variance-authority");
