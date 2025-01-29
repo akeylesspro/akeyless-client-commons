@@ -2181,14 +2181,14 @@ var Filter = memo(function(param) {
     });
 });
 var TableHead = memo(function() {
-    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel;
+    var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel, headerClassName = _useTableContext.headerClassName, headerCellClassName = _useTableContext.headerCellClassName;
     var sortDisplay = useMemo4(function() {
         return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
     }, [
         sortKeys
     ]);
     return /* @__PURE__ */ jsx14("thead", {
-        className: "bg-[#282828] text-white sticky top-0",
+        className: cn("bg-[#282828] text-white sticky top-0", headerClassName),
         children: /* @__PURE__ */ jsx14("tr", {
             style: headerStyle,
             children: headers.map(function(header, index) {
@@ -2198,7 +2198,7 @@ var TableHead = memo(function() {
                 return /* @__PURE__ */ jsxs9("th", {
                     title: sortDisplay ? "".concat(sortLabel, " ").concat(header) : header,
                     style: headerCellStyle,
-                    className: " border-black border-[1px] max-w-[130px] px-2 text-center relative",
+                    className: cn("border-black border-[1px] max-w-[130px] px-2 text-center relative", headerCellClassName),
                     children: [
                         /* @__PURE__ */ jsx14("div", {
                             className: "px-2 ".concat(sortDisplay ? "cursor-pointer" : ""),

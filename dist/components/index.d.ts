@@ -217,7 +217,9 @@ interface TableProps {
     rowStyles?: React.CSSProperties;
     rowClassName?: string;
     headerStyle?: React.CSSProperties;
+    headerClassName?: string;
     headerCellStyle?: React.CSSProperties;
+    headerCellClassName?: string;
     cellStyle?: React.CSSProperties;
     cellClassName?: string;
     filterableColumns?: {

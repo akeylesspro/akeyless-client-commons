@@ -113,10 +113,12 @@ export const TableHead = memo(() => {
         sortOrder,
         filterableColumns = [],
         sortLabel,
+        headerClassName,
+        headerCellClassName,
     } = useTableContext();
     const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys?.length), [sortKeys]);
     return (
-        <thead className="bg-[#282828] text-white sticky top-0">
+        <thead className={cn("bg-[#282828] text-white sticky top-0", headerClassName)}>
             <tr style={headerStyle}>
                 {headers.map((header, index) => {
                     const filterableColumn = filterableColumns.find((col) => col.header === header);
@@ -125,7 +127,7 @@ export const TableHead = memo(() => {
                             title={sortDisplay ? `${sortLabel} ${header}` : header}
                             style={headerCellStyle}
                             key={index}
-                            className=" border-black border-[1px] max-w-[130px] px-2 text-center relative"
+                            className={cn("border-black border-[1px] max-w-[130px] px-2 text-center relative", headerCellClassName)}
                         >
                             {/* header value */}
                             <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
