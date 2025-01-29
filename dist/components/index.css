@@ -1164,6 +1164,10 @@ body {
 .text-foreground {
   color: hsl(var(--foreground));
 }
+.text-green-500 {
+  --tw-text-opacity: 1;
+  color: rgb(34 197 94 / var(--tw-text-opacity, 1));
+}
 .text-muted-foreground {
   color: hsl(var(--muted-foreground));
 }

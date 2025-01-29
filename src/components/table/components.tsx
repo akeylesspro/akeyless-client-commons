@@ -364,3 +364,8 @@ export const PhoneUI = ({ phone, direction }: { phone: string; direction?: Direc
         </div>
     );
 };
+
+export const BooleanUi = ({ value, size, className }: { value: boolean; size?: "big" | "small"; className?: string }) => {
+    const icon = value ? "fa-light fa-check text-green-500" : "fa-light fa-xmark text-red-500";
+    return <i className={cn(`${icon} ${size === "small" ? "text-lg" : "text-2xl"}`, className)}></i>;
+};

@@ -404,6 +404,9 @@ __export(components_exports, {
     Badge: function() {
         return Badge;
     },
+    BooleanUi: function() {
+        return BooleanUi;
+    },
     Button: function() {
         return Button;
     },
@@ -2677,6 +2680,13 @@ var PhoneUI = function(param) {
         children: phone
     });
 };
+var BooleanUi = function(param) {
+    var value = param.value, size = param.size, className = param.className;
+    var icon = value ? "fa-light fa-check text-green-500" : "fa-light fa-xmark text-red-500";
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("i", {
+        className: cn("".concat(icon, " ").concat(size === "small" ? "text-lg" : "text-2xl"), className)
+    });
+};
 // src/components/forms/ModularForm/ModularForm.tsx
 var import_react8 = require("react");
 // src/components/forms/ModularForm/formElements.tsx
@@ -3375,6 +3385,7 @@ function Slot2(props) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
     Badge: Badge,
+    BooleanUi: BooleanUi,
     Button: Button,
     Checkbox: Checkbox,
     CodeInput: CodeInput,
