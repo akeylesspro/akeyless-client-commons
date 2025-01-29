@@ -437,6 +437,9 @@ __export(components_exports, {
     Filter: function() {
         return Filter;
     },
+    GeoUi: function() {
+        return GeoUi;
+    },
     Input: function() {
         return Input;
     },
@@ -2687,6 +2690,20 @@ var BooleanUi = function(param) {
         className: cn("".concat(icon, " ").concat(size === "small" ? "text-lg" : "text-2xl"), className)
     });
 };
+var GeoUi = function(param) {
+    var value = param.value;
+    var langUi = String(value.lng || value.longitude || "").slice(0, 6);
+    var latUi = String(value.lat || value.latitude || "").slice(0, 6);
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", {
+        children: [
+            langUi,
+            " ",
+            "",
+            " ",
+            latUi
+        ]
+    });
+};
 // src/components/forms/ModularForm/ModularForm.tsx
 var import_react8 = require("react");
 // src/components/forms/ModularForm/formElements.tsx
@@ -3396,6 +3413,7 @@ function Slot2(props) {
     ErrorBoundary: ErrorBoundary,
     ExportToExcel: ExportToExcel,
     Filter: Filter,
+    GeoUi: GeoUi,
     Input: Input,
     InputContainer: InputContainer,
     InternationalPhonePicker: InternationalPhonePicker,

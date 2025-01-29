@@ -3,7 +3,7 @@ import { saveAs } from "file-saver";
 import React, { memo, ReactNode, useMemo } from "react";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
-import { TObject } from "akeyless-types-commons";
+import { Geo, TObject } from "akeyless-types-commons";
 import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { useTableContext } from "./hooks";
@@ -368,4 +368,17 @@ export const PhoneUI = ({ phone, direction }: { phone: string; direction?: Direc
 export const BooleanUi = ({ value, size, className }: { value: boolean; size?: "big" | "small"; className?: string }) => {
     const icon = value ? "fa-light fa-check text-green-500" : "fa-light fa-xmark text-red-500";
     return <i className={cn(`${icon} ${size === "small" ? "text-lg" : "text-2xl"}`, className)}></i>;
+};
+
+interface GeoUiProps {
+    value: Partial<Geo> & { latitude?: number; longitude?: number };
+}
+export const GeoUi = ({ value }: GeoUiProps) => {
+    const langUi = String(value.lng || value.longitude || "").slice(0, 6);
+    const latUi = String(value.lat || value.latitude || "").slice(0, 6);
+    return (
+        <div>
+            {langUi} {""} {latUi}
+        </div>
+    );
 };
