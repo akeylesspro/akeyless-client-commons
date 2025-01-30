@@ -20,7 +20,11 @@ export const getFixedNumber = (number = 0, fix = 4) => {
 
 export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
     const { rowStyles, rowClassName, keysToRender, onRowClick, zebraStriping } = useTableContext();
-    const zebraClassName = zebraStriping ? (index % 2 === 0 ? zebraStriping.evenRowClassName || "" : zebraStriping.oddRowClassName || "") : "";
+    const zebraClassName = zebraStriping
+        ? index % 2 === 0
+            ? zebraStriping.evenRowClassName || ""
+            : zebraStriping.oddRowClassName || "bg-gray-300"
+        : "";
     return (
         <tr
             className={cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || "")}
@@ -40,7 +44,7 @@ export const TableCell = ({ value }: { value: any }) => {
         <td
             title={["string", "number", "boolean"].includes(typeof value) ? value : ""}
             style={cellStyle}
-            className={cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || "")}
+            className={cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-1 text-center", cellClassName || "")}
         >
             {value}
         </td>
