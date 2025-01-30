@@ -18,12 +18,12 @@ export const getFixedNumber = (number = 0, fix = 4) => {
     return String(sum_value);
 };
 
-export const TableRow = ({ item }: { item: TObject<any> }) => {
-    const { rowStyles, rowClassName, keysToRender, onRowClick } = useTableContext();
-
+export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
+    const { rowStyles, rowClassName, keysToRender, onRowClick, zebraStriping } = useTableContext();
+    const zebraClassName = zebraStriping ? (index % 2 === 0 ? zebraStriping.evenRowClassName || "" : zebraStriping.oddRowClassName || "") : "";
     return (
         <tr
-            className={cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || "")}
+            className={cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || "")}
             onClick={() => onRowClick && onRowClick(item)}
             style={rowStyles}
         >
@@ -148,9 +148,9 @@ export const TableHead = memo(() => {
 export const TableBody = memo(() => {
     const { dataToRender } = useTableContext();
     return (
-        <tbody>
+        <tbody className="divide-y divide-gray-600">
             {dataToRender.renderedData.map((item, index) => (
-                <TableRow key={index} item={item} />
+                <TableRow key={index} item={item} index={index} />
             ))}
         </tbody>
     );
@@ -379,8 +379,20 @@ export const GeoUi = ({ value, className }: GeoUiProps) => {
     const langUi = String(value.lng || value.longitude || "").slice(0, 6);
     const latUi = String(value.lat || value.latitude || "").slice(0, 6);
     return (
-        <div>
+        <div className={cn("_ellipsis", className)} title={`${langUi} ${latUi}`}>
             {langUi} {""} {latUi}
+        </div>
+    );
+};
+interface NumberUIProps {
+    number: string;
+    direction?: Direction;
+    className?: string;
+}
+export const numberUI = ({ number, direction, className = "" }: NumberUIProps) => {
+    return (
+        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={number}>
+            {number}
         </div>
     );
 };

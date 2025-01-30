@@ -254,6 +254,10 @@ interface TableProps {
     maxRowsLabel1?: string;
     maxRowsLabel2?: string;
     maxRowsContainerClassName?: string;
+    zebraStriping?: {
+        oddRowClassName?: string;
+        evenRowClassName?: string;
+    };
 }
 interface FilterProps {
     index: number;
@@ -261,8 +265,9 @@ interface FilterProps {
 }
 
 declare const getFixedNumber: (number?: number, fix?: number) => string;
-declare const TableRow: ({ item }: {
+declare const TableRow: ({ item, index }: {
     item: TObject<any>;
+    index: number;
 }) => react_jsx_runtime.JSX.Element;
 declare const TableCell: ({ value }: {
     value: any;
@@ -318,6 +323,12 @@ interface GeoUiProps {
     className?: string;
 }
 declare const GeoUi: ({ value, className }: GeoUiProps) => react_jsx_runtime.JSX.Element;
+interface NumberUIProps {
+    number: string;
+    direction?: Direction;
+    className?: string;
+}
+declare const numberUI: ({ number, direction, className }: NumberUIProps) => react_jsx_runtime.JSX.Element;
 
 declare const TableContext: React__default.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {
@@ -371,4 +382,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, BooleanUi, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, BooleanUi, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, numberUI, useDebounce };

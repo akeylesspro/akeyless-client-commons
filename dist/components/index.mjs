@@ -2073,18 +2073,19 @@ var getFixedNumber = function() {
     return String(sum_value);
 };
 var TableRow2 = function(param) {
-    var item = param.item;
-    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick;
+    var item = param.item, index = param.index;
+    var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick, zebraStriping = _useTableContext.zebraStriping;
+    var zebraClassName = zebraStriping ? index % 2 === 0 ? zebraStriping.evenRowClassName || "" : zebraStriping.oddRowClassName || "" : "";
     return /* @__PURE__ */ jsx14("tr", {
-        className: cn("hover:bg-[#808080] hover:text-[#fff]", rowClassName || ""),
+        className: cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || ""),
         onClick: function() {
             return onRowClick && onRowClick(item);
         },
         style: rowStyles,
-        children: keysToRender.map(function(key, index) {
+        children: keysToRender.map(function(key, index2) {
             return /* @__PURE__ */ jsx14(TableCell, {
                 value: item[key]
-            }, index);
+            }, index2);
         })
     });
 };
@@ -2225,9 +2226,11 @@ var TableHead = memo(function() {
 var TableBody = memo(function() {
     var dataToRender = useTableContext().dataToRender;
     return /* @__PURE__ */ jsx14("tbody", {
+        className: "divide-y divide-gray-600",
         children: dataToRender.renderedData.map(function(item, index) {
             return /* @__PURE__ */ jsx14(TableRow2, {
-                item: item
+                item: item,
+                index: index
             }, index);
         })
     });
@@ -2513,6 +2516,8 @@ var GeoUi = function(param) {
     var langUi = String(value.lng || value.longitude || "").slice(0, 6);
     var latUi = String(value.lat || value.latitude || "").slice(0, 6);
     return /* @__PURE__ */ jsxs9("div", {
+        className: cn("_ellipsis", className),
+        title: "".concat(langUi, " ").concat(latUi),
         children: [
             langUi,
             " ",
@@ -2520,6 +2525,17 @@ var GeoUi = function(param) {
             " ",
             latUi
         ]
+    });
+};
+var numberUI = function(param) {
+    var number = param.number, direction = param.direction, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
+    return /* @__PURE__ */ jsx14("div", {
+        style: {
+            direction: "ltr"
+        },
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left"), className),
+        title: number,
+        children: number
     });
 };
 // src/components/forms/ModularForm/ModularForm.tsx
@@ -3217,5 +3233,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, numberUI, useDebounce };
 //# sourceMappingURL=index.mjs.map

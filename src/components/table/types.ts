@@ -44,7 +44,7 @@ export interface TableProps {
     tableContainerClass?: string;
     tableStyle?: React.CSSProperties;
     rowStyles?: React.CSSProperties;
-    rowClassName?:string
+    rowClassName?: string;
     headerStyle?: React.CSSProperties;
     headerClassName?: string;
     headerCellStyle?: React.CSSProperties;
@@ -71,6 +71,10 @@ export interface TableProps {
     maxRowsLabel1?: string;
     maxRowsLabel2?: string;
     maxRowsContainerClassName?: string;
+    zebraStriping?: {
+        oddRowClassName?: string;
+        evenRowClassName?: string;
+    };
 }
 
 export interface FilterProps {
