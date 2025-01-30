@@ -935,6 +935,10 @@ body {
 .bg-destructive {
   background-color: hsl(var(--destructive));
 }
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
 .bg-muted\/50 {
   background-color: hsl(var(--muted) / 0.5);
 }
@@ -1003,10 +1007,6 @@ body {
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
-}
-.px-\[4px\] {
-  padding-left: 4px;
-  padding-right: 4px;
 }
 .py-0\.5 {
   padding-top: 0.125rem;

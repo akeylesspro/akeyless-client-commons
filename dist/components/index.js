@@ -2260,7 +2260,7 @@ var getFixedNumber = function() {
 var TableRow2 = function(param) {
     var item = param.item, index = param.index;
     var _useTableContext = useTableContext(), rowStyles = _useTableContext.rowStyles, rowClassName = _useTableContext.rowClassName, keysToRender = _useTableContext.keysToRender, onRowClick = _useTableContext.onRowClick, zebraStriping = _useTableContext.zebraStriping;
-    var zebraClassName = zebraStriping ? index % 2 === 0 ? zebraStriping.evenRowClassName || "" : zebraStriping.oddRowClassName || "" : "";
+    var zebraClassName = zebraStriping ? index % 2 === 0 ? zebraStriping.evenRowClassName || "" : zebraStriping.oddRowClassName || "bg-gray-300" : "";
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("tr", {
         className: cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || ""),
         onClick: function() {
@@ -2284,7 +2284,7 @@ var TableCell = function(param) {
             "boolean"
         ].includes(typeof value === "undefined" ? "undefined" : _type_of(value)) ? value : "",
         style: cellStyle,
-        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-[4px] text-center", cellClassName || ""),
+        className: cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-1 text-center", cellClassName || ""),
         children: value
     });
 };
