@@ -280,8 +280,9 @@ interface TimesUIProps {
     fromFormat?: string;
     tz?: string;
     direction?: Direction;
+    className?: string;
 }
-declare const TimesUI: ({ timestamp, format, tz, direction, fromFormat }: TimesUIProps) => react_jsx_runtime.JSX.Element;
+declare const TimesUI: ({ timestamp, format, tz, direction, fromFormat, className }: TimesUIProps) => react_jsx_runtime.JSX.Element;
 interface TableButtonProps {
     onClick: () => void;
     title?: string;
@@ -299,9 +300,10 @@ interface DurationUIProps {
     direction?: Direction;
 }
 declare const DurationUI: ({ duration, hoursLabel, minutesLabel, secondsLabel, className, direction }: DurationUIProps) => react_jsx_runtime.JSX.Element;
-declare const PhoneUI: ({ phone, direction }: {
+declare const PhoneUI: ({ phone, direction, className }: {
     phone: string;
     direction?: Direction;
+    className?: string;
 }) => react_jsx_runtime.JSX.Element;
 declare const BooleanUi: ({ value, size, className }: {
     value: boolean;
@@ -313,8 +315,9 @@ interface GeoUiProps {
         latitude?: number;
         longitude?: number;
     };
+    className?: string;
 }
-declare const GeoUi: ({ value }: GeoUiProps) => react_jsx_runtime.JSX.Element;
+declare const GeoUi: ({ value, className }: GeoUiProps) => react_jsx_runtime.JSX.Element;
 
 declare const TableContext: React__default.Context<TableProps & TableProviderType>;
 declare const TableProvider: (props: TableProps & {

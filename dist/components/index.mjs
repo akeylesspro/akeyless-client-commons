@@ -2383,7 +2383,7 @@ var Summary = memo(function() {
     });
 }, renderOnce);
 var TimesUI = function(param) {
-    var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction, fromFormat = param.fromFormat;
+    var timestamp = param.timestamp, format = param.format, tz = param.tz, direction = param.direction, fromFormat = param.fromFormat, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
     var time = timestamp_to_string(timestamp, {
         format: format,
         fromFormat: fromFormat,
@@ -2393,7 +2393,7 @@ var TimesUI = function(param) {
         style: {
             direction: "ltr"
         },
-        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left"), className),
         title: time,
         children: time
     });
@@ -2491,12 +2491,12 @@ var DurationUI = function(param) {
     });
 };
 var PhoneUI = function(param) {
-    var phone = param.phone, direction = param.direction;
+    var phone = param.phone, direction = param.direction, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
     return /* @__PURE__ */ jsx14("div", {
         style: {
             direction: "ltr"
         },
-        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left")),
+        className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left"), className),
         title: phone,
         children: phone
     });
@@ -2509,7 +2509,7 @@ var BooleanUi = function(param) {
     });
 };
 var GeoUi = function(param) {
-    var value = param.value;
+    var value = param.value, className = param.className;
     var langUi = String(value.lng || value.longitude || "").slice(0, 6);
     var latUi = String(value.lat || value.latitude || "").slice(0, 6);
     return /* @__PURE__ */ jsxs9("div", {

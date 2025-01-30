@@ -264,12 +264,13 @@ interface TimesUIProps {
     fromFormat?: string;
     tz?: string;
     direction?: Direction;
+    className?: string;
 }
 
-export const TimesUI = ({ timestamp, format, tz, direction, fromFormat }: TimesUIProps) => {
+export const TimesUI = ({ timestamp, format, tz, direction, fromFormat, className = "" }: TimesUIProps) => {
     const time = timestamp_to_string(timestamp, { format, fromFormat, tz });
     return (
-        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`)} title={time}>
+        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={time}>
             {time}
         </div>
     );
@@ -357,9 +358,9 @@ export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", sec
     );
 };
 
-export const PhoneUI = ({ phone, direction }: { phone: string; direction?: Direction }) => {
+export const PhoneUI = ({ phone, direction, className = "" }: { phone: string; direction?: Direction; className?: string }) => {
     return (
-        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`)} title={phone}>
+        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={phone}>
             {phone}
         </div>
     );
@@ -372,8 +373,9 @@ export const BooleanUi = ({ value, size, className }: { value: boolean; size?: "
 
 interface GeoUiProps {
     value: Partial<Geo> & { latitude?: number; longitude?: number };
+    className?: string;
 }
-export const GeoUi = ({ value }: GeoUiProps) => {
+export const GeoUi = ({ value, className }: GeoUiProps) => {
     const langUi = String(value.lng || value.longitude || "").slice(0, 6);
     const latUi = String(value.lat || value.latitude || "").slice(0, 6);
     return (
