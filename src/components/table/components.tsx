@@ -389,13 +389,13 @@ export const GeoUi = ({ value, className }: GeoUiProps) => {
     );
 };
 export interface NumberUIProps {
-    number: string;
+    number: string | number;
     direction?: Direction;
     className?: string;
 }
 export const NumberUI = ({ number, direction, className = "" }: NumberUIProps) => {
     return (
-        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={number}>
+        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={String(number)}>
             {number}
         </div>
     );

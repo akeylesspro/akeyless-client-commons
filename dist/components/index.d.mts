@@ -324,7 +324,7 @@ interface GeoUiProps {
 }
 declare const GeoUi: ({ value, className }: GeoUiProps) => react_jsx_runtime.JSX.Element;
 interface NumberUIProps {
-    number: string;
+    number: string | number;
     direction?: Direction;
     className?: string;
 }

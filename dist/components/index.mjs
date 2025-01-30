@@ -2534,7 +2534,7 @@ var NumberUI = function(param) {
             direction: "ltr"
         },
         className: cn("_ellipsis  ".concat(direction === "rtl" ? "text-right" : "text-left"), className),
-        title: number,
+        title: String(number),
         children: number
     });
 };
