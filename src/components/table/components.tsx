@@ -375,7 +375,7 @@ export const BooleanUi = ({ value, size, className }: { value: boolean; size?: "
     return <i className={cn(`${icon} ${size === "small" ? "text-lg" : "text-2xl"}`, className)}></i>;
 };
 
-interface GeoUiProps {
+export interface GeoUiProps {
     value: Partial<Geo> & { latitude?: number; longitude?: number };
     className?: string;
 }
@@ -388,7 +388,7 @@ export const GeoUi = ({ value, className }: GeoUiProps) => {
         </div>
     );
 };
-interface NumberUIProps {
+export interface NumberUIProps {
     number: string;
     direction?: Direction;
     className?: string;
