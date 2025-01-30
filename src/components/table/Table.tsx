@@ -172,7 +172,7 @@ const TableBase = (props: TableProps) => {
             {/* table */}
             <div
                 style={{ ...(tableContainerStyle || {}), direction: direction }}
-                className={`animate-slide-in-up overflow-y-auto  ${tableContainerClass || ""}`}
+                className={cn(`animate-slide-in-up overflow-y-auto`, tableContainerClass || "")}
             >
                 <table style={tableStyle} className="min-w-full text-sm font-light relative">
                     <TableHead />

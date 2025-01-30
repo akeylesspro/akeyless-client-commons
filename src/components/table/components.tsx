@@ -393,7 +393,7 @@ interface NumberUIProps {
     direction?: Direction;
     className?: string;
 }
-export const numberUI = ({ number, direction, className = "" }: NumberUIProps) => {
+export const NumberUI = ({ number, direction, className = "" }: NumberUIProps) => {
     return (
         <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={number}>
             {number}

@@ -461,6 +461,9 @@ __export(components_exports, {
     MultiSelect: function() {
         return MultiSelect;
     },
+    NumberUI: function() {
+        return NumberUI;
+    },
     PhoneUI: function() {
         return PhoneUI;
     },
@@ -514,9 +517,6 @@ __export(components_exports, {
     },
     getFixedNumber: function() {
         return getFixedNumber;
-    },
-    numberUI: function() {
-        return numberUI;
     },
     useDebounce: function() {
         return useDebounce;
@@ -1047,7 +1047,7 @@ var TableBase = function(props) {
                 style: _object_spread_props(_object_spread({}, tableContainerStyle || {}), {
                     direction: direction
                 }),
-                className: "animate-slide-in-up overflow-y-auto  ".concat(tableContainerClass || ""),
+                className: cn("animate-slide-in-up overflow-y-auto", tableContainerClass || ""),
                 children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("table", {
                     style: tableStyle,
                     className: "min-w-full text-sm font-light relative",
@@ -2712,7 +2712,7 @@ var GeoUi = function(param) {
         ]
     });
 };
-var numberUI = function(param) {
+var NumberUI = function(param) {
     var number = param.number, direction = param.direction, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className;
     return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", {
         style: {
@@ -3440,6 +3440,7 @@ function Slot2(props) {
     MaxRowsLabel: MaxRowsLabel,
     ModularForm: ModularForm,
     MultiSelect: MultiSelect,
+    NumberUI: NumberUI,
     PhoneUI: PhoneUI,
     ProgressComponent: ProgressComponent,
     Search: Search,
@@ -3458,7 +3459,6 @@ function Slot2(props) {
     badgeVariants: badgeVariants,
     buttonVariants: buttonVariants,
     getFixedNumber: getFixedNumber,
-    numberUI: numberUI,
     useDebounce: useDebounce
 });
 //# sourceMappingURL=index.js.map
