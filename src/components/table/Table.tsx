@@ -79,10 +79,21 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         let filtered = data;
         // search
         if (includeSearch && deferredSearchQuery.length > 0) {
-            filtered = data.filter((item) => allKeys.some((key) => item[key]?.toString().toLowerCase().includes(deferredSearchQuery.toLowerCase())));
-            // clearFilter();
-            // clearSort();
-        }
+            //removeSpace
+            
+           const cleanString = (str: string) => str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+       
+           const normalizedSearchQuery = cleanString(deferredSearchQuery);
+       
+           //filterData
+           filtered = data.filter((item) =>
+               allKeys.some((key) =>
+                   cleanString(item[key]?.toString()).includes(normalizedSearchQuery)
+               )
+           );
+           // clearFilter();
+           // clearSort();
+       }
         // filter
         if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
             console.log("filtering ...");
