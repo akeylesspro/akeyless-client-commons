@@ -738,6 +738,88 @@ import { isEqual as isEqual2 } from "lodash";
 // src/components/table/Table.tsx
 import React2, { createContext, useMemo } from "react";
 import { isEqual } from "lodash";
+// src/helpers/forms.ts
+import XRegExp from "xregexp";
+var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
+var numbersRegex = XRegExp("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = XRegExp("[^0-9]", "g");
+var priceRegex = XRegExp("[^0-9.]", "g");
+var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
+var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
+var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu");
+var addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu");
+var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
+var handleChange = function(e) {
+    e.target.setCustomValidity("");
+    var validation = e.target.getAttribute("data-validation");
+    if (validation === "text") {
+        e.target.value = XRegExp.replace(e.target.value, textRegex, "");
+    } else if (validation === "numbers") {
+        e.target.value = XRegExp.replace(e.target.value, numbersRegex, "");
+    } else if (validation === "numbersOnly") {
+        e.target.value = XRegExp.replace(e.target.value, numbersOnlyRegex, "");
+    } else if (validation === "price") {
+        e.target.value = XRegExp.replace(e.target.value, priceRegex, "");
+    } else if (validation === "textNumbers") {
+        e.target.value = XRegExp.replace(e.target.value, textNumbersRegex, "");
+    } else if (validation === "email") {
+        e.target.value = XRegExp.replace(e.target.value, emailRegex, "");
+    } else if (validation === "color") {
+        e.target.value = XRegExp.replace(e.target.value, colorRegex, "");
+    } else if (validation === "address") {
+        e.target.value = XRegExp.replace(e.target.value, addressRegex, "");
+    } else if (validation === "cars") {
+        e.target.value = XRegExp.replace(e.target.value, carsRegex, "");
+    } else if (validation === "charts") {
+        e.target.value = XRegExp.replace(e.target.value, chartsRegex, "");
+    }
+};
+var handlePaste = function(e) {
+    var validation = e.currentTarget.getAttribute("data-validation");
+    var pasteData = e.clipboardData.getData("text");
+    if (validation === "text") {
+        pasteData = XRegExp.replace(pasteData, textRegex, "");
+    } else if (validation === "numbers") {
+        pasteData = XRegExp.replace(pasteData, numbersRegex, "");
+    } else if (validation === "numbersOnly") {
+        pasteData = XRegExp.replace(pasteData, numbersOnlyRegex, "");
+    } else if (validation === "price") {
+        pasteData = XRegExp.replace(pasteData, priceRegex, "");
+    } else if (validation === "textNumbers") {
+        pasteData = XRegExp.replace(pasteData, textNumbersRegex, "");
+    } else if (validation === "email") {
+        pasteData = XRegExp.replace(pasteData, emailRegex, "");
+    } else if (validation === "color") {
+        pasteData = XRegExp.replace(pasteData, colorRegex, "");
+    } else if (validation === "address") {
+        pasteData = XRegExp.replace(pasteData, addressRegex, "");
+    } else if (validation === "cars") {
+        pasteData = XRegExp.replace(pasteData, carsRegex, "");
+    } else if (validation === "charts") {
+        pasteData = XRegExp.replace(pasteData, chartsRegex, "");
+    }
+    e.preventDefault();
+    document.execCommand("insertText", false, pasteData);
+};
+var handleInvalid = function(e, requireError) {
+    e.target.setCustomValidity(requireError || "This filed is required !");
+};
+var useValidation = function(validationType, requireError) {
+    return {
+        onChange: handleChange,
+        onPaste: handlePaste,
+        onInvalid: function(e) {
+            return handleInvalid(e, requireError);
+        },
+        "data-validation": validationType
+    };
+};
+var getFormElementValue = function(form, name) {
+    var _form_elements_namedItem;
+    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+};
+// src/components/table/Table.tsx
 import { jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
 var TableContext = createContext(null);
 var TableProvider = function(props) {
@@ -773,7 +855,7 @@ var TableProvider = function(props) {
         var filtered = data;
         if (includeSearch && deferredSearchQuery.length > 0) {
             var cleanString = function(str) {
-                return str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+                return str.replace(textNumbersRegex, "").toLowerCase();
             };
             var normalizedSearchQuery = cleanString(deferredSearchQuery);
             filtered = data.filter(function(item) {
@@ -1067,87 +1149,6 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/helpers/global.ts
 var renderOnce = function() {
     return true;
-};
-// src/helpers/forms.ts
-import XRegExp from "xregexp";
-var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
-var numbersRegex = XRegExp("[^0-9\\s-+]", "g");
-var numbersOnlyRegex = XRegExp("[^0-9]", "g");
-var priceRegex = XRegExp("[^0-9.]", "g");
-var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
-var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
-var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
-var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu");
-var addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu");
-var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
-var handleChange = function(e) {
-    e.target.setCustomValidity("");
-    var validation = e.target.getAttribute("data-validation");
-    if (validation === "text") {
-        e.target.value = XRegExp.replace(e.target.value, textRegex, "");
-    } else if (validation === "numbers") {
-        e.target.value = XRegExp.replace(e.target.value, numbersRegex, "");
-    } else if (validation === "numbersOnly") {
-        e.target.value = XRegExp.replace(e.target.value, numbersOnlyRegex, "");
-    } else if (validation === "price") {
-        e.target.value = XRegExp.replace(e.target.value, priceRegex, "");
-    } else if (validation === "textNumbers") {
-        e.target.value = XRegExp.replace(e.target.value, textNumbersRegex, "");
-    } else if (validation === "email") {
-        e.target.value = XRegExp.replace(e.target.value, emailRegex, "");
-    } else if (validation === "color") {
-        e.target.value = XRegExp.replace(e.target.value, colorRegex, "");
-    } else if (validation === "address") {
-        e.target.value = XRegExp.replace(e.target.value, addressRegex, "");
-    } else if (validation === "cars") {
-        e.target.value = XRegExp.replace(e.target.value, carsRegex, "");
-    } else if (validation === "charts") {
-        e.target.value = XRegExp.replace(e.target.value, chartsRegex, "");
-    }
-};
-var handlePaste = function(e) {
-    var validation = e.currentTarget.getAttribute("data-validation");
-    var pasteData = e.clipboardData.getData("text");
-    if (validation === "text") {
-        pasteData = XRegExp.replace(pasteData, textRegex, "");
-    } else if (validation === "numbers") {
-        pasteData = XRegExp.replace(pasteData, numbersRegex, "");
-    } else if (validation === "numbersOnly") {
-        pasteData = XRegExp.replace(pasteData, numbersOnlyRegex, "");
-    } else if (validation === "price") {
-        pasteData = XRegExp.replace(pasteData, priceRegex, "");
-    } else if (validation === "textNumbers") {
-        pasteData = XRegExp.replace(pasteData, textNumbersRegex, "");
-    } else if (validation === "email") {
-        pasteData = XRegExp.replace(pasteData, emailRegex, "");
-    } else if (validation === "color") {
-        pasteData = XRegExp.replace(pasteData, colorRegex, "");
-    } else if (validation === "address") {
-        pasteData = XRegExp.replace(pasteData, addressRegex, "");
-    } else if (validation === "cars") {
-        pasteData = XRegExp.replace(pasteData, carsRegex, "");
-    } else if (validation === "charts") {
-        pasteData = XRegExp.replace(pasteData, chartsRegex, "");
-    }
-    e.preventDefault();
-    document.execCommand("insertText", false, pasteData);
-};
-var handleInvalid = function(e, requireError) {
-    e.target.setCustomValidity(requireError || "This filed is required !");
-};
-var useValidation = function(validationType, requireError) {
-    return {
-        onChange: handleChange,
-        onPaste: handlePaste,
-        onInvalid: function(e) {
-            return handleInvalid(e, requireError);
-        },
-        "data-validation": validationType
-    };
-};
-var getFormElementValue = function(form, name) {
-    var _form_elements_namedItem;
-    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
 };
 // src/helpers/time_helpers.ts
 import { Timestamp as Timestamp2 } from "firebase/firestore";

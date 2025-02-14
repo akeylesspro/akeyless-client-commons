@@ -5,6 +5,7 @@ import { useFilter, useSort, useSearch } from "./hooks";
 import { TableSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
+import { textNumbersRegex } from "src/helpers/forms";
 
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
@@ -79,11 +80,16 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         let filtered = data;
         // search
         if (includeSearch && deferredSearchQuery.length > 0) {
-            const cleanString = (str: string) => str.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+            const cleanString = (str: string) => str.replace(textNumbersRegex, "").toLowerCase();
 
             const normalizedSearchQuery = cleanString(deferredSearchQuery);
 
-            filtered = data.filter((item) => allKeys.some((key) => cleanString(item[key]?.toString()).includes(normalizedSearchQuery)));
+            filtered = data.filter((item) =>
+                allKeys.some((key) => {
+                    return cleanString(item[key]?.toString()).includes(normalizedSearchQuery);
+                })
+            );
+
             // clearFilter();
             // clearSort();
         }
