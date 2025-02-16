@@ -18,6 +18,7 @@ export const sortSvg = (upside_down?: boolean) => {
         </svg>
     );
 };
+
 export const emptyFilterSvg = (solid?: boolean) => {
     return (
         <>

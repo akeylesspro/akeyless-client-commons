@@ -138,7 +138,7 @@ export const TableHead = memo(() => {
                                 {header}
                             </div>
                             {/* sort */}
-                            {sortDisplay && sortColumn === index && (sortOrder === "asc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
+                            {sortDisplay && sortColumn === index && (sortOrder === "desc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
                             {/* filter */}
                             {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
                         </th>
@@ -395,7 +395,11 @@ export interface NumberUIProps {
 }
 export const NumberUI = ({ number, direction, className = "" }: NumberUIProps) => {
     return (
-        <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={String(number)}>
+        <div
+            style={{ direction: "ltr" }}
+            className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)}
+            title={String(number)}
+        >
             {number}
         </div>
     );

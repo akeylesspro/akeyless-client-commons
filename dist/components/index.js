@@ -922,6 +922,88 @@ var import_lodash2 = require("lodash");
 // src/components/table/Table.tsx
 var import_react2 = __toESM(require("react"));
 var import_lodash = require("lodash");
+// src/helpers/forms.ts
+var import_xregexp = __toESM(require("xregexp"));
+var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
+var numbersRegex = (0, import_xregexp.default)("[^0-9\\s-+]", "g");
+var numbersOnlyRegex = (0, import_xregexp.default)("[^0-9]", "g");
+var priceRegex = (0, import_xregexp.default)("[^0-9.]", "g");
+var emailRegex = (0, import_xregexp.default)("[^\\p{L}0-9.@\\s-]", "gu");
+var colorRegex = (0, import_xregexp.default)("[^#0-9A-Fa-f]", "g");
+var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
+var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
+var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
+var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
+var handleChange = function(e) {
+    e.target.setCustomValidity("");
+    var validation = e.target.getAttribute("data-validation");
+    if (validation === "text") {
+        e.target.value = import_xregexp.default.replace(e.target.value, textRegex, "");
+    } else if (validation === "numbers") {
+        e.target.value = import_xregexp.default.replace(e.target.value, numbersRegex, "");
+    } else if (validation === "numbersOnly") {
+        e.target.value = import_xregexp.default.replace(e.target.value, numbersOnlyRegex, "");
+    } else if (validation === "price") {
+        e.target.value = import_xregexp.default.replace(e.target.value, priceRegex, "");
+    } else if (validation === "textNumbers") {
+        e.target.value = import_xregexp.default.replace(e.target.value, textNumbersRegex, "");
+    } else if (validation === "email") {
+        e.target.value = import_xregexp.default.replace(e.target.value, emailRegex, "");
+    } else if (validation === "color") {
+        e.target.value = import_xregexp.default.replace(e.target.value, colorRegex, "");
+    } else if (validation === "address") {
+        e.target.value = import_xregexp.default.replace(e.target.value, addressRegex, "");
+    } else if (validation === "cars") {
+        e.target.value = import_xregexp.default.replace(e.target.value, carsRegex, "");
+    } else if (validation === "charts") {
+        e.target.value = import_xregexp.default.replace(e.target.value, chartsRegex, "");
+    }
+};
+var handlePaste = function(e) {
+    var validation = e.currentTarget.getAttribute("data-validation");
+    var pasteData = e.clipboardData.getData("text");
+    if (validation === "text") {
+        pasteData = import_xregexp.default.replace(pasteData, textRegex, "");
+    } else if (validation === "numbers") {
+        pasteData = import_xregexp.default.replace(pasteData, numbersRegex, "");
+    } else if (validation === "numbersOnly") {
+        pasteData = import_xregexp.default.replace(pasteData, numbersOnlyRegex, "");
+    } else if (validation === "price") {
+        pasteData = import_xregexp.default.replace(pasteData, priceRegex, "");
+    } else if (validation === "textNumbers") {
+        pasteData = import_xregexp.default.replace(pasteData, textNumbersRegex, "");
+    } else if (validation === "email") {
+        pasteData = import_xregexp.default.replace(pasteData, emailRegex, "");
+    } else if (validation === "color") {
+        pasteData = import_xregexp.default.replace(pasteData, colorRegex, "");
+    } else if (validation === "address") {
+        pasteData = import_xregexp.default.replace(pasteData, addressRegex, "");
+    } else if (validation === "cars") {
+        pasteData = import_xregexp.default.replace(pasteData, carsRegex, "");
+    } else if (validation === "charts") {
+        pasteData = import_xregexp.default.replace(pasteData, chartsRegex, "");
+    }
+    e.preventDefault();
+    document.execCommand("insertText", false, pasteData);
+};
+var handleInvalid = function(e, requireError) {
+    e.target.setCustomValidity(requireError || "This filed is required !");
+};
+var useValidation = function(validationType, requireError) {
+    return {
+        onChange: handleChange,
+        onPaste: handlePaste,
+        onInvalid: function(e) {
+            return handleInvalid(e, requireError);
+        },
+        "data-validation": validationType
+    };
+};
+var getFormElementValue = function(form, name) {
+    var _form_elements_namedItem;
+    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
+};
+// src/components/table/Table.tsx
 var import_jsx_runtime7 = require("react/jsx-runtime");
 var TableContext = (0, import_react2.createContext)(null);
 var TableProvider = function(props) {
@@ -956,10 +1038,14 @@ var TableProvider = function(props) {
     var dataToRender = (0, import_react2.useMemo)(function() {
         var filtered = data;
         if (includeSearch && deferredSearchQuery.length > 0) {
+            var cleanString = function(str) {
+                return str.replace(textNumbersRegex, "").toLowerCase().trim();
+            };
+            var normalizedSearchQuery = cleanString(deferredSearchQuery);
             filtered = data.filter(function(item) {
                 return allKeys.some(function(key) {
                     var _item_key;
-                    return (_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString().toLowerCase().includes(deferredSearchQuery.toLowerCase());
+                    return cleanString((_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString()).includes(normalizedSearchQuery);
                 });
             });
         }
@@ -1248,87 +1334,6 @@ var import_libphonenumber_js = require("libphonenumber-js");
 // src/helpers/global.ts
 var renderOnce = function() {
     return true;
-};
-// src/helpers/forms.ts
-var import_xregexp = __toESM(require("xregexp"));
-var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
-var numbersRegex = (0, import_xregexp.default)("[^0-9\\s-+]", "g");
-var numbersOnlyRegex = (0, import_xregexp.default)("[^0-9]", "g");
-var priceRegex = (0, import_xregexp.default)("[^0-9.]", "g");
-var emailRegex = (0, import_xregexp.default)("[^\\p{L}0-9.@\\s-]", "gu");
-var colorRegex = (0, import_xregexp.default)("[^#0-9A-Fa-f]", "g");
-var carsRegex = (0, import_xregexp.default)("[^\\p{L}0-9,_]", "gu");
-var textNumbersRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s+\\-]", "gu");
-var addressRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,\\-]", "gu");
-var chartsRegex = (0, import_xregexp.default)("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
-var handleChange = function(e) {
-    e.target.setCustomValidity("");
-    var validation = e.target.getAttribute("data-validation");
-    if (validation === "text") {
-        e.target.value = import_xregexp.default.replace(e.target.value, textRegex, "");
-    } else if (validation === "numbers") {
-        e.target.value = import_xregexp.default.replace(e.target.value, numbersRegex, "");
-    } else if (validation === "numbersOnly") {
-        e.target.value = import_xregexp.default.replace(e.target.value, numbersOnlyRegex, "");
-    } else if (validation === "price") {
-        e.target.value = import_xregexp.default.replace(e.target.value, priceRegex, "");
-    } else if (validation === "textNumbers") {
-        e.target.value = import_xregexp.default.replace(e.target.value, textNumbersRegex, "");
-    } else if (validation === "email") {
-        e.target.value = import_xregexp.default.replace(e.target.value, emailRegex, "");
-    } else if (validation === "color") {
-        e.target.value = import_xregexp.default.replace(e.target.value, colorRegex, "");
-    } else if (validation === "address") {
-        e.target.value = import_xregexp.default.replace(e.target.value, addressRegex, "");
-    } else if (validation === "cars") {
-        e.target.value = import_xregexp.default.replace(e.target.value, carsRegex, "");
-    } else if (validation === "charts") {
-        e.target.value = import_xregexp.default.replace(e.target.value, chartsRegex, "");
-    }
-};
-var handlePaste = function(e) {
-    var validation = e.currentTarget.getAttribute("data-validation");
-    var pasteData = e.clipboardData.getData("text");
-    if (validation === "text") {
-        pasteData = import_xregexp.default.replace(pasteData, textRegex, "");
-    } else if (validation === "numbers") {
-        pasteData = import_xregexp.default.replace(pasteData, numbersRegex, "");
-    } else if (validation === "numbersOnly") {
-        pasteData = import_xregexp.default.replace(pasteData, numbersOnlyRegex, "");
-    } else if (validation === "price") {
-        pasteData = import_xregexp.default.replace(pasteData, priceRegex, "");
-    } else if (validation === "textNumbers") {
-        pasteData = import_xregexp.default.replace(pasteData, textNumbersRegex, "");
-    } else if (validation === "email") {
-        pasteData = import_xregexp.default.replace(pasteData, emailRegex, "");
-    } else if (validation === "color") {
-        pasteData = import_xregexp.default.replace(pasteData, colorRegex, "");
-    } else if (validation === "address") {
-        pasteData = import_xregexp.default.replace(pasteData, addressRegex, "");
-    } else if (validation === "cars") {
-        pasteData = import_xregexp.default.replace(pasteData, carsRegex, "");
-    } else if (validation === "charts") {
-        pasteData = import_xregexp.default.replace(pasteData, chartsRegex, "");
-    }
-    e.preventDefault();
-    document.execCommand("insertText", false, pasteData);
-};
-var handleInvalid = function(e, requireError) {
-    e.target.setCustomValidity(requireError || "This filed is required !");
-};
-var useValidation = function(validationType, requireError) {
-    return {
-        onChange: handleChange,
-        onPaste: handlePaste,
-        onInvalid: function(e) {
-            return handleInvalid(e, requireError);
-        },
-        "data-validation": validationType
-    };
-};
-var getFormElementValue = function(form, name) {
-    var _form_elements_namedItem;
-    return ((_form_elements_namedItem = form.elements.namedItem(name)) === null || _form_elements_namedItem === void 0 ? void 0 : _form_elements_namedItem.value) || "";
 };
 // src/helpers/time_helpers.ts
 var import_firestore2 = require("firebase/firestore");
@@ -2393,7 +2398,7 @@ var TableHead = (0, import_react5.memo)(function() {
                             },
                             children: header
                         }),
-                        sortDisplay && sortColumn === index && (sortOrder === "asc" ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_jsx_runtime15.Fragment, {
+                        sortDisplay && sortColumn === index && (sortOrder === "desc" ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_jsx_runtime15.Fragment, {
                             children: sortSvg()
                         }) : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(import_jsx_runtime15.Fragment, {
                             children: sortSvg(true)
