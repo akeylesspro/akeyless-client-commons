@@ -80,10 +80,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         let filtered = data;
         // search
         if (includeSearch && deferredSearchQuery.length > 0) {
-            const cleanString = (str: string) => str.replace(textNumbersRegex, "").toLowerCase();
-
+            const cleanString = (str: string) => str.replace(textNumbersRegex, "").toLowerCase().trim();
             const normalizedSearchQuery = cleanString(deferredSearchQuery);
-
             filtered = data.filter((item) =>
                 allKeys.some((key) => {
                     return cleanString(item[key]?.toString()).includes(normalizedSearchQuery);

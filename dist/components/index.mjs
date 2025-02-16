@@ -855,7 +855,7 @@ var TableProvider = function(props) {
         var filtered = data;
         if (includeSearch && deferredSearchQuery.length > 0) {
             var cleanString = function(str) {
-                return str.replace(textNumbersRegex, "").toLowerCase();
+                return str.replace(textNumbersRegex, "").toLowerCase().trim();
             };
             var normalizedSearchQuery = cleanString(deferredSearchQuery);
             filtered = data.filter(function(item) {
