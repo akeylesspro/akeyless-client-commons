@@ -368,6 +368,9 @@ __export(helpers_exports, {
     getFormElementValue: function() {
         return getFormElementValue;
     },
+    getLocationUrl: function() {
+        return getLocationUrl;
+    },
     getUserCountryByIp: function() {
         return getUserCountryByIp;
     },
@@ -1480,6 +1483,9 @@ var userNameFormat = function(user) {
 var multiStringFormat = function(str1, str2, str3) {
     return "".concat(str1, " ").concat(str2 || "", " ").concat(str3 || "").trim();
 };
+var getLocationUrl = function(lang, lat) {
+    return "https://www.google.com/maps?q=".concat(lang, ",").concat(lat);
+};
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -1676,6 +1682,7 @@ function sort_by_timestamp(a, b) {
     fire_base_TIME_TEMP: fire_base_TIME_TEMP,
     formatCarNumber: formatCarNumber,
     getFormElementValue: getFormElementValue,
+    getLocationUrl: getLocationUrl,
     getUserCountryByIp: getUserCountryByIp,
     get_all_documents: get_all_documents,
     get_document_by_id: get_document_by_id,

@@ -1335,6 +1335,9 @@ var import_libphonenumber_js = require("libphonenumber-js");
 var renderOnce = function() {
     return true;
 };
+var getLocationUrl = function(lang, lat) {
+    return "https://www.google.com/maps?q=".concat(lang, ",").concat(lat);
+};
 // src/helpers/time_helpers.ts
 var import_firestore2 = require("firebase/firestore");
 var import_moment_timezone = __toESM(require("moment-timezone"));
@@ -2702,19 +2705,17 @@ var BooleanUi = function(param) {
     });
 };
 var GeoUi = function(param) {
-    var value = param.value, className = param.className;
-    var langUi = String(value.lng || value.longitude || "").slice(0, 6);
-    var latUi = String(value.lat || value.latitude || "").slice(0, 6);
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", {
+    var value = param.value, className = param.className, linkUi = param.linkUi;
+    var lang = value.lng || value.longitude;
+    var lat = value.lat || value.latitude;
+    var googleMapsLink = getLocationUrl(lang, lat);
+    var langLatUi = linkUi || " ".concat(lang, " ").concat(lat);
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("a", {
+        href: googleMapsLink,
+        target: "_blank",
         className: cn("_ellipsis", className),
-        title: "".concat(langUi, " ").concat(latUi),
-        children: [
-            langUi,
-            " ",
-            "",
-            " ",
-            latUi
-        ]
+        title: "".concat(lang, " ").concat(lat),
+        children: langLatUi
     });
 };
 var NumberUI = function(param) {

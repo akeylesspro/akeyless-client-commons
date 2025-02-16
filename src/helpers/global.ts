@@ -105,3 +105,6 @@ export const multiStringFormat = (str1: string, str2?: string, str3?: string) =>
     return `${str1} ${str2 || ""} ${str3 || ""}`.trim();
 };
 
+export const getLocationUrl=(lang:number,lat:number)=>{
+return `https://www.google.com/maps?q=${lang},${lat}`;
+}
