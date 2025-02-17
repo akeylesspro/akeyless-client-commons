@@ -2544,7 +2544,7 @@ var NumberUI = function(param) {
     });
 };
 // src/components/forms/ModularForm/ModularForm.tsx
-import { useState as useState6 } from "react";
+import { cloneElement, useState as useState6 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
 import { useState as useState5 } from "react";
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
@@ -2967,7 +2967,10 @@ var ModularForm = function(param) {
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ jsx17(InternationalPhonePicker, _object_spread({}, element), index);
                     case "custom":
-                        return element.element;
+                        var _element_element;
+                        return typeof ((_element_element = element.element) === null || _element_element === void 0 ? void 0 : _element_element.type) !== "string" && cloneElement(element.element, {
+                            key: index
+                        });
                     default:
                         return null;
                 }

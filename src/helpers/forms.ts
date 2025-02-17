@@ -12,7 +12,7 @@ export const textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu"); // Letters
 export const addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu"); // Letters, numbers, spaces, hyphens, dots, and commas
 export const chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu"); // Letters, numbers, spaces, and allowed symbols
 
-type ValidationType =
+export type ValidationType =
     | "text"
     | "numbers"
     | "numbersOnly"

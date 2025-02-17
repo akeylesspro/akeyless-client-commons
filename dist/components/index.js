@@ -3152,7 +3152,10 @@ var ModularForm = function(param) {
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(InternationalPhonePicker, _object_spread({}, element), index);
                     case "custom":
-                        return element.element;
+                        var _element_element;
+                        return typeof ((_element_element = element.element) === null || _element_element === void 0 ? void 0 : _element_element.type) !== "string" && (0, import_react8.cloneElement)(element.element, {
+                            key: index
+                        });
                     default:
                         return null;
                 }

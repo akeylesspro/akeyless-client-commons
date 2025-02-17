@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { cloneElement, ReactNode, useState } from "react";
 import { ModularFormProps } from "src/types";
 import { InputContainer, MultiSelect, SelectContainer } from "./formElements";
 import { Loader } from "@/components/utils";
@@ -61,7 +61,7 @@ const ModularForm = ({
                     case "internationalPhoneInput":
                         return <InternationalPhonePicker key={index} {...element} />;
                     case "custom":
-                        return element.element;
+                        return typeof element.element?.type !== "string" && cloneElement(element.element, { key: index });
                     default:
                         return null;
                 }

@@ -55,6 +55,8 @@ interface SnapshotResult {
 type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
 type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: string[]) => SnapshotResult;
 
+type ValidationType = "text" | "numbers" | "numbersOnly" | "price" | "textNumbers" | "email" | "color" | "address" | "cars" | "charts" | (string & {});
+
 interface BaseElementProps {
     name?: string;
     labelContent?: string;
@@ -69,7 +71,7 @@ interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
     defaultValue?: string;
-    validationName?: string;
+    validationName?: ValidationType;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -122,7 +124,7 @@ interface InternationalInputProps extends Omit<BaseElementProps, "elementClassNa
 }
 interface CustomElementProps extends BaseElementProps {
     type: "custom";
-    element: ReactNode;
+    element: JSX.Element;
 }
 interface InputContainerProps extends Partial<InputElement> {
 }

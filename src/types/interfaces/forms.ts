@@ -2,6 +2,7 @@ import { MultipleSelectorOption } from "@/components/ui/multiselect";
 import { Direction } from "../types";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import * as RPNInput from "react-phone-number-input";
+import { ValidationType } from "src/helpers";
 
 export interface BaseElementProps {
     name?: string;
@@ -18,7 +19,7 @@ export interface InputElement extends BaseElementProps {
     type: "input";
     inputType?: string;
     defaultValue?: string;
-    validationName?: string;
+    validationName?: ValidationType;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -70,7 +71,7 @@ export interface InternationalInputProps extends Omit<BaseElementProps, "element
 }
 export interface CustomElementProps extends BaseElementProps {
     type: "custom";
-    element: ReactNode;
+    element: JSX.Element;
 }
 
 export interface InputContainerProps extends Partial<InputElement> {}
