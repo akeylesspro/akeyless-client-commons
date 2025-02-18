@@ -7,7 +7,7 @@ import { Geo, TObject } from "akeyless-types-commons";
 import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { useTableContext } from "./hooks";
-import { renderOnce } from "src/helpers";
+import { getLocationUrl, renderOnce } from "src/helpers";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
 import { Direction } from "src/types";
@@ -378,14 +378,18 @@ export const BooleanUi = ({ value, size, className }: { value: boolean; size?: "
 export interface GeoUiProps {
     value: Partial<Geo> & { latitude?: number; longitude?: number };
     className?: string;
+    linkUi?: ReactNode;
 }
-export const GeoUi = ({ value, className }: GeoUiProps) => {
-    const langUi = String(value.lng || value.longitude || "").slice(0, 6);
-    const latUi = String(value.lat || value.latitude || "").slice(0, 6);
+
+export const GeoUi = ({ value, className, linkUi }: GeoUiProps) => {
+    const lang = value.lng || value.longitude;
+    const lat = value.lat || value.latitude;
+    const googleMapsLink = getLocationUrl(lang, lat);
+    const langLatUi = linkUi || ` ${lang} ${lat}`;
     return (
-        <div className={cn("_ellipsis", className)} title={`${langUi} ${latUi}`}>
-            {langUi} {""} {latUi}
-        </div>
+        <a href={googleMapsLink} target="_blank" className={cn("_ellipsis", className)} title={`${lang} ${lat}`}>
+            {langLatUi}
+        </a>
     );
 };
 export interface NumberUIProps {
