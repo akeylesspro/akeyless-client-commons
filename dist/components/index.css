@@ -618,11 +618,17 @@ body {
 .max-h-80 {
   max-height: 20rem;
 }
+.max-h-96 {
+  max-height: 24rem;
+}
 .max-h-full {
   max-height: 100%;
 }
 .min-h-10 {
   min-height: 2.5rem;
+}
+.min-h-60 {
+  min-height: 15rem;
 }
 .min-h-\[38px\] {
   min-height: 38px;

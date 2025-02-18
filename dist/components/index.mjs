@@ -2865,7 +2865,7 @@ var TextAreaContainer = function(param) {
             /* @__PURE__ */ jsx16("textarea", _object_spread_props(_object_spread({}, props), {
                 minLength: minLength,
                 placeholder: placeholder,
-                className: cn("w-full bg-none border-b-[1px] border-black ", elementClassName),
+                className: cn("w-full bg-none border-b-[1px] border-black min-h-60 max-h-96", elementClassName),
                 defaultValue: defaultValue,
                 required: required,
                 name: name,
