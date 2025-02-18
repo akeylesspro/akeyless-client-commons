@@ -3306,14 +3306,14 @@ var ConfirmForm = function(param) {
             direction: direction,
             padding: "30px"
         },
-        className: cn("full col gap-2", containerClassName),
+        className: cn("w-full h-full flex flex-col gap-3", containerClassName),
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("div", {
                 className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
             /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
-                className: cn("center gap-2 ", buttonsContainerClassName),
+                className: cn("flex justify-start items-center gap-2 ", buttonsContainerClassName),
                 children: [
                     /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", {
                         onClick: onDenied,

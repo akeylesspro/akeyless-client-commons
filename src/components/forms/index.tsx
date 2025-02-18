@@ -32,9 +32,9 @@ export const ConfirmForm = ({
     };
 
     return (
-        <div style={{ direction, padding: "30px" }} className={cn("full col gap-2", containerClassName)}>
+        <div style={{ direction, padding: "30px" }} className={cn("w-full h-full flex flex-col gap-3", containerClassName)}>
             <div className={cn("text-lg font-bold", headlineClassName)}>{headline}</div>
-            <div className={cn("center gap-2 ", buttonsContainerClassName)}>
+            <div className={cn("flex justify-start items-center gap-2 ", buttonsContainerClassName)}>
                 <button onClick={onDenied}>
                     <RedXSvg />
                 </button>

@@ -3118,14 +3118,14 @@ var ConfirmForm = function(param) {
             direction: direction,
             padding: "30px"
         },
-        className: cn("full col gap-2", containerClassName),
+        className: cn("w-full h-full flex flex-col gap-3", containerClassName),
         children: [
             /* @__PURE__ */ jsx18("div", {
                 className: cn("text-lg font-bold", headlineClassName),
                 children: headline
             }),
             /* @__PURE__ */ jsxs13("div", {
-                className: cn("center gap-2 ", buttonsContainerClassName),
+                className: cn("flex justify-start items-center gap-2 ", buttonsContainerClassName),
                 children: [
                     /* @__PURE__ */ jsx18("button", {
                         onClick: onDenied,
