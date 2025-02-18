@@ -3313,7 +3313,7 @@ var ConfirmForm = function(param) {
                 children: headline
             }),
             /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
-                className: cn("flex justify-start items-center gap-2 ", buttonsContainerClassName),
+                className: cn("flex justify-center items-center gap-2 w-full", buttonsContainerClassName),
                 children: [
                     /* @__PURE__ */ (0, import_jsx_runtime19.jsx)("button", {
                         onClick: onDenied,
