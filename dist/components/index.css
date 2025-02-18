@@ -612,14 +612,14 @@ body {
 .max-h-32 {
   max-height: 8rem;
 }
+.max-h-52 {
+  max-height: 13rem;
+}
 .max-h-6 {
   max-height: 1.5rem;
 }
 .max-h-80 {
   max-height: 20rem;
-}
-.max-h-96 {
-  max-height: 24rem;
 }
 .max-h-full {
   max-height: 100%;
@@ -627,8 +627,8 @@ body {
 .min-h-10 {
   min-height: 2.5rem;
 }
-.min-h-60 {
-  min-height: 15rem;
+.min-h-16 {
+  min-height: 4rem;
 }
 .min-h-\[38px\] {
   min-height: 38px;
@@ -674,6 +674,10 @@ body {
 }
 .w-\[90\%\] {
   width: 90%;
+}
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
 }
 .w-full {
   width: 100%;
@@ -948,6 +952,9 @@ body {
 .bg-gray-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
+}
+.bg-inherit {
+  background-color: inherit;
 }
 .bg-muted\/50 {
   background-color: hsl(var(--muted) / 0.5);

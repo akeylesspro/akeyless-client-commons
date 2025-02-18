@@ -157,7 +157,7 @@ export const TextAreaContainer = ({
             {labelContent && (
                 <ElementLabel
                     labelContent={labelContent}
-                    labelClassName={`px-4 border-b-2 border-[#000] text-center ${labelClassName}`}
+                    labelClassName={`w-fit text-xl px-2 border-b-2 border-[#000] text-center ${labelClassName}`}
                     name={name}
                     required={required}
                     withDots={false}
@@ -167,7 +167,7 @@ export const TextAreaContainer = ({
                 {...props}
                 minLength={minLength}
                 placeholder={placeholder}
-                className={cn(`w-full bg-none border-[1px] border-black min-h-60 max-h-96`, elementClassName)}
+                className={cn(`w-full bg-inherit border-[1px] border-black min-h-16 max-h-52`, elementClassName)}
                 defaultValue={defaultValue}
                 required={required}
                 name={name}
