@@ -2929,7 +2929,7 @@ var InputContainer = function(param) {
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
                 minLength: minLength,
                 placeholder: placeholder,
-                className: cn("w-[70%] bg-none border-b-[1px] border-black ", elementClassName),
+                className: cn("w-[70%] bg-inherit border-b-[1px] border-black ", elementClassName),
                 defaultValue: defaultValue
             }), useValidation(validationName, validationError)), {
                 required: required,
@@ -3053,7 +3053,7 @@ var TextAreaContainer = function(param) {
             /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("textarea", _object_spread_props(_object_spread({}, props), {
                 minLength: minLength,
                 placeholder: placeholder,
-                className: cn("w-full bg-inherit border-[1px] border-black min-h-16 max-h-52", elementClassName),
+                className: cn("w-full bg-inherit border-[1px] border-black min-h-16 max-h-52 px-2", elementClassName),
                 defaultValue: defaultValue,
                 required: required,
                 name: name,
