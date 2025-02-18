@@ -85,6 +85,13 @@ interface InputElement extends BaseElementProps {
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
+interface TextAreaElement extends Omit<BaseElementProps, "validationError"> {
+    type: "textarea";
+    defaultValue?: string;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+    placeholder?: string;
+    props?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+}
 interface SelectElement extends BaseElementProps {
     type: "select";
     options: {
@@ -139,7 +146,9 @@ interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
+interface TextAreaContainerProps extends Partial<TextAreaElement> {
+}
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -343,9 +352,10 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 
 declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
 
-declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
+declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
+declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
@@ -385,4 +395,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, BooleanUi, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, BooleanUi, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
