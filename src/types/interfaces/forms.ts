@@ -24,7 +24,7 @@ export interface InputElement extends BaseElementProps {
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
-export interface TextAreaElement extends Omit<BaseElementProps, "validationError"> {
+export interface TextAreaElement extends BaseElementProps {
     type: "textarea";
     defaultValue?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;

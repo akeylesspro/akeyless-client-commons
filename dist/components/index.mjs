@@ -2932,12 +2932,7 @@ var ModularForm = function(param) {
                             if (element.minLength) {
                                 var elementValue = getFormElementValue(form, element.name);
                                 if (elementValue.length < element.minLength) {
-                                    if (element.type === "input") {
-                                        throw element.validationError || "".concat(element.labelContent || element.name, " must be at least ").concat(element.minLength, " characters");
-                                    }
-                                    if (element.type === "textarea") {
-                                        throw "".concat(element.labelContent || element.name, " must be at least ").concat(element.minLength, " characters");
-                                    }
+                                    throw element.validationError || "".concat(element.labelContent || element.name, " must be at least ").concat(element.minLength, " characters");
                                 }
                             }
                         });

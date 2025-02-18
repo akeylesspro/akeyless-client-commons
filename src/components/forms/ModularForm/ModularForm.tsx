@@ -28,14 +28,7 @@ const ModularForm = ({
                 if (element.minLength) {
                     const elementValue = getFormElementValue(form, element.name);
                     if (elementValue.length < element.minLength) {
-                        if (element.type === "input") {
-                            throw (
-                                element.validationError || `${element.labelContent || element.name} must be at least ${element.minLength} characters`
-                            );
-                        }
-                        if (element.type === "textarea") {
-                            throw `${element.labelContent || element.name} must be at least ${element.minLength} characters`;
-                        }
+                        throw element.validationError || `${element.labelContent || element.name} must be at least ${element.minLength} characters`;
                     }
                 }
             });
