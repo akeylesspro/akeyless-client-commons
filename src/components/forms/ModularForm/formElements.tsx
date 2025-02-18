@@ -153,13 +153,20 @@ export const TextAreaContainer = ({
     onKeyDown,
 }: TextAreaContainerProps) => {
     return (
-        <div className={cn(`flex flex-col gap-2`, containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+        <div className={cn(`flex flex-col gap-2 items-center`, containerClassName)}>
+            {labelContent && (
+                <ElementLabel
+                    labelContent={labelContent}
+                    labelClassName={`px-4 border-b-2 border-[#000] text-center ${labelClassName}`}
+                    name={name}
+                    required={required}
+                />
+            )}
             <textarea
                 {...props}
                 minLength={minLength}
                 placeholder={placeholder}
-                className={cn(`w-[70%] bg-none border-b-[1px] border-black `, elementClassName)}
+                className={cn(`w-full bg-none border-b-[1px] border-black `, elementClassName)}
                 defaultValue={defaultValue}
                 required={required}
                 name={name}

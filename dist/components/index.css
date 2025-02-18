@@ -871,6 +871,10 @@ body {
 .border-solid {
   border-style: solid;
 }
+.border-\[\#000\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity, 1));
+}
 .border-\[\#547f22\] {
   --tw-border-opacity: 1;
   border-color: rgb(84 127 34 / var(--tw-border-opacity, 1));

@@ -2853,18 +2853,18 @@ function MultiSelect(param) {
 var TextAreaContainer = function(param) {
     var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown;
     return /* @__PURE__ */ jsxs11("div", {
-        className: cn("flex flex-col gap-2", containerClassName),
+        className: cn("flex flex-col gap-2 items-center", containerClassName),
         children: [
             labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
                 labelContent: labelContent,
-                labelClassName: labelClassName,
+                labelClassName: "px-4 border-b-2 border-[#000] text-center ".concat(labelClassName),
                 name: name,
                 required: required
             }),
             /* @__PURE__ */ jsx16("textarea", _object_spread_props(_object_spread({}, props), {
                 minLength: minLength,
                 placeholder: placeholder,
-                className: cn("w-[70%] bg-none border-b-[1px] border-black ", elementClassName),
+                className: cn("w-full bg-none border-b-[1px] border-black ", elementClassName),
                 defaultValue: defaultValue,
                 required: required,
                 name: name,
