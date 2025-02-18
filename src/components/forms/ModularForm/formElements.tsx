@@ -160,6 +160,7 @@ export const TextAreaContainer = ({
                     labelClassName={`px-4 border-b-2 border-[#000] text-center ${labelClassName}`}
                     name={name}
                     required={required}
+                    withDots={false}
                 />
             )}
             <textarea
@@ -176,12 +177,18 @@ export const TextAreaContainer = ({
     );
 };
 
-export const ElementLabel = ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => {
+export const ElementLabel = ({
+    labelContent,
+    labelClassName,
+    name,
+    required,
+    withDots = true,
+}: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean }) => {
     return (
         <label className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
             <div>{labelContent}</div>
             {required && <div className="text-red-500">*</div>}
-            <div>:</div>
+            {withDots && <div>:</div>}
         </label>
     );
 };

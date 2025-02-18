@@ -2859,7 +2859,8 @@ var TextAreaContainer = function(param) {
                 labelContent: labelContent,
                 labelClassName: "px-4 border-b-2 border-[#000] text-center ".concat(labelClassName),
                 name: name,
-                required: required
+                required: required,
+                withDots: false
             }),
             /* @__PURE__ */ jsx16("textarea", _object_spread_props(_object_spread({}, props), {
                 minLength: minLength,
@@ -2874,7 +2875,7 @@ var TextAreaContainer = function(param) {
     });
 };
 var ElementLabel = function(param) {
-    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
+    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required, _param_withDots = param.withDots, withDots = _param_withDots === void 0 ? true : _param_withDots;
     return /* @__PURE__ */ jsxs11("label", {
         className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
         htmlFor: name,
@@ -2886,7 +2887,7 @@ var ElementLabel = function(param) {
                 className: "text-red-500",
                 children: "*"
             }),
-            /* @__PURE__ */ jsx16("div", {
+            withDots && /* @__PURE__ */ jsx16("div", {
                 children: ":"
             })
         ]
