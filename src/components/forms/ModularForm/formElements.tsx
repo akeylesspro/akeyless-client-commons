@@ -1,7 +1,7 @@
 import MultipleSelector from "@/components/ui/multiselect";
 import { ReactNode, useState } from "react";
 import { cn, useValidation } from "src/helpers";
-import { BaseElementProps, InputContainerProps, MultiSelectProps, SelectContainerProps } from "src/types";
+import { BaseElementProps, InputContainerProps, MultiSelectProps, SelectContainerProps, TextAreaContainerProps } from "src/types";
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 
@@ -18,15 +18,17 @@ export const InputContainer = ({
     required = false,
     placeholder,
     props,
+    minLength,
     onKeyDown,
 }: InputContainerProps) => {
     return (
-        <div className={`center ${containerClassName}`}>
+        <div className={cn(`center`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <input
                 {...props}
+                minLength={minLength}
                 placeholder={placeholder}
-                className={`w-[70%] bg-none border-b-[1px] border-black ${elementClassName}`}
+                className={cn(`w-[70%] bg-inherit border-b-[1px] border-black `, elementClassName)}
                 defaultValue={defaultValue}
                 {...useValidation(validationName, validationError)}
                 required={required}
@@ -59,10 +61,10 @@ export const SelectContainer = ({
     };
 
     return (
-        <div className={`center ${containerClassName}`}>
+        <div className={cn(`center`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
-            <div className={`w-[70%] relative ${elementClassName}`} onClick={() => setIsOpen(!isOpen)}>
-                <div className={`border-b-[1px] border-black max-h-6 cursor-pointer ${elementClassName}`}>
+            <div className={cn(`w-[70%] relative`, elementClassName)} onClick={() => setIsOpen(!isOpen)}>
+                <div className={`border-b-[1px] border-black max-h-6 cursor-pointer`}>
                     {options?.find((opt) => opt.value === selectedValue)?.label || selectedValue}
                 </div>
                 {isOpen ? (
@@ -137,13 +139,56 @@ export function MultiSelect({
         </div>
     );
 }
+export const TextAreaContainer = ({
+    name = "",
+    labelContent = "",
+    defaultValue = "",
+    containerClassName = "",
+    labelClassName = "",
+    elementClassName = "",
+    required = false,
+    placeholder,
+    props,
+    minLength,
+    onKeyDown,
+}: TextAreaContainerProps) => {
+    return (
+        <div className={cn(`flex flex-col gap-2 items-center`, containerClassName)}>
+            {labelContent && (
+                <ElementLabel
+                    labelContent={labelContent}
+                    labelClassName={`w-fit text-xl px-2 border-b-2 border-[#000] text-center ${labelClassName}`}
+                    name={name}
+                    required={required}
+                    withDots={false}
+                />
+            )}
+            <textarea
+                {...props}
+                minLength={minLength}
+                placeholder={placeholder}
+                className={cn(`w-full bg-inherit border-[1px] border-black min-h-16 max-h-52 px-2`, elementClassName)}
+                defaultValue={defaultValue}
+                required={required}
+                name={name}
+                onKeyDown={onKeyDown}
+            />
+        </div>
+    );
+};
 
-export const ElementLabel = ({ labelContent, labelClassName, name, required }: Omit<BaseElementProps, "containerClassName" | "elementClassName">) => {
+export const ElementLabel = ({
+    labelContent,
+    labelClassName,
+    name,
+    required,
+    withDots = true,
+}: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean }) => {
     return (
         <label className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
             <div>{labelContent}</div>
             {required && <div className="text-red-500">*</div>}
-            <div>:</div>
+            {withDots && <div>:</div>}
         </label>
     );
 };

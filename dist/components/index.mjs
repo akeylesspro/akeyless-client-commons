@@ -2728,9 +2728,9 @@ var FlagComponent = function(param) {
 // src/components/forms/ModularForm/formElements.tsx
 import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
 var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, onKeyDown = param.onKeyDown;
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown;
     return /* @__PURE__ */ jsxs11("div", {
-        className: "center ".concat(containerClassName),
+        className: cn("center", containerClassName),
         children: [
             labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
                 labelContent: labelContent,
@@ -2739,8 +2739,9 @@ var InputContainer = function(param) {
                 required: required
             }),
             /* @__PURE__ */ jsx16("input", _object_spread_props(_object_spread(_object_spread_props(_object_spread({}, props), {
+                minLength: minLength,
                 placeholder: placeholder,
-                className: "w-[70%] bg-none border-b-[1px] border-black ".concat(elementClassName),
+                className: cn("w-[70%] bg-inherit border-b-[1px] border-black ", elementClassName),
                 defaultValue: defaultValue
             }), useValidation(validationName, validationError)), {
                 required: required,
@@ -2761,7 +2762,7 @@ var SelectContainer = function(param) {
         setIsOpen(false);
     };
     return /* @__PURE__ */ jsxs11("div", {
-        className: "center ".concat(containerClassName),
+        className: cn("center", containerClassName),
         children: [
             labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
                 labelContent: labelContent,
@@ -2770,13 +2771,13 @@ var SelectContainer = function(param) {
                 required: required
             }),
             /* @__PURE__ */ jsxs11("div", {
-                className: "w-[70%] relative ".concat(elementClassName),
+                className: cn("w-[70%] relative", elementClassName),
                 onClick: function() {
                     return setIsOpen(!isOpen);
                 },
                 children: [
                     /* @__PURE__ */ jsx16("div", {
-                        className: "border-b-[1px] border-black max-h-6 cursor-pointer ".concat(elementClassName),
+                        className: "border-b-[1px] border-black max-h-6 cursor-pointer",
                         children: (options === null || options === void 0 ? void 0 : (_options_find = options.find(function(opt) {
                             return opt.value === selectedValue;
                         })) === null || _options_find === void 0 ? void 0 : _options_find.label) || selectedValue
@@ -2849,8 +2850,32 @@ function MultiSelect(param) {
         ]
     });
 }
+var TextAreaContainer = function(param) {
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown;
+    return /* @__PURE__ */ jsxs11("div", {
+        className: cn("flex flex-col gap-2 items-center", containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx16(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: "w-fit text-xl px-2 border-b-2 border-[#000] text-center ".concat(labelClassName),
+                name: name,
+                required: required,
+                withDots: false
+            }),
+            /* @__PURE__ */ jsx16("textarea", _object_spread_props(_object_spread({}, props), {
+                minLength: minLength,
+                placeholder: placeholder,
+                className: cn("w-full bg-inherit border-[1px] border-black min-h-16 max-h-52 px-2", elementClassName),
+                defaultValue: defaultValue,
+                required: required,
+                name: name,
+                onKeyDown: onKeyDown
+            }))
+        ]
+    });
+};
 var ElementLabel = function(param) {
-    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required;
+    var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required, _param_withDots = param.withDots, withDots = _param_withDots === void 0 ? true : _param_withDots;
     return /* @__PURE__ */ jsxs11("label", {
         className: cn("text-start w-[30%] flex gap-0.5", labelClassName),
         htmlFor: name,
@@ -2862,7 +2887,7 @@ var ElementLabel = function(param) {
                 className: "text-red-500",
                 children: "*"
             }),
-            /* @__PURE__ */ jsx16("div", {
+            withDots && /* @__PURE__ */ jsx16("div", {
                 children: ":"
             })
         ]
@@ -2961,6 +2986,8 @@ var ModularForm = function(param) {
                 switch(element.type){
                     case "input":
                         return /* @__PURE__ */ jsx17(InputContainer, _object_spread({}, element), index);
+                    case "textarea":
+                        return /* @__PURE__ */ jsx17(TextAreaContainer, _object_spread({}, element), index);
                     case "select":
                         return /* @__PURE__ */ jsx17(SelectContainer, _object_spread({}, element), index);
                     case "multiSelect":
@@ -3242,5 +3269,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, NumberUI, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, NumberUI, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TextAreaContainer, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
 //# sourceMappingURL=index.mjs.map
