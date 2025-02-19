@@ -2547,7 +2547,7 @@ var NumberUI = function(param) {
 // src/components/forms/ModularForm/ModularForm.tsx
 import { cloneElement, useState as useState6 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
-import { useState as useState5 } from "react";
+import { useCallback as useCallback2, useMemo as useMemo6, useState as useState5 } from "react";
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
 import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState4 } from "react";
@@ -2728,7 +2728,20 @@ var FlagComponent = function(param) {
 // src/components/forms/ModularForm/formElements.tsx
 import { jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
 var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown;
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange;
+    var handleChangeFunction = useCallback2(function(e) {
+        handleChange(e);
+        onChange(e);
+    }, [
+        onChange
+    ]);
+    var validationProps = useMemo6(function() {
+        return _object_spread_props(_object_spread({}, useValidation(validationName, validationError)), {
+            onChange: handleChangeFunction
+        });
+    }, [
+        handleChangeFunction
+    ]);
     return /* @__PURE__ */ jsxs11("div", {
         className: cn("center", containerClassName),
         children: [
@@ -2743,7 +2756,10 @@ var InputContainer = function(param) {
                 placeholder: placeholder,
                 className: cn("w-[70%] bg-inherit border-b-[1px] border-black px-2", elementClassName),
                 defaultValue: defaultValue
-            }), useValidation(validationName, validationError)), {
+            }), validationProps), {
+                onChange: function(e) {
+                    return handleChangeFunction(e);
+                },
                 required: required,
                 name: name,
                 onKeyDown: onKeyDown,
@@ -2753,12 +2769,13 @@ var InputContainer = function(param) {
     });
 };
 var SelectContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName;
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName, onChange = param.onChange;
     var _options_, _options_find;
     var _useState5 = _sliced_to_array(useState5(false), 2), isOpen = _useState5[0], setIsOpen = _useState5[1];
     var _useState51 = _sliced_to_array(useState5(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _useState51[0], setSelectedValue = _useState51[1];
     var handleOptionClick = function(value) {
         setSelectedValue(value);
+        onChange(value);
         setIsOpen(false);
     };
     return /* @__PURE__ */ jsxs11("div", {
@@ -2851,7 +2868,7 @@ function MultiSelect(param) {
     });
 }
 var TextAreaContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown;
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange;
     return /* @__PURE__ */ jsxs11("div", {
         className: cn("flex flex-col gap-2 items-center", containerClassName),
         children: [
@@ -2863,6 +2880,7 @@ var TextAreaContainer = function(param) {
                 withDots: false
             }),
             /* @__PURE__ */ jsx16("textarea", _object_spread_props(_object_spread({}, props), {
+                onChange: onChange,
                 minLength: minLength,
                 placeholder: placeholder,
                 className: cn("w-full bg-inherit border-[1px] border-black min-h-16 max-h-52 px-2", elementClassName),

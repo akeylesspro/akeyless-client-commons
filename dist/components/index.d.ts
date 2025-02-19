@@ -82,6 +82,7 @@ interface InputElement extends BaseElementProps {
     defaultValue?: string;
     validationName?: ValidationType;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
@@ -89,6 +90,7 @@ interface TextAreaElement extends BaseElementProps {
     type: "textarea";
     defaultValue?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
     placeholder?: string;
     props?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 }
@@ -100,6 +102,7 @@ interface SelectElement extends BaseElementProps {
     }[];
     optionsContainerClassName?: string;
     defaultValue?: any;
+    onChange?: (value: any) => void;
     optionClassName?: string;
 }
 interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
@@ -352,10 +355,10 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 
 declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
 
-declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
-declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
+declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
+declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
-declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
+declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
     withDots?: boolean;
 }) => react_jsx_runtime.JSX.Element;

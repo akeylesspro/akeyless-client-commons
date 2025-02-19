@@ -21,6 +21,7 @@ export interface InputElement extends BaseElementProps {
     defaultValue?: string;
     validationName?: ValidationType;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
@@ -28,6 +29,7 @@ export interface TextAreaElement extends BaseElementProps {
     type: "textarea";
     defaultValue?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
     placeholder?: string;
     props?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 }
@@ -37,6 +39,7 @@ export interface SelectElement extends BaseElementProps {
     options: { value: any; label: string }[];
     optionsContainerClassName?: string;
     defaultValue?: any;
+    onChange?: (value: any) => void;
     optionClassName?: string;
 }
 

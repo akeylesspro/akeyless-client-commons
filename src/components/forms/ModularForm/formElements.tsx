@@ -1,6 +1,6 @@
 import MultipleSelector from "@/components/ui/multiselect";
-import { ReactNode, useState } from "react";
-import { cn, useValidation } from "src/helpers";
+import { ReactNode, useCallback, useMemo, useState } from "react";
+import { cn, handleChange, useValidation } from "src/helpers";
 import { BaseElementProps, InputContainerProps, MultiSelectProps, SelectContainerProps, TextAreaContainerProps } from "src/types";
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
@@ -20,7 +20,18 @@ export const InputContainer = ({
     props,
     minLength,
     onKeyDown,
+    onChange,
 }: InputContainerProps) => {
+    const handleChangeFunction = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            handleChange(e);
+            onChange(e);
+        },
+        [onChange]
+    );
+    const validationProps = useMemo(() => {
+        return { ...useValidation(validationName, validationError), onChange: handleChangeFunction };
+    }, [handleChangeFunction]);
     return (
         <div className={cn(`center`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
@@ -30,7 +41,8 @@ export const InputContainer = ({
                 placeholder={placeholder}
                 className={cn(`w-[70%] bg-inherit border-b-[1px] border-black px-2`, elementClassName)}
                 defaultValue={defaultValue}
-                {...useValidation(validationName, validationError)}
+                {...validationProps}
+                onChange={(e) => handleChangeFunction(e)}
                 required={required}
                 name={name}
                 onKeyDown={onKeyDown}
@@ -51,12 +63,14 @@ export const SelectContainer = ({
     required = false,
     options = [],
     optionsContainerClassName = "",
+    onChange,
 }: SelectContainerProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState(defaultValue || options[0]?.value || "");
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
+        onChange(value);
         setIsOpen(false);
     };
 
@@ -151,6 +165,7 @@ export const TextAreaContainer = ({
     props,
     minLength,
     onKeyDown,
+    onChange,
 }: TextAreaContainerProps) => {
     return (
         <div className={cn(`flex flex-col gap-2 items-center`, containerClassName)}>
@@ -165,6 +180,7 @@ export const TextAreaContainer = ({
             )}
             <textarea
                 {...props}
+                onChange={onChange}
                 minLength={minLength}
                 placeholder={placeholder}
                 className={cn(`w-full bg-inherit border-[1px] border-black min-h-16 max-h-52 px-2`, elementClassName)}
