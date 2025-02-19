@@ -2919,7 +2919,7 @@ var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange;
     var handleChangeFunction = (0, import_react7.useCallback)(function(e) {
         handleChange(e);
-        onChange(e);
+        onChange === null || onChange === void 0 ? void 0 : onChange(e);
     }, [
         onChange
     ]);
@@ -2963,7 +2963,7 @@ var SelectContainer = function(param) {
     var _ref1 = _sliced_to_array((0, import_react7.useState)(defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
     var handleOptionClick = function(value) {
         setSelectedValue(value);
-        onChange(value);
+        onChange === null || onChange === void 0 ? void 0 : onChange(value);
         setIsOpen(false);
     };
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {

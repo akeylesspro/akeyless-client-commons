@@ -25,7 +25,7 @@ export const InputContainer = ({
     const handleChangeFunction = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             handleChange(e);
-            onChange(e);
+            onChange?.(e);
         },
         [onChange]
     );
@@ -70,7 +70,7 @@ export const SelectContainer = ({
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
-        onChange(value);
+        onChange?.(value);
         setIsOpen(false);
     };
 
