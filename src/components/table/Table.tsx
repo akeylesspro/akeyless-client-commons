@@ -168,10 +168,12 @@ const TableBase = (props: TableProps) => {
         <TableProvider {...props}>
             {/* container header */}
             <div style={{ direction: direction }} className={cn("flex justify-start items-center gap-2", containerHeaderClassName || "")}>
-                {/* search */}
-                {includeSearch && <Search />}
-                {/* export to excel */}
-                {exportToExcelKeys && <ExportToExcel />}
+                <div className="flex justify-start items-center gap-2">
+                    {/* search */}
+                    {includeSearch && <Search />}
+                    {/* export to excel */}
+                    {exportToExcelKeys && <ExportToExcel />}
+                </div>
                 {/* max rows */}
                 {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
                 {/* optional element */}
