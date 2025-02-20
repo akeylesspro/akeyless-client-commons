@@ -1126,8 +1126,13 @@ var TableBase = function(props) {
                 },
                 className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
                 children: [
-                    includeSearch && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Search, {}),
-                    exportToExcelKeys && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(ExportToExcel, {}),
+                    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", {
+                        className: "flex justify-start items-center gap-2",
+                        children: [
+                            includeSearch && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Search, {}),
+                            exportToExcelKeys && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(ExportToExcel, {})
+                        ]
+                    }),
                     maxRowsLabel1 && maxRowsLabel2 && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(MaxRowsLabel, {}),
                     optionalElement && optionalElement
                 ]
