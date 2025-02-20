@@ -930,7 +930,7 @@ var TableProvider = function(props) {
     });
 };
 var TableBase = function(props) {
-    var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2;
+    var containerHeaderClassName = props.containerHeaderClassName, optionalElement = props.optionalElement, tableContainerClass = props.tableContainerClass, tableContainerStyle = props.tableContainerStyle, tableStyle = props.tableStyle, includeSearch = props.includeSearch, exportToExcelKeys = props.exportToExcelKeys, sumColumns = props.sumColumns, direction = props.direction, maxRowsLabel1 = props.maxRowsLabel1, maxRowsLabel2 = props.maxRowsLabel2, searchContainerClassName = props.searchContainerClassName;
     return /* @__PURE__ */ jsxs5(TableProvider, _object_spread_props(_object_spread({}, props), {
         children: [
             /* @__PURE__ */ jsxs5("div", {
@@ -940,7 +940,7 @@ var TableBase = function(props) {
                 className: cn("flex justify-start items-center gap-2", containerHeaderClassName || ""),
                 children: [
                     /* @__PURE__ */ jsxs5("div", {
-                        className: "flex justify-start items-center gap-2",
+                        className: cn("flex justify-start items-center gap-2", searchContainerClassName),
                         children: [
                             includeSearch && /* @__PURE__ */ jsx6(Search, {}),
                             exportToExcelKeys && /* @__PURE__ */ jsx6(ExportToExcel, {})

@@ -225,6 +225,7 @@ interface TableProps {
     includeSearch?: boolean;
     searchInputStyle?: React.CSSProperties;
     searchInputClassName?: string;
+    searchContainerClassName?: string;
     tableContainerStyle?: React.CSSProperties;
     tableContainerClass?: string;
     tableStyle?: React.CSSProperties;

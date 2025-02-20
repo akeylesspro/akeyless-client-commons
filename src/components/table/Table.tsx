@@ -163,12 +163,13 @@ const TableBase = (props: TableProps) => {
         direction,
         maxRowsLabel1,
         maxRowsLabel2,
+        searchContainerClassName,
     } = props;
     return (
         <TableProvider {...props}>
             {/* container header */}
             <div style={{ direction: direction }} className={cn("flex justify-start items-center gap-2", containerHeaderClassName || "")}>
-                <div className="flex justify-start items-center gap-2">
+                <div className={cn("flex justify-start items-center gap-2", searchContainerClassName)}>
                     {/* search */}
                     {includeSearch && <Search />}
                     {/* export to excel */}
