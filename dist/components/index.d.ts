@@ -245,6 +245,8 @@ interface TableProps {
     sortKeys?: string[];
     exportToExcelKeys?: string[];
     excelFileName?: string;
+    exportExcelContent?: ReactNode;
+    exportToExcelClassName?: string;
     dataToAddToExcelTable?: {
         key: string;
         value: any;
@@ -262,7 +264,7 @@ interface TableProps {
     summaryLabel?: string;
     filterLabel?: string;
     sortLabel?: string;
-    exportExcelLabel?: string;
+    exportExcelTitle?: string;
     onRowClick?: (data?: any) => void;
     direction?: Direction;
     maxRows?: number;

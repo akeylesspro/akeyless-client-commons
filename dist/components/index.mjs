@@ -832,7 +832,7 @@ var TableProvider = function(props) {
     searchInputClassName, searchInputClassName = _props_searchInputClassName === void 0 ? "" : _props_searchInputClassName, includeSearch = props.includeSearch, searchPlaceHolder = props.searchPlaceHolder, // sort
     sortKeys = props.sortKeys, _props_sortLabel = props.sortLabel, sortLabel = _props_sortLabel === void 0 ? "Sort by" : _props_sortLabel, _props_filterableColumns = props.// filter
     filterableColumns, filterableColumns = _props_filterableColumns === void 0 ? [] : _props_filterableColumns, _props_filterLabel = props.filterLabel, filterLabel = _props_filterLabel === void 0 ? "Filter by" : _props_filterLabel, // export to excel
-    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelLabel = props.exportExcelLabel, exportExcelLabel = _props_exportExcelLabel === void 0 ? "Export to excel" : _props_exportExcelLabel, excelFileName = props.excelFileName, // summary
+    exportToExcelKeys = props.exportToExcelKeys, dataToAddToExcelTable = props.dataToAddToExcelTable, _props_exportExcelTitle = props.exportExcelTitle, exportExcelTitle = _props_exportExcelTitle === void 0 ? "Export to excel" : _props_exportExcelTitle, excelFileName = props.excelFileName, // summary
     sumColumns = props.sumColumns, _props_summaryLabel = props.summaryLabel, summaryLabel = _props_summaryLabel === void 0 ? "" : _props_summaryLabel, _props_summaryContainerStyle = props.summaryContainerStyle, summaryContainerStyle = _props_summaryContainerStyle === void 0 ? {} : _props_summaryContainerStyle, _props_summaryLabelStyle = props.summaryLabelStyle, summaryLabelStyle = _props_summaryLabelStyle === void 0 ? {} : _props_summaryLabelStyle, _props_summaryRowStyle = props.summaryRowStyle, summaryRowStyle = _props_summaryRowStyle === void 0 ? {} : _props_summaryRowStyle, _props_maxRows = props.//  max rows
     maxRows, maxRows = _props_maxRows === void 0 ? data.length : _props_maxRows;
     var _useSort = useSort(), sortColumn = _useSort.sortColumn, sortOrder = _useSort.sortOrder, handleSort = _useSort.handleSort, clearSort = _useSort.clearSort;
@@ -2269,7 +2269,7 @@ var MaxRowsLabel = memo(function() {
     });
 }, renderOnce);
 var ExportToExcel = memo(function() {
-    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelLabel = _useTableContext.exportExcelLabel;
+    var _useTableContext = useTableContext(), exportToExcelKeys = _useTableContext.exportToExcelKeys, dataToAddToExcelTable = _useTableContext.dataToAddToExcelTable, excelFileName = _useTableContext.excelFileName, dataToRender = _useTableContext.dataToRender, headers = _useTableContext.headers, sumColumns = _useTableContext.sumColumns, exportExcelTitle = _useTableContext.exportExcelTitle, exportExcelContent = _useTableContext.exportExcelContent, exportToExcelClassName = _useTableContext.exportToExcelClassName;
     var addPropertiesToExcel = function(properties) {
         var newData = _to_consumable_array(dataToRender.renderedData);
         var newHeaders = _to_consumable_array(headers);
@@ -2343,9 +2343,9 @@ var ExportToExcel = memo(function() {
     }();
     return /* @__PURE__ */ jsx14("button", {
         onClick: onExportExcelClick,
-        title: exportExcelLabel,
-        className: "px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]",
-        children: exportToExcelSvg()
+        title: exportExcelTitle,
+        className: cn("px-2 py-[2px] bg-[#547f22] text-white rounded-lg text-[16px]", exportToExcelClassName),
+        children: exportExcelContent || exportToExcelSvg()
     });
 }, renderOnce);
 var Search = memo(function() {

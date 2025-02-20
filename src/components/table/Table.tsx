@@ -47,7 +47,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         // export to excel
         exportToExcelKeys,
         dataToAddToExcelTable,
-        exportExcelLabel = "Export to excel",
+        exportExcelTitle = "Export to excel",
         excelFileName,
         // summary
         sumColumns,

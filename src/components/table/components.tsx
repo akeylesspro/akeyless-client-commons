@@ -173,7 +173,18 @@ export const MaxRowsLabel = memo(() => {
 }, renderOnce);
 
 export const ExportToExcel = memo(() => {
-    const { exportToExcelKeys, dataToAddToExcelTable, excelFileName, dataToRender, headers, sumColumns, exportExcelLabel } = useTableContext();
+    const {
+        exportToExcelKeys,
+        dataToAddToExcelTable,
+        excelFileName,
+        dataToRender,
+        headers,
+        sumColumns,
+        exportExcelTitle,
+        exportExcelContent,
+        exportToExcelClassName,
+    } = useTableContext();
+
     const addPropertiesToExcel = (properties: { key: string; value: any; header: string }[]) => {
         let newData = [...dataToRender.renderedData];
         let newHeaders = [...headers];
@@ -215,9 +226,14 @@ export const ExportToExcel = memo(() => {
             saveAs(blob, `${excelFileName || "table_data"}.xlsx`);
         }
     };
+
     return (
-        <button onClick={onExportExcelClick} title={exportExcelLabel} className="px-2 py-[2px]  bg-[#547f22] text-white rounded-lg text-[16px]">
-            {exportToExcelSvg()}
+        <button
+            onClick={onExportExcelClick}
+            title={exportExcelTitle}
+            className={cn("px-2 py-[2px] bg-[#547f22] text-white rounded-lg text-[16px]", exportToExcelClassName)}
+        >
+            {exportExcelContent || exportToExcelSvg()}
         </button>
     );
 }, renderOnce);
