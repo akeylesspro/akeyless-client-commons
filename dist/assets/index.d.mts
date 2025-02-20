@@ -12,6 +12,6 @@ declare const GreenVSvg: ({ height, width, viewBox }: SvgProps) => react_jsx_run
 declare const sortSvg: (upside_down?: boolean) => react_jsx_runtime.JSX.Element;
 declare const emptyFilterSvg: (solid?: boolean) => react_jsx_runtime.JSX.Element;
 declare const slashFilterSvg: (solid?: boolean) => react_jsx_runtime.JSX.Element;
-declare const exportToExcelSvg: () => react_jsx_runtime.JSX.Element;
+declare const exportToExcelSvg: (width?: string, height?: string, viewBox?: string) => react_jsx_runtime.JSX.Element;
 
 export { GreenVSvg, RedXSvg, RedXSvg2, emptyFilterSvg, exportToExcelSvg, slashFilterSvg, sortSvg };

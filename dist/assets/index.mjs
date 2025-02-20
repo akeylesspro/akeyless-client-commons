@@ -210,13 +210,13 @@ var slashFilterSvg = function(solid) {
         })
     });
 };
-var exportToExcelSvg = function() {
+var exportToExcelSvg = function(width, height, viewBox) {
     return /* @__PURE__ */ jsxs2("svg", {
         version: "1.0",
         xmlns: "http://www.w3.org/2000/svg",
-        width: "18",
-        height: "18",
-        viewBox: "0 0 150.000000 150.000000",
+        width: width || "18",
+        height: height || "18",
+        viewBox: viewBox || "0 0 150.000000 150.000000",
         preserveAspectRatio: "xMidYMid meet",
         children: [
             " ",
