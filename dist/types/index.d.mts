@@ -76,6 +76,13 @@ interface InputElement extends BaseElementProps {
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
+interface TextAreaElement extends BaseElementProps {
+    type: "textarea";
+    defaultValue?: string;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+    placeholder?: string;
+    props?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+}
 interface SelectElement extends BaseElementProps {
     type: "select";
     options: {
@@ -130,7 +137,9 @@ interface InputContainerProps extends Partial<InputElement> {
 }
 interface SelectContainerProps extends Partial<SelectElement> {
 }
-type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
+interface TextAreaContainerProps extends Partial<TextAreaElement> {
+}
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -166,4 +175,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultiSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultiSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, TextAreaContainerProps, TextAreaElement, WhereCondition };

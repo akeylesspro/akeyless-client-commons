@@ -24,6 +24,13 @@ export interface InputElement extends BaseElementProps {
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
+export interface TextAreaElement extends BaseElementProps {
+    type: "textarea";
+    defaultValue?: string;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+    placeholder?: string;
+    props?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+}
 
 export interface SelectElement extends BaseElementProps {
     type: "select";
@@ -76,8 +83,9 @@ export interface CustomElementProps extends BaseElementProps {
 
 export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
+export interface TextAreaContainerProps extends Partial<TextAreaElement> {}
 
-export type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps;
+export type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
