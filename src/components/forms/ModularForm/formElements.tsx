@@ -180,7 +180,7 @@ export const SelectWithSearch = ({
     notFoundLabelClassName,
 }: SelectWithSearchProps) => {
     return (
-        <div className={cn(`center`, containerClassName)}>
+        <div className={cn(`flex justify-start items-center`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <SearchSelect
                 options={options}

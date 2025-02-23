@@ -101,6 +101,7 @@ interface SearchSelectOptions {
 interface SearchSelectProps {
     options: SearchSelectOptions[];
     emptyLabel?: string;
+    name?: string;
     notFoundLabel?: string;
     searchLabel?: string;
     defaultValue?: SearchSelectOptions["value"];
@@ -110,6 +111,8 @@ interface SearchSelectProps {
     notFoundLabelClassName?: string;
     selectClassName?: string;
     searchClassName?: string;
+    onChange?: (value: SearchSelectOptions["value"]) => void;
+    value?: SearchSelectOptions["value"];
 }
 
 interface BaseElementProps {

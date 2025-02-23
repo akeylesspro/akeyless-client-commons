@@ -2140,88 +2140,97 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback as useCallback2, useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName;
+    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, value = param.value, onChange = param.onChange;
     var _options_find;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
-    var _useState41 = _sliced_to_array(useState4(defaultValue || ""), 2), value = _useState41[0], setValue = _useState41[1];
+    var _useState41 = _sliced_to_array(useState4(value || defaultValue || ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
     var openChange = useCallback2(function(newOpen) {
         console.log("openChange", newOpen);
         setOpen(newOpen);
     }, [
         setOpen
     ]);
-    return /* @__PURE__ */ jsx15("div", {
+    return /* @__PURE__ */ jsxs10("div", {
         className: cn("*:not-first:mt-2", selectClassName),
-        children: /* @__PURE__ */ jsxs10(Popover, {
-            open: open,
-            onOpenChange: openChange,
-            children: [
-                /* @__PURE__ */ jsx15(PopoverTrigger, {
-                    asChild: true,
-                    children: /* @__PURE__ */ jsxs10(Button, {
-                        id: id,
-                        variant: "outline",
-                        role: "combobox",
-                        "aria-expanded": open,
-                        className: "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
-                        children: [
-                            /* @__PURE__ */ jsx15("span", {
-                                className: cn("truncate", !value && "text-muted-foreground"),
-                                children: value ? (_options_find = options.find(function(item) {
-                                    return item.value === value;
-                                })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel
-                            }),
-                            /* @__PURE__ */ jsx15(ChevronDownIcon, {
-                                size: 16,
-                                className: "text-muted-foreground/80 shrink-0",
-                                "aria-hidden": "true"
-                            })
-                        ]
-                    })
-                }),
-                /* @__PURE__ */ jsx15(PopoverContent, {
-                    className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName),
-                    align: "start",
-                    children: /* @__PURE__ */ jsxs10(Command, {
-                        children: [
-                            /* @__PURE__ */ jsx15(CommandInput, {
-                                className: cn(searchClassName),
-                                placeholder: searchLabel || "Search"
-                            }),
-                            /* @__PURE__ */ jsxs10(CommandList, {
-                                children: [
-                                    /* @__PURE__ */ jsx15(CommandEmpty, {
-                                        className: cn(notFoundLabelClassName),
-                                        children: notFoundLabel
-                                    }),
-                                    /* @__PURE__ */ jsx15(CommandGroup, {
-                                        className: cn(dropdownOptionsClassName),
-                                        children: options.map(function(option) {
-                                            return /* @__PURE__ */ jsxs10(CommandItem, {
-                                                className: cn(dropdownOptionClassName),
-                                                value: option.value,
-                                                onSelect: function(currentValue) {
-                                                    setValue(currentValue);
-                                                    setOpen(false);
-                                                },
-                                                children: [
-                                                    option.label,
-                                                    value === option.value && /* @__PURE__ */ jsx15(CheckIcon, {
-                                                        size: 16,
-                                                        className: "ml-auto"
-                                                    })
-                                                ]
-                                            }, option.value);
+        children: [
+            /* @__PURE__ */ jsx15("input", {
+                name: name,
+                type: "text",
+                value: selectedValue,
+                className: "invisible"
+            }),
+            /* @__PURE__ */ jsxs10(Popover, {
+                open: open,
+                onOpenChange: openChange,
+                children: [
+                    /* @__PURE__ */ jsx15(PopoverTrigger, {
+                        asChild: true,
+                        children: /* @__PURE__ */ jsxs10(Button, {
+                            id: id,
+                            variant: "outline",
+                            role: "combobox",
+                            "aria-expanded": open,
+                            className: "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
+                            children: [
+                                /* @__PURE__ */ jsx15("span", {
+                                    className: cn("truncate", !selectedValue && "text-muted-foreground"),
+                                    children: selectedValue ? (_options_find = options.find(function(item) {
+                                        return item.value === selectedValue;
+                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel
+                                }),
+                                /* @__PURE__ */ jsx15(ChevronDownIcon, {
+                                    size: 16,
+                                    className: "text-muted-foreground/80 shrink-0",
+                                    "aria-hidden": "true"
+                                })
+                            ]
+                        })
+                    }),
+                    /* @__PURE__ */ jsx15(PopoverContent, {
+                        className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName),
+                        align: "start",
+                        children: /* @__PURE__ */ jsxs10(Command, {
+                            children: [
+                                /* @__PURE__ */ jsx15(CommandInput, {
+                                    className: cn(searchClassName),
+                                    placeholder: searchLabel || "Search"
+                                }),
+                                /* @__PURE__ */ jsxs10(CommandList, {
+                                    children: [
+                                        /* @__PURE__ */ jsx15(CommandEmpty, {
+                                            className: cn(notFoundLabelClassName),
+                                            children: notFoundLabel
+                                        }),
+                                        /* @__PURE__ */ jsx15(CommandGroup, {
+                                            className: cn(dropdownOptionsClassName),
+                                            children: options.map(function(option) {
+                                                return /* @__PURE__ */ jsxs10(CommandItem, {
+                                                    className: cn(dropdownOptionClassName),
+                                                    value: option.value,
+                                                    onSelect: function(currentValue) {
+                                                        setSelectedValue(currentValue);
+                                                        onChange === null || onChange === void 0 ? void 0 : onChange(currentValue);
+                                                        setOpen(false);
+                                                    },
+                                                    children: [
+                                                        option.label,
+                                                        selectedValue === option.value && /* @__PURE__ */ jsx15(CheckIcon, {
+                                                            size: 16,
+                                                            className: "ml-auto"
+                                                        })
+                                                    ]
+                                                }, option.value);
+                                            })
                                         })
-                                    })
-                                ]
-                            })
-                        ]
+                                    ]
+                                })
+                            ]
+                        })
                     })
-                })
-            ]
-        })
+                ]
+            })
+        ]
     });
 }
 // src/components/table/components.tsx
@@ -3021,7 +3030,7 @@ function MultiSelect(param) {
 var SelectWithSearch = function(param) {
     var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName;
     return /* @__PURE__ */ jsxs13("div", {
-        className: cn("center", containerClassName),
+        className: cn("flex justify-start items-center", containerClassName),
         children: [
             labelContent && /* @__PURE__ */ jsx18(ElementLabel, {
                 labelContent: labelContent,

@@ -14,6 +14,7 @@ export interface SearchSelectOptions {
 export interface SearchSelectProps {
     options: SearchSelectOptions[];
     emptyLabel?: string;
+    name?: string;
     notFoundLabel?: string;
     searchLabel?: string;
     defaultValue?: SearchSelectOptions["value"];
@@ -23,9 +24,12 @@ export interface SearchSelectProps {
     notFoundLabelClassName?: string;
     selectClassName?: string;
     searchClassName?: string;
+    onChange?: (value: SearchSelectOptions["value"]) => void;
+    value?: SearchSelectOptions["value"];
 }
 export default function SearchSelect({
     options,
+    name,
     emptyLabel,
     defaultValue,
     notFoundLabel,
@@ -36,11 +40,12 @@ export default function SearchSelect({
     notFoundLabelClassName,
     selectClassName,
     searchClassName,
+    value,
+    onChange,
 }: SearchSelectProps) {
     const id = useId();
-
     const [open, setOpen] = useState<boolean>(false);
-    const [value, setValue] = useState<string>(defaultValue || "");
+    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value || defaultValue || "");
     const openChange = useCallback(
         (newOpen: boolean) => {
             console.log("openChange", newOpen);
@@ -50,6 +55,7 @@ export default function SearchSelect({
     );
     return (
         <div className={cn("*:not-first:mt-2", selectClassName)}>
+            <input name={name} type="text" value={selectedValue} className="invisible" />
             <Popover open={open} onOpenChange={openChange}>
                 <PopoverTrigger asChild>
                     <Button
@@ -59,8 +65,8 @@ export default function SearchSelect({
                         aria-expanded={open}
                         className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]"
                     >
-                        <span className={cn("truncate", !value && "text-muted-foreground")}>
-                            {value ? options.find((item) => item.value === value)?.label : emptyLabel}
+                        <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>
+                            {selectedValue ? options.find((item) => item.value === selectedValue)?.label : emptyLabel}
                         </span>
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
@@ -77,12 +83,13 @@ export default function SearchSelect({
                                         key={option.value}
                                         value={option.value}
                                         onSelect={(currentValue) => {
-                                            setValue(currentValue);
+                                            setSelectedValue(currentValue);
+                                            onChange?.(currentValue);
                                             setOpen(false);
                                         }}
                                     >
                                         {option.label}
-                                        {value === option.value && <CheckIcon size={16} className="ml-auto" />}
+                                        {selectedValue === option.value && <CheckIcon size={16} className="ml-auto" />}
                                     </CommandItem>
                                 ))}
                             </CommandGroup>
