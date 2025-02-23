@@ -22,6 +22,7 @@ export interface SearchSelectProps {
     dropdownOptionClassName?: string;
     dropdownOptionsClassName?: string;
     notFoundLabelClassName?: string;
+    triggerClassName?: string;
     selectClassName?: string;
     searchClassName?: string;
     onChange?: (value: SearchSelectOptions["value"]) => void;
@@ -40,6 +41,7 @@ export default function SearchSelect({
     notFoundLabelClassName,
     selectClassName,
     searchClassName,
+    triggerClassName,
     value,
     onChange,
 }: SearchSelectProps) {
@@ -57,7 +59,7 @@ export default function SearchSelect({
         <div className={cn("*:not-first:mt-2", selectClassName)}>
             <input name={name} type="text" value={selectedValue} className="invisible" />
             <Popover open={open} onOpenChange={openChange}>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild className={cn("w-full", triggerClassName)}>
                     <Button
                         id={id}
                         variant="outline"

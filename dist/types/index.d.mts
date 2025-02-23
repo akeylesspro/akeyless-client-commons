@@ -137,6 +137,7 @@ interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassNa
     searchLabel?: string;
     notFoundLabelClassName?: string;
     searchClassName?: string;
+    triggerClassName?: string;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

@@ -180,6 +180,7 @@ export const SelectWithSearch = ({
     selectClassName,
     notFoundLabelClassName,
     searchClassName,
+    triggerClassName,
 }: SelectWithSearchProps) => {
     return (
         <div className={cn(`flex justify-start items-center`, containerClassName)}>
@@ -199,6 +200,7 @@ export const SelectWithSearch = ({
                 onChange={onChange}
                 searchClassName={searchClassName}
                 value={value}
+                triggerClassName={triggerClassName}
             />
         </div>
     );

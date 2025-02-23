@@ -2331,7 +2331,7 @@ var import_lucide_react4 = require("lucide-react");
 var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
-    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, value = param.value, onChange = param.onChange;
+    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, triggerClassName = param.triggerClassName, value = param.value, onChange = param.onChange;
     var _options_find, _options_;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
@@ -2357,6 +2357,7 @@ function SearchSelect(param) {
                 children: [
                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverTrigger, {
                         asChild: true,
+                        className: cn("w-full", triggerClassName),
                         children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Button, {
                             id: id,
                             variant: "outline",
@@ -3219,7 +3220,7 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, triggerClassName = param.triggerClassName;
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
         className: cn("flex justify-start items-center", containerClassName),
         children: [
@@ -3243,7 +3244,8 @@ var SelectWithSearch = function(param) {
                 name: name,
                 onChange: onChange,
                 searchClassName: searchClassName,
-                value: value
+                value: value,
+                triggerClassName: triggerClassName
             })
         ]
     });
