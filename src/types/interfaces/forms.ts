@@ -80,7 +80,7 @@ export interface SelectWithSearchProps extends Omit<BaseElementProps, "container
     searchLabel?: string;
     notFoundLabelClassName?: string;
     searchClassName?: string;
-    triggerClassName?: string;
+    selectButtonClassName?: string;
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

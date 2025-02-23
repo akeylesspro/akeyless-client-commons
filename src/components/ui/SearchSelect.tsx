@@ -22,7 +22,7 @@ export interface SearchSelectProps {
     dropdownOptionClassName?: string;
     dropdownOptionsClassName?: string;
     notFoundLabelClassName?: string;
-    triggerClassName?: string;
+    selectButtonClassName?: string;
     selectClassName?: string;
     searchClassName?: string;
     onChange?: (value: SearchSelectOptions["value"]) => void;
@@ -41,7 +41,7 @@ export default function SearchSelect({
     notFoundLabelClassName,
     selectClassName,
     searchClassName,
-    triggerClassName,
+    selectButtonClassName,
     value,
     onChange,
 }: SearchSelectProps) {
@@ -57,15 +57,18 @@ export default function SearchSelect({
     );
     return (
         <div className={cn("*:not-first:mt-2", selectClassName)}>
-            <input name={name} type="text" value={selectedValue} className="invisible" />
+            <input name={name} type="hidden" value={selectedValue} />
             <Popover open={open} onOpenChange={openChange}>
-                <PopoverTrigger asChild className={cn("w-full", triggerClassName)}>
+                <PopoverTrigger asChild>
                     <Button
                         id={id}
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]"
+                        className={cn(
+                            "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
+                            selectButtonClassName
+                        )}
                     >
                         <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>
                             {selectedValue

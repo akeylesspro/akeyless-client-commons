@@ -2140,7 +2140,7 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback as useCallback2, useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, triggerClassName = param.triggerClassName, value = param.value, onChange = param.onChange;
+    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, onChange = param.onChange;
     var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
@@ -2156,9 +2156,8 @@ function SearchSelect(param) {
         children: [
             /* @__PURE__ */ jsx15("input", {
                 name: name,
-                type: "text",
-                value: selectedValue,
-                className: "invisible"
+                type: "hidden",
+                value: selectedValue
             }),
             /* @__PURE__ */ jsxs10(Popover, {
                 open: open,
@@ -2166,13 +2165,12 @@ function SearchSelect(param) {
                 children: [
                     /* @__PURE__ */ jsx15(PopoverTrigger, {
                         asChild: true,
-                        className: cn("w-full", triggerClassName),
                         children: /* @__PURE__ */ jsxs10(Button, {
                             id: id,
                             variant: "outline",
                             role: "combobox",
                             "aria-expanded": open,
-                            className: "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
+                            className: cn("bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]", selectButtonClassName),
                             children: [
                                 /* @__PURE__ */ jsx15("span", {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
@@ -3029,7 +3027,7 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, triggerClassName = param.triggerClassName;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName;
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("flex justify-start items-center", containerClassName),
         children: [
@@ -3054,7 +3052,7 @@ var SelectWithSearch = function(param) {
                 onChange: onChange,
                 searchClassName: searchClassName,
                 value: value,
-                triggerClassName: triggerClassName
+                selectButtonClassName: selectButtonClassName
             })
         ]
     });
