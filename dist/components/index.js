@@ -2333,10 +2333,12 @@ function SearchSelect(param) {
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
     var _ref1 = _sliced_to_array((0, import_react5.useState)(defaultValue || ""), 2), value = _ref1[0], setValue = _ref1[1];
-    var openChange = function(newOpen) {
+    var openChange = (0, import_react5.useCallback)(function(newOpen) {
         console.log("openChange", newOpen);
         setOpen(newOpen);
-    };
+    }, [
+        setOpen
+    ]);
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
         className: "*:not-first:mt-2",
         children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Popover, {

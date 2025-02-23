@@ -2134,7 +2134,7 @@ function PopoverContent(_param) {
 }
 // src/components/ui/SearchSelect.tsx
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { useId, useState as useState4 } from "react";
+import { useCallback as useCallback2, useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
     var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel;
@@ -2142,10 +2142,12 @@ function SearchSelect(param) {
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
     var _useState41 = _sliced_to_array(useState4(defaultValue || ""), 2), value = _useState41[0], setValue = _useState41[1];
-    var openChange = function(newOpen) {
+    var openChange = useCallback2(function(newOpen) {
         console.log("openChange", newOpen);
         setOpen(newOpen);
-    };
+    }, [
+        setOpen
+    ]);
     return /* @__PURE__ */ jsx15("div", {
         className: "*:not-first:mt-2",
         children: /* @__PURE__ */ jsxs10(Popover, {
@@ -2689,7 +2691,7 @@ var NumberUI = function(param) {
 // src/components/forms/ModularForm/ModularForm.tsx
 import { cloneElement, useState as useState7 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
-import { useCallback as useCallback2, useMemo as useMemo6, useState as useState6 } from "react";
+import { useCallback as useCallback3, useMemo as useMemo6, useState as useState6 } from "react";
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
 import { forwardRef as forwardRef7, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState5 } from "react";
@@ -2871,7 +2873,7 @@ var FlagComponent = function(param) {
 import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange;
-    var handleChangeFunction = useCallback2(function(e) {
+    var handleChangeFunction = useCallback3(function(e) {
         handleChange(e);
         onChange === null || onChange === void 0 ? void 0 : onChange(e);
     }, [

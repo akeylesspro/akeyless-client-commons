@@ -5,7 +5,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { useId, useState } from "react";
+import { useCallback, useId, useState } from "react";
 
 export interface SearchSelectOptions {
     value: string;
@@ -23,10 +23,13 @@ export default function SearchSelect({ options, emptyLabel, defaultValue, notFou
 
     const [open, setOpen] = useState<boolean>(false);
     const [value, setValue] = useState<string>(defaultValue || "");
-    const openChange = (newOpen: boolean) => {
-        console.log("openChange", newOpen);
-        setOpen(newOpen);
-    };
+    const openChange = useCallback(
+        (newOpen: boolean) => {
+            console.log("openChange", newOpen);
+            setOpen(newOpen);
+        },
+        [setOpen]
+    );
     return (
         <div className="*:not-first:mt-2">
             <Popover open={open} onOpenChange={openChange}>
