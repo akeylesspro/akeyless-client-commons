@@ -2140,7 +2140,7 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback as useCallback2, useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName;
+    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName;
     var _options_find;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
@@ -2152,7 +2152,7 @@ function SearchSelect(param) {
         setOpen
     ]);
     return /* @__PURE__ */ jsx15("div", {
-        className: "*:not-first:mt-2",
+        className: cn("*:not-first:mt-2", selectClassName),
         children: /* @__PURE__ */ jsxs10(Popover, {
             open: open,
             onOpenChange: openChange,
@@ -2181,11 +2181,12 @@ function SearchSelect(param) {
                     })
                 }),
                 /* @__PURE__ */ jsx15(PopoverContent, {
-                    className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", selectClassName),
+                    className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName),
                     align: "start",
                     children: /* @__PURE__ */ jsxs10(Command, {
                         children: [
                             /* @__PURE__ */ jsx15(CommandInput, {
+                                className: cn(searchClassName),
                                 placeholder: searchLabel || "Search"
                             }),
                             /* @__PURE__ */ jsxs10(CommandList, {
@@ -2195,7 +2196,7 @@ function SearchSelect(param) {
                                         children: notFoundLabel
                                     }),
                                     /* @__PURE__ */ jsx15(CommandGroup, {
-                                        className: cn(dropdownClassName),
+                                        className: cn(dropdownOptionsClassName),
                                         children: options.map(function(option) {
                                             return /* @__PURE__ */ jsxs10(CommandItem, {
                                                 className: cn(dropdownOptionClassName),

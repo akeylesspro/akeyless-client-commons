@@ -2331,7 +2331,7 @@ var import_lucide_react4 = require("lucide-react");
 var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
-    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName;
+    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName;
     var _options_find;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
@@ -2343,7 +2343,7 @@ function SearchSelect(param) {
         setOpen
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("div", {
-        className: "*:not-first:mt-2",
+        className: cn("*:not-first:mt-2", selectClassName),
         children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Popover, {
             open: open,
             onOpenChange: openChange,
@@ -2372,11 +2372,12 @@ function SearchSelect(param) {
                     })
                 }),
                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverContent, {
-                    className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", selectClassName),
+                    className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName),
                     align: "start",
                     children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Command, {
                         children: [
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandInput, {
+                                className: cn(searchClassName),
                                 placeholder: searchLabel || "Search"
                             }),
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandList, {
@@ -2386,7 +2387,7 @@ function SearchSelect(param) {
                                         children: notFoundLabel
                                     }),
                                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandGroup, {
-                                        className: cn(dropdownClassName),
+                                        className: cn(dropdownOptionsClassName),
                                         children: options.map(function(option) {
                                             return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandItem, {
                                                 className: cn(dropdownOptionClassName),

@@ -19,8 +19,10 @@ export interface SearchSelectProps {
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
+    dropdownOptionsClassName?: string;
     notFoundLabelClassName?: string;
     selectClassName?: string;
+    searchClassName?: string;
 }
 export default function SearchSelect({
     options,
@@ -30,8 +32,10 @@ export default function SearchSelect({
     searchLabel,
     dropdownClassName,
     dropdownOptionClassName,
+    dropdownOptionsClassName,
     notFoundLabelClassName,
     selectClassName,
+    searchClassName,
 }: SearchSelectProps) {
     const id = useId();
 
@@ -45,7 +49,7 @@ export default function SearchSelect({
         [setOpen]
     );
     return (
-        <div className="*:not-first:mt-2">
+        <div className={cn("*:not-first:mt-2", selectClassName)}>
             <Popover open={open} onOpenChange={openChange}>
                 <PopoverTrigger asChild>
                     <Button
@@ -61,12 +65,12 @@ export default function SearchSelect({
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", selectClassName)} align="start">
+                <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName)} align="start">
                     <Command>
-                        <CommandInput placeholder={searchLabel || "Search"} />
+                        <CommandInput className={cn(searchClassName)} placeholder={searchLabel || "Search"} />
                         <CommandList>
                             <CommandEmpty className={cn(notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
-                            <CommandGroup className={cn(dropdownClassName)}>
+                            <CommandGroup className={cn(dropdownOptionsClassName)}>
                                 {options.map((option) => (
                                     <CommandItem
                                         className={cn(dropdownOptionClassName)}

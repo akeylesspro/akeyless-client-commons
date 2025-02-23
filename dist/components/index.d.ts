@@ -106,8 +106,10 @@ interface SearchSelectProps {
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
+    dropdownOptionsClassName?: string;
     notFoundLabelClassName?: string;
     selectClassName?: string;
+    searchClassName?: string;
 }
 
 interface BaseElementProps {
