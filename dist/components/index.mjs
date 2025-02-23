@@ -2140,7 +2140,7 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback as useCallback2, useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, onChange = param.onChange;
+    var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, onChange = param.onChange;
     var _options_, _options_find, _options_1;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
@@ -2152,7 +2152,7 @@ function SearchSelect(param) {
         setOpen
     ]);
     return /* @__PURE__ */ jsxs10("div", {
-        className: cn("w-full", selectClassName),
+        className: cn("w-full", elementClassName),
         children: [
             /* @__PURE__ */ jsx15("input", {
                 name: name,
@@ -2187,7 +2187,7 @@ function SearchSelect(param) {
                         })
                     }),
                     /* @__PURE__ */ jsx15(PopoverContent, {
-                        className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]", dropdownClassName),
+                        className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]"),
                         align: "start",
                         children: /* @__PURE__ */ jsxs10(Command, {
                             children: [
@@ -2202,7 +2202,7 @@ function SearchSelect(param) {
                                             children: notFoundLabel
                                         }),
                                         /* @__PURE__ */ jsx15(CommandGroup, {
-                                            className: cn(dropdownOptionsClassName),
+                                            className: cn("max-h-52 overflow-y-auto", dropdownClassName),
                                             children: options.map(function(option) {
                                                 return /* @__PURE__ */ jsxs10(CommandItem, {
                                                     className: cn("hover:bg-[#cccbcb] cursor-pointer", dropdownOptionClassName),
@@ -3027,7 +3027,7 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, dropdownOptionsClassName = param.dropdownOptionsClassName;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName;
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("flex justify-between items-center w-full", containerClassName),
         children: [
@@ -3043,11 +3043,10 @@ var SelectWithSearch = function(param) {
                 emptyLabel: placeholder,
                 notFoundLabel: notFoundLabel,
                 searchLabel: searchLabel,
-                selectClassName: selectClassName,
+                elementClassName: elementClassName,
                 dropdownClassName: dropdownClassName,
                 dropdownOptionClassName: dropdownOptionClassName,
                 notFoundLabelClassName: notFoundLabelClassName,
-                dropdownOptionsClassName: dropdownOptionsClassName,
                 name: name,
                 onChange: onChange,
                 searchClassName: searchClassName,

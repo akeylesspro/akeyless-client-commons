@@ -72,7 +72,7 @@ export interface SelectWithSearchProps extends Omit<BaseElementProps, "container
     value?: SearchSelectOptions["value"];
     defaultValue?: SearchSelectOptions["value"];
     containerClassName?: string;
-    selectClassName?: string;
+    elementClassName?: string;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
     placeholder?: string;
@@ -81,7 +81,6 @@ export interface SelectWithSearchProps extends Omit<BaseElementProps, "container
     notFoundLabelClassName?: string;
     searchClassName?: string;
     selectButtonClassName?: string;
-    dropdownOptionsClassName?: string;
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

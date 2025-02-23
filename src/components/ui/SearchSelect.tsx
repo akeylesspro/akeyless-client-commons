@@ -20,10 +20,9 @@ export interface SearchSelectProps {
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
-    dropdownOptionsClassName?: string;
     notFoundLabelClassName?: string;
     selectButtonClassName?: string;
-    selectClassName?: string;
+    elementClassName?: string;
     searchClassName?: string;
     onChange?: (value: SearchSelectOptions["value"]) => void;
     value?: SearchSelectOptions["value"];
@@ -37,9 +36,8 @@ export default function SearchSelect({
     searchLabel,
     dropdownClassName,
     dropdownOptionClassName,
-    dropdownOptionsClassName,
     notFoundLabelClassName,
-    selectClassName,
+    elementClassName,
     searchClassName,
     selectButtonClassName,
     value,
@@ -56,7 +54,7 @@ export default function SearchSelect({
         [setOpen]
     );
     return (
-        <div className={cn("w-full", selectClassName)}>
+        <div className={cn("w-full", elementClassName)}>
             <input name={name} type="hidden" value={selectedValue} />
             <Popover open={open} onOpenChange={openChange}>
                 <PopoverTrigger asChild>
@@ -80,15 +78,12 @@ export default function SearchSelect({
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent
-                    className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]", dropdownClassName)}
-                    align="start"
-                >
+                <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
                         <CommandInput className={cn(searchClassName)} placeholder={searchLabel || "Search"} />
                         <CommandList>
                             <CommandEmpty className={cn(notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
-                            <CommandGroup className={cn(dropdownOptionsClassName)}>
+                            <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>
                                 {options.map((option) => (
                                     <CommandItem
                                         className={cn("hover:bg-[#cccbcb] cursor-pointer", dropdownOptionClassName)}

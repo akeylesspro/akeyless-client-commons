@@ -177,11 +177,10 @@ export const SelectWithSearch = ({
     containerClassName,
     dropdownClassName,
     dropdownOptionClassName,
-    selectClassName,
+    elementClassName,
     notFoundLabelClassName,
     searchClassName,
     selectButtonClassName,
-    dropdownOptionsClassName,
 }: SelectWithSearchProps) => {
     return (
         <div className={cn(`flex justify-between items-center w-full`, containerClassName)}>
@@ -192,11 +191,10 @@ export const SelectWithSearch = ({
                 emptyLabel={placeholder}
                 notFoundLabel={notFoundLabel}
                 searchLabel={searchLabel}
-                selectClassName={selectClassName}
+                elementClassName={elementClassName}
                 dropdownClassName={dropdownClassName}
                 dropdownOptionClassName={dropdownOptionClassName}
                 notFoundLabelClassName={notFoundLabelClassName}
-                dropdownOptionsClassName={dropdownOptionsClassName}
                 name={name}
                 onChange={onChange}
                 searchClassName={searchClassName}

@@ -107,10 +107,9 @@ interface SearchSelectProps {
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
-    dropdownOptionsClassName?: string;
     notFoundLabelClassName?: string;
     selectButtonClassName?: string;
-    selectClassName?: string;
+    elementClassName?: string;
     searchClassName?: string;
     onChange?: (value: SearchSelectOptions["value"]) => void;
     value?: SearchSelectOptions["value"];
@@ -183,7 +182,7 @@ interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassNa
     value?: SearchSelectOptions["value"];
     defaultValue?: SearchSelectOptions["value"];
     containerClassName?: string;
-    selectClassName?: string;
+    elementClassName?: string;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
     placeholder?: string;
@@ -192,7 +191,6 @@ interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassNa
     notFoundLabelClassName?: string;
     searchClassName?: string;
     selectButtonClassName?: string;
-    dropdownOptionsClassName?: string;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
@@ -429,7 +427,7 @@ declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placehold
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
-declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, value, placeholder, required, defaultValue, notFoundLabel, searchLabel, containerClassName, dropdownClassName, dropdownOptionClassName, selectClassName, notFoundLabelClassName, searchClassName, selectButtonClassName, dropdownOptionsClassName, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
+declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, value, placeholder, required, defaultValue, notFoundLabel, searchLabel, containerClassName, dropdownClassName, dropdownOptionClassName, elementClassName, notFoundLabelClassName, searchClassName, selectButtonClassName, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
 declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
     withDots?: boolean;
