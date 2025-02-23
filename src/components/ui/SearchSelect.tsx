@@ -73,14 +73,18 @@ const frameworks = [
         label: "Lit",
     },
 ];
-export interface SelectWithSearchProps {
-    data: { value: string; label: string }[];
+export interface SearchSelectOptions {
+    value: string;
+    label: string;
+}
+export interface SearchSelectProps {
+    options: SearchSelectOptions[];
     emptyLabel?: string;
     notFoundLabel?: string;
     searchLabel?: string;
-    defaultValue?: string;
+    defaultValue?: SearchSelectOptions["value"];
 }
-export default function SelectWithSearch({ data, emptyLabel, defaultValue, notFoundLabel, searchLabel }: SelectWithSearchProps) {
+export default function SearchSelect({ options, emptyLabel, defaultValue, notFoundLabel, searchLabel }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
     const [value, setValue] = useState<string>(defaultValue || "");
@@ -96,7 +100,7 @@ export default function SelectWithSearch({ data, emptyLabel, defaultValue, notFo
                         className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]"
                     >
                         <span className={cn("truncate", !value && "text-muted-foreground")}>
-                            {value ? data.find((item) => item.value === value)?.label : emptyLabel || "Select Value"}
+                            {value ? options.find((item) => item.value === value)?.label : emptyLabel || "Select Value"}
                         </span>
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
@@ -107,17 +111,17 @@ export default function SelectWithSearch({ data, emptyLabel, defaultValue, notFo
                         <CommandList>
                             <CommandEmpty>{notFoundLabel || "No option found"}</CommandEmpty>
                             <CommandGroup>
-                                {frameworks.map((framework) => (
+                                {options.map((option) => (
                                     <CommandItem
-                                        key={framework.value}
-                                        value={framework.value}
+                                        key={option.value}
+                                        value={option.value}
                                         onSelect={(currentValue) => {
                                             setValue(currentValue === value ? "" : currentValue);
                                             setOpen(false);
                                         }}
                                     >
-                                        {framework.label}
-                                        {value === framework.value && <CheckIcon size={16} className="ml-auto" />}
+                                        {option.label}
+                                        {value === option.value && <CheckIcon size={16} className="ml-auto" />}
                                     </CommandItem>
                                 ))}
                             </CommandGroup>

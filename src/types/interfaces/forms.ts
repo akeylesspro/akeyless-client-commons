@@ -3,6 +3,7 @@ import { Direction } from "../types";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import * as RPNInput from "react-phone-number-input";
 import { ValidationType } from "src/helpers";
+import { SearchSelectOptions } from "@/components/ui";
 
 export interface BaseElementProps {
     name?: string;
@@ -64,6 +65,19 @@ export interface MultiSelectProps extends Omit<BaseElementProps, "containerClass
     placeholder?: string;
     groupBy?: string;
 }
+export interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type?: "selectWithSearch";
+    options: SearchSelectOptions[];
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    defaultValue?: SearchSelectOptions["value"];
+    containerClassName?: string;
+    selectClassName?: string;
+    dropdownClassName?: string;
+    dropdownOptionClassName?: string;
+    placeholder?: string;
+    notFoundLabel?: string;
+    searchLabel?: string;
+}
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
     phoneValue?: string;
@@ -88,7 +102,14 @@ export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 export interface TextAreaContainerProps extends Partial<TextAreaElement> {}
 
-export type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement;
+export type FormElement =
+    | InputElement
+    | SelectElement
+    | MultiSelectProps
+    | InternationalInputProps
+    | CustomElementProps
+    | TextAreaElement
+    | SelectWithSearchProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;

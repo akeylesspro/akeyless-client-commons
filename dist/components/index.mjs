@@ -81,6 +81,20 @@ function _define_property(obj, key, value) {
     }
     return obj;
 }
+function _extends() {
+    _extends = Object.assign || function(target) {
+        for(var i = 1; i < arguments.length; i++){
+            var source = arguments[i];
+            for(var key in source){
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    };
+    return _extends.apply(this, arguments);
+}
 function _get_prototype_of(o) {
     _get_prototype_of = Object.setPrototypeOf ? Object.getPrototypeOf : function getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -139,6 +153,10 @@ function _non_iterable_rest() {
 }
 function _non_iterable_spread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _object_destructuring_empty(o) {
+    if (o === null || o === void 0) throw new TypeError("Cannot destructure " + o);
+    return o;
 }
 function _object_spread(target) {
     for(var i = 1; i < arguments.length; i++){
@@ -2079,10 +2097,119 @@ var multiselect_default = MultipleSelector;
 // src/components/ui/popover.tsx
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { jsx as jsx14, jsxs as jsxs9 } from "react/jsx-runtime";
-// src/components/ui/selectWithSearch.tsx
+function Popover(_param) {
+    var props = _extends({}, _object_destructuring_empty(_param));
+    return /* @__PURE__ */ jsx14(PopoverPrimitive.Root, _object_spread({
+        "data-slot": "popover"
+    }, props));
+}
+function PopoverTrigger(_param) {
+    var props = _extends({}, _object_destructuring_empty(_param));
+    return /* @__PURE__ */ jsx14(PopoverPrimitive.Trigger, _object_spread({
+        "data-slot": "popover-trigger"
+    }, props));
+}
+function PopoverContent(_param) {
+    var className = _param.className, _param_align = _param.align, align = _param_align === void 0 ? "center" : _param_align, _param_sideOffset = _param.sideOffset, sideOffset = _param_sideOffset === void 0 ? 4 : _param_sideOffset, _param_showArrow = _param.showArrow, showArrow = _param_showArrow === void 0 ? false : _param_showArrow, props = _object_without_properties(_param, [
+        "className",
+        "align",
+        "sideOffset",
+        "showArrow"
+    ]);
+    return /* @__PURE__ */ jsx14(PopoverPrimitive.Portal, {
+        children: /* @__PURE__ */ jsxs9(PopoverPrimitive.Content, _object_spread_props(_object_spread({
+            "data-slot": "popover-content",
+            align: align,
+            sideOffset: sideOffset,
+            className: cn("bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 rounded-md border p-4 shadow-md outline-hidden", className)
+        }, props), {
+            children: [
+                props.children,
+                showArrow && /* @__PURE__ */ jsx14(PopoverPrimitive.Arrow, {
+                    className: "fill-popover -my-px drop-shadow-[0_1px_0_hsl(var(--border))]"
+                })
+            ]
+        }))
+    });
+}
+// src/components/ui/SearchSelect.tsx
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
+function SearchSelect(param) {
+    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel;
+    var _options_find;
+    var id = useId();
+    var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
+    var _useState41 = _sliced_to_array(useState4(defaultValue || ""), 2), value = _useState41[0], setValue = _useState41[1];
+    return /* @__PURE__ */ jsx15("div", {
+        className: "*:not-first:mt-2",
+        children: /* @__PURE__ */ jsxs10(Popover, {
+            open: open,
+            onOpenChange: setOpen,
+            children: [
+                /* @__PURE__ */ jsx15(PopoverTrigger, {
+                    asChild: true,
+                    children: /* @__PURE__ */ jsxs10(Button, {
+                        variant: "outline",
+                        role: "combobox",
+                        "aria-expanded": open,
+                        className: "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
+                        children: [
+                            /* @__PURE__ */ jsx15("span", {
+                                className: cn("truncate", !value && "text-muted-foreground"),
+                                children: value ? (_options_find = options.find(function(item) {
+                                    return item.value === value;
+                                })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel || "Select Value"
+                            }),
+                            /* @__PURE__ */ jsx15(ChevronDownIcon, {
+                                size: 16,
+                                className: "text-muted-foreground/80 shrink-0",
+                                "aria-hidden": "true"
+                            })
+                        ]
+                    })
+                }),
+                /* @__PURE__ */ jsx15(PopoverContent, {
+                    className: "border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0",
+                    align: "start",
+                    children: /* @__PURE__ */ jsxs10(Command, {
+                        children: [
+                            /* @__PURE__ */ jsx15(CommandInput, {
+                                placeholder: searchLabel || "Search"
+                            }),
+                            /* @__PURE__ */ jsxs10(CommandList, {
+                                children: [
+                                    /* @__PURE__ */ jsx15(CommandEmpty, {
+                                        children: notFoundLabel || "No option found"
+                                    }),
+                                    /* @__PURE__ */ jsx15(CommandGroup, {
+                                        children: options.map(function(option) {
+                                            return /* @__PURE__ */ jsxs10(CommandItem, {
+                                                value: option.value,
+                                                onSelect: function(currentValue) {
+                                                    setValue(currentValue === value ? "" : currentValue);
+                                                    setOpen(false);
+                                                },
+                                                children: [
+                                                    option.label,
+                                                    value === option.value && /* @__PURE__ */ jsx15(CheckIcon, {
+                                                        size: 16,
+                                                        className: "ml-auto"
+                                                    })
+                                                ]
+                                            }, option.value);
+                                        })
+                                    })
+                                ]
+                            })
+                        ]
+                    })
+                })
+            ]
+        })
+    });
+}
 // src/components/table/components.tsx
 import { Fragment as Fragment3, jsx as jsx16, jsxs as jsxs11 } from "react/jsx-runtime";
 var getFixedNumber = function() {
@@ -2902,6 +3029,27 @@ var TextAreaContainer = function(param) {
         ]
     });
 };
+var SelectWithSearch = function(param) {
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName;
+    return /* @__PURE__ */ jsxs13("div", {
+        className: cn("center", containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ jsx18(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ jsx18(SearchSelect, {
+                options: options,
+                defaultValue: defaultValue,
+                emptyLabel: placeholder,
+                notFoundLabel: notFoundLabel,
+                searchLabel: searchLabel
+            })
+        ]
+    });
+};
 var ElementLabel = function(param) {
     var labelContent = param.labelContent, labelClassName = param.labelClassName, name = param.name, required = param.required, _param_withDots = param.withDots, withDots = _param_withDots === void 0 ? true : _param_withDots;
     return /* @__PURE__ */ jsxs13("label", {
@@ -3020,6 +3168,8 @@ var ModularForm = function(param) {
                         return /* @__PURE__ */ jsx19(SelectContainer, _object_spread({}, element), index);
                     case "multiSelect":
                         return /* @__PURE__ */ jsx19(MultiSelect, _object_spread({}, element), index);
+                    case "selectWithSearch":
+                        return /* @__PURE__ */ jsx19(SelectWithSearch, _object_spread({}, element), index);
                     case "internationalPhoneInput":
                         return /* @__PURE__ */ jsx19(InternationalPhonePicker, _object_spread({}, element), index);
                     case "custom":
@@ -3297,5 +3447,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, NumberUI, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TextAreaContainer, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, NumberUI, PhoneUI, ProgressComponent, Search, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TextAreaContainer, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
 //# sourceMappingURL=index.mjs.map

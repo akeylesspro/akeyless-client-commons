@@ -57,6 +57,11 @@ type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: s
 
 type ValidationType = "text" | "numbers" | "numbersOnly" | "price" | "textNumbers" | "email" | "color" | "address" | "cars" | "charts" | (string & {});
 
+interface SearchSelectOptions {
+    value: string;
+    label: string;
+}
+
 interface BaseElementProps {
     name?: string;
     labelContent?: string;
@@ -117,6 +122,19 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     placeholder?: string;
     groupBy?: string;
 }
+interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type?: "selectWithSearch";
+    options: SearchSelectOptions[];
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    defaultValue?: SearchSelectOptions["value"];
+    containerClassName?: string;
+    selectClassName?: string;
+    dropdownClassName?: string;
+    dropdownOptionClassName?: string;
+    placeholder?: string;
+    notFoundLabel?: string;
+    searchLabel?: string;
+}
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
     phoneValue?: string;
@@ -142,7 +160,7 @@ interface SelectContainerProps extends Partial<SelectElement> {
 }
 interface TextAreaContainerProps extends Partial<TextAreaElement> {
 }
-type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement;
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement | SelectWithSearchProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -178,4 +196,4 @@ interface DatePickerProps {
     buttonText?: string;
 }
 
-export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultiSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SetState, Snapshot, SnapshotDocument, SnapshotResult, TextAreaContainerProps, TextAreaElement, WhereCondition };
+export type { BaseElementProps, ConfirmFormProps, CustomElementProps, DatePickerProps, Direction, FormElement, InputContainerProps, InputElement, InternationalInputProps, ModularFormProps, ModularPopUp, MultiSelectProps, OnSnapshotCallback, OnSnapshotConfig, OnSnapshotConfigDocument, OnSnapshotParsers, SelectContainerProps, SelectElement, SelectWithSearchProps, SetState, Snapshot, SnapshotDocument, SnapshotResult, TextAreaContainerProps, TextAreaElement, WhereCondition };

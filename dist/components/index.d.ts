@@ -66,6 +66,43 @@ type Direction = "rtl" | "ltr";
 
 type ValidationType = "text" | "numbers" | "numbersOnly" | "price" | "textNumbers" | "email" | "color" | "address" | "cars" | "charts" | (string & {});
 
+declare const badgeVariants: (props?: {
+    variant?: "default" | "secondary" | "destructive" | "outline";
+} & class_variance_authority_dist_types.ClassProp) => string;
+interface BadgeProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
+}
+declare function Badge({ className, variant, ...props }: BadgeProps): react_jsx_runtime.JSX.Element;
+
+declare const buttonVariants: (props?: {
+    variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "ghost";
+    size?: "default" | "icon" | "sm" | "lg";
+} & class_variance_authority_dist_types.ClassProp) => string;
+declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+}): react_jsx_runtime.JSX.Element;
+
+declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
+
+interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
+    containerClassName?: string;
+    indicatorClassName?: string;
+    showValue?: boolean;
+    showValueClassName?: string;
+}
+declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
+
+interface SearchSelectOptions {
+    value: string;
+    label: string;
+}
+interface SearchSelectProps {
+    options: SearchSelectOptions[];
+    emptyLabel?: string;
+    notFoundLabel?: string;
+    searchLabel?: string;
+    defaultValue?: SearchSelectOptions["value"];
+}
+
 interface BaseElementProps {
     name?: string;
     labelContent?: string;
@@ -126,6 +163,19 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     placeholder?: string;
     groupBy?: string;
 }
+interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+    type?: "selectWithSearch";
+    options: SearchSelectOptions[];
+    onChange?: (value: MultipleSelectorOption[]) => void;
+    defaultValue?: SearchSelectOptions["value"];
+    containerClassName?: string;
+    selectClassName?: string;
+    dropdownClassName?: string;
+    dropdownOptionClassName?: string;
+    placeholder?: string;
+    notFoundLabel?: string;
+    searchLabel?: string;
+}
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
     phoneValue?: string;
@@ -151,7 +201,7 @@ interface SelectContainerProps extends Partial<SelectElement> {
 }
 interface TextAreaContainerProps extends Partial<TextAreaElement> {
 }
-type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement;
+type FormElement = InputElement | SelectElement | MultiSelectProps | InternationalInputProps | CustomElementProps | TextAreaElement | SelectWithSearchProps;
 interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
     elements: FormElement[];
@@ -362,48 +412,13 @@ declare const InputContainer: ({ validationError, name, inputType, labelContent,
 declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
 declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
 declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
+declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, placeholder, required, defaultValue, notFoundLabel, searchLabel, containerClassName, dropdownClassName, dropdownOptionClassName, selectClassName, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
     withDots?: boolean;
 }) => react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
 declare const DatePicker: ({ submit, formClassName, labelsClassName, inputsClassName, buttonClassName, buttonStyle, defaultFrom, defaultTo, direction, fromText, toText, buttonText, }: DatePickerProps) => react_jsx_runtime.JSX.Element;
-
-declare const badgeVariants: (props?: {
-    variant?: "default" | "secondary" | "destructive" | "outline";
-} & class_variance_authority_dist_types.ClassProp) => string;
-interface BadgeProps extends React$1.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
-}
-declare function Badge({ className, variant, ...props }: BadgeProps): react_jsx_runtime.JSX.Element;
-
-declare const buttonVariants: (props?: {
-    variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "ghost";
-    size?: "default" | "icon" | "sm" | "lg";
-} & class_variance_authority_dist_types.ClassProp) => string;
-declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & {
-    asChild?: boolean;
-}): react_jsx_runtime.JSX.Element;
-
-declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
-
-interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
-    containerClassName?: string;
-    indicatorClassName?: string;
-    showValue?: boolean;
-    showValueClassName?: string;
-}
-declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
-
-interface SelectWithSearchProps {
-    data: {
-        value: string;
-        label: string;
-    }[];
-    emptyLabel?: string;
-    notFoundLabel?: string;
-    searchLabel?: string;
-    defaultValue?: string;
-}
 
 interface CodeInputProps {
     codeValue: string;
@@ -413,4 +428,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, SelectContainer, type SelectWithSearchProps, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, type SearchSelectOptions, type SearchSelectProps, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };

@@ -1,7 +1,15 @@
 import MultipleSelector from "@/components/ui/multiselect";
+import SearchSelect from "@/components/ui/SearchSelect";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { cn, handleChange, useValidation } from "src/helpers";
-import { BaseElementProps, InputContainerProps, MultiSelectProps, SelectContainerProps, TextAreaContainerProps } from "src/types";
+import {
+    BaseElementProps,
+    InputContainerProps,
+    MultiSelectProps,
+    SelectContainerProps,
+    SelectWithSearchProps,
+    TextAreaContainerProps,
+} from "src/types";
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 
@@ -153,6 +161,7 @@ export function MultiSelect({
         </div>
     );
 }
+
 export const TextAreaContainer = ({
     name = "",
     labelContent = "",
@@ -193,6 +202,35 @@ export const TextAreaContainer = ({
     );
 };
 
+export const SelectWithSearch = ({
+    options,
+    labelClassName,
+    labelContent,
+    name,
+    onChange,
+    placeholder,
+    required,
+    defaultValue,
+    notFoundLabel,
+    searchLabel,
+    containerClassName,
+    dropdownClassName,
+    dropdownOptionClassName,
+    selectClassName,
+}: SelectWithSearchProps) => {
+    return (
+        <div className={cn(`center`, containerClassName)}>
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+            <SearchSelect
+                options={options}
+                defaultValue={defaultValue}
+                emptyLabel={placeholder}
+                notFoundLabel={notFoundLabel}
+                searchLabel={searchLabel}
+            />
+        </div>
+    );
+};
 export const ElementLabel = ({
     labelContent,
     labelClassName,
