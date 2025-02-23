@@ -380,10 +380,9 @@ declare const buttonVariants: (props?: {
     variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "ghost";
     size?: "default" | "icon" | "sm" | "lg";
 } & class_variance_authority_dist_types.ClassProp) => string;
-interface ButtonProps extends React$1.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
-}
-declare const Button: React$1.ForwardRefExoticComponent<ButtonProps & React$1.RefAttributes<HTMLButtonElement>>;
+}): react_jsx_runtime.JSX.Element;
 
 declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 
@@ -395,6 +394,17 @@ interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof Progress
 }
 declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
 
+interface SelectWithSearchProps {
+    data: {
+        value: string;
+        label: string;
+    }[];
+    emptyLabel?: string;
+    notFoundLabel?: string;
+    searchLabel?: string;
+    defaultValue?: string;
+}
+
 interface CodeInputProps {
     codeValue: string;
     setCodeValue: Dispatch<SetStateAction<string>>;
@@ -403,4 +413,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, BooleanUi, Button, type ButtonProps, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, SelectContainer, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, SelectContainer, type SelectWithSearchProps, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
