@@ -13,10 +13,10 @@ export interface SearchSelectOptions {
 }
 export interface SearchSelectProps {
     options: SearchSelectOptions[];
-    emptyLabel?: string;
+    selectPlaceholder?: string;
     name?: string;
     notFoundLabel?: string;
-    searchLabel?: string;
+    searchPlaceholder?: string;
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
@@ -30,10 +30,10 @@ export interface SearchSelectProps {
 export default function SearchSelect({
     options,
     name,
-    emptyLabel,
+    selectPlaceholder,
     defaultValue,
     notFoundLabel,
-    searchLabel,
+    searchPlaceholder,
     dropdownClassName,
     dropdownOptionClassName,
     notFoundLabelClassName,
@@ -46,17 +46,10 @@ export default function SearchSelect({
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value || defaultValue || options[0]?.value || "");
-    const openChange = useCallback(
-        (newOpen: boolean) => {
-            console.log("openChange", newOpen);
-            setOpen(newOpen);
-        },
-        [setOpen]
-    );
     return (
         <div className={cn("w-full", elementClassName)}>
             <input name={name} type="hidden" value={selectedValue} />
-            <Popover open={open} onOpenChange={openChange}>
+            <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                     <Button
                         id={id}
@@ -73,20 +66,24 @@ export default function SearchSelect({
                                 ? options.find((item) => item.value === selectedValue)?.label
                                 : options[0]?.label
                                 ? options[0].label
-                                : emptyLabel}
+                                : selectPlaceholder}
                         </span>
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
-                        <CommandInput className={cn(searchClassName)} placeholder={searchLabel || "Search"} />
+                        <CommandInput className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
                         <CommandList>
-                            <CommandEmpty className={cn(notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
+                            <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
                             <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>
                                 {options.map((option) => (
                                     <CommandItem
-                                        className={cn("hover:bg-[#cccbcb] cursor-pointer", dropdownOptionClassName)}
+                                        className={cn(
+                                            "hover:bg-[#cccbcb] cursor-pointer",
+                                            dropdownOptionClassName,
+                                            selectedValue === option.value && "bg-[#cccbcb]"
+                                        )}
                                         key={option.value}
                                         value={option.value}
                                         onSelect={(currentValue) => {

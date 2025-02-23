@@ -122,19 +122,17 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     placeholder?: string;
     groupBy?: string;
 }
-interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
+interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";
     options: SearchSelectOptions[];
     onChange?: (value: SearchSelectOptions["value"]) => void;
     value?: SearchSelectOptions["value"];
     defaultValue?: SearchSelectOptions["value"];
-    containerClassName?: string;
-    elementClassName?: string;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
     placeholder?: string;
     notFoundLabel?: string;
-    searchLabel?: string;
+    searchPlaceholder?: string;
     notFoundLabelClassName?: string;
     searchClassName?: string;
     selectButtonClassName?: string;

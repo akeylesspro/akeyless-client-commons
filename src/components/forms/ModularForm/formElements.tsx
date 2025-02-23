@@ -173,7 +173,7 @@ export const SelectWithSearch = ({
     required,
     defaultValue,
     notFoundLabel,
-    searchLabel,
+    searchPlaceholder,
     containerClassName,
     dropdownClassName,
     dropdownOptionClassName,
@@ -186,20 +186,25 @@ export const SelectWithSearch = ({
         <div className={cn(`flex justify-between items-center w-full`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <SearchSelect
+                // values props
                 options={options}
+                value={value}
+                onChange={onChange}
                 defaultValue={defaultValue}
-                emptyLabel={placeholder}
-                notFoundLabel={notFoundLabel}
-                searchLabel={searchLabel}
+                name={name}
+                // select props
                 elementClassName={elementClassName}
+                selectPlaceholder={placeholder}
+                selectButtonClassName={selectButtonClassName}
+                // search props
+                searchClassName={searchClassName}
+                searchPlaceholder={searchPlaceholder}
+                //dropdown props
                 dropdownClassName={dropdownClassName}
                 dropdownOptionClassName={dropdownOptionClassName}
+                // not found props
                 notFoundLabelClassName={notFoundLabelClassName}
-                name={name}
-                onChange={onChange}
-                searchClassName={searchClassName}
-                value={value}
-                selectButtonClassName={selectButtonClassName}
+                notFoundLabel={notFoundLabel}
             />
         </div>
     );
