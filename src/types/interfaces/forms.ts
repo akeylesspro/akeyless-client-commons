@@ -77,6 +77,7 @@ export interface SelectWithSearchProps extends Omit<BaseElementProps, "container
     placeholder?: string;
     notFoundLabel?: string;
     searchLabel?: string;
+    notFoundLabelClassName?: string;
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

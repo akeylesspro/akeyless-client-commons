@@ -2331,7 +2331,7 @@ var import_lucide_react4 = require("lucide-react");
 var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
-    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel;
+    var options = param.options, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName;
     var _options_find;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
@@ -2372,7 +2372,7 @@ function SearchSelect(param) {
                     })
                 }),
                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverContent, {
-                    className: "border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0",
+                    className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", selectClassName),
                     align: "start",
                     children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Command, {
                         children: [
@@ -2382,14 +2382,17 @@ function SearchSelect(param) {
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandList, {
                                 children: [
                                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandEmpty, {
+                                        className: cn(notFoundLabelClassName),
                                         children: notFoundLabel
                                     }),
                                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandGroup, {
+                                        className: cn(dropdownClassName),
                                         children: options.map(function(option) {
                                             return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandItem, {
+                                                className: cn(dropdownOptionClassName),
                                                 value: option.value,
                                                 onSelect: function(currentValue) {
-                                                    setValue(currentValue === value ? "" : currentValue);
+                                                    setValue(currentValue);
                                                     setOpen(false);
                                                 },
                                                 children: [
@@ -3205,6 +3208,31 @@ function MultiSelect(param) {
         ]
     });
 }
+var SelectWithSearch = function(param) {
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName;
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
+        className: cn("center", containerClassName),
+        children: [
+            labelContent && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ElementLabel, {
+                labelContent: labelContent,
+                labelClassName: labelClassName,
+                name: name,
+                required: required
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SearchSelect, {
+                options: options,
+                defaultValue: defaultValue,
+                emptyLabel: placeholder,
+                notFoundLabel: notFoundLabel,
+                searchLabel: searchLabel,
+                selectClassName: selectClassName,
+                dropdownClassName: dropdownClassName,
+                dropdownOptionClassName: dropdownOptionClassName,
+                notFoundLabelClassName: notFoundLabelClassName
+            })
+        ]
+    });
+};
 var TextAreaContainer = function(param) {
     var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange;
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
@@ -3227,27 +3255,6 @@ var TextAreaContainer = function(param) {
                 name: name,
                 onKeyDown: onKeyDown
             }))
-        ]
-    });
-};
-var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName;
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
-        className: cn("center", containerClassName),
-        children: [
-            labelContent && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ElementLabel, {
-                labelContent: labelContent,
-                labelClassName: labelClassName,
-                name: name,
-                required: required
-            }),
-            /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SearchSelect, {
-                options: options,
-                defaultValue: defaultValue,
-                emptyLabel: placeholder,
-                notFoundLabel: notFoundLabel,
-                searchLabel: searchLabel
-            })
         ]
     });
 };

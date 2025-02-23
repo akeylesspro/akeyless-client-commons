@@ -17,8 +17,22 @@ export interface SearchSelectProps {
     notFoundLabel?: string;
     searchLabel?: string;
     defaultValue?: SearchSelectOptions["value"];
+    dropdownClassName?: string;
+    dropdownOptionClassName?: string;
+    notFoundLabelClassName?: string;
+    selectClassName?: string;
 }
-export default function SearchSelect({ options, emptyLabel, defaultValue, notFoundLabel, searchLabel }: SearchSelectProps) {
+export default function SearchSelect({
+    options,
+    emptyLabel,
+    defaultValue,
+    notFoundLabel,
+    searchLabel,
+    dropdownClassName,
+    dropdownOptionClassName,
+    notFoundLabelClassName,
+    selectClassName,
+}: SearchSelectProps) {
     const id = useId();
 
     const [open, setOpen] = useState<boolean>(false);
@@ -47,18 +61,19 @@ export default function SearchSelect({ options, emptyLabel, defaultValue, notFou
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0" align="start">
+                <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", selectClassName)} align="start">
                     <Command>
                         <CommandInput placeholder={searchLabel || "Search"} />
                         <CommandList>
-                            <CommandEmpty>{notFoundLabel}</CommandEmpty>
-                            <CommandGroup>
+                            <CommandEmpty className={cn(notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
+                            <CommandGroup className={cn(dropdownClassName)}>
                                 {options.map((option) => (
                                     <CommandItem
+                                        className={cn(dropdownOptionClassName)}
                                         key={option.value}
                                         value={option.value}
                                         onSelect={(currentValue) => {
-                                            setValue(currentValue === value ? "" : currentValue);
+                                            setValue(currentValue);
                                             setOpen(false);
                                         }}
                                     >

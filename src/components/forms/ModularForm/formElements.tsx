@@ -162,6 +162,41 @@ export function MultiSelect({
     );
 }
 
+export const SelectWithSearch = ({
+    options,
+    labelClassName,
+    labelContent,
+    name,
+    onChange,
+    placeholder,
+    required,
+    defaultValue,
+    notFoundLabel,
+    searchLabel,
+    containerClassName,
+    dropdownClassName,
+    dropdownOptionClassName,
+    selectClassName,
+    notFoundLabelClassName,
+}: SelectWithSearchProps) => {
+    return (
+        <div className={cn(`center`, containerClassName)}>
+            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+            <SearchSelect
+                options={options}
+                defaultValue={defaultValue}
+                emptyLabel={placeholder}
+                notFoundLabel={notFoundLabel}
+                searchLabel={searchLabel}
+                selectClassName={selectClassName}
+                dropdownClassName={dropdownClassName}
+                dropdownOptionClassName={dropdownOptionClassName}
+                notFoundLabelClassName={notFoundLabelClassName}
+            />
+        </div>
+    );
+};
+
 export const TextAreaContainer = ({
     name = "",
     labelContent = "",
@@ -197,36 +232,6 @@ export const TextAreaContainer = ({
                 required={required}
                 name={name}
                 onKeyDown={onKeyDown}
-            />
-        </div>
-    );
-};
-
-export const SelectWithSearch = ({
-    options,
-    labelClassName,
-    labelContent,
-    name,
-    onChange,
-    placeholder,
-    required,
-    defaultValue,
-    notFoundLabel,
-    searchLabel,
-    containerClassName,
-    dropdownClassName,
-    dropdownOptionClassName,
-    selectClassName,
-}: SelectWithSearchProps) => {
-    return (
-        <div className={cn(`center`, containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
-            <SearchSelect
-                options={options}
-                defaultValue={defaultValue}
-                emptyLabel={placeholder}
-                notFoundLabel={notFoundLabel}
-                searchLabel={searchLabel}
             />
         </div>
     );
