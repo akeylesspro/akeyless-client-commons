@@ -2332,10 +2332,10 @@ var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
     var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, onChange = param.onChange;
-    var _options_find, _options_;
+    var _options_, _options_find, _options_1;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react5.useState)(value || defaultValue || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
+    var _ref1 = _sliced_to_array((0, import_react5.useState)(value || defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
     var openChange = (0, import_react5.useCallback)(function(newOpen) {
         console.log("openChange", newOpen);
         setOpen(newOpen);
@@ -2343,7 +2343,7 @@ function SearchSelect(param) {
         setOpen
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
-        className: cn("*:not-first:mt-2", selectClassName),
+        className: cn("w-full", selectClassName),
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
                 name: name,
@@ -2367,7 +2367,7 @@ function SearchSelect(param) {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
                                     children: selectedValue ? (_options_find = options.find(function(item) {
                                         return item.value === selectedValue;
-                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) ? options[0].label : emptyLabel
+                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : ((_options_1 = options[0]) === null || _options_1 === void 0 ? void 0 : _options_1.label) ? options[0].label : emptyLabel
                                 }),
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ChevronDownIcon, {
                                     size: 16,
@@ -2378,7 +2378,7 @@ function SearchSelect(param) {
                         })
                     }),
                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(PopoverContent, {
-                        className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName),
+                        className: cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]", dropdownClassName),
                         align: "start",
                         children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Command, {
                             children: [
@@ -2396,7 +2396,7 @@ function SearchSelect(param) {
                                             className: cn(dropdownOptionsClassName),
                                             children: options.map(function(option) {
                                                 return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandItem, {
-                                                    className: cn(dropdownOptionClassName),
+                                                    className: cn("hover:bg-[#cccbcb] cursor-pointer", dropdownOptionClassName),
                                                     value: option.value,
                                                     onSelect: function(currentValue) {
                                                         setSelectedValue(currentValue);
@@ -3218,9 +3218,9 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, dropdownOptionsClassName = param.dropdownOptionsClassName;
     return /* @__PURE__ */ (0, import_jsx_runtime19.jsxs)("div", {
-        className: cn("flex justify-start items-center", containerClassName),
+        className: cn("flex justify-between items-center w-full", containerClassName),
         children: [
             labelContent && /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(ElementLabel, {
                 labelContent: labelContent,
@@ -3238,7 +3238,7 @@ var SelectWithSearch = function(param) {
                 dropdownClassName: dropdownClassName,
                 dropdownOptionClassName: dropdownOptionClassName,
                 notFoundLabelClassName: notFoundLabelClassName,
-                dropdownOptionsClassName: "",
+                dropdownOptionsClassName: dropdownOptionsClassName,
                 name: name,
                 onChange: onChange,
                 searchClassName: searchClassName,

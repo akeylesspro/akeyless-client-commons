@@ -47,7 +47,7 @@ export default function SearchSelect({
 }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value || defaultValue || "");
+    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value || defaultValue || options[0]?.value || "");
     const openChange = useCallback(
         (newOpen: boolean) => {
             console.log("openChange", newOpen);
@@ -56,7 +56,7 @@ export default function SearchSelect({
         [setOpen]
     );
     return (
-        <div className={cn("*:not-first:mt-2", selectClassName)}>
+        <div className={cn("w-full", selectClassName)}>
             <input name={name} type="hidden" value={selectedValue} />
             <Popover open={open} onOpenChange={openChange}>
                 <PopoverTrigger asChild>
@@ -80,7 +80,10 @@ export default function SearchSelect({
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0", dropdownClassName)} align="start">
+                <PopoverContent
+                    className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]", dropdownClassName)}
+                    align="start"
+                >
                     <Command>
                         <CommandInput className={cn(searchClassName)} placeholder={searchLabel || "Search"} />
                         <CommandList>
@@ -88,7 +91,7 @@ export default function SearchSelect({
                             <CommandGroup className={cn(dropdownOptionsClassName)}>
                                 {options.map((option) => (
                                     <CommandItem
-                                        className={cn(dropdownOptionClassName)}
+                                        className={cn("hover:bg-[#cccbcb] cursor-pointer", dropdownOptionClassName)}
                                         key={option.value}
                                         value={option.value}
                                         onSelect={(currentValue) => {
