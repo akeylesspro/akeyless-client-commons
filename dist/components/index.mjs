@@ -2142,15 +2142,20 @@ function SearchSelect(param) {
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
     var _useState41 = _sliced_to_array(useState4(defaultValue || ""), 2), value = _useState41[0], setValue = _useState41[1];
+    var openChange = function(newOpen) {
+        console.log("openChange", newOpen);
+        setOpen(newOpen);
+    };
     return /* @__PURE__ */ jsx15("div", {
         className: "*:not-first:mt-2",
         children: /* @__PURE__ */ jsxs10(Popover, {
             open: open,
-            onOpenChange: setOpen,
+            onOpenChange: openChange,
             children: [
                 /* @__PURE__ */ jsx15(PopoverTrigger, {
                     asChild: true,
                     children: /* @__PURE__ */ jsxs10(Button, {
+                        id: id,
                         variant: "outline",
                         role: "combobox",
                         "aria-expanded": open,

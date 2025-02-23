@@ -7,72 +7,6 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useId, useState } from "react";
 
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-    {
-        value: "angular",
-        label: "Angular",
-    },
-    {
-        value: "vue",
-        label: "Vue.js",
-    },
-    {
-        value: "react",
-        label: "React",
-    },
-    {
-        value: "ember",
-        label: "Ember.js",
-    },
-    {
-        value: "gatsby",
-        label: "Gatsby",
-    },
-    {
-        value: "eleventy",
-        label: "Eleventy",
-    },
-    {
-        value: "solid",
-        label: "SolidJS",
-    },
-    {
-        value: "preact",
-        label: "Preact",
-    },
-    {
-        value: "qwik",
-        label: "Qwik",
-    },
-    {
-        value: "alpine",
-        label: "Alpine.js",
-    },
-    {
-        value: "lit",
-        label: "Lit",
-    },
-];
 export interface SearchSelectOptions {
     value: string;
     label: string;
@@ -86,14 +20,19 @@ export interface SearchSelectProps {
 }
 export default function SearchSelect({ options, emptyLabel, defaultValue, notFoundLabel, searchLabel }: SearchSelectProps) {
     const id = useId();
+
     const [open, setOpen] = useState<boolean>(false);
     const [value, setValue] = useState<string>(defaultValue || "");
-
+    const openChange = (newOpen: boolean) => {
+        console.log("openChange", newOpen);
+        setOpen(newOpen);
+    };
     return (
         <div className="*:not-first:mt-2">
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={openChange}>
                 <PopoverTrigger asChild>
                     <Button
+                        id={id}
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
