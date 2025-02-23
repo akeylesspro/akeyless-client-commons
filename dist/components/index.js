@@ -2356,7 +2356,7 @@ function SearchSelect(param) {
                                 className: cn("truncate", !value && "text-muted-foreground"),
                                 children: value ? (_options_find = options.find(function(item) {
                                     return item.value === value;
-                                })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel || "Select Value"
+                                })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel
                             }),
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ChevronDownIcon, {
                                 size: 16,
@@ -2377,7 +2377,7 @@ function SearchSelect(param) {
                             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandList, {
                                 children: [
                                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandEmpty, {
-                                        children: notFoundLabel || "No option found"
+                                        children: notFoundLabel
                                     }),
                                     /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandGroup, {
                                         children: options.map(function(option) {

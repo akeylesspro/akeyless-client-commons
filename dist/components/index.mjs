@@ -2165,7 +2165,7 @@ function SearchSelect(param) {
                                 className: cn("truncate", !value && "text-muted-foreground"),
                                 children: value ? (_options_find = options.find(function(item) {
                                     return item.value === value;
-                                })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel || "Select Value"
+                                })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel
                             }),
                             /* @__PURE__ */ jsx15(ChevronDownIcon, {
                                 size: 16,
@@ -2186,7 +2186,7 @@ function SearchSelect(param) {
                             /* @__PURE__ */ jsxs10(CommandList, {
                                 children: [
                                     /* @__PURE__ */ jsx15(CommandEmpty, {
-                                        children: notFoundLabel || "No option found"
+                                        children: notFoundLabel
                                     }),
                                     /* @__PURE__ */ jsx15(CommandGroup, {
                                         children: options.map(function(option) {

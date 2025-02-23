@@ -39,7 +39,7 @@ export default function SearchSelect({ options, emptyLabel, defaultValue, notFou
                         className="bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]"
                     >
                         <span className={cn("truncate", !value && "text-muted-foreground")}>
-                            {value ? options.find((item) => item.value === value)?.label : emptyLabel || "Select Value"}
+                            {value ? options.find((item) => item.value === value)?.label : emptyLabel}
                         </span>
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
@@ -48,7 +48,7 @@ export default function SearchSelect({ options, emptyLabel, defaultValue, notFou
                     <Command>
                         <CommandInput placeholder={searchLabel || "Search"} />
                         <CommandList>
-                            <CommandEmpty>{notFoundLabel || "No option found"}</CommandEmpty>
+                            <CommandEmpty>{notFoundLabel}</CommandEmpty>
                             <CommandGroup>
                                 {options.map((option) => (
                                     <CommandItem
