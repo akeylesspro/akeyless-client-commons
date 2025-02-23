@@ -77,9 +77,12 @@ declare const buttonVariants: (props?: {
     variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "ghost";
     size?: "default" | "icon" | "sm" | "lg";
 } & class_variance_authority_dist_types.ClassProp) => string;
-declare function Button({ className, variant, size, asChild, ...props }: React$1.ComponentProps<"button"> & VariantProps<typeof buttonVariants> & {
+declare const Button: React$1.ForwardRefExoticComponent<Omit<React$1.ClassAttributes<HTMLButtonElement> & React$1.ButtonHTMLAttributes<HTMLButtonElement> & VariantProps<(props?: {
+    variant?: "link" | "default" | "secondary" | "destructive" | "outline" | "ghost";
+    size?: "default" | "icon" | "sm" | "lg";
+} & class_variance_authority_dist_types.ClassProp) => string> & {
     asChild?: boolean;
-}): react_jsx_runtime.JSX.Element;
+}, "ref"> & React$1.RefAttributes<HTMLButtonElement>>;
 
 declare const Input: React$1.ForwardRefExoticComponent<Omit<React$1.DetailedHTMLProps<React$1.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> & React$1.RefAttributes<HTMLInputElement>>;
 

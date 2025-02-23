@@ -1420,6 +1420,7 @@ function Badge(_param) {
 // src/components/ui/button.tsx
 var import_react_slot = require("@radix-ui/react-slot");
 var import_class_variance_authority2 = require("class-variance-authority");
+var React3 = __toESM(require("react"));
 var import_jsx_runtime9 = require("react/jsx-runtime");
 var buttonVariants = (0, import_class_variance_authority2.cva)("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-[color,box-shadow] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]", {
     variants: {
@@ -1443,7 +1444,7 @@ var buttonVariants = (0, import_class_variance_authority2.cva)("inline-flex item
         size: "default"
     }
 });
-function Button(_param) {
+var Button = React3.forwardRef(function(_param, ref) {
     var className = _param.className, variant = _param.variant, size = _param.size, _param_asChild = _param.asChild, asChild = _param_asChild === void 0 ? false : _param_asChild, props = _object_without_properties(_param, [
         "className",
         "variant",
@@ -1452,6 +1453,7 @@ function Button(_param) {
     ]);
     var Comp = asChild ? import_react_slot.Slot : "button";
     return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Comp, _object_spread({
+        ref: ref,
         "data-slot": "button",
         className: cn(buttonVariants({
             variant: variant,
@@ -1459,11 +1461,12 @@ function Button(_param) {
             className: className
         }))
     }, props));
-}
+});
+Button.displayName = "Button";
 // src/components/ui/input.tsx
-var React3 = __toESM(require("react"));
+var React4 = __toESM(require("react"));
 var import_jsx_runtime10 = require("react/jsx-runtime");
-var Input = React3.forwardRef(function(_param, ref) {
+var Input = React4.forwardRef(function(_param, ref) {
     var className = _param.className, type = _param.type, props = _object_without_properties(_param, [
         "className",
         "type"
@@ -1476,10 +1479,10 @@ var Input = React3.forwardRef(function(_param, ref) {
 });
 Input.displayName = "Input";
 // src/components/ui/progress.tsx
-var React4 = __toESM(require("react"));
+var React5 = __toESM(require("react"));
 var ProgressPrimitive = __toESM(require("@radix-ui/react-progress"));
 var import_jsx_runtime11 = require("react/jsx-runtime");
-var ProgressComponent = React4.forwardRef(function(_param, ref) {
+var ProgressComponent = React5.forwardRef(function(_param, ref) {
     var className = _param.className, value = _param.value, containerClassName = _param.containerClassName, indicatorClassName = _param.indicatorClassName, showValueClassName = _param.showValueClassName, _param_showValue = _param.showValue, showValue = _param_showValue === void 0 ? false : _param_showValue, props = _object_without_properties(_param, [
         "className",
         "value",
@@ -1511,19 +1514,19 @@ ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
 // src/components/ui/multiselect.tsx
 var import_cmdk2 = require("cmdk");
 var import_lucide_react3 = require("lucide-react");
-var React7 = __toESM(require("react"));
+var React8 = __toESM(require("react"));
 var import_react4 = require("react");
 // src/components/ui/command.tsx
 var import_cmdk = require("cmdk");
 var import_lucide_react2 = require("lucide-react");
-var React6 = __toESM(require("react"));
+var React7 = __toESM(require("react"));
 // src/components/ui/dialog.tsx
-var React5 = __toESM(require("react"));
+var React6 = __toESM(require("react"));
 var DialogPrimitive = __toESM(require("@radix-ui/react-dialog"));
 var import_lucide_react = require("lucide-react");
 var import_jsx_runtime12 = require("react/jsx-runtime");
 var DialogPortal = DialogPrimitive.Portal;
-var DialogOverlay = React5.forwardRef(function(_param, ref) {
+var DialogOverlay = React6.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1533,7 +1536,7 @@ var DialogOverlay = React5.forwardRef(function(_param, ref) {
     }, props));
 });
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
-var DialogContent = React5.forwardRef(function(_param, ref) {
+var DialogContent = React6.forwardRef(function(_param, ref) {
     var className = _param.className, children = _param.children, props = _object_without_properties(_param, [
         "className",
         "children"
@@ -1583,7 +1586,7 @@ var DialogFooter = function(_param) {
     }, props));
 };
 DialogFooter.displayName = "DialogFooter";
-var DialogTitle = React5.forwardRef(function(_param, ref) {
+var DialogTitle = React6.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1593,7 +1596,7 @@ var DialogTitle = React5.forwardRef(function(_param, ref) {
     }, props));
 });
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
-var DialogDescription = React5.forwardRef(function(_param, ref) {
+var DialogDescription = React6.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1605,7 +1608,7 @@ var DialogDescription = React5.forwardRef(function(_param, ref) {
 DialogDescription.displayName = DialogPrimitive.Description.displayName;
 // src/components/ui/command.tsx
 var import_jsx_runtime13 = require("react/jsx-runtime");
-var Command = React6.forwardRef(function(_param, ref) {
+var Command = React7.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1615,7 +1618,7 @@ var Command = React6.forwardRef(function(_param, ref) {
     }, props));
 });
 Command.displayName = import_cmdk.Command.displayName;
-var CommandInput = React6.forwardRef(function(_param, ref) {
+var CommandInput = React7.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1636,7 +1639,7 @@ var CommandInput = React6.forwardRef(function(_param, ref) {
     });
 });
 CommandInput.displayName = import_cmdk.Command.Input.displayName;
-var CommandList = React6.forwardRef(function(_param, ref) {
+var CommandList = React7.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1646,14 +1649,14 @@ var CommandList = React6.forwardRef(function(_param, ref) {
     }, props));
 });
 CommandList.displayName = import_cmdk.Command.List.displayName;
-var CommandEmpty = React6.forwardRef(function(props, ref) {
+var CommandEmpty = React7.forwardRef(function(props, ref) {
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_cmdk.Command.Empty, _object_spread({
         ref: ref,
         className: "py-6 text-center text-sm"
     }, props));
 });
 CommandEmpty.displayName = import_cmdk.Command.Empty.displayName;
-var CommandGroup = React6.forwardRef(function(_param, ref) {
+var CommandGroup = React7.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1663,7 +1666,7 @@ var CommandGroup = React6.forwardRef(function(_param, ref) {
     }, props));
 });
 CommandGroup.displayName = import_cmdk.Command.Group.displayName;
-var CommandSeparator = React6.forwardRef(function(_param, ref) {
+var CommandSeparator = React7.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1673,7 +1676,7 @@ var CommandSeparator = React6.forwardRef(function(_param, ref) {
     }, props));
 });
 CommandSeparator.displayName = import_cmdk.Command.Separator.displayName;
-var CommandItem = React6.forwardRef(function(_param, ref) {
+var CommandItem = React7.forwardRef(function(_param, ref) {
     var className = _param.className, props = _object_without_properties(_param, [
         "className"
     ]);
@@ -1696,7 +1699,7 @@ CommandShortcut.displayName = "CommandShortcut";
 var import_lodash3 = require("lodash");
 var import_jsx_runtime14 = require("react/jsx-runtime");
 function useDebounce(value, delay) {
-    var _React7_useState = _sliced_to_array(React7.useState(value), 2), debouncedValue = _React7_useState[0], setDebouncedValue = _React7_useState[1];
+    var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
     (0, import_react4.useEffect)(function() {
         var timer = setTimeout(function() {
             return setDebouncedValue(value);
@@ -1802,18 +1805,18 @@ var CommandEmpty2 = (0, import_react4.forwardRef)(function(_param, forwardedRef)
     }, props));
 });
 CommandEmpty2.displayName = "CommandEmpty";
-var MultipleSelector = React7.forwardRef(function(param, ref) {
+var MultipleSelector = React8.forwardRef(function(param, ref) {
     var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? true : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name;
-    var inputRef = React7.useRef(null);
-    var _React7_useState = _sliced_to_array(React7.useState(false), 2), open = _React7_useState[0], setOpen = _React7_useState[1];
-    var _React7_useState1 = _sliced_to_array(React7.useState(false), 2), onScrollbar = _React7_useState1[0], setOnScrollbar = _React7_useState1[1];
-    var _React7_useState2 = _sliced_to_array(React7.useState(false), 2), isLoading = _React7_useState2[0], setIsLoading = _React7_useState2[1];
-    var dropdownRef = React7.useRef(null);
-    var _React7_useState3 = _sliced_to_array(React7.useState(value || []), 2), selected = _React7_useState3[0], setSelected = _React7_useState3[1];
-    var _React7_useState4 = _sliced_to_array(React7.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React7_useState4[0], setOptions = _React7_useState4[1];
-    var _React7_useState5 = _sliced_to_array(React7.useState(""), 2), inputValue = _React7_useState5[0], setInputValue = _React7_useState5[1];
+    var inputRef = React8.useRef(null);
+    var _React8_useState = _sliced_to_array(React8.useState(false), 2), open = _React8_useState[0], setOpen = _React8_useState[1];
+    var _React8_useState1 = _sliced_to_array(React8.useState(false), 2), onScrollbar = _React8_useState1[0], setOnScrollbar = _React8_useState1[1];
+    var _React8_useState2 = _sliced_to_array(React8.useState(false), 2), isLoading = _React8_useState2[0], setIsLoading = _React8_useState2[1];
+    var dropdownRef = React8.useRef(null);
+    var _React8_useState3 = _sliced_to_array(React8.useState(value || []), 2), selected = _React8_useState3[0], setSelected = _React8_useState3[1];
+    var _React8_useState4 = _sliced_to_array(React8.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React8_useState4[0], setOptions = _React8_useState4[1];
+    var _React8_useState5 = _sliced_to_array(React8.useState(""), 2), inputValue = _React8_useState5[0], setInputValue = _React8_useState5[1];
     var debouncedSearchTerm = useDebounce(inputValue, delay || 500);
-    React7.useImperativeHandle(ref, function() {
+    React8.useImperativeHandle(ref, function() {
         return {
             selectedValue: _to_consumable_array(selected),
             input: inputRef.current,
@@ -1834,7 +1837,7 @@ var MultipleSelector = React7.forwardRef(function(param, ref) {
             inputRef.current.blur();
         }
     };
-    var handleUnselect = React7.useCallback(function(option) {
+    var handleUnselect = React8.useCallback(function(option) {
         if (unremovableOptions.find(function(v) {
             return (0, import_lodash3.isEqual)(v.value, option.value);
         })) {
@@ -1849,7 +1852,7 @@ var MultipleSelector = React7.forwardRef(function(param, ref) {
         onChange,
         selected
     ]);
-    var handleKeyDown = React7.useCallback(function(e) {
+    var handleKeyDown = React8.useCallback(function(e) {
         var input = inputRef.current;
         if (input) {
             if (e.key === "Delete" || e.key === "Backspace") {
@@ -2057,7 +2060,7 @@ var MultipleSelector = React7.forwardRef(function(param, ref) {
         }
         return void 0;
     };
-    var EmptyItem = React7.useCallback(function() {
+    var EmptyItem = React8.useCallback(function() {
         if (!emptyIndicator) return void 0;
         if (onSearch && !creatable && Object.keys(options).length === 0) {
             return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
@@ -2077,13 +2080,13 @@ var MultipleSelector = React7.forwardRef(function(param, ref) {
         onSearch,
         options
     ]);
-    var selectables = React7.useMemo(function() {
+    var selectables = React8.useMemo(function() {
         return removePickedOption(options, selected);
     }, [
         options,
         selected
     ]);
-    var commandFilter = React7.useCallback(function() {
+    var commandFilter = React8.useCallback(function() {
         if (commandProps === null || commandProps === void 0 ? void 0 : commandProps.filter) {
             return commandProps.filter;
         }
