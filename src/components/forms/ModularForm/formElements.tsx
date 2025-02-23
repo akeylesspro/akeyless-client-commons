@@ -168,6 +168,7 @@ export const SelectWithSearch = ({
     labelContent,
     name,
     onChange,
+    value,
     placeholder,
     required,
     defaultValue,
@@ -178,6 +179,7 @@ export const SelectWithSearch = ({
     dropdownOptionClassName,
     selectClassName,
     notFoundLabelClassName,
+    searchClassName,
 }: SelectWithSearchProps) => {
     return (
         <div className={cn(`flex justify-start items-center`, containerClassName)}>
@@ -192,6 +194,11 @@ export const SelectWithSearch = ({
                 dropdownClassName={dropdownClassName}
                 dropdownOptionClassName={dropdownOptionClassName}
                 notFoundLabelClassName={notFoundLabelClassName}
+                dropdownOptionsClassName=""
+                name={name}
+                onChange={onChange}
+                searchClassName={searchClassName}
+                value={value}
             />
         </div>
     );

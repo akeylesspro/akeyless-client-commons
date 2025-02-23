@@ -125,7 +125,8 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
 interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
     type?: "selectWithSearch";
     options: SearchSelectOptions[];
-    onChange?: (value: MultipleSelectorOption[]) => void;
+    onChange?: (value: SearchSelectOptions["value"]) => void;
+    value?: SearchSelectOptions["value"];
     defaultValue?: SearchSelectOptions["value"];
     containerClassName?: string;
     selectClassName?: string;
@@ -135,6 +136,7 @@ interface SelectWithSearchProps extends Omit<BaseElementProps, "containerClassNa
     notFoundLabel?: string;
     searchLabel?: string;
     notFoundLabelClassName?: string;
+    searchClassName?: string;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

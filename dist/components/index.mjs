@@ -2141,7 +2141,7 @@ import { useCallback as useCallback2, useId, useState as useState4 } from "react
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
     var options = param.options, name = param.name, emptyLabel = param.emptyLabel, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, dropdownOptionsClassName = param.dropdownOptionsClassName, notFoundLabelClassName = param.notFoundLabelClassName, selectClassName = param.selectClassName, searchClassName = param.searchClassName, value = param.value, onChange = param.onChange;
-    var _options_find;
+    var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
     var _useState41 = _sliced_to_array(useState4(value || defaultValue || ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
@@ -2177,7 +2177,7 @@ function SearchSelect(param) {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
                                     children: selectedValue ? (_options_find = options.find(function(item) {
                                         return item.value === selectedValue;
-                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : emptyLabel
+                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) ? options[0].label : emptyLabel
                                 }),
                                 /* @__PURE__ */ jsx15(ChevronDownIcon, {
                                     size: 16,
@@ -3028,7 +3028,7 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchLabel = param.searchLabel, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, selectClassName = param.selectClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName;
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("flex justify-start items-center", containerClassName),
         children: [
@@ -3047,7 +3047,12 @@ var SelectWithSearch = function(param) {
                 selectClassName: selectClassName,
                 dropdownClassName: dropdownClassName,
                 dropdownOptionClassName: dropdownOptionClassName,
-                notFoundLabelClassName: notFoundLabelClassName
+                notFoundLabelClassName: notFoundLabelClassName,
+                dropdownOptionsClassName: "",
+                name: name,
+                onChange: onChange,
+                searchClassName: searchClassName,
+                value: value
             })
         ]
     });
