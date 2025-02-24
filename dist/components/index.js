@@ -1646,7 +1646,7 @@ var CommandList = React7.forwardRef(function(_param, ref) {
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_cmdk.Command.List, _object_spread({
         ref: ref,
-        className: cn("max-h-80 overflow-y-auto overflow-x-hidden", "z-[1000]", className)
+        className: cn("max-h-80 overflow-y-auto overflow-x-hidden", className)
     }, props));
 });
 CommandList.displayName = import_cmdk.Command.List.displayName;
@@ -1663,7 +1663,7 @@ var CommandGroup = React7.forwardRef(function(_param, ref) {
     ]);
     return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(import_cmdk.Command.Group, _object_spread({
         ref: ref,
-        className: cn("overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground", "z-[1000]", className)
+        className: cn("overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground", className)
     }, props));
 });
 CommandGroup.displayName = import_cmdk.Command.Group.displayName;
@@ -2316,7 +2316,7 @@ function PopoverContent(_param) {
             "data-slot": "popover-content",
             align: align,
             sideOffset: sideOffset,
-            className: cn("bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 rounded-md border p-4 shadow-md outline-hidden", className)
+            className: cn("bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-[1000] w-72 rounded-md border p-4 shadow-md outline-hidden", className)
         }, props), {
             children: [
                 props.children,
