@@ -296,7 +296,7 @@ export const ElementLabel = ({
     required,
     withDots = true,
     direction,
-}: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean; direction?: Direction }) => {
+}: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean }) => {
     return (
         <label style={{ direction: direction }} className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
             <div>{labelContent}</div>

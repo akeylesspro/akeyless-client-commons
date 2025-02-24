@@ -3221,17 +3221,29 @@ var ModularForm = function(param) {
             elements.map(function(element, index) {
                 switch(element.type){
                     case "input":
-                        return /* @__PURE__ */ jsx19(InputContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx19(InputContainer, _object_spread_props(_object_spread({}, element), {
+                            direction: direction
+                        }), index);
                     case "textarea":
-                        return /* @__PURE__ */ jsx19(TextAreaContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx19(TextAreaContainer, _object_spread_props(_object_spread({}, element), {
+                            direction: direction
+                        }), index);
                     case "select":
-                        return /* @__PURE__ */ jsx19(SelectContainer, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx19(SelectContainer, _object_spread_props(_object_spread({}, element), {
+                            direction: direction
+                        }), index);
                     case "multiSelect":
-                        return /* @__PURE__ */ jsx19(MultiSelect, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx19(MultiSelect, _object_spread_props(_object_spread({}, element), {
+                            direction: direction
+                        }), index);
                     case "selectWithSearch":
-                        return /* @__PURE__ */ jsx19(SelectWithSearch, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx19(SelectWithSearch, _object_spread_props(_object_spread({}, element), {
+                            direction: direction
+                        }), index);
                     case "internationalPhoneInput":
-                        return /* @__PURE__ */ jsx19(InternationalPhonePicker, _object_spread({}, element), index);
+                        return /* @__PURE__ */ jsx19(InternationalPhonePicker, _object_spread_props(_object_spread({}, element), {
+                            direction: direction
+                        }), index);
                     case "custom":
                         var _element_element;
                         return typeof ((_element_element = element.element) === null || _element_element === void 0 ? void 0 : _element_element.type) !== "string" && cloneElement(element.element, {

@@ -53,17 +53,17 @@ const ModularForm = ({
             {elements.map((element, index) => {
                 switch (element.type) {
                     case "input":
-                        return <InputContainer key={index} {...element} />;
+                        return <InputContainer key={index} {...element} direction={direction} />;
                     case "textarea":
-                        return <TextAreaContainer key={index} {...element} />;
+                        return <TextAreaContainer key={index} {...element} direction={direction} />;
                     case "select":
-                        return <SelectContainer key={index} {...element} />;
+                        return <SelectContainer key={index} {...element} direction={direction} />;
                     case "multiSelect":
-                        return <MultiSelect key={index} {...element} />;
+                        return <MultiSelect key={index} {...element} direction={direction} />;
                     case "selectWithSearch":
-                        return <SelectWithSearch key={index} {...element} />;
+                        return <SelectWithSearch key={index} {...element} direction={direction} />;
                     case "internationalPhoneInput":
-                        return <InternationalPhonePicker key={index} {...element} />;
+                        return <InternationalPhonePicker key={index} {...element} direction={direction} />;
                     case "custom":
                         return typeof element.element?.type !== "string" && cloneElement(element.element, { key: index });
                     default:

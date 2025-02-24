@@ -439,7 +439,6 @@ declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, 
 declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, direction, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, direction, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
     withDots?: boolean;
-    direction?: Direction;
 }) => react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
