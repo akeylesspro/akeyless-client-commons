@@ -2339,7 +2339,8 @@ function SearchSelect(param) {
     var _options_find, _options_;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
-    var _ref1 = _sliced_to_array((0, import_react5.useState)(value || defaultValue || ""), 2), selectedValue = _ref1[0], setSelectedValue = _ref1[1];
+    var _ref1;
+    var _ref2 = _sliced_to_array((0, import_react5.useState)((_ref1 = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref1 !== void 0 ? _ref1 : ""), 2), selectedValue = _ref2[0], setSelectedValue = _ref2[1];
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         className: cn("w-full", elementClassName),
         children: [

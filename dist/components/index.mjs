@@ -2145,7 +2145,8 @@ function SearchSelect(param) {
     var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
-    var _useState41 = _sliced_to_array(useState4(value || defaultValue || ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
+    var _ref;
+    var _useState41 = _sliced_to_array(useState4((_ref = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref !== void 0 ? _ref : ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
     return /* @__PURE__ */ jsxs10("div", {
         className: cn("w-full", elementClassName),
         children: [

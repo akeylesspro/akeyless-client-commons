@@ -45,7 +45,7 @@ export default function SearchSelect({
 }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value || defaultValue || "");
+    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
     return (
         <div className={cn("w-full", elementClassName)}>
             <input name={name} type="hidden" value={selectedValue} />
