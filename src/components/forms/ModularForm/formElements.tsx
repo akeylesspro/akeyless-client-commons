@@ -74,7 +74,7 @@ export const SelectContainer = ({
     onChange,
 }: SelectContainerProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(defaultValue || options.sort()[0]?.value || "");
+    const [selectedValue, setSelectedValue] = useState(defaultValue || options.sort((a, b) => a.label.localeCompare(b.label))[0]?.value || "");
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
@@ -97,15 +97,17 @@ export const SelectContainer = ({
 
                 {isOpen && (
                     <div className={cn(`absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10`, optionsContainerClassName)}>
-                        {options.sort().map((option) => (
-                            <div
-                                className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}
-                                key={option.value}
-                                onClick={() => handleOptionClick(option.value)}
-                            >
-                                {option.label}
-                            </div>
-                        ))}
+                        {options
+                            .sort((a, b) => a.label.localeCompare(b.label))
+                            .map((option) => (
+                                <div
+                                    className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}
+                                    key={option.value}
+                                    onClick={() => handleOptionClick(option.value)}
+                                >
+                                    {option.label}
+                                </div>
+                            ))}
                     </div>
                 )}
 
@@ -187,7 +189,7 @@ export const SelectWithSearch = ({
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <SearchSelect
                 // values props
-                options={options.sort()}
+                options={options.sort((a, b) => a.label.localeCompare(b.label))}
                 value={value}
                 onChange={onChange}
                 defaultValue={defaultValue}
