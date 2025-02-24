@@ -2141,7 +2141,7 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, onChange = param.onChange;
+    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange;
     var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
@@ -2166,6 +2166,7 @@ function SearchSelect(param) {
                             variant: "outline",
                             role: "combobox",
                             "aria-expanded": open,
+                            disabled: disabled,
                             className: cn("bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]", selectButtonClassName),
                             children: [
                                 /* @__PURE__ */ jsx15("span", {
@@ -3044,7 +3045,7 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber, disabled = param.disabled;
     var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("flex justify-between items-center w-full", containerClassName),
@@ -3064,6 +3065,7 @@ var SelectWithSearch = function(param) {
                 elementClassName: elementClassName,
                 selectPlaceholder: placeholder,
                 selectButtonClassName: selectButtonClassName,
+                disabled: disabled,
                 searchClassName: searchClassName,
                 searchPlaceholder: searchPlaceholder,
                 dropdownClassName: dropdownClassName,

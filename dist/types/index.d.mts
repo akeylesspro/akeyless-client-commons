@@ -142,6 +142,7 @@ interface SelectWithSearchProps extends BaseElementProps {
     selectButtonClassName?: string;
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
+    disabled?: boolean;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

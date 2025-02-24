@@ -26,6 +26,7 @@ export interface SearchSelectProps {
     searchClassName?: string;
     onChange?: (value: SearchSelectOptions["value"]) => void;
     value?: SearchSelectOptions["value"];
+    disabled?: boolean;
 }
 export default function SearchSelect({
     options,
@@ -41,6 +42,7 @@ export default function SearchSelect({
     searchClassName,
     selectButtonClassName,
     value,
+    disabled,
     onChange,
 }: SearchSelectProps) {
     const id = useId();
@@ -56,6 +58,7 @@ export default function SearchSelect({
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
+                        disabled={disabled}
                         className={cn(
                             "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
                             selectButtonClassName

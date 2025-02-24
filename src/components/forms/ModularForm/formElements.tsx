@@ -202,6 +202,7 @@ export const SelectWithSearch = ({
     selectButtonClassName,
     sortDirection,
     sortAsNumber,
+    disabled,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
@@ -218,6 +219,7 @@ export const SelectWithSearch = ({
                 elementClassName={elementClassName}
                 selectPlaceholder={placeholder}
                 selectButtonClassName={selectButtonClassName}
+                disabled={disabled}
                 // search props
                 searchClassName={searchClassName}
                 searchPlaceholder={searchPlaceholder}
