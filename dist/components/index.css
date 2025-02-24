@@ -515,6 +515,9 @@ body {
 .z-50 {
   z-index: 50;
 }
+.z-\[1000\] {
+  z-index: 1000;
+}
 .m-\[7px\] {
   margin: 7px;
 }

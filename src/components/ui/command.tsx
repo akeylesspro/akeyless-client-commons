@@ -54,7 +54,7 @@ CommandInput.displayName = CommandPrimitive.Input.displayName;
 
 const CommandList = React.forwardRef<React.ElementRef<typeof CommandPrimitive.List>, React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>>(
     ({ className, ...props }, ref) => (
-        <CommandPrimitive.List ref={ref} className={cn("max-h-80 overflow-y-auto overflow-x-hidden", className)} {...props} />
+        <CommandPrimitive.List ref={ref} className={cn("max-h-80 overflow-y-auto overflow-x-hidden", "z-[1000]", className)} {...props} />
     )
 );
 
@@ -72,6 +72,7 @@ const CommandGroup = React.forwardRef<React.ElementRef<typeof CommandPrimitive.G
             ref={ref}
             className={cn(
                 "overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
+                "z-[1000]",
                 className
             )}
             {...props}

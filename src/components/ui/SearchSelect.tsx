@@ -74,7 +74,7 @@ export default function SearchSelect({
                 <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
                         <CommandInput className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
-                        <CommandList>
+                        <CommandList >
                             <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
                             <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>
                                 {options.map((option) => (

@@ -1455,7 +1455,7 @@ var CommandList = React7.forwardRef(function(_param, ref) {
     ]);
     return /* @__PURE__ */ jsx12(CommandPrimitive.List, _object_spread({
         ref: ref,
-        className: cn("max-h-80 overflow-y-auto overflow-x-hidden", className)
+        className: cn("max-h-80 overflow-y-auto overflow-x-hidden", "z-[1000]", className)
     }, props));
 });
 CommandList.displayName = CommandPrimitive.List.displayName;
@@ -1472,7 +1472,7 @@ var CommandGroup = React7.forwardRef(function(_param, ref) {
     ]);
     return /* @__PURE__ */ jsx12(CommandPrimitive.Group, _object_spread({
         ref: ref,
-        className: cn("overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground", className)
+        className: cn("overflow-hidden p-2 text-foreground [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground", "z-[1000]", className)
     }, props));
 });
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
