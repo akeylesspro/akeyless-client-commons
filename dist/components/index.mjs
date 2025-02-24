@@ -2142,10 +2142,10 @@ import { useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
     var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, onChange = param.onChange;
-    var _options_, _options_find, _options_1;
+    var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
-    var _useState41 = _sliced_to_array(useState4(value || defaultValue || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.value) || ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
+    var _useState41 = _sliced_to_array(useState4(value || defaultValue || ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
     return /* @__PURE__ */ jsxs10("div", {
         className: cn("w-full", elementClassName),
         children: [
@@ -2171,7 +2171,7 @@ function SearchSelect(param) {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
                                     children: selectedValue ? (_options_find = options.find(function(item) {
                                         return item.value === selectedValue;
-                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : ((_options_1 = options[0]) === null || _options_1 === void 0 ? void 0 : _options_1.label) ? options[0].label : selectPlaceholder
+                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) ? options[0].label : selectPlaceholder
                                 }),
                                 /* @__PURE__ */ jsx15(ChevronDownIcon, {
                                     size: 16,
