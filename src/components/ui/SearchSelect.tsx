@@ -64,9 +64,7 @@ export default function SearchSelect({
                         <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>
                             {selectedValue
                                 ? options.find((item) => item.value === selectedValue)?.label
-                                : options[0]?.label
-                                ? options[0].label
-                                : selectPlaceholder}
+                                : selectPlaceholder || options[0]?.label || "Select"}
                         </span>
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>

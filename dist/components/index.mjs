@@ -2171,7 +2171,7 @@ function SearchSelect(param) {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
                                     children: selectedValue ? (_options_find = options.find(function(item) {
                                         return item.value === selectedValue;
-                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) ? options[0].label : selectPlaceholder
+                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) || "Select"
                                 }),
                                 /* @__PURE__ */ jsx15(ChevronDownIcon, {
                                     size: 16,
