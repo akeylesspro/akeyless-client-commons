@@ -2882,6 +2882,24 @@ var FlagComponent = function(param) {
 };
 // src/components/forms/ModularForm/formElements.tsx
 import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
+var useSortValues = function(options, sortDirection, sortAsNumber) {
+    var sortOptions = useMemo6(function() {
+        if (sortDirection) {
+            var sorted = sortAsNumber ? options.sort(function(a, b) {
+                return parseInt(b.label) - parseInt(a.label);
+            }) : options.sort(function(a, b) {
+                return a.label.localeCompare(b.label);
+            });
+            return sortDirection === "cba" ? sorted.reverse() : sorted;
+        }
+        return options;
+    }, [
+        options,
+        sortDirection,
+        sortAsNumber
+    ]);
+    return sortOptions;
+};
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange;
     var handleChangeFunction = useCallback3(function(e) {
@@ -2924,12 +2942,11 @@ var InputContainer = function(param) {
     });
 };
 var SelectContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName, onChange = param.onChange;
-    var _options_sort_, _options_find;
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber, onChange = param.onChange;
+    var _sortOptions_, _options_find;
+    var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     var _useState6 = _sliced_to_array(useState6(false), 2), isOpen = _useState6[0], setIsOpen = _useState6[1];
-    var _useState61 = _sliced_to_array(useState6(defaultValue || ((_options_sort_ = options.sort(function(a, b) {
-        return a.label.localeCompare(b.label);
-    })[0]) === null || _options_sort_ === void 0 ? void 0 : _options_sort_.value) || ""), 2), selectedValue = _useState61[0], setSelectedValue = _useState61[1];
+    var _useState61 = _sliced_to_array(useState6(defaultValue || ((_sortOptions_ = sortOptions[0]) === null || _sortOptions_ === void 0 ? void 0 : _sortOptions_.value) || ""), 2), selectedValue = _useState61[0], setSelectedValue = _useState61[1];
     var handleOptionClick = function(value) {
         setSelectedValue(value);
         onChange === null || onChange === void 0 ? void 0 : onChange(value);
@@ -2963,9 +2980,7 @@ var SelectContainer = function(param) {
                     }),
                     isOpen && /* @__PURE__ */ jsx18("div", {
                         className: cn("absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10", optionsContainerClassName),
-                        children: options.sort(function(a, b) {
-                            return a.label.localeCompare(b.label);
-                        }).map(function(option) {
+                        children: sortOptions.map(function(option) {
                             return /* @__PURE__ */ jsx18("div", {
                                 className: "p-2 cursor-pointer hover:bg-gray-200 ".concat(optionClassName),
                                 onClick: function() {
@@ -2987,7 +3002,8 @@ var SelectContainer = function(param) {
     });
 };
 function MultiSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus;
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber;
+    var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
         children: [
@@ -3002,7 +3018,7 @@ function MultiSelect(param) {
                     label: placeholder
                 },
                 name: name,
-                defaultOptions: options,
+                defaultOptions: sortOptions,
                 unremovableOptions: unremovableOptions,
                 value: selectedOptions,
                 onChange: onChange,
@@ -3027,7 +3043,8 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber;
+    var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("flex justify-between items-center w-full", containerClassName),
         children: [
@@ -3038,9 +3055,7 @@ var SelectWithSearch = function(param) {
                 required: required
             }),
             /* @__PURE__ */ jsx18(SearchSelect, {
-                options: options.sort(function(a, b) {
-                    return a.label.localeCompare(b.label);
-                }),
+                options: sortOptions,
                 value: value,
                 onChange: onChange,
                 defaultValue: defaultValue,
@@ -3480,5 +3495,5 @@ function Slot2(props) {
         })
     });
 }
-export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, NumberUI, PhoneUI, ProgressComponent, Search, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TextAreaContainer, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, GeoUi, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm_default as ModularForm, MultiSelect, NumberUI, PhoneUI, ProgressComponent, Search, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, TableProvider, TableRow2 as TableRow, TextAreaContainer, TimesUI, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce, useSortValues };
 //# sourceMappingURL=index.mjs.map

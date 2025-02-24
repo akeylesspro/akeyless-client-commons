@@ -13,6 +13,19 @@ import {
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 
+export const useSortValues = (options: any[], sortDirection?: "abc" | "cba", sortAsNumber?: boolean) => {
+    const sortOptions = useMemo(() => {
+        if (sortDirection) {
+            const sorted = sortAsNumber
+                ? options.sort((a, b) => parseInt(b.label) - parseInt(a.label))
+                : options.sort((a, b) => a.label.localeCompare(b.label));
+            return sortDirection === "cba" ? sorted.reverse() : sorted;
+        }
+        return options;
+    }, [options, sortDirection, sortAsNumber]);
+    return sortOptions;
+};
+
 export const InputContainer = ({
     validationError,
     name = "",
@@ -71,10 +84,13 @@ export const SelectContainer = ({
     required = false,
     options = [],
     optionsContainerClassName = "",
+    sortDirection,
+    sortAsNumber,
     onChange,
 }: SelectContainerProps) => {
+    const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(defaultValue || options.sort((a, b) => a.label.localeCompare(b.label))[0]?.value || "");
+    const [selectedValue, setSelectedValue] = useState(defaultValue || sortOptions[0]?.value || "");
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
@@ -97,17 +113,15 @@ export const SelectContainer = ({
 
                 {isOpen && (
                     <div className={cn(`absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10`, optionsContainerClassName)}>
-                        {options
-                            .sort((a, b) => a.label.localeCompare(b.label))
-                            .map((option) => (
-                                <div
-                                    className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}
-                                    key={option.value}
-                                    onClick={() => handleOptionClick(option.value)}
-                                >
-                                    {option.label}
-                                </div>
-                            ))}
+                        {sortOptions.map((option) => (
+                            <div
+                                className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}
+                                key={option.value}
+                                onClick={() => handleOptionClick(option.value)}
+                            >
+                                {option.label}
+                            </div>
+                        ))}
                     </div>
                 )}
 
@@ -133,7 +147,10 @@ export function MultiSelect({
     onSearch,
     onSearchSync,
     triggerSearchOnFocus,
+    sortDirection,
+    sortAsNumber,
 }: MultiSelectProps) {
+    const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
         <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
@@ -142,7 +159,7 @@ export function MultiSelect({
                     label: placeholder,
                 }}
                 name={name}
-                defaultOptions={options}
+                defaultOptions={sortOptions}
                 unremovableOptions={unremovableOptions}
                 value={selectedOptions}
                 onChange={onChange}
@@ -183,13 +200,16 @@ export const SelectWithSearch = ({
     notFoundLabelClassName,
     searchClassName,
     selectButtonClassName,
+    sortDirection,
+    sortAsNumber,
 }: SelectWithSearchProps) => {
+    const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
         <div className={cn(`flex justify-between items-center w-full`, containerClassName)}>
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <SearchSelect
                 // values props
-                options={options.sort((a, b) => a.label.localeCompare(b.label))}
+                options={sortOptions}
                 value={value}
                 onChange={onChange}
                 defaultValue={defaultValue}

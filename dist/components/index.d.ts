@@ -153,6 +153,8 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     onChange?: (value: any) => void;
     optionClassName?: string;
+    sortDirection?: "abc" | "cba";
+    sortAsNumber?: boolean;
 }
 interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
     type?: "multiSelect";
@@ -174,6 +176,8 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     unremovableOptions?: MultipleSelectorOption[];
     placeholder?: string;
     groupBy?: string;
+    sortDirection?: "abc" | "cba";
+    sortAsNumber?: boolean;
 }
 interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";
@@ -189,6 +193,8 @@ interface SelectWithSearchProps extends BaseElementProps {
     notFoundLabelClassName?: string;
     searchClassName?: string;
     selectButtonClassName?: string;
+    sortDirection?: "abc" | "cba";
+    sortAsNumber?: boolean;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
@@ -422,10 +428,11 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 
 declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
 
+declare const useSortValues: (options: any[], sortDirection?: "abc" | "cba", sortAsNumber?: boolean) => any[];
 declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
-declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
-declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, value, placeholder, required, defaultValue, notFoundLabel, searchPlaceholder, containerClassName, dropdownClassName, dropdownOptionClassName, elementClassName, notFoundLabelClassName, searchClassName, selectButtonClassName, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
+declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, sortDirection, sortAsNumber, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
+declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, sortDirection, sortAsNumber, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
+declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, value, placeholder, required, defaultValue, notFoundLabel, searchPlaceholder, containerClassName, dropdownClassName, dropdownOptionClassName, elementClassName, notFoundLabelClassName, searchClassName, selectButtonClassName, sortDirection, sortAsNumber, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
 declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
 declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
     withDots?: boolean;
@@ -442,4 +449,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, type SearchSelectOptions, type SearchSelectProps, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce };
+export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, type SearchSelectOptions, type SearchSelectProps, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce, useSortValues };

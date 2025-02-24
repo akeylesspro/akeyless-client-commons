@@ -100,6 +100,8 @@ interface SelectElement extends BaseElementProps {
     defaultValue?: any;
     onChange?: (value: any) => void;
     optionClassName?: string;
+    sortDirection?: "abc" | "cba";
+    sortAsNumber?: boolean;
 }
 interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
     type?: "multiSelect";
@@ -121,6 +123,8 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     unremovableOptions?: MultipleSelectorOption[];
     placeholder?: string;
     groupBy?: string;
+    sortDirection?: "abc" | "cba";
+    sortAsNumber?: boolean;
 }
 interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";
@@ -136,6 +140,8 @@ interface SelectWithSearchProps extends BaseElementProps {
     notFoundLabelClassName?: string;
     searchClassName?: string;
     selectButtonClassName?: string;
+    sortDirection?: "abc" | "cba";
+    sortAsNumber?: boolean;
 }
 interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
