@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback, useId, useState } from "react";
 
-export interface SearchSelectOptions {
+export interface SearchSelectOptions extends Record<string, string> {
     value: string;
     label: string;
 }
@@ -74,7 +74,7 @@ export default function SearchSelect({
                 <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
                         <CommandInput className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
-                        <CommandList >
+                        <CommandList>
                             <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
                             <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>
                                 {options.map((option) => (
@@ -85,10 +85,11 @@ export default function SearchSelect({
                                             selectedValue === option.value && "bg-[#cccbcb]"
                                         )}
                                         key={option.value}
-                                        value={option.value}
+                                        value={JSON.stringify(option)}
                                         onSelect={(currentValue) => {
-                                            setSelectedValue(currentValue);
-                                            onChange?.(currentValue);
+                                            const parsedValue = JSON.parse(currentValue);
+                                            setSelectedValue(parsedValue.value);
+                                            onChange?.(parsedValue.value);
                                             setOpen(false);
                                         }}
                                     >

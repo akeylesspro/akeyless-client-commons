@@ -94,7 +94,7 @@ interface ProgressProps extends React$1.ComponentPropsWithoutRef<typeof Progress
 }
 declare const ProgressComponent: React$1.ForwardRefExoticComponent<ProgressProps & React$1.RefAttributes<HTMLDivElement>>;
 
-interface SearchSelectOptions {
+interface SearchSelectOptions extends Record<string, string> {
     value: string;
     label: string;
 }

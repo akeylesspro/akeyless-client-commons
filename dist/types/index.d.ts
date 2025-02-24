@@ -57,7 +57,7 @@ type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: s
 
 type ValidationType = "text" | "numbers" | "numbersOnly" | "price" | "textNumbers" | "email" | "color" | "address" | "cars" | "charts" | (string & {});
 
-interface SearchSelectOptions {
+interface SearchSelectOptions extends Record<string, string> {
     value: string;
     label: string;
 }

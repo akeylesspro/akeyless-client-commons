@@ -2392,10 +2392,11 @@ function SearchSelect(param) {
                                             children: options.map(function(option) {
                                                 return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandItem, {
                                                     className: cn("hover:bg-[#cccbcb] cursor-pointer", dropdownOptionClassName, selectedValue === option.value && "bg-[#cccbcb]"),
-                                                    value: option.value,
+                                                    value: JSON.stringify(option),
                                                     onSelect: function(currentValue) {
-                                                        setSelectedValue(currentValue);
-                                                        onChange === null || onChange === void 0 ? void 0 : onChange(currentValue);
+                                                        var parsedValue = JSON.parse(currentValue);
+                                                        setSelectedValue(parsedValue.value);
+                                                        onChange === null || onChange === void 0 ? void 0 : onChange(parsedValue.value);
                                                         setOpen(false);
                                                     },
                                                     children: [
