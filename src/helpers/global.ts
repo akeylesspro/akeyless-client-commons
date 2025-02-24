@@ -2,6 +2,7 @@ import { Client, CountryOptions, NxUser, TObject } from "akeyless-types-commons"
 import axios from "axios";
 import { query_document, snapshot } from "./firebase";
 import { local_israel_phone_format } from "./phoneNumber";
+import { isEmpty, isEqual } from "lodash";
 
 export const calculateBearing = (startLat, startLng, endLat, endLng) => {
     if (startLat === endLat || startLng === endLng) {
@@ -25,6 +26,10 @@ export const calculateBearing = (startLat, startLng, endLat, endLng) => {
 
 export const renderOnce = () => {
     return true;
+};
+
+export const propsAreEqual = (prevProps: any, nextProps: any) => {
+    return isEqual(prevProps, nextProps);
 };
 
 export const getUserCountryByIp = async (): Promise<CountryOptions> => {
@@ -105,6 +110,6 @@ export const multiStringFormat = (str1: string, str2?: string, str3?: string) =>
     return `${str1} ${str2 || ""} ${str3 || ""}`.trim();
 };
 
-export const getLocationUrl=(lang:number,lat:number)=>{
-return `https://www.google.com/maps?q=${lang},${lat}`;
-}
+export const getLocationUrl = (lang: number, lat: number) => {
+    return `https://www.google.com/maps?q=${lang},${lat}`;
+};

@@ -1364,6 +1364,7 @@ var import_axios = __toESM(require("axios"));
 // src/helpers/phoneNumber.ts
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/helpers/global.ts
+var import_lodash3 = require("lodash");
 var renderOnce = function() {
     return true;
 };
@@ -1700,7 +1701,7 @@ var CommandShortcut = function(_param) {
 };
 CommandShortcut.displayName = "CommandShortcut";
 // src/components/ui/multiselect.tsx
-var import_lodash3 = require("lodash");
+var import_lodash4 = require("lodash");
 var import_jsx_runtime14 = require("react/jsx-runtime");
 function useDebounce(value, delay) {
     var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
@@ -1843,7 +1844,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
     };
     var handleUnselect = React8.useCallback(function(option) {
         if (unremovableOptions.find(function(v) {
-            return (0, import_lodash3.isEqual)(v.value, option.value);
+            return (0, import_lodash4.isEqual)(v.value, option.value);
         })) {
             return;
         }
@@ -2137,7 +2138,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                 children: [
                                     option.label,
                                     !unremovableOptions.find(function(v) {
-                                        return (0, import_lodash3.isEqual)(v.value, option.value);
+                                        return (0, import_lodash4.isEqual)(v.value, option.value);
                                     }) && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", {
                                         className: "absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70",
                                         onKeyDown: function(e) {

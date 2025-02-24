@@ -1066,6 +1066,7 @@ var is_iccid = function(number) {
     return true;
 };
 // src/helpers/global.ts
+import { isEqual } from "lodash";
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
         return 0;
@@ -1085,6 +1086,9 @@ var calculateBearing = function(startLat, startLng, endLat, endLng) {
 };
 var renderOnce = function() {
     return true;
+};
+var propsAreEqual = function(prevProps, nextProps) {
+    return isEqual(prevProps, nextProps);
 };
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
@@ -1397,5 +1401,5 @@ function sort_by_timestamp(a, b) {
     var reverse = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
     return reverse ? timestamp_to_millis(b) - timestamp_to_millis(a) : timestamp_to_millis(a) - timestamp_to_millis(b);
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getLocationUrl, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getLocationUrl, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, propsAreEqual, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
 //# sourceMappingURL=index.mjs.map

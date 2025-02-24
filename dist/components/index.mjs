@@ -1170,6 +1170,7 @@ import axios from "axios";
 // src/helpers/phoneNumber.ts
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 // src/helpers/global.ts
+import { isEqual as isEqual3 } from "lodash";
 var renderOnce = function() {
     return true;
 };
@@ -1506,7 +1507,7 @@ var CommandShortcut = function(_param) {
 };
 CommandShortcut.displayName = "CommandShortcut";
 // src/components/ui/multiselect.tsx
-import { isEqual as isEqual3 } from "lodash";
+import { isEqual as isEqual4 } from "lodash";
 import { Fragment as Fragment2, jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
 function useDebounce(value, delay) {
     var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
@@ -1649,7 +1650,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
     };
     var handleUnselect = React8.useCallback(function(option) {
         if (unremovableOptions.find(function(v) {
-            return isEqual3(v.value, option.value);
+            return isEqual4(v.value, option.value);
         })) {
             return;
         }
@@ -1943,7 +1944,7 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
                                 children: [
                                     option.label,
                                     !unremovableOptions.find(function(v) {
-                                        return isEqual3(v.value, option.value);
+                                        return isEqual4(v.value, option.value);
                                     }) && /* @__PURE__ */ jsx13("button", {
                                         className: "absolute -inset-y-px -end-px flex size-7 items-center justify-center rounded-e-lg border border-transparent p-0 text-muted-foreground/80 outline-0 transition-colors hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring/70",
                                         onKeyDown: function(e) {

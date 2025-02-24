@@ -425,6 +425,9 @@ __export(helpers_exports, {
     priceRegex: function() {
         return priceRegex;
     },
+    propsAreEqual: function() {
+        return propsAreEqual;
+    },
     query_document: function() {
         return query_document;
     },
@@ -1324,6 +1327,7 @@ var is_iccid = function(number) {
     return true;
 };
 // src/helpers/global.ts
+var import_lodash = require("lodash");
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
         return 0;
@@ -1343,6 +1347,9 @@ var calculateBearing = function(startLat, startLng, endLat, endLng) {
 };
 var renderOnce = function() {
     return true;
+};
+var propsAreEqual = function(prevProps, nextProps) {
+    return (0, import_lodash.isEqual)(prevProps, nextProps);
 };
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
@@ -1701,6 +1708,7 @@ function sort_by_timestamp(a, b) {
     parseMultiSelectInput: parseMultiSelectInput,
     parsePermissions: parsePermissions,
     priceRegex: priceRegex,
+    propsAreEqual: propsAreEqual,
     query_document: query_document,
     query_document_by_conditions: query_document_by_conditions,
     query_documents: query_documents,
