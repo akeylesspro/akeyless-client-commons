@@ -71,6 +71,7 @@ interface BaseElementProps {
     elementClassName?: string;
     minLength?: number;
     validationError?: string;
+    direction?: Direction;
 }
 interface InputElement extends BaseElementProps {
     type: "input";

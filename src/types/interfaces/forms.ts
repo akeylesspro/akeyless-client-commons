@@ -14,6 +14,7 @@ export interface BaseElementProps {
     elementClassName?: string;
     minLength?: number;
     validationError?: string;
+    direction?: Direction;
 }
 
 export interface InputElement extends BaseElementProps {

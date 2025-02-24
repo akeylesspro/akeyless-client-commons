@@ -4,6 +4,7 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { cn, handleChange, useValidation } from "src/helpers";
 import {
     BaseElementProps,
+    Direction,
     InputContainerProps,
     MultiSelectProps,
     SelectContainerProps,
@@ -42,6 +43,7 @@ export const InputContainer = ({
     minLength,
     onKeyDown,
     onChange,
+    direction,
 }: InputContainerProps) => {
     const handleChangeFunction = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +57,9 @@ export const InputContainer = ({
     }, [handleChangeFunction]);
     return (
         <div className={cn(`center`, containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+            {labelContent && (
+                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
+            )}
             <input
                 {...props}
                 minLength={minLength}
@@ -86,6 +90,7 @@ export const SelectContainer = ({
     optionsContainerClassName = "",
     sortDirection,
     sortAsNumber,
+    direction,
     onChange,
 }: SelectContainerProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
@@ -100,7 +105,9 @@ export const SelectContainer = ({
 
     return (
         <div className={cn(`center`, containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+            {labelContent && (
+                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
+            )}
             <div className={cn(`w-[70%] relative`, elementClassName)} onClick={() => setIsOpen(!isOpen)}>
                 <div className={`border-b-[1px] border-black max-h-6 cursor-pointer`}>
                     {options.find((opt) => opt.value === selectedValue)?.label || selectedValue}
@@ -149,11 +156,14 @@ export function MultiSelect({
     triggerSearchOnFocus,
     sortDirection,
     sortAsNumber,
+    direction,
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
         <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+            {labelContent && (
+                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
+            )}
             <MultipleSelector
                 commandProps={{
                     label: placeholder,
@@ -203,11 +213,14 @@ export const SelectWithSearch = ({
     sortDirection,
     sortAsNumber,
     disabled,
+    direction,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
         <div className={cn(`flex justify-between items-center w-full`, containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+            {labelContent && (
+                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
+            )}
             <SearchSelect
                 // values props
                 options={sortOptions}
@@ -247,11 +260,13 @@ export const TextAreaContainer = ({
     minLength,
     onKeyDown,
     onChange,
+    direction,
 }: TextAreaContainerProps) => {
     return (
         <div className={cn(`flex flex-col gap-2 items-center`, containerClassName)}>
             {labelContent && (
                 <ElementLabel
+                    direction={direction}
                     labelContent={labelContent}
                     labelClassName={`w-fit text-xl px-2 border-b-2 border-[#000] text-center ${labelClassName}`}
                     name={name}
@@ -280,9 +295,10 @@ export const ElementLabel = ({
     name,
     required,
     withDots = true,
-}: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean }) => {
+    direction,
+}: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean; direction?: Direction }) => {
     return (
-        <label className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
+        <label style={{ direction: direction }} className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
             <div>{labelContent}</div>
             {required && <div className="text-red-500">*</div>}
             {withDots && <div>:</div>}

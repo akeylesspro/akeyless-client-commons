@@ -125,6 +125,7 @@ interface BaseElementProps {
     elementClassName?: string;
     minLength?: number;
     validationError?: string;
+    direction?: Direction;
 }
 interface InputElement extends BaseElementProps {
     type: "input";
@@ -431,13 +432,14 @@ declare const ModularForm: ({ submitFunction, elements, headerContent, buttonCon
 declare function InternationalPhonePicker({ setPhoneValue, phoneValue, placeholder, className, containerClassName, defaultCountry, flagContainerClassName, inputClassName, defaultValue, name, style, onEnter, labelContent, labelClassName, required, direction, }: InternationalInputProps): react_jsx_runtime.JSX.Element;
 
 declare const useSortValues: (options: any[], sortDirection?: "abc" | "cba", sortAsNumber?: boolean) => any[];
-declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
-declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, sortDirection, sortAsNumber, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
-declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, sortDirection, sortAsNumber, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
-declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, value, placeholder, required, defaultValue, notFoundLabel, searchPlaceholder, containerClassName, dropdownClassName, dropdownOptionClassName, elementClassName, notFoundLabelClassName, searchClassName, selectButtonClassName, sortDirection, sortAsNumber, disabled, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
-declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
-declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
+declare const InputContainer: ({ validationError, name, inputType, labelContent, defaultValue, validationName, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, direction, }: InputContainerProps) => react_jsx_runtime.JSX.Element;
+declare const SelectContainer: ({ name, labelContent, containerClassName, labelClassName, defaultValue, elementClassName, optionClassName, required, options, optionsContainerClassName, sortDirection, sortAsNumber, direction, onChange, }: SelectContainerProps) => react_jsx_runtime.JSX.Element;
+declare function MultiSelect({ onChange, selectedOptions, emptyOptionsElement, unremovableOptions, options, styles, name, placeholder, labelContent, required, labelClassName, groupBy, onSearch, onSearchSync, triggerSearchOnFocus, sortDirection, sortAsNumber, direction, }: MultiSelectProps): react_jsx_runtime.JSX.Element;
+declare const SelectWithSearch: ({ options, labelClassName, labelContent, name, onChange, value, placeholder, required, defaultValue, notFoundLabel, searchPlaceholder, containerClassName, dropdownClassName, dropdownOptionClassName, elementClassName, notFoundLabelClassName, searchClassName, selectButtonClassName, sortDirection, sortAsNumber, disabled, direction, }: SelectWithSearchProps) => react_jsx_runtime.JSX.Element;
+declare const TextAreaContainer: ({ name, labelContent, defaultValue, containerClassName, labelClassName, elementClassName, required, placeholder, props, minLength, onKeyDown, onChange, direction, }: TextAreaContainerProps) => react_jsx_runtime.JSX.Element;
+declare const ElementLabel: ({ labelContent, labelClassName, name, required, withDots, direction, }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & {
     withDots?: boolean;
+    direction?: Direction;
 }) => react_jsx_runtime.JSX.Element;
 
 declare const ConfirmForm: ({ onV, onX, headline, direction, containerClassName, buttonsContainerClassName, headlineClassName, }: ConfirmFormProps) => react_jsx_runtime.JSX.Element;
