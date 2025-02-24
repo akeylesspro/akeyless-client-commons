@@ -74,7 +74,7 @@ export const SelectContainer = ({
     onChange,
 }: SelectContainerProps) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(defaultValue || options[0]?.value || "");
+    const [selectedValue, setSelectedValue] = useState(defaultValue || options.sort()[0]?.value || "");
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
@@ -87,7 +87,7 @@ export const SelectContainer = ({
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <div className={cn(`w-[70%] relative`, elementClassName)} onClick={() => setIsOpen(!isOpen)}>
                 <div className={`border-b-[1px] border-black max-h-6 cursor-pointer`}>
-                    {options?.find((opt) => opt.value === selectedValue)?.label || selectedValue}
+                    {options.find((opt) => opt.value === selectedValue)?.label || selectedValue}
                 </div>
                 {isOpen ? (
                     <i className="fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"></i>
@@ -97,7 +97,7 @@ export const SelectContainer = ({
 
                 {isOpen && (
                     <div className={cn(`absolute w-full bg-white border  border-gray-300 max-h-32 overflow-y-auto z-10`, optionsContainerClassName)}>
-                        {options.map((option) => (
+                        {options.sort().map((option) => (
                             <div
                                 className={`p-2 cursor-pointer hover:bg-gray-200 ${optionClassName}`}
                                 key={option.value}
@@ -187,7 +187,7 @@ export const SelectWithSearch = ({
             {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
             <SearchSelect
                 // values props
-                options={options}
+                options={options.sort()}
                 value={value}
                 onChange={onChange}
                 defaultValue={defaultValue}
