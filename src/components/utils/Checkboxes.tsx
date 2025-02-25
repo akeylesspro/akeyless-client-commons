@@ -4,7 +4,7 @@ import React, { SetStateAction } from "react";
 interface CheckBoxProps {
     id: string;
     checked: boolean;
-    setChecked: React.Dispatch<SetStateAction<boolean>>;
+    setChecked: (v: boolean) => void;
     style?: React.CSSProperties;
     rotate: boolean;
 }

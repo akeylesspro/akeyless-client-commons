@@ -1,6 +1,6 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as React$1 from 'react';
-import React__default, { SetStateAction, ReactNode, Dispatch } from 'react';
+import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { TObject, Geo } from 'akeyless-types-commons';
 import * as RPNInput from 'react-phone-number-input';
 import * as class_variance_authority_dist_types from 'class-variance-authority/dist/types';
@@ -10,7 +10,7 @@ import * as ProgressPrimitive from '@radix-ui/react-progress';
 interface CheckBoxProps {
     id: string;
     checked: boolean;
-    setChecked: React__default.Dispatch<SetStateAction<boolean>>;
+    setChecked: (v: boolean) => void;
     style?: React__default.CSSProperties;
     rotate: boolean;
 }
