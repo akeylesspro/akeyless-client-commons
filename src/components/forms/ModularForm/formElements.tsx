@@ -88,7 +88,7 @@ export const SelectContainer = ({
     required = false,
     options = [],
     optionsContainerClassName = "",
-    sortDirection,
+    sortDirection = "abc",
     sortAsNumber,
     direction,
     onChange,
