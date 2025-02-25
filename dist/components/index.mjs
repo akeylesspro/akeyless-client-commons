@@ -2887,15 +2887,12 @@ var FlagComponent = function(param) {
 import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
 var useSortValues = function(options, sortDirection, sortAsNumber) {
     var sortOptions = useMemo6(function() {
-        if (sortDirection) {
-            var sorted = sortAsNumber ? options.sort(function(a, b) {
-                return parseInt(b.label) - parseInt(a.label);
-            }) : options.sort(function(a, b) {
-                return a.label.localeCompare(b.label);
-            });
-            return sortDirection === "cba" ? sorted.reverse() : sorted;
-        }
-        return options;
+        var sorted = sortAsNumber ? options.sort(function(a, b) {
+            return parseInt(b.label) - parseInt(a.label);
+        }) : options.sort(function(a, b) {
+            return a.label.localeCompare(b.label);
+        });
+        return sortDirection === "cba" ? sorted.reverse() : sorted;
     }, [
         options,
         sortDirection,
@@ -2946,7 +2943,7 @@ var InputContainer = function(param) {
     });
 };
 var SelectContainer = function(param) {
-    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber, direction = param.direction, onChange = param.onChange;
+    var _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_optionClassName = param.optionClassName, optionClassName = _param_optionClassName === void 0 ? "" : _param_optionClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_optionsContainerClassName = param.optionsContainerClassName, optionsContainerClassName = _param_optionsContainerClassName === void 0 ? "" : _param_optionsContainerClassName, _param_sortDirection = param.sortDirection, sortDirection = _param_sortDirection === void 0 ? "abc" : _param_sortDirection, sortAsNumber = param.sortAsNumber, direction = param.direction, onChange = param.onChange;
     var _sortOptions_, _options_find;
     var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     var _useState6 = _sliced_to_array(useState6(false), 2), isOpen = _useState6[0], setIsOpen = _useState6[1];
@@ -3007,7 +3004,7 @@ var SelectContainer = function(param) {
     });
 };
 function MultiSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber, direction = param.direction;
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus, _param_sortDirection = param.sortDirection, sortDirection = _param_sortDirection === void 0 ? "abc" : _param_sortDirection, sortAsNumber = param.sortAsNumber, direction = param.direction;
     var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
@@ -3049,7 +3046,7 @@ function MultiSelect(param) {
     });
 }
 var SelectWithSearch = function(param) {
-    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, sortDirection = param.sortDirection, sortAsNumber = param.sortAsNumber, disabled = param.disabled, direction = param.direction;
+    var options = param.options, labelClassName = param.labelClassName, labelContent = param.labelContent, name = param.name, onChange = param.onChange, value = param.value, placeholder = param.placeholder, required = param.required, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, containerClassName = param.containerClassName, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, elementClassName = param.elementClassName, notFoundLabelClassName = param.notFoundLabelClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, _param_sortDirection = param.sortDirection, sortDirection = _param_sortDirection === void 0 ? "abc" : _param_sortDirection, sortAsNumber = param.sortAsNumber, disabled = param.disabled, direction = param.direction;
     var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("flex justify-between items-center w-full", containerClassName),

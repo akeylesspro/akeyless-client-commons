@@ -14,15 +14,12 @@ import {
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 
-export const useSortValues = (options: any[], sortDirection?: "abc" | "cba", sortAsNumber?: boolean) => {
+export const useSortValues = (options: any[], sortDirection: "abc" | "cba", sortAsNumber?: boolean) => {
     const sortOptions = useMemo(() => {
-        if (sortDirection) {
-            const sorted = sortAsNumber
-                ? options.sort((a, b) => parseInt(b.label) - parseInt(a.label))
-                : options.sort((a, b) => a.label.localeCompare(b.label));
-            return sortDirection === "cba" ? sorted.reverse() : sorted;
-        }
-        return options;
+        const sorted = sortAsNumber
+            ? options.sort((a, b) => parseInt(b.label) - parseInt(a.label))
+            : options.sort((a, b) => a.label.localeCompare(b.label));
+        return sortDirection === "cba" ? sorted.reverse() : sorted;
     }, [options, sortDirection, sortAsNumber]);
     return sortOptions;
 };
@@ -154,7 +151,7 @@ export function MultiSelect({
     onSearch,
     onSearchSync,
     triggerSearchOnFocus,
-    sortDirection,
+    sortDirection = "abc",
     sortAsNumber,
     direction,
 }: MultiSelectProps) {
@@ -210,7 +207,7 @@ export const SelectWithSearch = ({
     notFoundLabelClassName,
     searchClassName,
     selectButtonClassName,
-    sortDirection,
+    sortDirection = "abc",
     sortAsNumber,
     disabled,
     direction,
