@@ -80,6 +80,7 @@ interface InputElement extends BaseElementProps {
     validationName?: ValidationType;
     onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    value?: string;
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }

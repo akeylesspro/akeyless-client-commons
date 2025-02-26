@@ -2901,7 +2901,7 @@ var useSortValues = function(options, sortDirection, sortAsNumber) {
     return sortOptions;
 };
 var InputContainer = function(param) {
-    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange, direction = param.direction;
+    var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange, direction = param.direction, value = param.value;
     var handleChangeFunction = useCallback3(function(e) {
         handleChange(e);
         onChange === null || onChange === void 0 ? void 0 : onChange(e);
@@ -2931,6 +2931,7 @@ var InputContainer = function(param) {
                 className: cn("w-[70%] bg-inherit border-b-[1px] border-black px-2", elementClassName),
                 defaultValue: defaultValue
             }), validationProps), {
+                value: value,
                 onChange: function(e) {
                     return handleChangeFunction(e);
                 },

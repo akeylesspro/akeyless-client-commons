@@ -41,6 +41,7 @@ export const InputContainer = ({
     onKeyDown,
     onChange,
     direction,
+    value,
 }: InputContainerProps) => {
     const handleChangeFunction = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +65,7 @@ export const InputContainer = ({
                 className={cn(`w-[70%] bg-inherit border-b-[1px] border-black px-2`, elementClassName)}
                 defaultValue={defaultValue}
                 {...validationProps}
+                value={value}
                 onChange={(e) => handleChangeFunction(e)}
                 required={required}
                 name={name}
