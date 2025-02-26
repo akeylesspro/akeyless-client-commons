@@ -195,10 +195,14 @@ export const extractCarsData = (doc: DocumentSnapshot<DocumentData>) => {
 
 export const extractCanbusData = (doc: DocumentSnapshot<DocumentData>) => {
     const data = doc.data()!;
-    const newDate = new Date(data.timestamp.seconds * 1000);
+    let newDate: Date | null = null;
+    if (data.timestamp && typeof data.timestamp.seconds === "number" && data.timestamp.seconds > 0) {
+        newDate = new Date(data.timestamp.seconds * 1000);
+    }
+
     return {
         ...data,
-        date_ui: moment(newDate).format("DD/MM/YYYY - HH:mm"),
+        date_ui: newDate ? moment(newDate).format("DD/MM/YYYY - HH:mm") : "N/A",
     };
 };
 

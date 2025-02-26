@@ -372,9 +372,12 @@ var extractCarsData = function(doc2) {
 };
 var extractCanbusData = function(doc2) {
     var data = doc2.data();
-    var newDate = new Date(data.timestamp.seconds * 1e3);
+    var newDate = null;
+    if (data.timestamp && typeof data.timestamp.seconds === "number" && data.timestamp.seconds > 0) {
+        newDate = new Date(data.timestamp.seconds * 1e3);
+    }
     return _object_spread_props(_object_spread({}, data), {
-        date_ui: moment(newDate).format("DD/MM/YYYY - HH:mm")
+        date_ui: newDate ? moment(newDate).format("DD/MM/YYYY - HH:mm") : "N/A"
     });
 };
 var extractLocationData = function(doc2) {
