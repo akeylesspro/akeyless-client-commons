@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useCallback, useId, useState } from "react";
+import { Direction } from "src/types";
 
 export interface SearchSelectOptions extends Record<string, string> {
     value: string;
@@ -27,6 +28,7 @@ export interface SearchSelectProps {
     onChange?: (value: SearchSelectOptions["value"]) => void;
     value?: SearchSelectOptions["value"];
     disabled?: boolean;
+    direction?: Direction;
 }
 export default function SearchSelect({
     options,
@@ -44,12 +46,13 @@ export default function SearchSelect({
     value,
     disabled,
     onChange,
+    direction,
 }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
     return (
-        <div className={cn("w-full", elementClassName)}>
+        <div style={{ direction }} className={cn("w-full", elementClassName)}>
             <input name={name} type="hidden" value={selectedValue} />
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
@@ -74,7 +77,7 @@ export default function SearchSelect({
                 </PopoverTrigger>
                 <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
-                        <CommandInput className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
+                        <CommandInput style={{ direction }} className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
                         <CommandList>
                             <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
                             <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>

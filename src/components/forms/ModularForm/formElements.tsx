@@ -221,6 +221,7 @@ export const SelectWithSearch = ({
                 <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
             )}
             <SearchSelect
+                direction={direction}
                 // values props
                 options={sortOptions}
                 value={value}

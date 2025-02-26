@@ -2142,13 +2142,16 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useId, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange;
+    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
     var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
     var _ref;
     var _useState41 = _sliced_to_array(useState4((_ref = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref !== void 0 ? _ref : ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
     return /* @__PURE__ */ jsxs10("div", {
+        style: {
+            direction: direction
+        },
         className: cn("w-full", elementClassName),
         children: [
             /* @__PURE__ */ jsx15("input", {
@@ -2190,6 +2193,9 @@ function SearchSelect(param) {
                         children: /* @__PURE__ */ jsxs10(Command, {
                             children: [
                                 /* @__PURE__ */ jsx15(CommandInput, {
+                                    style: {
+                                        direction: direction
+                                    },
                                     className: cn(searchClassName),
                                     placeholder: searchPlaceholder || "Search"
                                 }),
@@ -3060,6 +3066,7 @@ var SelectWithSearch = function(param) {
                 required: required
             }),
             /* @__PURE__ */ jsx18(SearchSelect, {
+                direction: direction,
                 options: sortOptions,
                 value: value,
                 onChange: onChange,

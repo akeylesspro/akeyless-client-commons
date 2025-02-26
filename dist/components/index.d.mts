@@ -114,6 +114,7 @@ interface SearchSelectProps {
     onChange?: (value: SearchSelectOptions["value"]) => void;
     value?: SearchSelectOptions["value"];
     disabled?: boolean;
+    direction?: Direction;
 }
 
 interface BaseElementProps {

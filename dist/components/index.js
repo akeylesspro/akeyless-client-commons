@@ -2336,13 +2336,16 @@ var import_lucide_react4 = require("lucide-react");
 var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
-    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange;
+    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
     var _options_find, _options_;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
     var _ref1;
     var _ref2 = _sliced_to_array((0, import_react5.useState)((_ref1 = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref1 !== void 0 ? _ref1 : ""), 2), selectedValue = _ref2[0], setSelectedValue = _ref2[1];
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
+        style: {
+            direction: direction
+        },
         className: cn("w-full", elementClassName),
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
@@ -2384,6 +2387,9 @@ function SearchSelect(param) {
                         children: /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Command, {
                             children: [
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(CommandInput, {
+                                    style: {
+                                        direction: direction
+                                    },
                                     className: cn(searchClassName),
                                     placeholder: searchPlaceholder || "Search"
                                 }),
@@ -3254,6 +3260,7 @@ var SelectWithSearch = function(param) {
                 required: required
             }),
             /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SearchSelect, {
+                direction: direction,
                 options: sortOptions,
                 value: value,
                 onChange: onChange,
