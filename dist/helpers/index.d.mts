@@ -138,7 +138,7 @@ declare const multiStringFormat: (str1: string, str2?: string, str3?: string) =>
 declare const getLocationUrl: (lang: number, lat: number) => string;
 declare const isNodeEnv: NodeJS.ProcessEnv;
 declare const mode: string;
-declare const isLocal: string;
+declare const isLocal: string | boolean;
 
 declare const textRegex: RegExp;
 declare const numbersRegex: RegExp;
