@@ -2152,7 +2152,7 @@ function SearchSelect(param) {
         var result = selectedValue ? (_options_find = options.find(function(item) {
             return item.value === selectedValue;
         })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder;
-        console.log("selectLabel", result);
+        console.log(name + " selectLabel", result);
         return result || "Select";
     }, [
         selectedValue,

@@ -53,7 +53,7 @@ export default function SearchSelect({
     const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
     const selectLabel = useMemo(() => {
         const result = selectedValue ? options.find((item) => item.value === selectedValue)?.label : selectPlaceholder;
-        console.log("selectLabel", result);
+        console.log(name + " selectLabel", result);
 
         return result || "Select";
     }, [selectedValue, options, selectPlaceholder]);
