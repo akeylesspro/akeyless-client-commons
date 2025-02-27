@@ -32,9 +32,9 @@ export const nx_api_call = async (serverName: ServerName, method: Method, url: s
             authorization: "bearer " + (await auth.currentUser.getIdToken()),
         };
 
-        console.log("params:", { serverName, method, url, data });
+        console.log("params:", { serverName, method, urlResult, data, headers });
         const response = await axios({
-            method: method,
+            method,
             url: urlResult,
             headers,
             data,

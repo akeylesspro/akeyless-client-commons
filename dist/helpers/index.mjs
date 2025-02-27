@@ -1449,8 +1449,9 @@ var nx_api_call = /*#__PURE__*/ function() {
                     console.log("params:", {
                         serverName: serverName,
                         method: method,
-                        url: url,
-                        data: data
+                        urlResult: urlResult,
+                        data: data,
+                        headers: headers
                     });
                     return [
                         4,
