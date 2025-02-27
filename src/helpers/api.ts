@@ -31,17 +31,13 @@ export const nx_api_call = async (serverName: ServerName, method: Method, url: s
         const headers = {
             authorization: "bearer " + (await auth.currentUser.getIdToken()),
         };
-
-        console.log("params:", { serverName, method, urlResult, data, headers });
         const response = await axios({
             method,
             url: urlResult,
             headers,
             data,
         });
-        console.log("response:", response);
-
-        return response.data;
+        return response.data || null;
     } catch (error) {
         console.error(`Error from nx_api_call: ${JSON.stringify({ serverName, method, url, data })}`, error?.response?.data || error);
         return null;
