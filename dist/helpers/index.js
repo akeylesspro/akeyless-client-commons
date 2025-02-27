@@ -1720,6 +1720,12 @@ var nx_api_call = /*#__PURE__*/ function() {
                     ];
                 case 1:
                     headers = (_tmp.authorization = _ + _state.sent(), _tmp);
+                    console.log("params:", {
+                        serverName: serverName,
+                        method: method,
+                        url: url,
+                        data: data
+                    });
                     return [
                         4,
                         (0, import_axios2.default)({
@@ -1731,6 +1737,7 @@ var nx_api_call = /*#__PURE__*/ function() {
                     ];
                 case 2:
                     response = _state.sent();
+                    console.log("response:", response);
                     return [
                         2,
                         response.data
