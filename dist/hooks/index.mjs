@@ -354,6 +354,11 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
@@ -374,11 +379,6 @@ import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
 // src/helpers/api.ts
 import axios2 from "axios";
-var isNodeEnv = typeof process !== "undefined" && process.env;
-var _ref = {
-    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
-}, mode = _ref.mode, isLocal = _ref.isLocal;
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";

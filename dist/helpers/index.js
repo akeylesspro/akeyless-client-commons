@@ -401,11 +401,20 @@ __export(helpers_exports, {
     isInternationalIsraelPhone: function() {
         return isInternationalIsraelPhone;
     },
+    isLocal: function() {
+        return isLocal;
+    },
+    isNodeEnv: function() {
+        return isNodeEnv;
+    },
     is_iccid: function() {
         return is_iccid;
     },
     local_israel_phone_format: function() {
         return local_israel_phone_format;
+    },
+    mode: function() {
+        return mode;
     },
     multiStringFormat: function() {
         return multiStringFormat;
@@ -1331,6 +1340,7 @@ var is_iccid = function(number) {
 };
 // src/helpers/global.ts
 var import_lodash = require("lodash");
+var import_meta2 = {};
 var calculateBearing = function(startLat, startLng, endLat, endLng) {
     if (startLat === endLat || startLng === endLng) {
         return 0;
@@ -1496,6 +1506,11 @@ var multiStringFormat = function(str1, str2, str3) {
 var getLocationUrl = function(lang, lat) {
     return "https://www.google.com/maps?q=".concat(lang, ",").concat(lat);
 };
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import_meta2.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import_meta2.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -1667,12 +1682,6 @@ function sort_by_timestamp(a, b) {
 }
 // src/helpers/api.ts
 var import_axios2 = __toESM(require("axios"));
-var import_meta2 = {};
-var isNodeEnv = typeof process !== "undefined" && process.env;
-var _ref = {
-    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import_meta2.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import_meta2.env.VITE_is_local
-}, mode = _ref.mode, isLocal = _ref.isLocal;
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
@@ -1765,8 +1774,11 @@ var nx_api_call = /*#__PURE__*/ function() {
     international_israel_phone_format: international_israel_phone_format,
     isInternational: isInternational,
     isInternationalIsraelPhone: isInternationalIsraelPhone,
+    isLocal: isLocal,
+    isNodeEnv: isNodeEnv,
     is_iccid: is_iccid,
     local_israel_phone_format: local_israel_phone_format,
+    mode: mode,
     multiStringFormat: multiStringFormat,
     numbersOnlyRegex: numbersOnlyRegex,
     numbersRegex: numbersRegex,

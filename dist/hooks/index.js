@@ -395,6 +395,7 @@ var import_axios = __toESM(require("axios"));
 var import_libphonenumber_js = require("libphonenumber-js");
 // src/helpers/global.ts
 var import_lodash = require("lodash");
+var import_meta2 = {};
 var getUserCountryByIp = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function() {
         var response, error;
@@ -435,6 +436,11 @@ var getUserCountryByIp = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import_meta2.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import_meta2.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
 // src/helpers/forms.ts
 var import_xregexp = __toESM(require("xregexp"));
 var textRegex = (0, import_xregexp.default)("[^\\p{L}\\s-]", "gu");
@@ -455,12 +461,6 @@ var import_firestore2 = require("firebase/firestore");
 var import_moment_timezone = __toESM(require("moment-timezone"));
 // src/helpers/api.ts
 var import_axios2 = __toESM(require("axios"));
-var import_meta2 = {};
-var isNodeEnv = typeof process !== "undefined" && process.env;
-var _ref = {
-    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import_meta2.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import_meta2.env.VITE_is_local
-}, mode = _ref.mode, isLocal = _ref.isLocal;
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";

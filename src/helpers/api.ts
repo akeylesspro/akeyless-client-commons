@@ -1,12 +1,9 @@
 import axios from "axios";
 import { auth } from "./firebase";
 import { TObject } from "akeyless-types-commons";
+import { isLocal, mode } from "./global";
 
-const isNodeEnv = typeof process !== "undefined" && process.env;
-const { mode, isLocal } = {
-    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local,
-};
+
 const baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
 const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 const devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";

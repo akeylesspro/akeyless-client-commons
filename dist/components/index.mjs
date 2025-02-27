@@ -1174,6 +1174,11 @@ var renderOnce = function() {
 var getLocationUrl = function(lang, lat) {
     return "https://www.google.com/maps?q=".concat(lang, ",").concat(lat);
 };
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
 // src/helpers/time_helpers.ts
 import { Timestamp as Timestamp2 } from "firebase/firestore";
 import moment2 from "moment-timezone";
@@ -1199,11 +1204,6 @@ function timestamp_to_string(firebaseTimestamp, options) {
 }
 // src/helpers/api.ts
 import axios2 from "axios";
-var isNodeEnv = typeof process !== "undefined" && process.env;
-var _ref = {
-    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
-}, mode = _ref.mode, isLocal = _ref.isLocal;
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";

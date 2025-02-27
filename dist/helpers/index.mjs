@@ -1232,6 +1232,11 @@ var multiStringFormat = function(str1, str2, str3) {
 var getLocationUrl = function(lang, lat) {
     return "https://www.google.com/maps?q=".concat(lang, ",").concat(lat);
 };
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
 // src/helpers/forms.ts
 import XRegExp from "xregexp";
 var textRegex = XRegExp("[^\\p{L}\\s-]", "gu");
@@ -1403,11 +1408,6 @@ function sort_by_timestamp(a, b) {
 }
 // src/helpers/api.ts
 import axios2 from "axios";
-var isNodeEnv = typeof process !== "undefined" && process.env;
-var _ref = {
-    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
-}, mode = _ref.mode, isLocal = _ref.isLocal;
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
@@ -1462,5 +1462,5 @@ var nx_api_call = /*#__PURE__*/ function() {
         return _ref.apply(this, arguments);
     };
 }();
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getLocationUrl, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, nx_api_call, parseMultiSelectInput, parsePermissions, priceRegex, propsAreEqual, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getLocationUrl, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, isLocal, isNodeEnv, is_iccid, local_israel_phone_format, mode, multiStringFormat, numbersOnlyRegex, numbersRegex, nx_api_call, parseMultiSelectInput, parsePermissions, priceRegex, propsAreEqual, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
 //# sourceMappingURL=index.mjs.map

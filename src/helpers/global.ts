@@ -113,3 +113,9 @@ export const multiStringFormat = (str1: string, str2?: string, str3?: string) =>
 export const getLocationUrl = (lang: number, lat: number) => {
     return `https://www.google.com/maps?q=${lang},${lat}`;
 };
+export const isNodeEnv = typeof process !== "undefined" && process.env;
+
+export const { mode, isLocal } = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local,
+};
