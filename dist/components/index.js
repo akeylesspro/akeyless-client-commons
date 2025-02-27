@@ -2337,22 +2337,26 @@ var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
     var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
-    var _options_find, _options_;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
     var _ref1;
     var _ref2 = _sliced_to_array((0, import_react5.useState)((_ref1 = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref1 !== void 0 ? _ref1 : ""), 2), selectedValue = _ref2[0], setSelectedValue = _ref2[1];
+    var selectLabel = (0, import_react5.useMemo)(function() {
+        var _options_find;
+        return selectedValue ? (_options_find = options.find(function(item) {
+            return item.value === selectedValue;
+        })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder || "Select";
+    }, [
+        selectedValue,
+        options,
+        selectPlaceholder
+    ]);
     return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", {
         style: {
             direction: direction
         },
         className: cn("w-full", elementClassName),
         children: [
-            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
-                name: name,
-                type: "hidden",
-                value: selectedValue
-            }),
             /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(Popover, {
                 open: open,
                 onOpenChange: setOpen,
@@ -2369,9 +2373,7 @@ function SearchSelect(param) {
                             children: [
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
-                                    children: selectedValue ? (_options_find = options.find(function(item) {
-                                        return item.value === selectedValue;
-                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) || "Select"
+                                    children: selectLabel
                                 }),
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(import_lucide_react4.ChevronDownIcon, {
                                     size: 16,
@@ -2427,6 +2429,11 @@ function SearchSelect(param) {
                         })
                     })
                 ]
+            }),
+            /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", {
+                name: name,
+                type: "hidden",
+                value: selectedValue
             })
         ]
     });

@@ -5,7 +5,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { useCallback, useId, useState } from "react";
+import { useCallback, useId, useMemo, useState } from "react";
 import { Direction } from "src/types";
 
 export interface SearchSelectOptions extends Record<string, string> {
@@ -51,11 +51,14 @@ export default function SearchSelect({
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
+    const selectLabel = useMemo(() => {
+        return selectedValue ? options.find((item) => item.value === selectedValue)?.label : selectPlaceholder || "Select";
+    }, [selectedValue, options, selectPlaceholder]);
     return (
         <div style={{ direction }} className={cn("w-full", elementClassName)}>
-            <input name={name} type="hidden" value={selectedValue} />
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
+                    {/* select */}
                     <Button
                         id={id}
                         variant="outline"
@@ -67,17 +70,16 @@ export default function SearchSelect({
                             selectButtonClassName
                         )}
                     >
-                        <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>
-                            {selectedValue
-                                ? options.find((item) => item.value === selectedValue)?.label
-                                : selectPlaceholder || options[0]?.label || "Select"}
-                        </span>
+                        <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>{selectLabel}</span>
                         <ChevronDownIcon size={16} className="text-muted-foreground/80 shrink-0" aria-hidden="true" />
                     </Button>
                 </PopoverTrigger>
+                {/* dropdown */}
                 <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
+                        {/* search input */}
                         <CommandInput style={{ direction }} className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
+                        {/* results */}
                         <CommandList>
                             <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
                             <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>
@@ -106,6 +108,8 @@ export default function SearchSelect({
                     </Command>
                 </PopoverContent>
             </Popover>
+            {/* data collector input */}
+            <input name={name} type="hidden" value={selectedValue} />
         </div>
     );
 }

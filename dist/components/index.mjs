@@ -502,7 +502,7 @@ var Version = function(param) {
 // src/components/table/components.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { memo, useMemo as useMemo4 } from "react";
+import { memo, useMemo as useMemo5 } from "react";
 // src/assets/svg.tsx
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var RedXSvg = function(param) {
@@ -2139,26 +2139,30 @@ function PopoverContent(_param) {
 }
 // src/components/ui/SearchSelect.tsx
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { useId, useState as useState4 } from "react";
+import { useId, useMemo as useMemo4, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
     var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
-    var _options_find, _options_;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
     var _ref;
     var _useState41 = _sliced_to_array(useState4((_ref = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref !== void 0 ? _ref : ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
+    var selectLabel = useMemo4(function() {
+        var _options_find;
+        return selectedValue ? (_options_find = options.find(function(item) {
+            return item.value === selectedValue;
+        })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder || "Select";
+    }, [
+        selectedValue,
+        options,
+        selectPlaceholder
+    ]);
     return /* @__PURE__ */ jsxs10("div", {
         style: {
             direction: direction
         },
         className: cn("w-full", elementClassName),
         children: [
-            /* @__PURE__ */ jsx15("input", {
-                name: name,
-                type: "hidden",
-                value: selectedValue
-            }),
             /* @__PURE__ */ jsxs10(Popover, {
                 open: open,
                 onOpenChange: setOpen,
@@ -2175,9 +2179,7 @@ function SearchSelect(param) {
                             children: [
                                 /* @__PURE__ */ jsx15("span", {
                                     className: cn("truncate", !selectedValue && "text-muted-foreground"),
-                                    children: selectedValue ? (_options_find = options.find(function(item) {
-                                        return item.value === selectedValue;
-                                    })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder || ((_options_ = options[0]) === null || _options_ === void 0 ? void 0 : _options_.label) || "Select"
+                                    children: selectLabel
                                 }),
                                 /* @__PURE__ */ jsx15(ChevronDownIcon, {
                                     size: 16,
@@ -2233,6 +2235,11 @@ function SearchSelect(param) {
                         })
                     })
                 ]
+            }),
+            /* @__PURE__ */ jsx15("input", {
+                name: name,
+                type: "hidden",
+                value: selectedValue
             })
         ]
     });
@@ -2355,7 +2362,7 @@ var Filter = memo(function(param) {
 });
 var TableHead = memo(function() {
     var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel, headerClassName = _useTableContext.headerClassName, headerCellClassName = _useTableContext.headerCellClassName;
-    var sortDisplay = useMemo4(function() {
+    var sortDisplay = useMemo5(function() {
         return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
     }, [
         sortKeys
@@ -2711,10 +2718,10 @@ var NumberUI = function(param) {
 // src/components/forms/ModularForm/ModularForm.tsx
 import { cloneElement, useState as useState7 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
-import { useCallback as useCallback3, useMemo as useMemo6, useState as useState6 } from "react";
+import { useCallback as useCallback3, useMemo as useMemo7, useState as useState6 } from "react";
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo5, useRef as useRef3, useState as useState5 } from "react";
+import { forwardRef as forwardRef8, useEffect as useEffect4, useMemo as useMemo6, useRef as useRef3, useState as useState5 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
@@ -2827,7 +2834,7 @@ var CountrySelect = function(param) {
     var handleSelect = function(event) {
         onChange(event.target.value);
     };
-    var originalClassName = useMemo5(function() {
+    var originalClassName = useMemo6(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
     return /* @__PURE__ */ jsxs12("div", {
@@ -2892,7 +2899,7 @@ var FlagComponent = function(param) {
 // src/components/forms/ModularForm/formElements.tsx
 import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
 var useSortValues = function(options, sortDirection, sortAsNumber) {
-    var sortOptions = useMemo6(function() {
+    var sortOptions = useMemo7(function() {
         var sorted = sortAsNumber ? options.sort(function(a, b) {
             return parseInt(b.label) - parseInt(a.label);
         }) : options.sort(function(a, b) {
@@ -2914,7 +2921,7 @@ var InputContainer = function(param) {
     }, [
         onChange
     ]);
-    var validationProps = useMemo6(function() {
+    var validationProps = useMemo7(function() {
         return _object_spread_props(_object_spread({}, useValidation(validationName, validationError)), {
             onChange: handleChangeFunction
         });
