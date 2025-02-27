@@ -1108,14 +1108,14 @@ import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
 var initApp = function() {
-    var isNodeEnv = typeof process !== "undefined" && process.env;
+    var isNodeEnv2 = typeof process !== "undefined" && process.env;
     var firebaseConfig = {
-        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
-        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
-        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
-        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
-        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
-        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
+        apiKey: isNodeEnv2 ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
+        authDomain: isNodeEnv2 ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
+        projectId: isNodeEnv2 ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
+        storageBucket: isNodeEnv2 ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: isNodeEnv2 ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: isNodeEnv2 ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
     };
     try {
         var app = initializeApp(firebaseConfig);
@@ -1129,10 +1129,7 @@ var initApp = function() {
         };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
-        return {
-            db: null,
-            auth: null
-        };
+        return {};
     }
 };
 var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth, storage = _initApp.storage;
@@ -1200,6 +1197,17 @@ function timestamp_to_string(firebaseTimestamp, options) {
     }
     return moment2.utc(date).format((options === null || options === void 0 ? void 0 : options.format) || "DD/MM/YYYY HH:mm:ss");
 }
+// src/helpers/api.ts
+import axios2 from "axios";
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
+var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
+var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
+var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
+var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 // src/components/ui/badge.tsx
 import { cva } from "class-variance-authority";
 import { jsx as jsx7 } from "react/jsx-runtime";

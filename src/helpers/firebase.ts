@@ -46,7 +46,7 @@ const initApp = () => {
         return { db, auth, storage };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
-        return { db: null, auth: null };
+        return {};
     }
 };
 

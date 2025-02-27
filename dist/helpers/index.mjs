@@ -244,14 +244,14 @@ var formatCarNumber = function(car_number) {
 };
 // src/helpers/firebase.ts
 var initApp = function() {
-    var isNodeEnv = typeof process !== "undefined" && process.env;
+    var isNodeEnv2 = typeof process !== "undefined" && process.env;
     var firebaseConfig = {
-        apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
-        authDomain: isNodeEnv ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
-        projectId: isNodeEnv ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
-        storageBucket: isNodeEnv ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
-        messagingSenderId: isNodeEnv ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
-        appId: isNodeEnv ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
+        apiKey: isNodeEnv2 ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
+        authDomain: isNodeEnv2 ? process.env.NEXT_PUBLIC_AUTH_DOMAIN : import.meta.env.VITE_AUTH_DOMAIN,
+        projectId: isNodeEnv2 ? process.env.NEXT_PUBLIC_PROJECT_ID : import.meta.env.VITE_PROJECT_ID,
+        storageBucket: isNodeEnv2 ? process.env.NEXT_PUBLIC_STORAGE_BUCKET : import.meta.env.VITE_STORAGE_BUCKET,
+        messagingSenderId: isNodeEnv2 ? process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID : import.meta.env.VITE_MESSAGING_SENDER_ID,
+        appId: isNodeEnv2 ? process.env.NEXT_PUBLIC_APP_ID : import.meta.env.VITE_APP_ID
     };
     try {
         var app = initializeApp(firebaseConfig);
@@ -265,10 +265,7 @@ var initApp = function() {
         };
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
-        return {
-            db: null,
-            auth: null
-        };
+        return {};
     }
 };
 var _initApp = initApp(), db = _initApp.db, auth = _initApp.auth, storage = _initApp.storage;
@@ -1404,5 +1401,66 @@ function sort_by_timestamp(a, b) {
     var reverse = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
     return reverse ? timestamp_to_millis(b) - timestamp_to_millis(a) : timestamp_to_millis(a) - timestamp_to_millis(b);
 }
-export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getLocationUrl, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, parseMultiSelectInput, parsePermissions, priceRegex, propsAreEqual, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
+// src/helpers/api.ts
+import axios2 from "axios";
+var isNodeEnv = typeof process !== "undefined" && process.env;
+var _ref = {
+    mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
+    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local
+}, mode = _ref.mode, isLocal = _ref.isLocal;
+var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
+var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
+var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
+var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
+var nx_api_call = /*#__PURE__*/ function() {
+    var _ref = _async_to_generator(function(serverName, method, url, data) {
+        var urlResult, headers, _tmp, _, response;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    urlResult = "".concat(devicesDomain, "/").concat(url);
+                    switch(serverName){
+                        case "bi":
+                            urlResult = "".concat(biDomain, "/").concat(url);
+                            break;
+                        case "devices":
+                            urlResult = "".concat(devicesDomain, "/").concat(url);
+                            break;
+                        case "call-center":
+                            urlResult = "".concat(callCenterDomain, "/").concat(url);
+                            break;
+                        default:
+                            break;
+                    }
+                    _tmp = {};
+                    _ = "bearer ";
+                    return [
+                        4,
+                        auth.currentUser.getIdToken()
+                    ];
+                case 1:
+                    headers = (_tmp.authorization = _ + _state.sent(), _tmp);
+                    return [
+                        4,
+                        axios2({
+                            method: method,
+                            url: urlResult,
+                            headers: headers,
+                            data: data
+                        })
+                    ];
+                case 2:
+                    response = _state.sent();
+                    return [
+                        2,
+                        response.data
+                    ];
+            }
+        });
+    });
+    return function nx_api_call(serverName, method, url, data) {
+        return _ref.apply(this, arguments);
+    };
+}();
+export { add_document, addressRegex, auth, calculateBearing, carsRegex, chartsRegex, cleanNxSites, cn, collections, colorRegex, createSelectors, db, delete_document, displayFormatPhoneNumber, emailRegex, extractAlertsData, extractBoardsData, extractCanbusData, extractCarsData, extractClientData, extractLocationData, extractSiteData, fire_base_TIME_TEMP, formatCarNumber, getFormElementValue, getLocationUrl, getUserCountryByIp, get_all_documents, get_document_by_id, handleChange, handleInvalid, handlePaste, initializeUserPermissions, international_israel_phone_format, isInternational, isInternationalIsraelPhone, is_iccid, local_israel_phone_format, multiStringFormat, numbersOnlyRegex, numbersRegex, nx_api_call, parseMultiSelectInput, parsePermissions, priceRegex, propsAreEqual, query_document, query_document_by_conditions, query_documents, query_documents_by_conditions, renderOnce, setState, set_document, simpleExtractData, snapshot, snapshotDocument, sort_by_timestamp, storage, textNumbersRegex, textRegex, timestamp_to_millis, timestamp_to_string, useStoreValues, useValidation, userNameFormat };
 //# sourceMappingURL=index.mjs.map
