@@ -1177,7 +1177,7 @@ var getLocationUrl = function(lang, lat) {
 var isNodeEnv = typeof process !== "undefined" && process.env;
 var _ref = {
     mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
-    isLocal: isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local === "true"
+    isLocal: (isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local) === "true"
 }, mode = _ref.mode, isLocal = _ref.isLocal;
 // src/helpers/time_helpers.ts
 import { Timestamp as Timestamp2 } from "firebase/firestore";
