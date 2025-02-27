@@ -2336,18 +2336,16 @@ var import_lucide_react4 = require("lucide-react");
 var import_react5 = require("react");
 var import_jsx_runtime16 = require("react/jsx-runtime");
 function SearchSelect(param) {
-    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
+    var options = param.options, name = param.name, _param_selectPlaceholder = param.selectPlaceholder, selectPlaceholder = _param_selectPlaceholder === void 0 ? "Select" : _param_selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, _param_searchPlaceholder = param.searchPlaceholder, searchPlaceholder = _param_searchPlaceholder === void 0 ? "Search" : _param_searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
     var id = (0, import_react5.useId)();
     var _ref = _sliced_to_array((0, import_react5.useState)(false), 2), open = _ref[0], setOpen = _ref[1];
     var _ref1;
     var _ref2 = _sliced_to_array((0, import_react5.useState)((_ref1 = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref1 !== void 0 ? _ref1 : ""), 2), selectedValue = _ref2[0], setSelectedValue = _ref2[1];
     var selectLabel = (0, import_react5.useMemo)(function() {
         var _options_find;
-        var result = selectedValue ? (_options_find = options.find(function(item) {
+        return selectedValue ? (_options_find = options.find(function(item) {
             return item.value === selectedValue;
         })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder;
-        console.log(name + " selectLabel", result);
-        return result || "Select";
     }, [
         selectedValue,
         options,
@@ -2395,7 +2393,7 @@ function SearchSelect(param) {
                                         direction: direction
                                     },
                                     className: cn(searchClassName),
-                                    placeholder: searchPlaceholder || "Search"
+                                    placeholder: searchPlaceholder
                                 }),
                                 /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)(CommandList, {
                                     children: [

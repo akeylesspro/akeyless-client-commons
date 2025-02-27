@@ -2142,18 +2142,16 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { useId, useMemo as useMemo4, useState as useState4 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
-    var options = param.options, name = param.name, selectPlaceholder = param.selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, searchPlaceholder = param.searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
+    var options = param.options, name = param.name, _param_selectPlaceholder = param.selectPlaceholder, selectPlaceholder = _param_selectPlaceholder === void 0 ? "Select" : _param_selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, _param_searchPlaceholder = param.searchPlaceholder, searchPlaceholder = _param_searchPlaceholder === void 0 ? "Search" : _param_searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
     var id = useId();
     var _useState4 = _sliced_to_array(useState4(false), 2), open = _useState4[0], setOpen = _useState4[1];
     var _ref;
     var _useState41 = _sliced_to_array(useState4((_ref = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref !== void 0 ? _ref : ""), 2), selectedValue = _useState41[0], setSelectedValue = _useState41[1];
     var selectLabel = useMemo4(function() {
         var _options_find;
-        var result = selectedValue ? (_options_find = options.find(function(item) {
+        return selectedValue ? (_options_find = options.find(function(item) {
             return item.value === selectedValue;
         })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder;
-        console.log(name + " selectLabel", result);
-        return result || "Select";
     }, [
         selectedValue,
         options,
@@ -2201,7 +2199,7 @@ function SearchSelect(param) {
                                         direction: direction
                                     },
                                     className: cn(searchClassName),
-                                    placeholder: searchPlaceholder || "Search"
+                                    placeholder: searchPlaceholder
                                 }),
                                 /* @__PURE__ */ jsxs10(CommandList, {
                                     children: [

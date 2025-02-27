@@ -33,10 +33,10 @@ export interface SearchSelectProps {
 export default function SearchSelect({
     options,
     name,
-    selectPlaceholder,
+    selectPlaceholder = "Select",
     defaultValue,
     notFoundLabel,
-    searchPlaceholder,
+    searchPlaceholder = "Search",
     dropdownClassName,
     dropdownOptionClassName,
     notFoundLabelClassName,
@@ -52,10 +52,7 @@ export default function SearchSelect({
     const [open, setOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
     const selectLabel = useMemo(() => {
-        const result = selectedValue ? options.find((item) => item.value === selectedValue)?.label : selectPlaceholder;
-        console.log(name + " selectLabel", result);
-
-        return result || "Select";
+        return selectedValue ? options.find((item) => item.value === selectedValue)?.label : selectPlaceholder;
     }, [selectedValue, options, selectPlaceholder]);
     return (
         <div style={{ direction }} className={cn("w-full", elementClassName)}>
@@ -81,7 +78,7 @@ export default function SearchSelect({
                 <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
                     <Command>
                         {/* search input */}
-                        <CommandInput style={{ direction }} className={cn(searchClassName)} placeholder={searchPlaceholder || "Search"} />
+                        <CommandInput style={{ direction }} className={cn(searchClassName)} placeholder={searchPlaceholder} />
                         {/* results */}
                         <CommandList>
                             <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
