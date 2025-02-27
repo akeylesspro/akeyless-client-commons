@@ -1414,10 +1414,16 @@ var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain +
 var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 var nx_api_call = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(serverName, method, url, data) {
-        var urlResult, headers, _tmp, _, response;
+        var urlResult, headers, _tmp, _, response, error, _error_response;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
+                    _state.trys.push([
+                        0,
+                        3,
+                        ,
+                        4
+                    ]);
                     urlResult = "".concat(devicesDomain, "/").concat(url);
                     switch(serverName){
                         case "bi":
@@ -1454,6 +1460,22 @@ var nx_api_call = /*#__PURE__*/ function() {
                     return [
                         2,
                         response.data
+                    ];
+                case 3:
+                    error = _state.sent();
+                    console.error("Error from nx_api_call: ".concat(JSON.stringify({
+                        serverName: serverName,
+                        method: method,
+                        url: url,
+                        data: data
+                    })), (error === null || error === void 0 ? void 0 : (_error_response = error.response) === null || _error_response === void 0 ? void 0 : _error_response.data) || error);
+                    return [
+                        2,
+                        null
+                    ];
+                case 4:
+                    return [
+                        2
                     ];
             }
         });
