@@ -4,8 +4,8 @@ import { TObject } from "akeyless-types-commons";
 import { isLocal, mode } from "./global";
 
 const baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
+const devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
 const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
-const devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
 const callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";

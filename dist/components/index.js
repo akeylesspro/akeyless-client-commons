@@ -1400,8 +1400,8 @@ function timestamp_to_string(firebaseTimestamp, options) {
 // src/helpers/api.ts
 var import_axios2 = __toESM(require("axios"));
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
+var devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
-var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
 var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 // src/components/ui/badge.tsx
 var import_class_variance_authority = require("class-variance-authority");

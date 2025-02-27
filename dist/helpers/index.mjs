@@ -1409,8 +1409,8 @@ function sort_by_timestamp(a, b) {
 // src/helpers/api.ts
 import axios2 from "axios";
 var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
+var devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
-var devicesDomain = isLocal ? "http://localhost:9002/api/devices" : baseDomain + "/devices";
 var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 var nx_api_call = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(serverName, method, url, data) {
