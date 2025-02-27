@@ -52,7 +52,10 @@ export default function SearchSelect({
     const [open, setOpen] = useState<boolean>(false);
     const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
     const selectLabel = useMemo(() => {
-        return selectedValue ? options.find((item) => item.value === selectedValue)?.label : selectPlaceholder || "Select";
+        const result = selectedValue ? options.find((item) => item.value === selectedValue)?.label : selectPlaceholder;
+        console.log("selectLabel", result);
+
+        return result || "Select";
     }, [selectedValue, options, selectPlaceholder]);
     return (
         <div style={{ direction }} className={cn("w-full", elementClassName)}>

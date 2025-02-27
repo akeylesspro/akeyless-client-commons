@@ -2343,9 +2343,11 @@ function SearchSelect(param) {
     var _ref2 = _sliced_to_array((0, import_react5.useState)((_ref1 = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref1 !== void 0 ? _ref1 : ""), 2), selectedValue = _ref2[0], setSelectedValue = _ref2[1];
     var selectLabel = (0, import_react5.useMemo)(function() {
         var _options_find;
-        return selectedValue ? (_options_find = options.find(function(item) {
+        var result = selectedValue ? (_options_find = options.find(function(item) {
             return item.value === selectedValue;
-        })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder || "Select";
+        })) === null || _options_find === void 0 ? void 0 : _options_find.label : selectPlaceholder;
+        console.log("selectLabel", result);
+        return result || "Select";
     }, [
         selectedValue,
         options,
