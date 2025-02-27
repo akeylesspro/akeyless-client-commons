@@ -369,8 +369,8 @@ var emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu");
 var colorRegex = XRegExp("[^#0-9A-Fa-f]", "g");
 var carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu");
 var textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu");
-var addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu");
-var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu");
+var addressRegex = XRegExp("[^\\p{L}0-9\\s.,+-\\-]", "gu");
+var chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!+-\\-]", "gu");
 // src/lib/utils.ts
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";

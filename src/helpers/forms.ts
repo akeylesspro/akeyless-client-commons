@@ -9,8 +9,8 @@ export const emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu"); // Email-safe cha
 export const colorRegex = XRegExp("[^#0-9A-Fa-f]", "g"); // Hex color codes
 export const carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu"); // Letters, numbers, commas, and underscores
 export const textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu"); // Letters, numbers, spaces, hyphens, and plus signs
-export const addressRegex = XRegExp("[^\\p{L}0-9\\s.,\\-]", "gu"); // Letters, numbers, spaces, hyphens, dots, and commas
-export const chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!\\-]", "gu"); // Letters, numbers, spaces, and allowed symbols
+export const addressRegex = XRegExp("[^\\p{L}0-9\\s.,+-\\-]", "gu"); // Letters, numbers, spaces, hyphens, dots, and commas
+export const chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!+-\\-]", "gu"); // Letters, numbers, spaces, and allowed symbols
 
 export type ValidationType =
     | "text"
