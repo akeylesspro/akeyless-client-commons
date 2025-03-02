@@ -84,7 +84,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
             const normalizedSearchQuery = cleanString(deferredSearchQuery);
             filtered = data.filter((item) =>
                 allKeys.some((key) => {
-                    return cleanString(item[key]?.toString()).includes(normalizedSearchQuery);
+                    return cleanString(String(item[key])).includes(normalizedSearchQuery);
                 })
             );
 

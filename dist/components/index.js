@@ -1071,8 +1071,7 @@ var TableProvider = function(props) {
             var normalizedSearchQuery = cleanString(deferredSearchQuery);
             filtered = data.filter(function(item) {
                 return allKeys.some(function(key) {
-                    var _item_key;
-                    return cleanString((_item_key = item[key]) === null || _item_key === void 0 ? void 0 : _item_key.toString()).includes(normalizedSearchQuery);
+                    return cleanString(String(item[key])).includes(normalizedSearchQuery);
                 });
             });
         }
