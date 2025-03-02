@@ -2,6 +2,7 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as React$1 from 'react';
 import React__default, { ReactNode, Dispatch, SetStateAction } from 'react';
 import { TObject, Geo } from 'akeyless-types-commons';
+import { Command as Command$1 } from 'cmdk';
 import * as RPNInput from 'react-phone-number-input';
 import * as class_variance_authority_dist_types from 'class-variance-authority/dist/types';
 import { VariantProps } from 'class-variance-authority';
@@ -45,14 +46,86 @@ declare const Version: ({ version, className }: {
     className?: string;
 }) => react_jsx_runtime.JSX.Element;
 
+declare const Command: React$1.ForwardRefExoticComponent<Omit<{
+    children?: React$1.ReactNode;
+} & Pick<Pick<React$1.DetailedHTMLProps<React$1.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React$1.HTMLAttributes<HTMLDivElement>> & {
+    ref?: React$1.Ref<HTMLDivElement>;
+} & {
+    asChild?: boolean;
+}, "key" | keyof React$1.HTMLAttributes<HTMLDivElement> | "asChild"> & {
+    label?: string;
+    shouldFilter?: boolean;
+    filter?: (value: string, search: string, keywords?: string[]) => number;
+    defaultValue?: string;
+    value?: string;
+    onValueChange?: (value: string) => void;
+    loop?: boolean;
+    disablePointerSelection?: boolean;
+    vimBindings?: boolean;
+} & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
+
 interface MultipleSelectorOption {
     value: string;
     label: string;
     disable?: boolean;
-    /** fixed option that can&lsquo;t be removed. */
+    /** fixed option that can't be removed. */
     fixed?: boolean;
     /** Group the options by providing key. */
     [key: string]: string | boolean | undefined;
+}
+declare function useDebounce<T>(value: T, delay?: number): T;
+interface MultipleSelectorProps {
+    value?: MultipleSelectorOption[];
+    defaultOptions?: MultipleSelectorOption[];
+    /** manually controlled options */
+    options?: MultipleSelectorOption[];
+    placeholder?: string;
+    /** Loading component. */
+    loadingIndicator?: React$1.ReactNode;
+    /** Empty component. */
+    emptyIndicator?: React$1.ReactNode;
+    /** Debounce time for async search. Only work with `onSearch`. */
+    delay?: number;
+    /**
+     * Only work with `onSearch` prop. Trigger search when `onFocus`.
+     */
+    triggerSearchOnFocus?: boolean;
+    /** async search */
+    onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    /**
+     * sync search. This search will not show loadingIndicator.
+     */
+    onSearchSync?: (value: string) => MultipleSelectorOption[];
+    onChange?: (options: MultipleSelectorOption[]) => void;
+    /** Limit the maximum number of selected options. */
+    maxSelected?: number;
+    /** Called when number of selected options exceeds the limit. */
+    onMaxSelected?: (maxLimit: number) => void;
+    /** Hide the placeholder when there are options selected. */
+    hidePlaceholderWhenSelected?: boolean;
+    disabled?: boolean;
+    /** Group the options based on provided key. */
+    groupBy?: string;
+    className?: string;
+    badgeClassName?: string;
+    /**
+     * First item selected is a default behavior by cmdk.
+     */
+    selectFirstItem?: boolean;
+    /** Allow user to create option when no match found. */
+    creatable?: boolean;
+    /** Props of `Command` */
+    commandProps?: React$1.ComponentPropsWithoutRef<typeof Command>;
+    /** Props of `CommandInput` */
+    inputProps?: Omit<React$1.ComponentPropsWithoutRef<typeof Command$1.Input>, "value" | "placeholder" | "disabled">;
+    /** Hide the clear all button. */
+    hideClearAllButton?: boolean;
+    dropdownClassName?: string;
+    dropdownOptionClassName?: string;
+    dropdownContainerClassName?: string;
+    emptyIndicatorClassName?: string;
+    unremovableOptions?: MultipleSelectorOption[];
+    name?: string;
 }
 interface MultipleSelectorRef {
     selectedValue: MultipleSelectorOption[];
@@ -60,7 +133,6 @@ interface MultipleSelectorRef {
     focus: () => void;
     reset: () => void;
 }
-declare function useDebounce<T>(value: T, delay?: number): T;
 
 type Direction = "rtl" | "ltr";
 
@@ -458,4 +530,4 @@ interface CodeInputProps {
 }
 declare function CodeInput({ codeValue, setCodeValue, className, slotContainerClassName }: CodeInputProps): react_jsx_runtime.JSX.Element;
 
-export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, type SearchSelectOptions, type SearchSelectProps, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce, useSortValues };
+export { Badge, type BadgeProps, BooleanUi, Button, Checkbox, CodeInput, ConfirmForm, DatePicker, DurationUI, ElementLabel, ErrorBoundary, ExportToExcel, Filter, type FilterProps, GeoUi, type GeoUiProps, Input, InputContainer, InternationalPhonePicker, Loader, MaxRowsLabel, ModularForm, MultiSelect, type MultipleSelectorOption, type MultipleSelectorProps, type MultipleSelectorRef, NumberUI, type NumberUIProps, PhoneUI, ProgressComponent, Search, type SearchSelectOptions, type SearchSelectProps, SelectContainer, SelectWithSearch, Summary, Table, TableBody, TableButton, TableCell, TableContext, TableHead, type TableProps, TableProvider, type TableProviderType, TableRow, TextAreaContainer, TimesUI, type UseFilterProps, Version, badgeVariants, buttonVariants, getFixedNumber, useDebounce, useSortValues };
