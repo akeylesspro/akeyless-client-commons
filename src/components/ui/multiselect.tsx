@@ -9,7 +9,6 @@ import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui
 import { isEqual } from "lodash";
 import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 
-// Portal – מעביר את התוכן ל־document.body
 const Portal = ({ children }: { children: React.ReactNode }) => {
     return ReactDOM.createPortal(children, document.body);
 };
@@ -147,7 +146,6 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
         },
         ref
     ) => {
-        // Floating UI – ממקם את ה-Dropdown מתחת לקונטיינר
         const [isLoading, setIsLoading] = React.useState(false);
         const { x, y, strategy, refs, update } = useFloating({
             placement: "bottom-start",
@@ -155,14 +153,12 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             whileElementsMounted: autoUpdate,
         });
 
-        // containerRef - הקונטיינר הכולל את התוויות ושדה הקלט, שישמש כ-reference
         const containerRef = useRef<HTMLDivElement>(null);
         const setContainerRef = (node: HTMLDivElement) => {
             containerRef.current = node;
             refs.setReference(node);
         };
 
-        // inputRef - לשימוש לוגי (focus/blur)
         const inputRef = useRef<HTMLInputElement>(null);
 
         const [open, setOpen] = React.useState(false);
@@ -185,14 +181,12 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             [selected]
         );
 
-        // עדכון מיקום כאשר ה-Dropdown נפתח
         useEffect(() => {
             if (open) {
                 update();
             }
         }, [open, update]);
 
-        // סגירת ה-Dropdown בלחיצה מחוץ לקונטיינר
         const handleClickOutside = useCallback((event: MouseEvent | TouchEvent) => {
             if (
                 dropdownRef.current &&
@@ -269,7 +263,6 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             void exec();
         }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus, onSearch]);
 
-        // handleUnselect - הסרת פריט נבחר
         const handleUnselect = useCallback(
             (option: MultipleSelectorOption) => {
                 if (unremovableOptions.find((v) => isEqual(v.value, option.value))) {
@@ -282,7 +275,6 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             [onChange, selected, unremovableOptions]
         );
 
-        // handleKeyDown - טיפול במקשים
         const handleKeyDown = useCallback(
             (e: React.KeyboardEvent<HTMLDivElement>) => {
                 const input = inputRef.current;
@@ -303,7 +295,6 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             [handleUnselect, selected]
         );
 
-        // combinedFloatingRef - ממזג את refs.setFloating עם dropdownRef
         const combinedFloatingRef = useCallback(
             (node: HTMLDivElement | null) => {
                 if (!node) return;
