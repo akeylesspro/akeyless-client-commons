@@ -9,7 +9,7 @@ import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui
 import { isEqual } from "lodash";
 import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 
-// Portal – עוטף ומעביר את התוכן ל־document.body
+// Portal – מעביר את התוכן ל־document.body
 const Portal = ({ children }: { children: React.ReactNode }) => {
     return ReactDOM.createPortal(children, document.body);
 };
@@ -26,22 +26,9 @@ interface GroupOption {
     [key: string]: MultipleSelectorOption[];
 }
 
-export function useDebounce<T>(value: T, delay?: number): T {
-    const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
-    useEffect(() => {
-        const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
-        return () => clearTimeout(timer);
-    }, [value, delay]);
-    return debouncedValue;
-}
-
 function transToGroupOption(options: MultipleSelectorOption[], groupBy?: string) {
-    if (options.length === 0) {
-        return {};
-    }
-    if (!groupBy) {
-        return { "": options };
-    }
+    if (options.length === 0) return {};
+    if (!groupBy) return { "": options };
     const groupOption: GroupOption = {};
     options.forEach((option) => {
         const key = (option[groupBy] as string) || "";
@@ -76,6 +63,15 @@ const CommandEmpty = forwardRef<HTMLDivElement, React.ComponentProps<typeof Comm
     return <div ref={forwardedRef} className={cn("px-2 py-4 text-center text-sm", className)} cmdk-empty="" role="presentation" {...props} />;
 });
 CommandEmpty.displayName = "CommandEmpty";
+
+export function useDebounce<T>(value: T, delay?: number): T {
+    const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
+    useEffect(() => {
+        const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
+        return () => clearTimeout(timer);
+    }, [value, delay]);
+    return debouncedValue;
+}
 
 export interface MultipleSelectorProps {
     value?: MultipleSelectorOption[];
@@ -116,7 +112,7 @@ export interface MultipleSelectorRef {
     reset: () => void;
 }
 
-const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
+const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
     (
         {
             value,
@@ -149,38 +145,34 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             name,
             dropdownContainerClassName = "",
         },
-        ref: React.Ref<MultipleSelectorRef>
+        ref
     ) => {
-        const [open, setOpen] = React.useState(false);
-        const [onScrollbar, setOnScrollbar] = React.useState(false);
-        const [isLoading, setIsLoading] = React.useState(false);
-        const dropdownRef = React.useRef<HTMLDivElement>(null);
-
-        const [selected, setSelected] = React.useState<MultipleSelectorOption[]>(value || []);
-        const [options, setOptions] = React.useState<GroupOption>(transToGroupOption(arrayDefaultOptions, groupBy));
-        const [inputValue, setInputValue] = React.useState("");
-        const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
-
-        // Floating UI – מחשב מיקום ביחס לשדה הקלט
+        // Floating UI – מיקום ה-Dropdown מתחת לקונטיינר
         const { x, y, strategy, refs, update } = useFloating({
             placement: "bottom-start",
             middleware: [offset(4), flip(), shift()],
             whileElementsMounted: autoUpdate,
         });
 
-        // שילוב ה־ref המקומי עם ה־setReference של Floating UI
-        const inputRef = React.useRef<HTMLInputElement>(null);
-        const setInputRef = (node: HTMLInputElement) => {
-            inputRef.current = node;
+        // containerRef - הקונטיינר הכולל את התוויות ושדה הקלט
+        const containerRef = React.useRef<HTMLDivElement>(null);
+        const setContainerRef = (node: HTMLDivElement) => {
+            containerRef.current = node;
             refs.setReference(node);
         };
 
-        // עדכון מיקום כאשר הרשימה נפתחת
-        useEffect(() => {
-            if (open) {
-                update();
-            }
-        }, [open, update]);
+        // inputRef - לשימוש לוגי (לדוגמה, focus/blur)
+        const inputRef = React.useRef<HTMLInputElement>(null);
+
+        const [open, setOpen] = React.useState(false);
+        const [isLoading, setIsLoading] = React.useState(false);
+        const [onScrollbar, setOnScrollbar] = React.useState(false);
+        const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+        const [selected, setSelected] = React.useState<MultipleSelectorOption[]>(value || []);
+        const [options, setOptions] = React.useState<GroupOption>(transToGroupOption(arrayDefaultOptions, groupBy));
+        const [inputValue, setInputValue] = React.useState("");
+        const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
 
         React.useImperativeHandle(
             ref,
@@ -193,49 +185,25 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             [selected]
         );
 
-        const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+        // עדכון מיקום כאשר ה-Dropdown נפתח
+        useEffect(() => {
+            if (open) {
+                update();
+            }
+        }, [open, update]);
+
+        // סגירת ה-Dropdown בלחיצה מחוץ לקונטיינר
+        const handleClickOutside = useCallback((event: MouseEvent | TouchEvent) => {
             if (
                 dropdownRef.current &&
                 !dropdownRef.current.contains(event.target as Node) &&
-                inputRef.current &&
-                !inputRef.current.contains(event.target as Node)
+                containerRef.current &&
+                !containerRef.current.contains(event.target as Node)
             ) {
                 setOpen(false);
-                inputRef.current.blur();
+                inputRef.current?.blur();
             }
-        };
-
-        const handleUnselect = useCallback(
-            (option: MultipleSelectorOption) => {
-                if (unremovableOptions.find((v) => isEqual(v.value, option.value))) {
-                    return;
-                }
-                const newOptions = selected.filter((s) => s.value !== option.value);
-                setSelected(newOptions);
-                onChange?.(newOptions);
-            },
-            [onChange, selected, unremovableOptions]
-        );
-
-        const handleKeyDown = useCallback(
-            (e: React.KeyboardEvent<HTMLDivElement>) => {
-                const input = inputRef.current;
-                if (input) {
-                    if (e.key === "Delete" || e.key === "Backspace") {
-                        if (input.value === "" && selected.length > 0) {
-                            const lastSelectOption = selected[selected.length - 1];
-                            if (!lastSelectOption.fixed) {
-                                handleUnselect(lastSelectOption);
-                            }
-                        }
-                    }
-                    if (e.key === "Escape") {
-                        input.blur();
-                    }
-                }
-            },
-            [handleUnselect, selected]
-        );
+        }, []);
 
         useEffect(() => {
             if (open) {
@@ -249,7 +217,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 document.removeEventListener("mousedown", handleClickOutside);
                 document.removeEventListener("touchend", handleClickOutside);
             };
-        }, [open]);
+        }, [open, handleClickOutside]);
 
         useEffect(() => {
             if (value) {
@@ -301,6 +269,40 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             void exec();
         }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus, onSearch]);
 
+        // פונקציה להסרת פריט נבחר (handleUnselect)
+        const handleUnselect = useCallback(
+            (option: MultipleSelectorOption) => {
+                if (unremovableOptions.find((v) => isEqual(v.value, option.value))) {
+                    return;
+                }
+                const newOptions = selected.filter((s) => s.value !== option.value);
+                setSelected(newOptions);
+                onChange?.(newOptions);
+            },
+            [onChange, selected, unremovableOptions]
+        );
+
+        // טיפול במקשים (handleKeyDown)
+        const handleKeyDown = useCallback(
+            (e: React.KeyboardEvent<HTMLDivElement>) => {
+                const input = inputRef.current;
+                if (input) {
+                    if (e.key === "Delete" || e.key === "Backspace") {
+                        if (input.value === "" && selected.length > 0) {
+                            const lastSelectOption = selected[selected.length - 1];
+                            if (!lastSelectOption.fixed) {
+                                handleUnselect(lastSelectOption);
+                            }
+                        }
+                    }
+                    if (e.key === "Escape") {
+                        input.blur();
+                    }
+                }
+            },
+            [handleUnselect, selected]
+        );
+
         const CreatableItem = () => {
             if (!creatable) return undefined;
             if (isOptionsExist(options, [{ value: inputValue, label: inputValue }]) || selected.find((s) => s.value === inputValue)) {
@@ -314,13 +316,13 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         e.preventDefault();
                         e.stopPropagation();
                     }}
-                    onSelect={(value: string) => {
+                    onSelect={(val: string) => {
                         if (selected.length >= maxSelected) {
                             onMaxSelected?.(selected.length);
                             return;
                         }
                         setInputValue("");
-                        const newOptions = [...selected, { value, label: value }];
+                        const newOptions = [...selected, { value: val, label: val }];
                         setSelected(newOptions);
                         onChange?.(newOptions);
                     }}
@@ -363,7 +365,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
 
         return (
             <Command
-                ref={dropdownRef}
                 {...commandProps}
                 onKeyDown={(e) => {
                     handleKeyDown(e);
@@ -373,8 +374,9 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 shouldFilter={commandProps?.shouldFilter !== undefined ? commandProps.shouldFilter : !onSearch}
                 filter={commandFilter()}
             >
-                {/* Selected section */}
+                {/* קונטיינר של התוויות ושדה הקלט */}
                 <div
+                    ref={setContainerRef}
                     className={cn(
                         "relative min-h-[38px] py-2 rounded-lg border border-input text-sm transition-shadow focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
                         {
@@ -390,7 +392,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                     }}
                 >
                     <div className="flex flex-wrap gap-1">
-                        {/* Badges */}
                         {selected.map((option) => (
                             <div
                                 key={option.value}
@@ -422,15 +423,15 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                 )}
                             </div>
                         ))}
-                        {/* CommandPrimitive.Input – שדה הקלט */}
+                        {/* שדה הקלט */}
                         <CommandPrimitive.Input
                             {...inputProps}
-                            ref={setInputRef}
+                            ref={inputRef}
                             value={inputValue}
                             disabled={disabled}
-                            onValueChange={(value) => {
-                                setInputValue(value);
-                                inputProps?.onValueChange?.(value);
+                            onValueChange={(val) => {
+                                setInputValue(val);
+                                inputProps?.onValueChange?.(val);
                             }}
                             onBlur={(event) => {
                                 if (!onScrollbar) {
@@ -476,18 +477,26 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         </button>
                     </div>
                 </div>
-                {/* Dropdown – ממוקם באמצעות Floating UI ו-Portal */}
+
+                {/* Dropdown – מוצג בתוך Portal וממוקם לפי Floating UI */}
                 {open && (
                     <Portal>
                         <div
-                            ref={refs.setFloating}
+                            ref={useCallback(
+                                (node: HTMLDivElement | null) => {
+                                    if (!node) return;
+                                    refs.setFloating(node);
+                                    dropdownRef.current = node;
+                                },
+                                [refs]
+                            )}
                             style={{
                                 position: strategy,
                                 top: y ?? 0,
                                 left: x ?? 0,
-                                width: inputRef.current?.offsetWidth,
+                                width: containerRef.current?.offsetWidth,
                             }}
-                            className={cn("z-[150] overflow-hidden rounded-lg border border-input", dropdownContainerClassName)}
+                            className={cn("z-[9999] overflow-hidden rounded-lg border border-input", dropdownContainerClassName)}
                             data-state={open ? "open" : "closed"}
                         >
                             <CommandList
@@ -511,37 +520,35 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                                         {!selectFirstItem && <CommandItem value="-" className="hidden" />}
                                         {Object.entries(selectables).map(([key, dropdowns]) => (
                                             <CommandGroup key={key} heading={key} className={cn("h-full overflow-auto", dropdownClassName)}>
-                                                <>
-                                                    {dropdowns.map((option) => (
-                                                        <CommandItem
-                                                            key={option.value}
-                                                            value={option.value}
-                                                            disabled={option.disable}
-                                                            onMouseDown={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                            }}
-                                                            onSelect={() => {
-                                                                setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                                if (selected.length >= maxSelected) {
-                                                                    onMaxSelected?.(selected.length);
-                                                                    return;
-                                                                }
-                                                                setInputValue("");
-                                                                const newOptions = [...selected, option];
-                                                                setSelected(newOptions);
-                                                                onChange?.(newOptions);
-                                                            }}
-                                                            className={cn(
-                                                                "cursor-pointer",
-                                                                option.disable && "cursor-not-allowed opacity-50",
-                                                                dropdownOptionClassName
-                                                            )}
-                                                        >
-                                                            {option.label}
-                                                        </CommandItem>
-                                                    ))}
-                                                </>
+                                                {dropdowns.map((option) => (
+                                                    <CommandItem
+                                                        key={option.value}
+                                                        value={option.value}
+                                                        disabled={option.disable}
+                                                        onMouseDown={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                        }}
+                                                        onSelect={() => {
+                                                            setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                            if (selected.length >= maxSelected) {
+                                                                onMaxSelected?.(selected.length);
+                                                                return;
+                                                            }
+                                                            setInputValue("");
+                                                            const newOptions = [...selected, option];
+                                                            setSelected(newOptions);
+                                                            onChange?.(newOptions);
+                                                        }}
+                                                        className={cn(
+                                                            "cursor-pointer",
+                                                            option.disable && "cursor-not-allowed opacity-50",
+                                                            dropdownOptionClassName
+                                                        )}
+                                                    >
+                                                        {option.label}
+                                                    </CommandItem>
+                                                ))}
                                             </CommandGroup>
                                         ))}
                                     </>
@@ -550,6 +557,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                         </div>
                     </Portal>
                 )}
+
                 <input value={JSON.stringify(selected)} type="hidden" name={name} />
             </Command>
         );

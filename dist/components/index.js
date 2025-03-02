@@ -3547,30 +3547,11 @@ var Portal2 = function(param) {
     var children = param.children;
     return import_react_dom.default.createPortal(children, document.body);
 };
-function useDebounce(value, delay) {
-    var _React9_useState = _sliced_to_array(React9.useState(value), 2), debouncedValue = _React9_useState[0], setDebouncedValue = _React9_useState[1];
-    (0, import_react5.useEffect)(function() {
-        var timer = setTimeout(function() {
-            return setDebouncedValue(value);
-        }, delay || 500);
-        return function() {
-            return clearTimeout(timer);
-        };
-    }, [
-        value,
-        delay
-    ]);
-    return debouncedValue;
-}
 function transToGroupOption(options, groupBy) {
-    if (options.length === 0) {
-        return {};
-    }
-    if (!groupBy) {
-        return {
-            "": options
-        };
-    }
+    if (options.length === 0) return {};
+    if (!groupBy) return {
+        "": options
+    };
     var groupOption = {};
     options.forEach(function(option) {
         var key = option[groupBy] || "";
@@ -3654,17 +3635,24 @@ var CommandEmpty2 = (0, import_react5.forwardRef)(function(_param, forwardedRef)
     }, props));
 });
 CommandEmpty2.displayName = "CommandEmpty";
-var MultipleSelector = React9.forwardRef(function(param, ref) {
+function useDebounce(value, delay) {
+    var _React9_useState = _sliced_to_array(React9.useState(value), 2), debouncedValue = _React9_useState[0], setDebouncedValue = _React9_useState[1];
+    (0, import_react5.useEffect)(function() {
+        var timer = setTimeout(function() {
+            return setDebouncedValue(value);
+        }, delay || 500);
+        return function() {
+            return clearTimeout(timer);
+        };
+    }, [
+        value,
+        delay
+    ]);
+    return debouncedValue;
+}
+var MultipleSelector = (0, import_react5.forwardRef)(function(param, ref) {
     var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? true : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name, _param_dropdownContainerClassName = param.dropdownContainerClassName, dropdownContainerClassName = _param_dropdownContainerClassName === void 0 ? "" : _param_dropdownContainerClassName;
-    var _inputRef_current;
-    var _React9_useState = _sliced_to_array(React9.useState(false), 2), open = _React9_useState[0], setOpen = _React9_useState[1];
-    var _React9_useState1 = _sliced_to_array(React9.useState(false), 2), onScrollbar = _React9_useState1[0], setOnScrollbar = _React9_useState1[1];
-    var _React9_useState2 = _sliced_to_array(React9.useState(false), 2), isLoading = _React9_useState2[0], setIsLoading = _React9_useState2[1];
-    var dropdownRef = React9.useRef(null);
-    var _React9_useState3 = _sliced_to_array(React9.useState(value || []), 2), selected = _React9_useState3[0], setSelected = _React9_useState3[1];
-    var _React9_useState4 = _sliced_to_array(React9.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React9_useState4[0], setOptions = _React9_useState4[1];
-    var _React9_useState5 = _sliced_to_array(React9.useState(""), 2), inputValue = _React9_useState5[0], setInputValue = _React9_useState5[1];
-    var debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+    var _containerRef_current;
     var _useFloating = useFloating({
         placement: "bottom-start",
         middleware: [
@@ -3674,19 +3662,20 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         ],
         whileElementsMounted: autoUpdate
     }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs, update = _useFloating.update;
-    var inputRef = React9.useRef(null);
-    var setInputRef = function(node) {
-        inputRef.current = node;
+    var containerRef = React9.useRef(null);
+    var setContainerRef = function(node) {
+        containerRef.current = node;
         refs.setReference(node);
     };
-    (0, import_react5.useEffect)(function() {
-        if (open) {
-            update();
-        }
-    }, [
-        open,
-        update
-    ]);
+    var inputRef = React9.useRef(null);
+    var _React9_useState = _sliced_to_array(React9.useState(false), 2), open = _React9_useState[0], setOpen = _React9_useState[1];
+    var _React9_useState1 = _sliced_to_array(React9.useState(false), 2), isLoading = _React9_useState1[0], setIsLoading = _React9_useState1[1];
+    var _React9_useState2 = _sliced_to_array(React9.useState(false), 2), onScrollbar = _React9_useState2[0], setOnScrollbar = _React9_useState2[1];
+    var dropdownRef = React9.useRef(null);
+    var _React9_useState3 = _sliced_to_array(React9.useState(value || []), 2), selected = _React9_useState3[0], setSelected = _React9_useState3[1];
+    var _React9_useState4 = _sliced_to_array(React9.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React9_useState4[0], setOptions = _React9_useState4[1];
+    var _React9_useState5 = _sliced_to_array(React9.useState(""), 2), inputValue = _React9_useState5[0], setInputValue = _React9_useState5[1];
+    var debouncedSearchTerm = useDebounce(inputValue, delay || 500);
     React9.useImperativeHandle(ref, function() {
         return {
             selectedValue: _to_consumable_array(selected),
@@ -3702,47 +3691,21 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
     }, [
         selected
     ]);
-    var handleClickOutside = function(event) {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && inputRef.current && !inputRef.current.contains(event.target)) {
+    (0, import_react5.useEffect)(function() {
+        if (open) {
+            update();
+        }
+    }, [
+        open,
+        update
+    ]);
+    var handleClickOutside = (0, import_react5.useCallback)(function(event) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target) && containerRef.current && !containerRef.current.contains(event.target)) {
+            var _inputRef_current;
             setOpen(false);
-            inputRef.current.blur();
+            (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.blur();
         }
-    };
-    var handleUnselect = (0, import_react5.useCallback)(function(option) {
-        if (unremovableOptions.find(function(v) {
-            return (0, import_lodash4.isEqual)(v.value, option.value);
-        })) {
-            return;
-        }
-        var newOptions = selected.filter(function(s) {
-            return s.value !== option.value;
-        });
-        setSelected(newOptions);
-        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
-    }, [
-        onChange,
-        selected,
-        unremovableOptions
-    ]);
-    var handleKeyDown = (0, import_react5.useCallback)(function(e) {
-        var input = inputRef.current;
-        if (input) {
-            if (e.key === "Delete" || e.key === "Backspace") {
-                if (input.value === "" && selected.length > 0) {
-                    var lastSelectOption = selected[selected.length - 1];
-                    if (!lastSelectOption.fixed) {
-                        handleUnselect(lastSelectOption);
-                    }
-                }
-            }
-            if (e.key === "Escape") {
-                input.blur();
-            }
-        }
-    }, [
-        handleUnselect,
-        selected
-    ]);
+    }, []);
     (0, import_react5.useEffect)(function() {
         if (open) {
             document.addEventListener("mousedown", handleClickOutside);
@@ -3756,7 +3719,8 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
             document.removeEventListener("touchend", handleClickOutside);
         };
     }, [
-        open
+        open,
+        handleClickOutside
     ]);
     (0, import_react5.useEffect)(function() {
         if (value) {
@@ -3888,6 +3852,41 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         triggerSearchOnFocus,
         onSearch
     ]);
+    var handleUnselect = (0, import_react5.useCallback)(function(option) {
+        if (unremovableOptions.find(function(v) {
+            return (0, import_lodash4.isEqual)(v.value, option.value);
+        })) {
+            return;
+        }
+        var newOptions = selected.filter(function(s) {
+            return s.value !== option.value;
+        });
+        setSelected(newOptions);
+        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+    }, [
+        onChange,
+        selected,
+        unremovableOptions
+    ]);
+    var handleKeyDown = (0, import_react5.useCallback)(function(e) {
+        var input = inputRef.current;
+        if (input) {
+            if (e.key === "Delete" || e.key === "Backspace") {
+                if (input.value === "" && selected.length > 0) {
+                    var lastSelectOption = selected[selected.length - 1];
+                    if (!lastSelectOption.fixed) {
+                        handleUnselect(lastSelectOption);
+                    }
+                }
+            }
+            if (e.key === "Escape") {
+                input.blur();
+            }
+        }
+    }, [
+        handleUnselect,
+        selected
+    ]);
     var CreatableItem = function() {
         if (!creatable) return void 0;
         if (isOptionsExist(options, [
@@ -3907,7 +3906,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
                 e.preventDefault();
                 e.stopPropagation();
             },
-            onSelect: function(value2) {
+            onSelect: function(val) {
                 if (selected.length >= maxSelected) {
                     onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
                     return;
@@ -3915,8 +3914,8 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
                 setInputValue("");
                 var newOptions = _to_consumable_array(selected).concat([
                     {
-                        value: value2,
-                        label: value2
+                        value: val,
+                        label: val
                     }
                 ]);
                 setSelected(newOptions);
@@ -3973,9 +3972,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         creatable,
         commandProps === null || commandProps === void 0 ? void 0 : commandProps.filter
     ]);
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Command, _object_spread_props(_object_spread({
-        ref: dropdownRef
-    }, commandProps), {
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Command, _object_spread_props(_object_spread({}, commandProps), {
         onKeyDown: function(e) {
             var _commandProps_onKeyDown;
             handleKeyDown(e);
@@ -3986,6 +3983,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         filter: commandFilter(),
         children: [
             /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", {
+                ref: setContainerRef,
                 className: cn("relative min-h-[38px] py-2 rounded-lg border border-input text-sm transition-shadow focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50", {
                     "p-1": selected.length !== 0,
                     "cursor-text": !disabled && selected.length !== 0
@@ -4032,13 +4030,13 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
                             }, option.value);
                         }),
                         /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_cmdk2.Command.Input, _object_spread_props(_object_spread({}, inputProps), {
-                            ref: setInputRef,
+                            ref: inputRef,
                             value: inputValue,
                             disabled: disabled,
-                            onValueChange: function(value2) {
+                            onValueChange: function(val) {
                                 var _inputProps_onValueChange;
-                                setInputValue(value2);
-                                inputProps === null || inputProps === void 0 ? void 0 : (_inputProps_onValueChange = inputProps.onValueChange) === null || _inputProps_onValueChange === void 0 ? void 0 : _inputProps_onValueChange.call(inputProps, value2);
+                                setInputValue(val);
+                                inputProps === null || inputProps === void 0 ? void 0 : (_inputProps_onValueChange = inputProps.onValueChange) === null || _inputProps_onValueChange === void 0 ? void 0 : _inputProps_onValueChange.call(inputProps, val);
                             },
                             onBlur: function(event) {
                                 var _inputProps_onBlur;
@@ -4087,14 +4085,20 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
             }),
             open && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Portal2, {
                 children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", {
-                    ref: refs.setFloating,
+                    ref: (0, import_react5.useCallback)(function(node) {
+                        if (!node) return;
+                        refs.setFloating(node);
+                        dropdownRef.current = node;
+                    }, [
+                        refs
+                    ]),
                     style: {
                         position: strategy,
                         top: y !== null && y !== void 0 ? y : 0,
                         left: x !== null && x !== void 0 ? x : 0,
-                        width: (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.offsetWidth
+                        width: (_containerRef_current = containerRef.current) === null || _containerRef_current === void 0 ? void 0 : _containerRef_current.offsetWidth
                     },
-                    className: cn("z-[150] overflow-hidden rounded-lg border border-input", dropdownContainerClassName),
+                    className: cn("z-[9999] overflow-hidden rounded-lg border border-input", dropdownContainerClassName),
                     "data-state": open ? "open" : "closed",
                     children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandList, {
                         className: "bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none",
@@ -4123,32 +4127,30 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
                                     return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandGroup, {
                                         heading: key,
                                         className: cn("h-full overflow-auto", dropdownClassName),
-                                        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_jsx_runtime14.Fragment, {
-                                            children: dropdowns.map(function(option) {
-                                                return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
-                                                    value: option.value,
-                                                    disabled: option.disable,
-                                                    onMouseDown: function(e) {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                    },
-                                                    onSelect: function() {
-                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                        if (selected.length >= maxSelected) {
-                                                            onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
-                                                            return;
-                                                        }
-                                                        setInputValue("");
-                                                        var newOptions = _to_consumable_array(selected).concat([
-                                                            option
-                                                        ]);
-                                                        setSelected(newOptions);
-                                                        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
-                                                    },
-                                                    className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
-                                                    children: option.label
-                                                }, option.value);
-                                            })
+                                        children: dropdowns.map(function(option) {
+                                            return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
+                                                value: option.value,
+                                                disabled: option.disable,
+                                                onMouseDown: function(e) {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                },
+                                                onSelect: function() {
+                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                    if (selected.length >= maxSelected) {
+                                                        onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
+                                                        return;
+                                                    }
+                                                    setInputValue("");
+                                                    var newOptions = _to_consumable_array(selected).concat([
+                                                        option
+                                                    ]);
+                                                    setSelected(newOptions);
+                                                    onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+                                                },
+                                                className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
+                                                children: option.label
+                                            }, option.value);
                                         })
                                     }, key);
                                 })
