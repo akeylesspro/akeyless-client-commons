@@ -1524,6 +1524,7 @@ var ProgressComponent = React5.forwardRef(function(_param, ref) {
 });
 ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
 // src/components/ui/multiselect.tsx
+var import_react_dom = __toESM(require("react-dom"));
 var import_cmdk2 = require("cmdk");
 var import_lucide_react3 = require("lucide-react");
 var React8 = __toESM(require("react"));
@@ -1711,6 +1712,10 @@ CommandShortcut.displayName = "CommandShortcut";
 // src/components/ui/multiselect.tsx
 var import_lodash4 = require("lodash");
 var import_jsx_runtime14 = require("react/jsx-runtime");
+var Portal2 = function(param) {
+    var children = param.children;
+    return import_react_dom.default.createPortal(children, document.body);
+};
 function useDebounce(value, delay) {
     var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
     (0, import_react4.useEffect)(function() {
@@ -2227,66 +2232,68 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
             }),
             /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", {
                 className: "relative",
-                children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", {
-                    className: cn("absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input", "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95", !open && "hidden", dropdownContainerClassName),
-                    "data-state": open ? "open" : "closed",
-                    children: open && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandList, {
-                        className: "bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none",
-                        onMouseLeave: function() {
-                            setOnScrollbar(false);
-                        },
-                        onMouseEnter: function() {
-                            setOnScrollbar(true);
-                        },
-                        onMouseUp: function() {
-                            var _inputRef_current;
-                            inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
-                        },
-                        children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_jsx_runtime14.Fragment, {
-                            children: loadingIndicator
-                        }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_jsx_runtime14.Fragment, {
-                            children: [
-                                EmptyItem(),
-                                CreatableItem(),
-                                !selectFirstItem && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
-                                    value: "-",
-                                    className: "hidden"
-                                }),
-                                Object.entries(selectables).map(function(param) {
-                                    var _param = _sliced_to_array(param, 2), key = _param[0], dropdowns = _param[1];
-                                    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandGroup, {
-                                        heading: key,
-                                        className: cn("h-full overflow-auto", dropdownClassName),
-                                        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_jsx_runtime14.Fragment, {
-                                            children: dropdowns.map(function(option) {
-                                                return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
-                                                    value: option.value,
-                                                    disabled: option.disable,
-                                                    onMouseDown: function(e) {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                    },
-                                                    onSelect: function() {
-                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                        if (selected.length >= maxSelected) {
-                                                            onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
-                                                            return;
-                                                        }
-                                                        setInputValue("");
-                                                        var newOptions = _to_consumable_array(selected).concat([
-                                                            option
-                                                        ]);
-                                                        setSelected(newOptions);
-                                                        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
-                                                    },
-                                                    className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
-                                                    children: option.label
-                                                }, option.value);
+                children: open && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Portal2, {
+                    children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", {
+                        className: cn("absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input", "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95", !open && "hidden", dropdownContainerClassName),
+                        "data-state": open ? "open" : "closed",
+                        children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandList, {
+                            className: "bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none",
+                            onMouseLeave: function() {
+                                setOnScrollbar(false);
+                            },
+                            onMouseEnter: function() {
+                                setOnScrollbar(true);
+                            },
+                            onMouseUp: function() {
+                                var _inputRef_current;
+                                inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
+                            },
+                            children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_jsx_runtime14.Fragment, {
+                                children: loadingIndicator
+                            }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_jsx_runtime14.Fragment, {
+                                children: [
+                                    EmptyItem(),
+                                    CreatableItem(),
+                                    !selectFirstItem && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
+                                        value: "-",
+                                        className: "hidden"
+                                    }),
+                                    Object.entries(selectables).map(function(param) {
+                                        var _param = _sliced_to_array(param, 2), key = _param[0], dropdowns = _param[1];
+                                        return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandGroup, {
+                                            heading: key,
+                                            className: cn("h-full overflow-auto", dropdownClassName),
+                                            children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(import_jsx_runtime14.Fragment, {
+                                                children: dropdowns.map(function(option) {
+                                                    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
+                                                        value: option.value,
+                                                        disabled: option.disable,
+                                                        onMouseDown: function(e) {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                        },
+                                                        onSelect: function() {
+                                                            setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                            if (selected.length >= maxSelected) {
+                                                                onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
+                                                                return;
+                                                            }
+                                                            setInputValue("");
+                                                            var newOptions = _to_consumable_array(selected).concat([
+                                                                option
+                                                            ]);
+                                                            setSelected(newOptions);
+                                                            onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+                                                        },
+                                                        className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
+                                                        children: option.label
+                                                    }, option.value);
+                                                })
                                             })
-                                        })
-                                    }, key);
-                                })
-                            ]
+                                        }, key);
+                                    })
+                                ]
+                            })
                         })
                     })
                 })

@@ -1329,6 +1329,7 @@ var ProgressComponent = React5.forwardRef(function(_param, ref) {
 });
 ProgressComponent.displayName = ProgressPrimitive.Root.displayName;
 // src/components/ui/multiselect.tsx
+import ReactDOM from "react-dom";
 import { Command as CommandPrimitive2, useCommandState } from "cmdk";
 import { X as X2 } from "lucide-react";
 import * as React8 from "react";
@@ -1516,6 +1517,10 @@ CommandShortcut.displayName = "CommandShortcut";
 // src/components/ui/multiselect.tsx
 import { isEqual as isEqual4 } from "lodash";
 import { Fragment as Fragment2, jsx as jsx13, jsxs as jsxs8 } from "react/jsx-runtime";
+var Portal2 = function(param) {
+    var children = param.children;
+    return ReactDOM.createPortal(children, document.body);
+};
 function useDebounce(value, delay) {
     var _React8_useState = _sliced_to_array(React8.useState(value), 2), debouncedValue = _React8_useState[0], setDebouncedValue = _React8_useState[1];
     useEffect3(function() {
@@ -2032,66 +2037,68 @@ var MultipleSelector = React8.forwardRef(function(param, ref) {
             }),
             /* @__PURE__ */ jsx13("div", {
                 className: "relative",
-                children: /* @__PURE__ */ jsx13("div", {
-                    className: cn("absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input", "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95", !open && "hidden", dropdownContainerClassName),
-                    "data-state": open ? "open" : "closed",
-                    children: open && /* @__PURE__ */ jsx13(CommandList, {
-                        className: "bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none",
-                        onMouseLeave: function() {
-                            setOnScrollbar(false);
-                        },
-                        onMouseEnter: function() {
-                            setOnScrollbar(true);
-                        },
-                        onMouseUp: function() {
-                            var _inputRef_current;
-                            inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
-                        },
-                        children: isLoading ? /* @__PURE__ */ jsx13(Fragment2, {
-                            children: loadingIndicator
-                        }) : /* @__PURE__ */ jsxs8(Fragment2, {
-                            children: [
-                                EmptyItem(),
-                                CreatableItem(),
-                                !selectFirstItem && /* @__PURE__ */ jsx13(CommandItem, {
-                                    value: "-",
-                                    className: "hidden"
-                                }),
-                                Object.entries(selectables).map(function(param) {
-                                    var _param = _sliced_to_array(param, 2), key = _param[0], dropdowns = _param[1];
-                                    return /* @__PURE__ */ jsx13(CommandGroup, {
-                                        heading: key,
-                                        className: cn("h-full overflow-auto", dropdownClassName),
-                                        children: /* @__PURE__ */ jsx13(Fragment2, {
-                                            children: dropdowns.map(function(option) {
-                                                return /* @__PURE__ */ jsx13(CommandItem, {
-                                                    value: option.value,
-                                                    disabled: option.disable,
-                                                    onMouseDown: function(e) {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                    },
-                                                    onSelect: function() {
-                                                        setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                        if (selected.length >= maxSelected) {
-                                                            onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
-                                                            return;
-                                                        }
-                                                        setInputValue("");
-                                                        var newOptions = _to_consumable_array(selected).concat([
-                                                            option
-                                                        ]);
-                                                        setSelected(newOptions);
-                                                        onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
-                                                    },
-                                                    className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
-                                                    children: option.label
-                                                }, option.value);
+                children: open && /* @__PURE__ */ jsx13(Portal2, {
+                    children: /* @__PURE__ */ jsx13("div", {
+                        className: cn("absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input", "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95", !open && "hidden", dropdownContainerClassName),
+                        "data-state": open ? "open" : "closed",
+                        children: /* @__PURE__ */ jsx13(CommandList, {
+                            className: "bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none",
+                            onMouseLeave: function() {
+                                setOnScrollbar(false);
+                            },
+                            onMouseEnter: function() {
+                                setOnScrollbar(true);
+                            },
+                            onMouseUp: function() {
+                                var _inputRef_current;
+                                inputRef === null || inputRef === void 0 ? void 0 : (_inputRef_current = inputRef.current) === null || _inputRef_current === void 0 ? void 0 : _inputRef_current.focus();
+                            },
+                            children: isLoading ? /* @__PURE__ */ jsx13(Fragment2, {
+                                children: loadingIndicator
+                            }) : /* @__PURE__ */ jsxs8(Fragment2, {
+                                children: [
+                                    EmptyItem(),
+                                    CreatableItem(),
+                                    !selectFirstItem && /* @__PURE__ */ jsx13(CommandItem, {
+                                        value: "-",
+                                        className: "hidden"
+                                    }),
+                                    Object.entries(selectables).map(function(param) {
+                                        var _param = _sliced_to_array(param, 2), key = _param[0], dropdowns = _param[1];
+                                        return /* @__PURE__ */ jsx13(CommandGroup, {
+                                            heading: key,
+                                            className: cn("h-full overflow-auto", dropdownClassName),
+                                            children: /* @__PURE__ */ jsx13(Fragment2, {
+                                                children: dropdowns.map(function(option) {
+                                                    return /* @__PURE__ */ jsx13(CommandItem, {
+                                                        value: option.value,
+                                                        disabled: option.disable,
+                                                        onMouseDown: function(e) {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                        },
+                                                        onSelect: function() {
+                                                            setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                            if (selected.length >= maxSelected) {
+                                                                onMaxSelected === null || onMaxSelected === void 0 ? void 0 : onMaxSelected(selected.length);
+                                                                return;
+                                                            }
+                                                            setInputValue("");
+                                                            var newOptions = _to_consumable_array(selected).concat([
+                                                                option
+                                                            ]);
+                                                            setSelected(newOptions);
+                                                            onChange === null || onChange === void 0 ? void 0 : onChange(newOptions);
+                                                        },
+                                                        className: cn("cursor-pointer", option.disable && "cursor-not-allowed opacity-50", dropdownOptionClassName),
+                                                        children: option.label
+                                                    }, option.value);
+                                                })
                                             })
-                                        })
-                                    }, key);
-                                })
-                            ]
+                                        }, key);
+                                    })
+                                ]
+                            })
                         })
                     })
                 })
