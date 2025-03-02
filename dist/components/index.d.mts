@@ -402,11 +402,14 @@ declare const PhoneUI: ({ phone, direction, className }: {
     direction?: Direction;
     className?: string;
 }) => react_jsx_runtime.JSX.Element;
-declare const BooleanUi: ({ value, size, className }: {
+interface BooleanUIProps {
     value: boolean;
     size?: "big" | "small";
     className?: string;
-}) => react_jsx_runtime.JSX.Element;
+    trueUi?: ReactNode;
+    falseUi?: ReactNode;
+}
+declare const BooleanUi: ({ value, size, className, falseUi, trueUi }: BooleanUIProps) => string | number | boolean | react_jsx_runtime.JSX.Element | Iterable<React__default.ReactNode>;
 interface GeoUiProps {
     value: Partial<Geo> & {
         latitude?: number;

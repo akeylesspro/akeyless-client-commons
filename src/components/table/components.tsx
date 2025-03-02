@@ -385,10 +385,17 @@ export const PhoneUI = ({ phone, direction, className = "" }: { phone: string; d
         </div>
     );
 };
-
-export const BooleanUi = ({ value, size, className }: { value: boolean; size?: "big" | "small"; className?: string }) => {
-    const icon = value ? "fa-light fa-check text-green-500" : "fa-light fa-xmark text-red-500";
-    return <i className={cn(`${icon} ${size === "small" ? "text-lg" : "text-2xl"}`, className)}></i>;
+interface BooleanUIProps {
+    value: boolean;
+    size?: "big" | "small";
+    className?: string;
+    trueUi?: ReactNode;
+    falseUi?: ReactNode;
+}
+export const BooleanUi = ({ value, size, className, falseUi, trueUi }: BooleanUIProps) => {
+    return value
+        ? trueUi ?? <i className={cn(`fa-light fa-check  ${size === "small" ? "text-lg" : "text-2xl"}`, className)} />
+        : falseUi ?? <i className={cn(`fa-light fa-xmark  ${size === "small" ? "text-lg" : "text-2xl"}`, className)} />;
 };
 
 export interface GeoUiProps {

@@ -2691,10 +2691,11 @@ var PhoneUI = function(param) {
     });
 };
 var BooleanUi = function(param) {
-    var value = param.value, size = param.size, className = param.className;
-    var icon = value ? "fa-light fa-check text-green-500" : "fa-light fa-xmark text-red-500";
-    return /* @__PURE__ */ jsx16("i", {
-        className: cn("".concat(icon, " ").concat(size === "small" ? "text-lg" : "text-2xl"), className)
+    var value = param.value, size = param.size, className = param.className, falseUi = param.falseUi, trueUi = param.trueUi;
+    return value ? trueUi !== null && trueUi !== void 0 ? trueUi : /* @__PURE__ */ jsx16("i", {
+        className: cn("fa-light fa-check  ".concat(size === "small" ? "text-lg" : "text-2xl"), className)
+    }) : falseUi !== null && falseUi !== void 0 ? falseUi : /* @__PURE__ */ jsx16("i", {
+        className: cn("fa-light fa-xmark  ".concat(size === "small" ? "text-lg" : "text-2xl"), className)
     });
 };
 var GeoUi = function(param) {
