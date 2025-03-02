@@ -536,76 +536,78 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                     </div>
                 </div>
                 {/* dropdown */}
-                <div
-                    className={cn(
-                        "absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input",
-                        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-                        !open && "hidden",
-                        dropdownContainerClassName
-                    )}
-                    data-state={open ? "open" : "closed"}
-                >
-                    {open && (
-                        <CommandList
-                            className="bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none"
-                            onMouseLeave={() => {
-                                setOnScrollbar(false);
-                            }}
-                            onMouseEnter={() => {
-                                setOnScrollbar(true);
-                            }}
-                            onMouseUp={() => {
-                                inputRef?.current?.focus();
-                            }}
-                        >
-                            {isLoading ? (
-                                <>{loadingIndicator}</>
-                            ) : (
-                                <>
-                                    {EmptyItem()}
-                                    {CreatableItem()}
-                                    {!selectFirstItem && <CommandItem value="-" className="hidden" />}
-                                    {Object.entries(selectables).map(([key, dropdowns]) => (
-                                        <CommandGroup key={key} heading={key} className={cn("h-full overflow-auto", dropdownClassName)}>
-                                            <>
-                                                {dropdowns.map((option) => {
-                                                    return (
-                                                        <CommandItem
-                                                            key={option.value}
-                                                            value={option.value}
-                                                            disabled={option.disable}
-                                                            onMouseDown={(e) => {
-                                                                e.preventDefault();
-                                                                e.stopPropagation();
-                                                            }}
-                                                            onSelect={() => {
-                                                                setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                                if (selected.length >= maxSelected) {
-                                                                    onMaxSelected?.(selected.length);
-                                                                    return;
-                                                                }
-                                                                setInputValue("");
-                                                                const newOptions = [...selected, option];
-                                                                setSelected(newOptions);
-                                                                onChange?.(newOptions);
-                                                            }}
-                                                            className={cn(
-                                                                "cursor-pointer",
-                                                                option.disable && "cursor-not-allowed opacity-50",
-                                                                dropdownOptionClassName
-                                                            )}
-                                                        >
-                                                            {option.label}
-                                                        </CommandItem>
-                                                    );
-                                                })}
-                                            </>
-                                        </CommandGroup>
-                                    ))}
-                                </>
-                            )}
-                        </CommandList>
-                    )}
+                <div className="relative">
+                    <div
+                        className={cn(
+                            "absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input",
+                            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+                            !open && "hidden",
+                            dropdownContainerClassName
+                        )}
+                        data-state={open ? "open" : "closed"}
+                    >
+                        {open && (
+                            <CommandList
+                                className="bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none"
+                                onMouseLeave={() => {
+                                    setOnScrollbar(false);
+                                }}
+                                onMouseEnter={() => {
+                                    setOnScrollbar(true);
+                                }}
+                                onMouseUp={() => {
+                                    inputRef?.current?.focus();
+                                }}
+                            >
+                                {isLoading ? (
+                                    <>{loadingIndicator}</>
+                                ) : (
+                                    <>
+                                        {EmptyItem()}
+                                        {CreatableItem()}
+                                        {!selectFirstItem && <CommandItem value="-" className="hidden" />}
+                                        {Object.entries(selectables).map(([key, dropdowns]) => (
+                                            <CommandGroup key={key} heading={key} className={cn("h-full overflow-auto", dropdownClassName)}>
+                                                <>
+                                                    {dropdowns.map((option) => {
+                                                        return (
+                                                            <CommandItem
+                                                                key={option.value}
+                                                                value={option.value}
+                                                                disabled={option.disable}
+                                                                onMouseDown={(e) => {
+                                                                    e.preventDefault();
+                                                                    e.stopPropagation();
+                                                                }}
+                                                                onSelect={() => {
+                                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
+                                                                    if (selected.length >= maxSelected) {
+                                                                        onMaxSelected?.(selected.length);
+                                                                        return;
+                                                                    }
+                                                                    setInputValue("");
+                                                                    const newOptions = [...selected, option];
+                                                                    setSelected(newOptions);
+                                                                    onChange?.(newOptions);
+                                                                }}
+                                                                className={cn(
+                                                                    "cursor-pointer",
+                                                                    option.disable && "cursor-not-allowed opacity-50",
+                                                                    dropdownOptionClassName
+                                                                )}
+                                                            >
+                                                                {option.label}
+                                                            </CommandItem>
+                                                        );
+                                                    })}
+                                                </>
+                                            </CommandGroup>
+                                        ))}
+                                    </>
+                                )}
+                            </CommandList>
+                        )}
+                    </div>
                 </div>
                 <input value={JSON.stringify(selected)} type="hidden" name={name} />
             </Command>
@@ -614,79 +616,3 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
 );
 MultipleSelector.displayName = "MultipleSelector";
 export default MultipleSelector;
-
-{
-    /* <div className="relative">
-    <div
-        className={cn(
-            "absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input",
-            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-            !open && "hidden",
-            dropdownContainerClassName
-        )}
-        data-state={open ? "open" : "closed"}
-    >
-        {open && (
-            <CommandList
-                className="bg-popover text-popover-foreground shadow-lg shadow-black/5 outline-none"
-                onMouseLeave={() => {
-                    setOnScrollbar(false);
-                }}
-                onMouseEnter={() => {
-                    setOnScrollbar(true);
-                }}
-                onMouseUp={() => {
-                    inputRef?.current?.focus();
-                }}
-            >
-                {isLoading ? (
-                    <>{loadingIndicator}</>
-                ) : (
-                    <>
-                        {EmptyItem()}
-                        {CreatableItem()}
-                        {!selectFirstItem && <CommandItem value="-" className="hidden" />}
-                        {Object.entries(selectables).map(([key, dropdowns]) => (
-                            <CommandGroup key={key} heading={key} className={cn("h-full overflow-auto", dropdownClassName)}>
-                                <>
-                                    {dropdowns.map((option) => {
-                                        return (
-                                            <CommandItem
-                                                key={option.value}
-                                                value={option.value}
-                                                disabled={option.disable}
-                                                onMouseDown={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                }}
-                                                onSelect={() => {
-                                                    setOptions(transToGroupOption(arrayDefaultOptions, groupBy));
-                                                    if (selected.length >= maxSelected) {
-                                                        onMaxSelected?.(selected.length);
-                                                        return;
-                                                    }
-                                                    setInputValue("");
-                                                    const newOptions = [...selected, option];
-                                                    setSelected(newOptions);
-                                                    onChange?.(newOptions);
-                                                }}
-                                                className={cn(
-                                                    "cursor-pointer",
-                                                    option.disable && "cursor-not-allowed opacity-50",
-                                                    dropdownOptionClassName
-                                                )}
-                                            >
-                                                {option.label}
-                                            </CommandItem>
-                                        );
-                                    })}
-                                </>
-                            </CommandGroup>
-                        ))}
-                    </>
-                )}
-            </CommandList>
-        )}
-    </div>
-</div>; */
-}

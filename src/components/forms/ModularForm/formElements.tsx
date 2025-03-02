@@ -159,7 +159,7 @@ export function MultiSelect({
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
-        <div className={cn("relative", `${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
+        <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
             {labelContent && (
                 <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
             )}
