@@ -185,6 +185,7 @@ export function MultiSelect({
                 dropdownOptionClassName={styles.dropdownOptionClassName}
                 emptyIndicator={emptyOptionsElement || <p className="text-center text-sm">{"all options selected."}</p>}
                 emptyIndicatorClassName={styles.emptyIndicatorClassName}
+                dropdownContainerClassName={styles.dropdownContainerClassName}
             />
         </div>
     );

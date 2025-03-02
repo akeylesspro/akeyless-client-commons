@@ -76,6 +76,7 @@ interface MultipleSelectorProps {
     hideClearAllButton?: boolean;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
+    dropdownContainerClassName?: string;
     emptyIndicatorClassName?: string;
     unremovableOptions?: MultipleSelectorOption[];
     name?: string;
@@ -189,6 +190,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             emptyIndicatorClassName,
             unremovableOptions = [],
             name,
+            dropdownContainerClassName = "",
         }: MultipleSelectorProps,
         ref: React.Ref<MultipleSelectorRef>
     ) => {
@@ -537,9 +539,10 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 <div className="relative">
                     <div
                         className={cn(
-                            "absolute top-2 z-10 w-full overflow-hidden rounded-lg border border-input",
+                            "absolute top-2 z-[150] w-full overflow-hidden rounded-lg border border-input",
                             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-                            !open && "hidden"
+                            !open && "hidden",
+                            dropdownContainerClassName
                         )}
                         data-state={open ? "open" : "closed"}
                     >

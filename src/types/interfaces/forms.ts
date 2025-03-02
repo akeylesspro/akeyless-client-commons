@@ -64,6 +64,7 @@ export interface MultiSelectProps extends Omit<BaseElementProps, "containerClass
         dropdownClassName?: string;
         dropdownOptionClassName?: string;
         emptyIndicatorClassName?: string;
+        dropdownContainerClassName?: string;
     };
     unremovableOptions?: MultipleSelectorOption[];
     placeholder?: string;
