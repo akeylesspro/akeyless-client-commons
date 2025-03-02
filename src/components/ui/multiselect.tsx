@@ -7,7 +7,7 @@ import { forwardRef, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { isEqual } from "lodash";
-import { useFloating, offset, flip, shift } from "@floating-ui/react-dom";
+import { useFloating, offset, flip, shift, autoUpdate } from "@floating-ui/react-dom";
 
 // Portal – עוטף ומעביר את התוכן ל־document.body
 const Portal = ({ children }: { children: React.ReactNode }) => {
@@ -165,6 +165,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
         const { x, y, strategy, refs, update } = useFloating({
             placement: "bottom-start",
             middleware: [offset(4), flip(), shift()],
+            whileElementsMounted: autoUpdate,
         });
 
         // שילוב ה־ref המקומי עם ה־setReference של Floating UI

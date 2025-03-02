@@ -1715,6 +1715,7 @@ var import_lodash4 = require("lodash");
 var min = Math.min;
 var max = Math.max;
 var round = Math.round;
+var floor = Math.floor;
 var createCoords = function(v) {
     return {
         x: v,
@@ -3124,6 +3125,139 @@ var platform = {
     isElement: isElement,
     isRTL: isRTL
 };
+function rectsAreEqual(a, b) {
+    return a.x === b.x && a.y === b.y && a.width === b.width && a.height === b.height;
+}
+function observeMove(element, onMove) {
+    var io = null;
+    var timeoutId;
+    var root = getDocumentElement(element);
+    function cleanup() {
+        var _io;
+        clearTimeout(timeoutId);
+        (_io = io) == null || _io.disconnect();
+        io = null;
+    }
+    function refresh(skip, threshold) {
+        if (skip === void 0) {
+            skip = false;
+        }
+        if (threshold === void 0) {
+            threshold = 1;
+        }
+        cleanup();
+        var elementRectForRootMargin = element.getBoundingClientRect();
+        var left = elementRectForRootMargin.left, top = elementRectForRootMargin.top, width = elementRectForRootMargin.width, height = elementRectForRootMargin.height;
+        if (!skip) {
+            onMove();
+        }
+        if (!width || !height) {
+            return;
+        }
+        var insetTop = floor(top);
+        var insetRight = floor(root.clientWidth - (left + width));
+        var insetBottom = floor(root.clientHeight - (top + height));
+        var insetLeft = floor(left);
+        var rootMargin = -insetTop + "px " + -insetRight + "px " + -insetBottom + "px " + -insetLeft + "px";
+        var options = {
+            rootMargin: rootMargin,
+            threshold: max(0, min(1, threshold)) || 1
+        };
+        var isFirstUpdate = true;
+        function handleObserve(entries) {
+            var ratio = entries[0].intersectionRatio;
+            if (ratio !== threshold) {
+                if (!isFirstUpdate) {
+                    return refresh();
+                }
+                if (!ratio) {
+                    timeoutId = setTimeout(function() {
+                        refresh(false, 1e-7);
+                    }, 1e3);
+                } else {
+                    refresh(false, ratio);
+                }
+            }
+            if (ratio === 1 && !rectsAreEqual(elementRectForRootMargin, element.getBoundingClientRect())) {
+                refresh();
+            }
+            isFirstUpdate = false;
+        }
+        try {
+            io = new IntersectionObserver(handleObserve, _object_spread_props(_object_spread({}, options), {
+                // Handle <iframe>s
+                root: root.ownerDocument
+            }));
+        } catch (e) {
+            io = new IntersectionObserver(handleObserve, options);
+        }
+        io.observe(element);
+    }
+    refresh(true);
+    return cleanup;
+}
+function autoUpdate(reference, floating, update, options) {
+    if (options === void 0) {
+        options = {};
+    }
+    var _options_ancestorScroll = options.ancestorScroll, ancestorScroll = _options_ancestorScroll === void 0 ? true : _options_ancestorScroll, _options_ancestorResize = options.ancestorResize, ancestorResize = _options_ancestorResize === void 0 ? true : _options_ancestorResize, _options_elementResize = options.elementResize, elementResize = _options_elementResize === void 0 ? typeof ResizeObserver === "function" : _options_elementResize, _options_layoutShift = options.layoutShift, layoutShift = _options_layoutShift === void 0 ? typeof IntersectionObserver === "function" : _options_layoutShift, _options_animationFrame = options.animationFrame, animationFrame = _options_animationFrame === void 0 ? false : _options_animationFrame;
+    var referenceEl = unwrapElement(reference);
+    var ancestors = ancestorScroll || ancestorResize ? _to_consumable_array(referenceEl ? getOverflowAncestors(referenceEl) : []).concat(_to_consumable_array(getOverflowAncestors(floating))) : [];
+    ancestors.forEach(function(ancestor) {
+        ancestorScroll && ancestor.addEventListener("scroll", update, {
+            passive: true
+        });
+        ancestorResize && ancestor.addEventListener("resize", update);
+    });
+    var cleanupIo = referenceEl && layoutShift ? observeMove(referenceEl, update) : null;
+    var reobserveFrame = -1;
+    var resizeObserver = null;
+    if (elementResize) {
+        resizeObserver = new ResizeObserver(function(_ref) {
+            var _$_ref = _sliced_to_array(_ref, 1), firstEntry = _$_ref[0];
+            if (firstEntry && firstEntry.target === referenceEl && resizeObserver) {
+                resizeObserver.unobserve(floating);
+                cancelAnimationFrame(reobserveFrame);
+                reobserveFrame = requestAnimationFrame(function() {
+                    var _resizeObserver;
+                    (_resizeObserver = resizeObserver) == null || _resizeObserver.observe(floating);
+                });
+            }
+            update();
+        });
+        if (referenceEl && !animationFrame) {
+            resizeObserver.observe(referenceEl);
+        }
+        resizeObserver.observe(floating);
+    }
+    var frameId;
+    var prevRefRect = animationFrame ? getBoundingClientRect(reference) : null;
+    if (animationFrame) {
+        frameLoop();
+    }
+    function frameLoop() {
+        var nextRefRect = getBoundingClientRect(reference);
+        if (prevRefRect && !rectsAreEqual(prevRefRect, nextRefRect)) {
+            update();
+        }
+        prevRefRect = nextRefRect;
+        frameId = requestAnimationFrame(frameLoop);
+    }
+    update();
+    return function() {
+        var _resizeObserver2;
+        ancestors.forEach(function(ancestor) {
+            ancestorScroll && ancestor.removeEventListener("scroll", update);
+            ancestorResize && ancestor.removeEventListener("resize", update);
+        });
+        cleanupIo == null || cleanupIo();
+        (_resizeObserver2 = resizeObserver) == null || _resizeObserver2.disconnect();
+        resizeObserver = null;
+        if (animationFrame) {
+            cancelAnimationFrame(frameId);
+        }
+    };
+}
 var offset2 = offset;
 var shift2 = shift;
 var flip2 = flip;
@@ -3537,7 +3671,8 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
             offset3(4),
             flip3(),
             shift3()
-        ]
+        ],
+        whileElementsMounted: autoUpdate
     }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs, update = _useFloating.update;
     var inputRef = React9.useRef(null);
     var setInputRef = function(node) {
