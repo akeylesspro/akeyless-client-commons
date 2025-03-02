@@ -327,29 +327,63 @@ export const TableButton = ({ onClick, title, className, type, children }: Table
         </>
     );
 };
-
 interface DurationUIProps {
-    duration: string;
-    minutesLabel?: string;
+    duration: string | number;
+    daysLabel?: string;
     hoursLabel?: string;
+    minutesLabel?: string;
     secondsLabel?: string;
     className?: string;
-    direction?: Direction;
+    direction?: "rtl" | "ltr";
 }
-export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s", className = "", direction }: DurationUIProps) => {
-    const durationTime = duration.split(":");
-    const hours = parseInt(durationTime[0], 10);
-    const minutes = parseInt(durationTime[1], 10);
-    const isWithSeconds = durationTime.length === 3;
-    const seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
+export const DurationUI = ({
+    duration,
+    daysLabel = "d",
+    hoursLabel = "h",
+    minutesLabel = "m",
+    secondsLabel = "s",
+    className = "",
+    direction,
+}: DurationUIProps) => {
+    const parse_parts = (duration: string | Number): { days: number; hours: number; minutes: number; seconds: number } => {
+        const days = 0;
+        const hours = 0;
+        const minutes = 0;
+        const seconds = 0;
+        return { days, hours, minutes, seconds };
+    };
+
+    const { days, hours, minutes, seconds } = parse_parts(duration);
+
+    if (typeof duration === "number") {
+        const totalSeconds = duration;
+        parse_parts.days = Math.floor(totalSeconds / 86400);
+        let remaining = totalSeconds % 86400;
+        parse_parts.hours = Math.floor(remaining / 3600);
+        remaining %= 3600;
+        parse_parts.minutes = Math.floor(remaining / 60);
+        parse_parts.seconds = remaining % 60;
+    } else {
+        const durationTime = duration.split(":");
+        parse_parts.days = durationTime.length === 4 ? parseInt(durationTime[0], 10) : 0;
+        parse_parts.hours = durationTime.length === 4 ? parseInt(durationTime[1], 10) : parseInt(durationTime[0], 10);
+        parse_parts.minutes = durationTime.length === 4 ? parseInt(durationTime[2], 10) : parseInt(durationTime[1], 10);
+        const isWithSeconds = durationTime.length === 3 || durationTime.length === 4;
+        parse_parts.seconds = isWithSeconds ? parseInt(durationTime[durationTime.length - 1], 10) : 0;
+    }
 
     return (
         <div
-            title={duration}
+            title={typeof duration === "string" ? duration : duration.toString()}
             style={{ direction: "ltr" }}
             className={cn(`flex gap-1 ${direction === "rtl" ? "justify-end" : "justify-start"}`, className)}
         >
-            {hours > 0 && (
+            {days > 0 && (
+                <span style={{ display: "inline-block" }}>
+                    {days} {daysLabel}
+                </span>
+            )}
+            {(days > 0 || hours > 0) && (
                 <>
                     <span style={{ display: "inline-block" }}>
                         {hours} {hoursLabel}

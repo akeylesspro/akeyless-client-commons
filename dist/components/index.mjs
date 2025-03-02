@@ -2596,20 +2596,54 @@ var TableButton = function(param) {
     });
 };
 var DurationUI = function(param) {
-    var duration = param.duration, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
-    var durationTime = duration.split(":");
-    var hours = parseInt(durationTime[0], 10);
-    var minutes = parseInt(durationTime[1], 10);
-    var isWithSeconds = durationTime.length === 3;
-    var seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
+    var duration = param.duration, _param_daysLabel = param.daysLabel, daysLabel = _param_daysLabel === void 0 ? "d" : _param_daysLabel, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
+    var parse_parts = function(duration2) {
+        var days2 = 0;
+        var hours2 = 0;
+        var minutes2 = 0;
+        var seconds2 = 0;
+        return {
+            days: days2,
+            hours: hours2,
+            minutes: minutes2,
+            seconds: seconds2
+        };
+    };
+    var _parse_parts = parse_parts(duration), days = _parse_parts.days, hours = _parse_parts.hours, minutes = _parse_parts.minutes, seconds = _parse_parts.seconds;
+    if (typeof duration === "number") {
+        var totalSeconds = duration;
+        parse_parts.days = Math.floor(totalSeconds / 86400);
+        var remaining = totalSeconds % 86400;
+        parse_parts.hours = Math.floor(remaining / 3600);
+        remaining %= 3600;
+        parse_parts.minutes = Math.floor(remaining / 60);
+        parse_parts.seconds = remaining % 60;
+    } else {
+        var durationTime = duration.split(":");
+        parse_parts.days = durationTime.length === 4 ? parseInt(durationTime[0], 10) : 0;
+        parse_parts.hours = durationTime.length === 4 ? parseInt(durationTime[1], 10) : parseInt(durationTime[0], 10);
+        parse_parts.minutes = durationTime.length === 4 ? parseInt(durationTime[2], 10) : parseInt(durationTime[1], 10);
+        var isWithSeconds = durationTime.length === 3 || durationTime.length === 4;
+        parse_parts.seconds = isWithSeconds ? parseInt(durationTime[durationTime.length - 1], 10) : 0;
+    }
     return /* @__PURE__ */ jsxs11("div", {
-        title: duration,
+        title: typeof duration === "string" ? duration : duration.toString(),
         style: {
             direction: "ltr"
         },
         className: cn("flex gap-1 ".concat(direction === "rtl" ? "justify-end" : "justify-start"), className),
         children: [
-            hours > 0 && /* @__PURE__ */ jsxs11(Fragment3, {
+            days > 0 && /* @__PURE__ */ jsxs11("span", {
+                style: {
+                    display: "inline-block"
+                },
+                children: [
+                    days,
+                    " ",
+                    daysLabel
+                ]
+            }),
+            (days > 0 || hours > 0) && /* @__PURE__ */ jsxs11(Fragment3, {
                 children: [
                     /* @__PURE__ */ jsxs11("span", {
                         style: {
