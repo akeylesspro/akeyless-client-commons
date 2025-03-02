@@ -1333,7 +1333,7 @@ import ReactDOM2 from "react-dom";
 import { Command as CommandPrimitive2, useCommandState } from "cmdk";
 import { X as X2 } from "lucide-react";
 import * as React9 from "react";
-import { forwardRef as forwardRef6, useEffect as useEffect4, useCallback as useCallback2, useMemo as useMemo4 } from "react";
+import { forwardRef as forwardRef6, useEffect as useEffect4, useCallback as useCallback2, useMemo as useMemo4, useRef as useRef3 } from "react";
 // src/components/ui/command.tsx
 import { Command as CommandPrimitive } from "cmdk";
 import { Search as Search2 } from "lucide-react";
@@ -3458,6 +3458,7 @@ function useDebounce(value, delay) {
 var MultipleSelector = forwardRef6(function(param, ref) {
     var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? true : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name, _param_dropdownContainerClassName = param.dropdownContainerClassName, dropdownContainerClassName = _param_dropdownContainerClassName === void 0 ? "" : _param_dropdownContainerClassName;
     var _containerRef_current;
+    var _React9_useState = _sliced_to_array(React9.useState(false), 2), isLoading = _React9_useState[0], setIsLoading = _React9_useState[1];
     var _useFloating = useFloating({
         placement: "bottom-start",
         middleware: [
@@ -3467,16 +3468,15 @@ var MultipleSelector = forwardRef6(function(param, ref) {
         ],
         whileElementsMounted: autoUpdate
     }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs, update = _useFloating.update;
-    var containerRef = React9.useRef(null);
+    var containerRef = useRef3(null);
     var setContainerRef = function(node) {
         containerRef.current = node;
         refs.setReference(node);
     };
-    var inputRef = React9.useRef(null);
-    var _React9_useState = _sliced_to_array(React9.useState(false), 2), open = _React9_useState[0], setOpen = _React9_useState[1];
-    var _React9_useState1 = _sliced_to_array(React9.useState(false), 2), isLoading = _React9_useState1[0], setIsLoading = _React9_useState1[1];
+    var inputRef = useRef3(null);
+    var _React9_useState1 = _sliced_to_array(React9.useState(false), 2), open = _React9_useState1[0], setOpen = _React9_useState1[1];
     var _React9_useState2 = _sliced_to_array(React9.useState(false), 2), onScrollbar = _React9_useState2[0], setOnScrollbar = _React9_useState2[1];
-    var dropdownRef = React9.useRef(null);
+    var dropdownRef = useRef3(null);
     var _React9_useState3 = _sliced_to_array(React9.useState(value || []), 2), selected = _React9_useState3[0], setSelected = _React9_useState3[1];
     var _React9_useState4 = _sliced_to_array(React9.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React9_useState4[0], setOptions = _React9_useState4[1];
     var _React9_useState5 = _sliced_to_array(React9.useState(""), 2), inputValue = _React9_useState5[0], setInputValue = _React9_useState5[1];
@@ -3692,6 +3692,13 @@ var MultipleSelector = forwardRef6(function(param, ref) {
         handleUnselect,
         selected
     ]);
+    var combinedFloatingRef = useCallback2(function(node) {
+        if (!node) return;
+        refs.setFloating(node);
+        dropdownRef.current = node;
+    }, [
+        refs
+    ]);
     var CreatableItem = function() {
         if (!creatable) return void 0;
         if (isOptionsExist(options, [
@@ -3890,13 +3897,7 @@ var MultipleSelector = forwardRef6(function(param, ref) {
             }),
             open && /* @__PURE__ */ jsx13(Portal2, {
                 children: /* @__PURE__ */ jsx13("div", {
-                    ref: useCallback2(function(node) {
-                        if (!node) return;
-                        refs.setFloating(node);
-                        dropdownRef.current = node;
-                    }, [
-                        refs
-                    ]),
+                    ref: combinedFloatingRef,
                     style: {
                         position: strategy,
                         top: y !== null && y !== void 0 ? y : 0,

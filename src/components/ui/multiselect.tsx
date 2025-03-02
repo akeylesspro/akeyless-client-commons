@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { X } from "lucide-react";
 import * as React from "react";
-import { forwardRef, useEffect, useCallback, useMemo } from "react";
+import { forwardRef, useEffect, useCallback, useMemo, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { isEqual } from "lodash";
@@ -147,27 +147,27 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
         },
         ref
     ) => {
-        // Floating UI – מיקום ה-Dropdown מתחת לקונטיינר
+        // Floating UI – ממקם את ה-Dropdown מתחת לקונטיינר
+        const [isLoading, setIsLoading] = React.useState(false);
         const { x, y, strategy, refs, update } = useFloating({
             placement: "bottom-start",
             middleware: [offset(4), flip(), shift()],
             whileElementsMounted: autoUpdate,
         });
 
-        // containerRef - הקונטיינר הכולל את התוויות ושדה הקלט
-        const containerRef = React.useRef<HTMLDivElement>(null);
+        // containerRef - הקונטיינר הכולל את התוויות ושדה הקלט, שישמש כ-reference
+        const containerRef = useRef<HTMLDivElement>(null);
         const setContainerRef = (node: HTMLDivElement) => {
             containerRef.current = node;
             refs.setReference(node);
         };
 
-        // inputRef - לשימוש לוגי (לדוגמה, focus/blur)
-        const inputRef = React.useRef<HTMLInputElement>(null);
+        // inputRef - לשימוש לוגי (focus/blur)
+        const inputRef = useRef<HTMLInputElement>(null);
 
         const [open, setOpen] = React.useState(false);
-        const [isLoading, setIsLoading] = React.useState(false);
         const [onScrollbar, setOnScrollbar] = React.useState(false);
-        const dropdownRef = React.useRef<HTMLDivElement>(null);
+        const dropdownRef = useRef<HTMLDivElement>(null);
 
         const [selected, setSelected] = React.useState<MultipleSelectorOption[]>(value || []);
         const [options, setOptions] = React.useState<GroupOption>(transToGroupOption(arrayDefaultOptions, groupBy));
@@ -269,7 +269,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             void exec();
         }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus, onSearch]);
 
-        // פונקציה להסרת פריט נבחר (handleUnselect)
+        // handleUnselect - הסרת פריט נבחר
         const handleUnselect = useCallback(
             (option: MultipleSelectorOption) => {
                 if (unremovableOptions.find((v) => isEqual(v.value, option.value))) {
@@ -282,7 +282,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             [onChange, selected, unremovableOptions]
         );
 
-        // טיפול במקשים (handleKeyDown)
+        // handleKeyDown - טיפול במקשים
         const handleKeyDown = useCallback(
             (e: React.KeyboardEvent<HTMLDivElement>) => {
                 const input = inputRef.current;
@@ -301,6 +301,16 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                 }
             },
             [handleUnselect, selected]
+        );
+
+        // combinedFloatingRef - ממזג את refs.setFloating עם dropdownRef
+        const combinedFloatingRef = useCallback(
+            (node: HTMLDivElement | null) => {
+                if (!node) return;
+                refs.setFloating(node);
+                dropdownRef.current = node;
+            },
+            [refs]
         );
 
         const CreatableItem = () => {
@@ -482,14 +492,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                 {open && (
                     <Portal>
                         <div
-                            ref={useCallback(
-                                (node: HTMLDivElement | null) => {
-                                    if (!node) return;
-                                    refs.setFloating(node);
-                                    dropdownRef.current = node;
-                                },
-                                [refs]
-                            )}
+                            ref={combinedFloatingRef}
                             style={{
                                 position: strategy,
                                 top: y ?? 0,
