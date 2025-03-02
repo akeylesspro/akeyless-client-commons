@@ -18,9 +18,7 @@ export interface MultipleSelectorOption {
     value: string;
     label: string;
     disable?: boolean;
-    /** fixed option that can't be removed. */
     fixed?: boolean;
-    /** Group the options by providing key. */
     [key: string]: string | boolean | undefined;
 }
 
@@ -30,12 +28,10 @@ interface GroupOption {
 
 export function useDebounce<T>(value: T, delay?: number): T {
     const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
-
     useEffect(() => {
         const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
         return () => clearTimeout(timer);
     }, [value, delay]);
-
     return debouncedValue;
 }
 
@@ -74,62 +70,36 @@ function isOptionsExist(groupOption: GroupOption, targetOption: MultipleSelector
     return false;
 }
 
-/**
- * CommandEmpty – פתרון לעדכון רינדור של cmdk
- */
 const CommandEmpty = forwardRef<HTMLDivElement, React.ComponentProps<typeof CommandPrimitive.Empty>>(({ className, ...props }, forwardedRef) => {
     const render = useCommandState((state) => state.filtered.count === 0);
     if (!render) return null;
     return <div ref={forwardedRef} className={cn("px-2 py-4 text-center text-sm", className)} cmdk-empty="" role="presentation" {...props} />;
 });
-
 CommandEmpty.displayName = "CommandEmpty";
 
 export interface MultipleSelectorProps {
     value?: MultipleSelectorOption[];
     defaultOptions?: MultipleSelectorOption[];
-    /** manually controlled options */
     options?: MultipleSelectorOption[];
     placeholder?: string;
-    /** Loading component. */
     loadingIndicator?: React.ReactNode;
-    /** Empty component. */
     emptyIndicator?: React.ReactNode;
-    /** Debounce time for async search. Only work with `onSearch`. */
     delay?: number;
-    /**
-     * Only work with `onSearch` prop. Trigger search when `onFocus`.
-     */
     triggerSearchOnFocus?: boolean;
-    /** async search */
     onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
-    /**
-     * sync search. This search will not show loadingIndicator.
-     */
     onSearchSync?: (value: string) => MultipleSelectorOption[];
     onChange?: (options: MultipleSelectorOption[]) => void;
-    /** Limit the maximum number of selected options. */
     maxSelected?: number;
-    /** Called when number of selected options exceeds the limit. */
     onMaxSelected?: (maxLimit: number) => void;
-    /** Hide the placeholder when there are options selected. */
     hidePlaceholderWhenSelected?: boolean;
     disabled?: boolean;
-    /** Group the options based on provided key. */
     groupBy?: string;
     className?: string;
     badgeClassName?: string;
-    /**
-     * First item selected is a default behavior by cmdk.
-     */
     selectFirstItem?: boolean;
-    /** Allow user to create option when no match found. */
     creatable?: boolean;
-    /** Props of `Command` */
     commandProps?: React.ComponentPropsWithoutRef<typeof Command>;
-    /** Props of `CommandInput` */
     inputProps?: Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>, "value" | "placeholder" | "disabled">;
-    /** Hide the clear all button. */
     hideClearAllButton?: boolean;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
@@ -181,19 +151,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
         },
         ref: React.Ref<MultipleSelectorRef>
     ) => {
-        // Floating UI hook – מחשב מיקום יחסי לשדה הקלט
-        const { x, y, strategy, refs } = useFloating({
-            placement: "bottom-start",
-            middleware: [offset(4), flip(), shift()],
-        });
-
-        // ניהול ה־ref של שדה הקלט – משלבים את ה־ref שלנו עם ה־setReference של Floating UI
-        const inputRef = React.useRef<HTMLInputElement>(null);
-        const setInputRef = (node: HTMLInputElement) => {
-            inputRef.current = node;
-            refs.setReference(node);
-        };
-
         const [open, setOpen] = React.useState(false);
         const [onScrollbar, setOnScrollbar] = React.useState(false);
         const [isLoading, setIsLoading] = React.useState(false);
@@ -203,6 +160,26 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
         const [options, setOptions] = React.useState<GroupOption>(transToGroupOption(arrayDefaultOptions, groupBy));
         const [inputValue, setInputValue] = React.useState("");
         const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+
+        // Floating UI – מחשב מיקום ביחס לשדה הקלט
+        const { x, y, strategy, refs, update } = useFloating({
+            placement: "bottom-start",
+            middleware: [offset(4), flip(), shift()],
+        });
+
+        // שילוב ה־ref המקומי עם ה־setReference של Floating UI
+        const inputRef = React.useRef<HTMLInputElement>(null);
+        const setInputRef = (node: HTMLInputElement) => {
+            inputRef.current = node;
+            refs.setReference(node);
+        };
+
+        // עדכון מיקום כאשר הרשימה נפתחת
+        useEffect(() => {
+            if (open) {
+                update();
+            }
+        }, [open, update]);
 
         React.useImperativeHandle(
             ref,
@@ -227,7 +204,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             }
         };
 
-        const handleUnselect = React.useCallback(
+        const handleUnselect = useCallback(
             (option: MultipleSelectorOption) => {
                 if (unremovableOptions.find((v) => isEqual(v.value, option.value))) {
                     return;
@@ -239,7 +216,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             [onChange, selected, unremovableOptions]
         );
 
-        const handleKeyDown = React.useCallback(
+        const handleKeyDown = useCallback(
             (e: React.KeyboardEvent<HTMLDivElement>) => {
                 const input = inputRef.current;
                 if (input) {
@@ -292,7 +269,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 const res = onSearchSync?.(debouncedSearchTerm);
                 setOptions(transToGroupOption(res || [], groupBy));
             };
-
             const exec = async () => {
                 if (!onSearchSync || !open) return;
                 if (triggerSearchOnFocus) {
@@ -302,7 +278,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                     doSearchSync();
                 }
             };
-
             void exec();
         }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus, onSearchSync]);
 
@@ -313,7 +288,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                 setOptions(transToGroupOption(res || [], groupBy));
                 setIsLoading(false);
             };
-
             const exec = async () => {
                 if (!onSearch || !open) return;
                 if (triggerSearchOnFocus) {
@@ -323,7 +297,6 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
                     await doSearch();
                 }
             };
-
             void exec();
         }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus, onSearch]);
 
@@ -363,7 +336,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             return undefined;
         };
 
-        const EmptyItem = React.useCallback(() => {
+        const EmptyItem = useCallback(() => {
             if (!emptyIndicator) return undefined;
             if (onSearch && !creatable && Object.keys(options).length === 0) {
                 return (
@@ -375,9 +348,9 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             return <CommandEmpty className={emptyIndicatorClassName}>{emptyIndicator}</CommandEmpty>;
         }, [creatable, emptyIndicator, onSearch, options, emptyIndicatorClassName]);
 
-        const selectables = React.useMemo<GroupOption>(() => removePickedOption(options, selected), [options, selected]);
+        const selectables = useMemo<GroupOption>(() => removePickedOption(options, selected), [options, selected]);
 
-        const commandFilter = React.useCallback(() => {
+        const commandFilter = useCallback(() => {
             if (commandProps?.filter) {
                 return commandProps.filter;
             }

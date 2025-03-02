@@ -502,7 +502,7 @@ var Version = function(param) {
 // src/components/table/components.tsx
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
-import { memo, useMemo as useMemo7 } from "react";
+import { memo, useMemo as useMemo6 } from "react";
 // src/assets/svg.tsx
 import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 var RedXSvg = function(param) {
@@ -1333,7 +1333,7 @@ import ReactDOM2 from "react-dom";
 import { Command as CommandPrimitive2, useCommandState } from "cmdk";
 import { X as X2 } from "lucide-react";
 import * as React9 from "react";
-import { forwardRef as forwardRef7, useEffect as useEffect4 } from "react";
+import { forwardRef as forwardRef7, useEffect as useEffect4, useCallback as useCallback2, useMemo as useMemo4 } from "react";
 // src/components/ui/command.tsx
 import { Command as CommandPrimitive } from "cmdk";
 import { Search as Search2 } from "lucide-react";
@@ -3328,19 +3328,6 @@ CommandEmpty2.displayName = "CommandEmpty";
 var MultipleSelector = React9.forwardRef(function(param, ref) {
     var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? true : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name, _param_dropdownContainerClassName = param.dropdownContainerClassName, dropdownContainerClassName = _param_dropdownContainerClassName === void 0 ? "" : _param_dropdownContainerClassName;
     var _inputRef_current;
-    var _useFloating = useFloating({
-        placement: "bottom-start",
-        middleware: [
-            offset3(4),
-            flip3(),
-            shift3()
-        ]
-    }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs;
-    var inputRef = React9.useRef(null);
-    var setInputRef = function(node) {
-        inputRef.current = node;
-        refs.setReference(node);
-    };
     var _React9_useState = _sliced_to_array(React9.useState(false), 2), open = _React9_useState[0], setOpen = _React9_useState[1];
     var _React9_useState1 = _sliced_to_array(React9.useState(false), 2), onScrollbar = _React9_useState1[0], setOnScrollbar = _React9_useState1[1];
     var _React9_useState2 = _sliced_to_array(React9.useState(false), 2), isLoading = _React9_useState2[0], setIsLoading = _React9_useState2[1];
@@ -3349,6 +3336,27 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
     var _React9_useState4 = _sliced_to_array(React9.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React9_useState4[0], setOptions = _React9_useState4[1];
     var _React9_useState5 = _sliced_to_array(React9.useState(""), 2), inputValue = _React9_useState5[0], setInputValue = _React9_useState5[1];
     var debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+    var _useFloating = useFloating({
+        placement: "bottom-start",
+        middleware: [
+            offset3(4),
+            flip3(),
+            shift3()
+        ]
+    }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs, update = _useFloating.update;
+    var inputRef = React9.useRef(null);
+    var setInputRef = function(node) {
+        inputRef.current = node;
+        refs.setReference(node);
+    };
+    useEffect4(function() {
+        if (open) {
+            update();
+        }
+    }, [
+        open,
+        update
+    ]);
     React9.useImperativeHandle(ref, function() {
         return {
             selectedValue: _to_consumable_array(selected),
@@ -3370,7 +3378,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
             inputRef.current.blur();
         }
     };
-    var handleUnselect = React9.useCallback(function(option) {
+    var handleUnselect = useCallback2(function(option) {
         if (unremovableOptions.find(function(v) {
             return isEqual4(v.value, option.value);
         })) {
@@ -3386,7 +3394,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         selected,
         unremovableOptions
     ]);
-    var handleKeyDown = React9.useCallback(function(e) {
+    var handleKeyDown = useCallback2(function(e) {
         var input = inputRef.current;
         if (input) {
             if (e.key === "Delete" || e.key === "Backspace") {
@@ -3594,7 +3602,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         }
         return void 0;
     };
-    var EmptyItem = React9.useCallback(function() {
+    var EmptyItem = useCallback2(function() {
         if (!emptyIndicator) return void 0;
         if (onSearch && !creatable && Object.keys(options).length === 0) {
             return /* @__PURE__ */ jsx13(CommandItem, {
@@ -3615,13 +3623,13 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         options,
         emptyIndicatorClassName
     ]);
-    var selectables = React9.useMemo(function() {
+    var selectables = useMemo4(function() {
         return removePickedOption(options, selected);
     }, [
         options,
         selected
     ]);
-    var commandFilter = React9.useCallback(function() {
+    var commandFilter = useCallback2(function() {
         if (commandProps === null || commandProps === void 0 ? void 0 : commandProps.filter) {
             return commandProps.filter;
         }
@@ -3869,7 +3877,7 @@ function PopoverContent(_param) {
 }
 // src/components/ui/SearchSelect.tsx
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { useId, useMemo as useMemo6, useState as useState5 } from "react";
+import { useId, useMemo as useMemo5, useState as useState5 } from "react";
 import { jsx as jsx15, jsxs as jsxs10 } from "react/jsx-runtime";
 function SearchSelect(param) {
     var options = param.options, name = param.name, _param_selectPlaceholder = param.selectPlaceholder, selectPlaceholder = _param_selectPlaceholder === void 0 ? "Select" : _param_selectPlaceholder, defaultValue = param.defaultValue, notFoundLabel = param.notFoundLabel, _param_searchPlaceholder = param.searchPlaceholder, searchPlaceholder = _param_searchPlaceholder === void 0 ? "Search" : _param_searchPlaceholder, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, notFoundLabelClassName = param.notFoundLabelClassName, elementClassName = param.elementClassName, searchClassName = param.searchClassName, selectButtonClassName = param.selectButtonClassName, value = param.value, disabled = param.disabled, onChange = param.onChange, direction = param.direction;
@@ -3877,7 +3885,7 @@ function SearchSelect(param) {
     var _useState5 = _sliced_to_array(useState5(false), 2), open = _useState5[0], setOpen = _useState5[1];
     var _ref;
     var _useState51 = _sliced_to_array(useState5((_ref = value !== null && value !== void 0 ? value : defaultValue) !== null && _ref !== void 0 ? _ref : ""), 2), selectedValue = _useState51[0], setSelectedValue = _useState51[1];
-    var selectLabel = useMemo6(function() {
+    var selectLabel = useMemo5(function() {
         var _options_find;
         return selectedValue ? (_options_find = options.find(function(item) {
             return item.value === selectedValue;
@@ -4092,7 +4100,7 @@ var Filter = memo(function(param) {
 });
 var TableHead = memo(function() {
     var _useTableContext = useTableContext(), headers = _useTableContext.headers, headerStyle = _useTableContext.headerStyle, headerCellStyle = _useTableContext.headerCellStyle, sortColumn = _useTableContext.sortColumn, handleSort = _useTableContext.handleSort, sortKeys = _useTableContext.sortKeys, sortOrder = _useTableContext.sortOrder, _useTableContext_filterableColumns = _useTableContext.filterableColumns, filterableColumns = _useTableContext_filterableColumns === void 0 ? [] : _useTableContext_filterableColumns, sortLabel = _useTableContext.sortLabel, headerClassName = _useTableContext.headerClassName, headerCellClassName = _useTableContext.headerCellClassName;
-    var sortDisplay = useMemo7(function() {
+    var sortDisplay = useMemo6(function() {
         return Boolean(sortKeys === null || sortKeys === void 0 ? void 0 : sortKeys.length);
     }, [
         sortKeys
@@ -4449,10 +4457,10 @@ var NumberUI = function(param) {
 // src/components/forms/ModularForm/ModularForm.tsx
 import { cloneElement, useState as useState8 } from "react";
 // src/components/forms/ModularForm/formElements.tsx
-import { useCallback as useCallback5, useMemo as useMemo9, useState as useState7 } from "react";
+import { useCallback as useCallback4, useMemo as useMemo8, useState as useState7 } from "react";
 // src/components/forms/ModularForm/InternationalPhonePicker.tsx
 import { ChevronDown, Phone } from "lucide-react";
-import { forwardRef as forwardRef8, useEffect as useEffect5, useMemo as useMemo8, useRef as useRef4, useState as useState6 } from "react";
+import { forwardRef as forwardRef8, useEffect as useEffect5, useMemo as useMemo7, useRef as useRef4, useState as useState6 } from "react";
 import * as RPNInput from "react-phone-number-input";
 import flags from "react-phone-number-input/flags";
 import { jsx as jsx17, jsxs as jsxs12 } from "react/jsx-runtime";
@@ -4565,7 +4573,7 @@ var CountrySelect = function(param) {
     var handleSelect = function(event) {
         onChange(event.target.value);
     };
-    var originalClassName = useMemo8(function() {
+    var originalClassName = useMemo7(function() {
         return "relative inline-flex items-center self-stretch rounded-s-lg border border-input bg-background py-2 pe-2 ps-3 text-muted-foreground transition-shadow focus-within:z-10 focus-within:border-ring focus-within:outline-none focus-within:ring-[3px] focus-within:ring-ring/20 hover:bg-accent hover:text-foreground has-[:disabled]:pointer-events-none has-[:disabled]:opacity-50";
     }, []);
     return /* @__PURE__ */ jsxs12("div", {
@@ -4630,7 +4638,7 @@ var FlagComponent = function(param) {
 // src/components/forms/ModularForm/formElements.tsx
 import { jsx as jsx18, jsxs as jsxs13 } from "react/jsx-runtime";
 var useSortValues = function(options, sortDirection, sortAsNumber) {
-    var sortOptions = useMemo9(function() {
+    var sortOptions = useMemo8(function() {
         var sorted = sortAsNumber ? options.sort(function(a, b) {
             return parseInt(b.label) - parseInt(a.label);
         }) : options.sort(function(a, b) {
@@ -4646,13 +4654,13 @@ var useSortValues = function(options, sortDirection, sortAsNumber) {
 };
 var InputContainer = function(param) {
     var validationError = param.validationError, _param_name = param.name, name = _param_name === void 0 ? "" : _param_name, _param_inputType = param.inputType, inputType = _param_inputType === void 0 ? "text" : _param_inputType, _param_labelContent = param.labelContent, labelContent = _param_labelContent === void 0 ? "" : _param_labelContent, _param_defaultValue = param.defaultValue, defaultValue = _param_defaultValue === void 0 ? "" : _param_defaultValue, _param_validationName = param.validationName, validationName = _param_validationName === void 0 ? "textNumbers" : _param_validationName, _param_containerClassName = param.containerClassName, containerClassName = _param_containerClassName === void 0 ? "" : _param_containerClassName, _param_labelClassName = param.labelClassName, labelClassName = _param_labelClassName === void 0 ? "" : _param_labelClassName, _param_elementClassName = param.elementClassName, elementClassName = _param_elementClassName === void 0 ? "" : _param_elementClassName, _param_required = param.required, required = _param_required === void 0 ? false : _param_required, placeholder = param.placeholder, props = param.props, minLength = param.minLength, onKeyDown = param.onKeyDown, onChange = param.onChange, direction = param.direction, value = param.value;
-    var handleChangeFunction = useCallback5(function(e) {
+    var handleChangeFunction = useCallback4(function(e) {
         handleChange(e);
         onChange === null || onChange === void 0 ? void 0 : onChange(e);
     }, [
         onChange
     ]);
-    var validationProps = useMemo9(function() {
+    var validationProps = useMemo8(function() {
         return _object_spread_props(_object_spread({}, useValidation(validationName, validationError)), {
             onChange: handleChangeFunction
         });

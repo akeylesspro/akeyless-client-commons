@@ -3523,19 +3523,6 @@ CommandEmpty2.displayName = "CommandEmpty";
 var MultipleSelector = React9.forwardRef(function(param, ref) {
     var value = param.value, onChange = param.onChange, placeholder = param.placeholder, tmp = param.defaultOptions, arrayDefaultOptions = tmp === void 0 ? [] : tmp, arrayOptions = param.options, delay = param.delay, onSearch = param.onSearch, onSearchSync = param.onSearchSync, loadingIndicator = param.loadingIndicator, emptyIndicator = param.emptyIndicator, _param_maxSelected = param.maxSelected, maxSelected = _param_maxSelected === void 0 ? Number.MAX_SAFE_INTEGER : _param_maxSelected, onMaxSelected = param.onMaxSelected, hidePlaceholderWhenSelected = param.hidePlaceholderWhenSelected, disabled = param.disabled, groupBy = param.groupBy, className = param.className, badgeClassName = param.badgeClassName, _param_selectFirstItem = param.selectFirstItem, selectFirstItem = _param_selectFirstItem === void 0 ? true : _param_selectFirstItem, _param_creatable = param.creatable, creatable = _param_creatable === void 0 ? false : _param_creatable, _param_triggerSearchOnFocus = param.triggerSearchOnFocus, triggerSearchOnFocus = _param_triggerSearchOnFocus === void 0 ? true : _param_triggerSearchOnFocus, commandProps = param.commandProps, inputProps = param.inputProps, _param_hideClearAllButton = param.hideClearAllButton, hideClearAllButton = _param_hideClearAllButton === void 0 ? false : _param_hideClearAllButton, dropdownClassName = param.dropdownClassName, dropdownOptionClassName = param.dropdownOptionClassName, emptyIndicatorClassName = param.emptyIndicatorClassName, _param_unremovableOptions = param.unremovableOptions, unremovableOptions = _param_unremovableOptions === void 0 ? [] : _param_unremovableOptions, name = param.name, _param_dropdownContainerClassName = param.dropdownContainerClassName, dropdownContainerClassName = _param_dropdownContainerClassName === void 0 ? "" : _param_dropdownContainerClassName;
     var _inputRef_current;
-    var _useFloating = useFloating({
-        placement: "bottom-start",
-        middleware: [
-            offset3(4),
-            flip3(),
-            shift3()
-        ]
-    }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs;
-    var inputRef = React9.useRef(null);
-    var setInputRef = function(node) {
-        inputRef.current = node;
-        refs.setReference(node);
-    };
     var _React9_useState = _sliced_to_array(React9.useState(false), 2), open = _React9_useState[0], setOpen = _React9_useState[1];
     var _React9_useState1 = _sliced_to_array(React9.useState(false), 2), onScrollbar = _React9_useState1[0], setOnScrollbar = _React9_useState1[1];
     var _React9_useState2 = _sliced_to_array(React9.useState(false), 2), isLoading = _React9_useState2[0], setIsLoading = _React9_useState2[1];
@@ -3544,6 +3531,27 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
     var _React9_useState4 = _sliced_to_array(React9.useState(transToGroupOption(arrayDefaultOptions, groupBy)), 2), options = _React9_useState4[0], setOptions = _React9_useState4[1];
     var _React9_useState5 = _sliced_to_array(React9.useState(""), 2), inputValue = _React9_useState5[0], setInputValue = _React9_useState5[1];
     var debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+    var _useFloating = useFloating({
+        placement: "bottom-start",
+        middleware: [
+            offset3(4),
+            flip3(),
+            shift3()
+        ]
+    }), x = _useFloating.x, y = _useFloating.y, strategy = _useFloating.strategy, refs = _useFloating.refs, update = _useFloating.update;
+    var inputRef = React9.useRef(null);
+    var setInputRef = function(node) {
+        inputRef.current = node;
+        refs.setReference(node);
+    };
+    (0, import_react5.useEffect)(function() {
+        if (open) {
+            update();
+        }
+    }, [
+        open,
+        update
+    ]);
     React9.useImperativeHandle(ref, function() {
         return {
             selectedValue: _to_consumable_array(selected),
@@ -3565,7 +3573,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
             inputRef.current.blur();
         }
     };
-    var handleUnselect = React9.useCallback(function(option) {
+    var handleUnselect = (0, import_react5.useCallback)(function(option) {
         if (unremovableOptions.find(function(v) {
             return (0, import_lodash4.isEqual)(v.value, option.value);
         })) {
@@ -3581,7 +3589,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         selected,
         unremovableOptions
     ]);
-    var handleKeyDown = React9.useCallback(function(e) {
+    var handleKeyDown = (0, import_react5.useCallback)(function(e) {
         var input = inputRef.current;
         if (input) {
             if (e.key === "Delete" || e.key === "Backspace") {
@@ -3789,7 +3797,7 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         }
         return void 0;
     };
-    var EmptyItem = React9.useCallback(function() {
+    var EmptyItem = (0, import_react5.useCallback)(function() {
         if (!emptyIndicator) return void 0;
         if (onSearch && !creatable && Object.keys(options).length === 0) {
             return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CommandItem, {
@@ -3810,13 +3818,13 @@ var MultipleSelector = React9.forwardRef(function(param, ref) {
         options,
         emptyIndicatorClassName
     ]);
-    var selectables = React9.useMemo(function() {
+    var selectables = (0, import_react5.useMemo)(function() {
         return removePickedOption(options, selected);
     }, [
         options,
         selected
     ]);
-    var commandFilter = React9.useCallback(function() {
+    var commandFilter = (0, import_react5.useCallback)(function() {
         if (commandProps === null || commandProps === void 0 ? void 0 : commandProps.filter) {
             return commandProps.filter;
         }

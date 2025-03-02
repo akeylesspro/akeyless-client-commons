@@ -68,57 +68,33 @@ interface MultipleSelectorOption {
     value: string;
     label: string;
     disable?: boolean;
-    /** fixed option that can't be removed. */
     fixed?: boolean;
-    /** Group the options by providing key. */
     [key: string]: string | boolean | undefined;
 }
 declare function useDebounce<T>(value: T, delay?: number): T;
 interface MultipleSelectorProps {
     value?: MultipleSelectorOption[];
     defaultOptions?: MultipleSelectorOption[];
-    /** manually controlled options */
     options?: MultipleSelectorOption[];
     placeholder?: string;
-    /** Loading component. */
     loadingIndicator?: React$1.ReactNode;
-    /** Empty component. */
     emptyIndicator?: React$1.ReactNode;
-    /** Debounce time for async search. Only work with `onSearch`. */
     delay?: number;
-    /**
-     * Only work with `onSearch` prop. Trigger search when `onFocus`.
-     */
     triggerSearchOnFocus?: boolean;
-    /** async search */
     onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
-    /**
-     * sync search. This search will not show loadingIndicator.
-     */
     onSearchSync?: (value: string) => MultipleSelectorOption[];
     onChange?: (options: MultipleSelectorOption[]) => void;
-    /** Limit the maximum number of selected options. */
     maxSelected?: number;
-    /** Called when number of selected options exceeds the limit. */
     onMaxSelected?: (maxLimit: number) => void;
-    /** Hide the placeholder when there are options selected. */
     hidePlaceholderWhenSelected?: boolean;
     disabled?: boolean;
-    /** Group the options based on provided key. */
     groupBy?: string;
     className?: string;
     badgeClassName?: string;
-    /**
-     * First item selected is a default behavior by cmdk.
-     */
     selectFirstItem?: boolean;
-    /** Allow user to create option when no match found. */
     creatable?: boolean;
-    /** Props of `Command` */
     commandProps?: React$1.ComponentPropsWithoutRef<typeof Command>;
-    /** Props of `CommandInput` */
     inputProps?: Omit<React$1.ComponentPropsWithoutRef<typeof Command$1.Input>, "value" | "placeholder" | "disabled">;
-    /** Hide the clear all button. */
     hideClearAllButton?: boolean;
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
