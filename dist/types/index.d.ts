@@ -1,6 +1,26 @@
+import { Command as Command$1 } from 'cmdk';
+import * as React$1 from 'react';
 import { ReactNode, Dispatch, SetStateAction } from 'react';
 import * as RPNInput from 'react-phone-number-input';
 import { WhereFilterOp, Unsubscribe } from 'firebase/firestore';
+
+declare const Command: React$1.ForwardRefExoticComponent<Omit<{
+    children?: React$1.ReactNode;
+} & Pick<Pick<React$1.DetailedHTMLProps<React$1.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, "key" | keyof React$1.HTMLAttributes<HTMLDivElement>> & {
+    ref?: React$1.Ref<HTMLDivElement>;
+} & {
+    asChild?: boolean;
+}, "key" | keyof React$1.HTMLAttributes<HTMLDivElement> | "asChild"> & {
+    label?: string;
+    shouldFilter?: boolean;
+    filter?: (value: string, search: string, keywords?: string[]) => number;
+    defaultValue?: string;
+    value?: string;
+    onValueChange?: (value: string) => void;
+    loop?: boolean;
+    disablePointerSelection?: boolean;
+    vimBindings?: boolean;
+} & React$1.RefAttributes<HTMLDivElement>, "ref"> & React$1.RefAttributes<HTMLDivElement>>;
 
 interface MultipleSelectorOption {
     value: string;
@@ -8,6 +28,37 @@ interface MultipleSelectorOption {
     disable?: boolean;
     fixed?: boolean;
     [key: string]: string | boolean | undefined;
+}
+interface MultipleSelectorProps {
+    value?: MultipleSelectorOption[];
+    defaultOptions?: MultipleSelectorOption[];
+    options?: MultipleSelectorOption[];
+    placeholder?: string;
+    loadingIndicator?: React$1.ReactNode;
+    emptyIndicator?: React$1.ReactNode;
+    delay?: number;
+    triggerSearchOnFocus?: boolean;
+    onSearch?: (value: string) => Promise<MultipleSelectorOption[]>;
+    onSearchSync?: (value: string) => MultipleSelectorOption[];
+    onChange?: (options: MultipleSelectorOption[]) => void;
+    maxSelected?: number;
+    onMaxSelected?: (maxLimit: number) => void;
+    hidePlaceholderWhenSelected?: boolean;
+    disabled?: boolean;
+    groupBy?: string;
+    className?: string;
+    badgeClassName?: string;
+    selectFirstItem?: boolean;
+    creatable?: boolean;
+    commandProps?: React$1.ComponentPropsWithoutRef<typeof Command>;
+    inputProps?: Omit<React$1.ComponentPropsWithoutRef<typeof Command$1.Input>, "value" | "placeholder" | "disabled">;
+    hideClearAllButton?: boolean;
+    dropdownClassName?: string;
+    dropdownOptionClassName?: string;
+    dropdownContainerClassName?: string;
+    emptyIndicatorClassName?: string;
+    unremovableOptions?: MultipleSelectorOption[];
+    name?: string;
 }
 
 type Direction = "rtl" | "ltr";
@@ -126,6 +177,7 @@ interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" |
     groupBy?: string;
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
+    searchInputProps?: MultipleSelectorProps["inputProps"];
 }
 interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";

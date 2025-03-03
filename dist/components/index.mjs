@@ -3866,7 +3866,7 @@ var MultipleSelector = forwardRef6(function(param, ref) {
                                 inputProps === null || inputProps === void 0 ? void 0 : (_inputProps_onFocus = inputProps.onFocus) === null || _inputProps_onFocus === void 0 ? void 0 : _inputProps_onFocus.call(inputProps, event);
                             },
                             placeholder: hidePlaceholderWhenSelected && selected.length !== 0 ? "" : placeholder,
-                            className: cn("flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed", {
+                            className: cn("flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed placeholder:pt-3", {
                                 "w-full": hidePlaceholderWhenSelected,
                                 "px-3 py-2": selected.length === 0,
                                 "ml-1": selected.length !== 0
@@ -4895,7 +4895,7 @@ var SelectContainer = function(param) {
     });
 };
 function MultiSelect(param) {
-    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus, _param_sortDirection = param.sortDirection, sortDirection = _param_sortDirection === void 0 ? "abc" : _param_sortDirection, sortAsNumber = param.sortAsNumber, direction = param.direction;
+    var onChange = param.onChange, selectedOptions = param.selectedOptions, emptyOptionsElement = param.emptyOptionsElement, unremovableOptions = param.unremovableOptions, _param_options = param.options, options = _param_options === void 0 ? [] : _param_options, _param_styles = param.styles, styles = _param_styles === void 0 ? {} : _param_styles, _param_name = param.name, name = _param_name === void 0 ? "multipleSelect" : _param_name, _param_placeholder = param.placeholder, placeholder = _param_placeholder === void 0 ? "Select items" : _param_placeholder, labelContent = param.labelContent, required = param.required, labelClassName = param.labelClassName, groupBy = param.groupBy, onSearch = param.onSearch, onSearchSync = param.onSearchSync, triggerSearchOnFocus = param.triggerSearchOnFocus, _param_sortDirection = param.sortDirection, sortDirection = _param_sortDirection === void 0 ? "abc" : _param_sortDirection, sortAsNumber = param.sortAsNumber, direction = param.direction, searchInputProps = param.searchInputProps;
     var sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return /* @__PURE__ */ jsxs13("div", {
         className: cn("".concat(labelContent ? "flex gap-1 items-center" : ""), styles.containerClassName),
@@ -4932,7 +4932,8 @@ function MultiSelect(param) {
                     children: "all options selected."
                 }),
                 emptyIndicatorClassName: styles.emptyIndicatorClassName,
-                dropdownContainerClassName: styles.dropdownContainerClassName
+                dropdownContainerClassName: styles.dropdownContainerClassName,
+                inputProps: searchInputProps
             })
         ]
     });

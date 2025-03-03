@@ -156,6 +156,7 @@ export function MultiSelect({
     sortDirection = "abc",
     sortAsNumber,
     direction,
+    searchInputProps,
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
@@ -186,6 +187,7 @@ export function MultiSelect({
                 emptyIndicator={emptyOptionsElement || <p className="text-center text-sm">{"all options selected."}</p>}
                 emptyIndicatorClassName={styles.emptyIndicatorClassName}
                 dropdownContainerClassName={styles.dropdownContainerClassName}
+                inputProps={searchInputProps}
             />
         </div>
     );

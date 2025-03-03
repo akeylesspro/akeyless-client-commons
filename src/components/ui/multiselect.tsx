@@ -375,6 +375,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                 shouldFilter={commandProps?.shouldFilter !== undefined ? commandProps.shouldFilter : !onSearch}
                 filter={commandFilter()}
             >
+                {/* select */}
                 <div
                     ref={setContainerRef}
                     className={cn(
@@ -392,6 +393,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                     }}
                 >
                     <div className="flex flex-wrap gap-1">
+                        {/* selected ui */}
                         {selected.map((option) => (
                             <div
                                 key={option.value}
@@ -423,7 +425,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                                 )}
                             </div>
                         ))}
-                        {/* שדה הקלט */}
+                        {/* search input */}
                         <CommandPrimitive.Input
                             {...inputProps}
                             ref={inputRef}
@@ -448,7 +450,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                             }}
                             placeholder={hidePlaceholderWhenSelected && selected.length !== 0 ? "" : placeholder}
                             className={cn(
-                                "flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed",
+                                "flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed placeholder:pt-3",
                                 {
                                     "w-full": hidePlaceholderWhenSelected,
                                     "px-3 py-2": selected.length === 0,
@@ -478,6 +480,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                     </div>
                 </div>
 
+                {/**dropdown */}
                 {open && (
                     <Portal>
                         <div

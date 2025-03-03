@@ -1,4 +1,4 @@
-import { MultipleSelectorOption } from "@/components/ui/multiselect";
+import { MultipleSelectorOption, MultipleSelectorProps } from "@/components/ui/multiselect";
 import { Direction } from "../types";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import * as RPNInput from "react-phone-number-input";
@@ -71,6 +71,7 @@ export interface MultiSelectProps extends Omit<BaseElementProps, "containerClass
     groupBy?: string;
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
+    searchInputProps?: MultipleSelectorProps["inputProps"];
 }
 export interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";

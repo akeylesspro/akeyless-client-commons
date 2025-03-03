@@ -482,9 +482,6 @@ body {
 .top-1 {
   top: 0.25rem;
 }
-.top-2 {
-  top: 0.5rem;
-}
 .top-4 {
   top: 1rem;
 }
@@ -517,9 +514,6 @@ body {
 }
 .z-\[1000\] {
   z-index: 1000;
-}
-.z-\[150\] {
-  z-index: 150;
 }
 .z-\[9999\] {
   z-index: 9999;
@@ -1454,6 +1448,12 @@ body {
 }
 .file\:text-foreground::file-selector-button {
   color: hsl(var(--foreground));
+}
+.placeholder\:pt-3::-moz-placeholder {
+  padding-top: 0.75rem;
+}
+.placeholder\:pt-3::placeholder {
+  padding-top: 0.75rem;
 }
 .placeholder\:text-muted-foreground::-moz-placeholder {
   color: hsl(var(--muted-foreground));
