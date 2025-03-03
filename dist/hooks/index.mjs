@@ -386,6 +386,22 @@ var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseD
 // src/hooks/react.ts
 import { isEqual as isEqual2 } from "lodash";
 import { useEffect, useMemo, useRef } from "react";
+function useSafeEffect(callback, dependencies, error_message) {
+    useEffect(function() {
+        try {
+            callback();
+        } catch (error) {
+            console.error(error_message || "Error in useEffect:", error);
+        }
+    }, dependencies);
+}
+var useDeepCompareMemo = function(factory, dependencies) {
+    var previousDepsRef = useRef([]);
+    if (!isEqual2(dependencies, previousDepsRef.current)) {
+        previousDepsRef.current = dependencies;
+    }
+    return useMemo(factory, previousDepsRef.current);
+};
 function useDeepCompareEffect(effect, dependencies) {
     var previousDepsRef = useRef();
     if (!isEqual2(previousDepsRef.current, dependencies)) {
@@ -471,5 +487,5 @@ var useSetUserCountry = function(setUserCountry, changLang) {
 };
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect3, useRef as useRef3 } from "react";
-export { useDocumentTitle, useSetUserCountry, useSnapshotBulk };
+export { useDeepCompareEffect, useDeepCompareMemo, useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
 //# sourceMappingURL=index.mjs.map

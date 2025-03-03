@@ -1,2 +1,3 @@
-export * from './global'
-export * from './WebWorker'
+export * from "./global";
+export * from "./react";
+export * from "./WebWorker";

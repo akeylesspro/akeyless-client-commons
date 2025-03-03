@@ -240,8 +240,17 @@ var __toCommonJS = function(mod) {
 // src/hooks/index.ts
 var hooks_exports = {};
 __export(hooks_exports, {
+    useDeepCompareEffect: function() {
+        return useDeepCompareEffect;
+    },
+    useDeepCompareMemo: function() {
+        return useDeepCompareMemo;
+    },
     useDocumentTitle: function() {
         return useDocumentTitle;
+    },
+    useSafeEffect: function() {
+        return useSafeEffect;
     },
     useSetUserCountry: function() {
         return useSetUserCountry;
@@ -465,6 +474,22 @@ var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseD
 // src/hooks/react.ts
 var import_lodash2 = require("lodash");
 var import_react = require("react");
+function useSafeEffect(callback, dependencies, error_message) {
+    (0, import_react.useEffect)(function() {
+        try {
+            callback();
+        } catch (error) {
+            console.error(error_message || "Error in useEffect:", error);
+        }
+    }, dependencies);
+}
+var useDeepCompareMemo = function(factory, dependencies) {
+    var previousDepsRef = (0, import_react.useRef)([]);
+    if (!(0, import_lodash2.isEqual)(dependencies, previousDepsRef.current)) {
+        previousDepsRef.current = dependencies;
+    }
+    return (0, import_react.useMemo)(factory, previousDepsRef.current);
+};
 function useDeepCompareEffect(effect, dependencies) {
     var previousDepsRef = (0, import_react.useRef)();
     if (!(0, import_lodash2.isEqual)(previousDepsRef.current, dependencies)) {
@@ -552,7 +577,10 @@ var useSetUserCountry = function(setUserCountry, changLang) {
 var import_react4 = require("react");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+    useDeepCompareEffect: useDeepCompareEffect,
+    useDeepCompareMemo: useDeepCompareMemo,
     useDocumentTitle: useDocumentTitle,
+    useSafeEffect: useSafeEffect,
     useSetUserCountry: useSetUserCountry,
     useSnapshotBulk: useSnapshotBulk
 });
