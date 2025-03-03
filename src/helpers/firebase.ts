@@ -366,6 +366,7 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
     });
 
     let collectionRef: Query<DocumentData> = collection(db, config.collectionName);
+    
     if (config.conditions) {
         config.conditions.forEach((condition) => {
             collectionRef = query(collectionRef, where(condition.field_name, condition.operator, condition.value));

@@ -1,5 +1,6 @@
 import { CountryOptions } from "akeyless-types-commons";
-import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useRef } from "react";
+import { isEqual } from "lodash";
+import { Dispatch, EffectCallback, SetStateAction, useEffect, useLayoutEffect, useRef } from "react";
 import { getUserCountryByIp, snapshot } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
 
@@ -24,7 +25,7 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
     const snapshotsFirstTime = useRef<string[]>([]);
     const unsubscribeFunctions = useRef<(() => void)[]>([]);
 
-    useEffect(() => {
+    useDeepCompareEffect(() => {
         const start = performance.now();
         console.log(`==> ${label || "Custom snapshots"} started... `);
         const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current));
@@ -34,7 +35,8 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
             console.log(`==> ${label || "Custom snapshots"} ended. It took ${(performance.now() - start).toFixed(2)} ms`);
         });
-    }, [JSON.stringify(configs), label]);
+    }, [configs, label]);
+    
     useEffect(() => {
         return () => {
             unsubscribeFunctions.current.forEach((unsubscribe) => {
@@ -61,3 +63,13 @@ export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<Countr
     }, []);
     return null;
 };
+
+export function useDeepCompareEffect(effect: EffectCallback, dependencies: any[]) {
+    const previousDepsRef = useRef<any[]>();
+
+    if (!isEqual(previousDepsRef.current, dependencies)) {
+        previousDepsRef.current = dependencies;
+    }
+
+    useEffect(effect, [previousDepsRef.current]);
+}

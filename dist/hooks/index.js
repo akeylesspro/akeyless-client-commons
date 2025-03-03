@@ -240,6 +240,9 @@ var __toCommonJS = function(mod) {
 // src/hooks/index.ts
 var hooks_exports = {};
 __export(hooks_exports, {
+    useDeepCompareEffect: function() {
+        return useDeepCompareEffect;
+    },
     useDocumentTitle: function() {
         return useDocumentTitle;
     },
@@ -256,6 +259,7 @@ __export(hooks_exports, {
 module.exports = __toCommonJS(hooks_exports);
 // src/hooks/global.ts
 var import_akeyless_types_commons2 = require("akeyless-types-commons");
+var import_lodash2 = require("lodash");
 var import_react = require("react");
 // src/helpers/firebase.ts
 var import_moment = __toESM(require("moment"));
@@ -486,7 +490,7 @@ var useDocumentTitle = function(title) {
 var useSnapshotBulk = function(configs, label) {
     var snapshotsFirstTime = (0, import_react.useRef)([]);
     var unsubscribeFunctions = (0, import_react.useRef)([]);
-    (0, import_react.useEffect)(function() {
+    useDeepCompareEffect(function() {
         var start = performance.now();
         console.log("==> ".concat(label || "Custom snapshots", " started... "));
         var snapshotResults = configs.map(function(config) {
@@ -501,7 +505,7 @@ var useSnapshotBulk = function(configs, label) {
             console.log("==> ".concat(label || "Custom snapshots", " ended. It took ").concat((performance.now() - start).toFixed(2), " ms"));
         });
     }, [
-        JSON.stringify(configs),
+        configs,
         label
     ]);
     (0, import_react.useEffect)(function() {
@@ -548,10 +552,20 @@ var useSetUserCountry = function(setUserCountry, changLang) {
     }, []);
     return null;
 };
+function useDeepCompareEffect(effect, dependencies) {
+    var previousDepsRef = (0, import_react.useRef)();
+    if (!(0, import_lodash2.isEqual)(previousDepsRef.current, dependencies)) {
+        previousDepsRef.current = dependencies;
+    }
+    (0, import_react.useEffect)(effect, [
+        previousDepsRef.current
+    ]);
+}
 // src/hooks/WebWorker.ts
 var import_react2 = require("react");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+    useDeepCompareEffect: useDeepCompareEffect,
     useDocumentTitle: useDocumentTitle,
     useSafeEffect: useSafeEffect,
     useSetUserCountry: useSetUserCountry,

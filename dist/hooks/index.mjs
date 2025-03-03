@@ -176,6 +176,7 @@ function _ts_generator(thisArg, body) {
     }
 }
 import { CountryOptions as CountryOptions2 } from "akeyless-types-commons";
+import { isEqual as isEqual2 } from "lodash";
 import { useEffect, useLayoutEffect, useRef } from "react";
 // src/helpers/firebase.ts
 import moment from "moment";
@@ -404,7 +405,7 @@ var useDocumentTitle = function(title) {
 var useSnapshotBulk = function(configs, label) {
     var snapshotsFirstTime = useRef([]);
     var unsubscribeFunctions = useRef([]);
-    useEffect(function() {
+    useDeepCompareEffect(function() {
         var start = performance.now();
         console.log("==> ".concat(label || "Custom snapshots", " started... "));
         var snapshotResults = configs.map(function(config) {
@@ -419,7 +420,7 @@ var useSnapshotBulk = function(configs, label) {
             console.log("==> ".concat(label || "Custom snapshots", " ended. It took ").concat((performance.now() - start).toFixed(2), " ms"));
         });
     }, [
-        JSON.stringify(configs),
+        configs,
         label
     ]);
     useEffect(function() {
@@ -466,7 +467,16 @@ var useSetUserCountry = function(setUserCountry, changLang) {
     }, []);
     return null;
 };
+function useDeepCompareEffect(effect, dependencies) {
+    var previousDepsRef = useRef();
+    if (!isEqual2(previousDepsRef.current, dependencies)) {
+        previousDepsRef.current = dependencies;
+    }
+    useEffect(effect, [
+        previousDepsRef.current
+    ]);
+}
 // src/hooks/WebWorker.ts
 import { useCallback, useEffect as useEffect2, useRef as useRef2 } from "react";
-export { useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
+export { useDeepCompareEffect, useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
 //# sourceMappingURL=index.mjs.map
