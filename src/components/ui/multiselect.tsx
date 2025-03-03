@@ -126,7 +126,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             emptyIndicator,
             maxSelected = Number.MAX_SAFE_INTEGER,
             onMaxSelected,
-            hidePlaceholderWhenSelected,
+            hidePlaceholderWhenSelected = true,
             disabled,
             groupBy,
             className,
@@ -450,7 +450,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                             }}
                             placeholder={hidePlaceholderWhenSelected && selected.length !== 0 ? "" : placeholder}
                             className={cn(
-                                "flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed placeholder:pt-3",
+                                "flex-1 bg-transparent outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed",
                                 {
                                     "w-full": hidePlaceholderWhenSelected,
                                     "px-3 py-2": selected.length === 0,

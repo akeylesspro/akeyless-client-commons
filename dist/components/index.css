@@ -1449,12 +1449,6 @@ body {
 .file\:text-foreground::file-selector-button {
   color: hsl(var(--foreground));
 }
-.placeholder\:pt-3::-moz-placeholder {
-  padding-top: 0.75rem;
-}
-.placeholder\:pt-3::placeholder {
-  padding-top: 0.75rem;
-}
 .placeholder\:text-muted-foreground::-moz-placeholder {
   color: hsl(var(--muted-foreground));
 }
