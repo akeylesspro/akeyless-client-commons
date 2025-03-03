@@ -375,7 +375,6 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                 shouldFilter={commandProps?.shouldFilter !== undefined ? commandProps.shouldFilter : !onSearch}
                 filter={commandFilter()}
             >
-                {/* קונטיינר של התוויות ושדה הקלט */}
                 <div
                     ref={setContainerRef}
                     className={cn(
@@ -479,7 +478,6 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                     </div>
                 </div>
 
-                {/* Dropdown – מוצג בתוך Portal וממוקם לפי Floating UI */}
                 {open && (
                     <Portal>
                         <div
