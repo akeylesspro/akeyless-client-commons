@@ -1,5 +1,5 @@
 import { CountryOptions } from 'akeyless-types-commons';
-import { Dispatch, SetStateAction, EffectCallback } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { WhereFilterOp } from 'firebase/firestore';
 
 type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
@@ -20,10 +20,8 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
     conditions?: WhereCondition[];
 }
 
-declare function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string): void;
 declare const useDocumentTitle: (title: string) => any;
 declare const useSnapshotBulk: (configs: OnSnapshotConfig[], label?: string) => void;
 declare const useSetUserCountry: (setUserCountry: Dispatch<SetStateAction<CountryOptions>>, changLang: (lang: string) => void) => any;
-declare function useDeepCompareEffect(effect: EffectCallback, dependencies: any[]): void;
 
-export { useDeepCompareEffect, useDocumentTitle, useSafeEffect, useSetUserCountry, useSnapshotBulk };
+export { useDocumentTitle, useSetUserCountry, useSnapshotBulk };

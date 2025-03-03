@@ -1,18 +1,8 @@
 import { CountryOptions } from "akeyless-types-commons";
-import { isEqual } from "lodash";
-import { Dispatch, EffectCallback, SetStateAction, useEffect, useLayoutEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useRef } from "react";
 import { getUserCountryByIp, snapshot } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
-
-export function useSafeEffect(callback: () => void, dependencies: any[], error_message?: string) {
-    useEffect(() => {
-        try {
-            callback();
-        } catch (error) {
-            console.error(error_message || "Error in useEffect:", error);
-        }
-    }, dependencies);
-}
+import { useDeepCompareEffect } from "./react";
 
 export const useDocumentTitle = (title: string) => {
     useEffect(() => {
@@ -36,7 +26,7 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
             console.log(`==> ${label || "Custom snapshots"} ended. It took ${(performance.now() - start).toFixed(2)} ms`);
         });
     }, [configs, label]);
-    
+
     useEffect(() => {
         return () => {
             unsubscribeFunctions.current.forEach((unsubscribe) => {
@@ -63,13 +53,3 @@ export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<Countr
     }, []);
     return null;
 };
-
-export function useDeepCompareEffect(effect: EffectCallback, dependencies: any[]) {
-    const previousDepsRef = useRef<any[]>();
-
-    if (!isEqual(previousDepsRef.current, dependencies)) {
-        previousDepsRef.current = dependencies;
-    }
-
-    useEffect(effect, [previousDepsRef.current]);
-}
