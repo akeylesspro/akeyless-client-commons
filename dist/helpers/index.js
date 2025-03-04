@@ -1110,7 +1110,9 @@ var snapshot = function(config, snapshotsFirstTime) {
         });
     }
     if (config.orderBy) {
-        collectionRef = (0, import_firestore.query)(collectionRef, (0, import_firestore.orderBy)(config.orderBy));
+        config.orderBy.forEach(function(order) {
+            collectionRef = (0, import_firestore.query)(collectionRef, (0, import_firestore.orderBy)(order.fieldName, order.direction));
+        });
     }
     var unsubscribe = (0, import_firestore.onSnapshot)(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {

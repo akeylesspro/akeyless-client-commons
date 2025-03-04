@@ -21,7 +21,10 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
     conditions?: WhereCondition[];
-    orderBy?: string;
+    orderBy?: {
+        fieldName: string;
+        direction: "asc" | "desc";
+    }[];
 }
 interface OnSnapshotConfigDocument extends Omit<OnSnapshotParsers, "onAdd"> {
     collectionName: string;

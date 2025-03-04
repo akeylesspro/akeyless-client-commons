@@ -374,7 +374,9 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
         });
     }
     if (config.orderBy) {
-        collectionRef = query(collectionRef, orderBy(config.orderBy));
+        config.orderBy.forEach((order) => {
+            collectionRef = query(collectionRef, orderBy(order.fieldName, order.direction));
+        });
     }
 
     const unsubscribe = onSnapshot(

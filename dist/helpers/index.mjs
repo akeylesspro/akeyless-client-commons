@@ -837,7 +837,9 @@ var snapshot = function(config, snapshotsFirstTime) {
         });
     }
     if (config.orderBy) {
-        collectionRef = query(collectionRef, orderBy(config.orderBy));
+        config.orderBy.forEach(function(order) {
+            collectionRef = query(collectionRef, orderBy(order.fieldName, order.direction));
+        });
     }
     var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {

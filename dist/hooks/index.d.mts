@@ -18,7 +18,10 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
     conditions?: WhereCondition[];
-    orderBy?: string;
+    orderBy?: {
+        fieldName: string;
+        direction: "asc" | "desc";
+    }[];
 }
 
 declare const useDocumentTitle: (title: string) => any;
