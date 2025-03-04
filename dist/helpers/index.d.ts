@@ -21,6 +21,7 @@ interface OnSnapshotConfig extends OnSnapshotParsers {
     collectionName: string;
     extraParsers?: OnSnapshotParsers[];
     conditions?: WhereCondition[];
+    orderBy?: string;
 }
 interface OnSnapshotConfigDocument extends Omit<OnSnapshotParsers, "onAdd"> {
     collectionName: string;

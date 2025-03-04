@@ -348,6 +348,9 @@ var snapshot = function(config, snapshotsFirstTime) {
             collectionRef = (0, import_firestore.query)(collectionRef, (0, import_firestore.where)(condition.field_name, condition.operator, condition.value));
         });
     }
+    if (config.orderBy) {
+        collectionRef = (0, import_firestore.query)(collectionRef, (0, import_firestore.orderBy)(config.orderBy));
+    }
     var unsubscribe = (0, import_firestore.onSnapshot)(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {
             var _config_onFirstTime, _config_extraParsers;

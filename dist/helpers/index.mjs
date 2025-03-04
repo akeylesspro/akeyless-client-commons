@@ -232,7 +232,7 @@ import moment from "moment";
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, getFirestore, onSnapshot, orderBy } from "firebase/firestore";
 // src/helpers/cars.ts
 var formatCarNumber = function(car_number) {
     var cn2 = car_number;
@@ -835,6 +835,9 @@ var snapshot = function(config, snapshotsFirstTime) {
         config.conditions.forEach(function(condition) {
             collectionRef = query(collectionRef, where(condition.field_name, condition.operator, condition.value));
         });
+    }
+    if (config.orderBy) {
+        collectionRef = query(collectionRef, orderBy(config.orderBy));
     }
     var unsubscribe = onSnapshot(collectionRef, function(snapshot2) {
         if (!snapshotsFirstTime.includes(config.collectionName)) {
