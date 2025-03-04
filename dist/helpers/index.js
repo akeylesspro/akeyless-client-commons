@@ -302,8 +302,17 @@ __export(helpers_exports, {
     auth: function() {
         return auth;
     },
+    baseDomain: function() {
+        return baseDomain;
+    },
+    biDomain: function() {
+        return biDomain;
+    },
     calculateBearing: function() {
         return calculateBearing;
+    },
+    callCenterDomain: function() {
+        return callCenterDomain;
     },
     carsRegex: function() {
         return carsRegex;
@@ -331,6 +340,9 @@ __export(helpers_exports, {
     },
     delete_document: function() {
         return delete_document;
+    },
+    devicesDomain: function() {
+        return devicesDomain;
     },
     displayFormatPhoneNumber: function() {
         return displayFormatPhoneNumber;
@@ -1768,7 +1780,10 @@ var nx_api_call = /*#__PURE__*/ function() {
     add_document: add_document,
     addressRegex: addressRegex,
     auth: auth,
+    baseDomain: baseDomain,
+    biDomain: biDomain,
     calculateBearing: calculateBearing,
+    callCenterDomain: callCenterDomain,
     carsRegex: carsRegex,
     chartsRegex: chartsRegex,
     cleanNxSites: cleanNxSites,
@@ -1778,6 +1793,7 @@ var nx_api_call = /*#__PURE__*/ function() {
     createSelectors: createSelectors,
     db: db,
     delete_document: delete_document,
+    devicesDomain: devicesDomain,
     displayFormatPhoneNumber: displayFormatPhoneNumber,
     emailRegex: emailRegex,
     extractAlertsData: extractAlertsData,

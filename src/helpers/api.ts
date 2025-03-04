@@ -3,10 +3,10 @@ import { auth } from "./firebase";
 import { TObject } from "akeyless-types-commons";
 import { isLocal, mode } from "./global";
 
-const baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
-const devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
-const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
-const callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
+export const baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info/api";
+export const devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
+export const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
+export const callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 type ServerName = "devices" | "bi" | "call-center";
