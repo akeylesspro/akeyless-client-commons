@@ -2791,35 +2791,41 @@ var TableButton = function(param) {
 };
 var DurationUI = function(param) {
     var duration = param.duration, _param_daysLabel = param.daysLabel, daysLabel = _param_daysLabel === void 0 ? "d" : _param_daysLabel, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
-    var parse_parts = function(duration2) {
-        var days2 = 0;
-        var hours2 = 0;
-        var minutes2 = 0;
-        var seconds2 = 0;
-        return {
-            days: days2,
-            hours: hours2,
-            minutes: minutes2,
-            seconds: seconds2
+    var _ref = (0, import_react6.useMemo)(function() {
+        var parse_parts = function(duration2) {
+            if (typeof duration2 === "number") {
+                var totalSeconds = duration2;
+                var days2 = Math.floor(totalSeconds / 86400);
+                var remaining = totalSeconds % 86400;
+                var hours2 = Math.floor(remaining / 3600);
+                remaining %= 3600;
+                var minutes2 = Math.floor(remaining / 60);
+                var seconds2 = remaining % 60;
+                return {
+                    days: days2,
+                    hours: hours2,
+                    minutes: minutes2,
+                    seconds: seconds2
+                };
+            } else {
+                var durationTime = duration2.split(":");
+                var days21 = durationTime.length === 4 ? parseInt(durationTime[0], 10) : 0;
+                var hours21 = durationTime.length === 4 ? parseInt(durationTime[1], 10) : parseInt(durationTime[0], 10);
+                var minutes21 = durationTime.length === 4 ? parseInt(durationTime[2], 10) : parseInt(durationTime[1], 10);
+                var isWithSeconds = durationTime.length === 3 || durationTime.length === 4;
+                var seconds21 = isWithSeconds ? parseInt(durationTime[durationTime.length - 1], 10) : 0;
+                return {
+                    days: days21,
+                    hours: hours21,
+                    minutes: minutes21,
+                    seconds: seconds21
+                };
+            }
         };
-    };
-    var _parse_parts = parse_parts(duration), days = _parse_parts.days, hours = _parse_parts.hours, minutes = _parse_parts.minutes, seconds = _parse_parts.seconds;
-    if (typeof duration === "number") {
-        var totalSeconds = duration;
-        parse_parts.days = Math.floor(totalSeconds / 86400);
-        var remaining = totalSeconds % 86400;
-        parse_parts.hours = Math.floor(remaining / 3600);
-        remaining %= 3600;
-        parse_parts.minutes = Math.floor(remaining / 60);
-        parse_parts.seconds = remaining % 60;
-    } else {
-        var durationTime = duration.split(":");
-        parse_parts.days = durationTime.length === 4 ? parseInt(durationTime[0], 10) : 0;
-        parse_parts.hours = durationTime.length === 4 ? parseInt(durationTime[1], 10) : parseInt(durationTime[0], 10);
-        parse_parts.minutes = durationTime.length === 4 ? parseInt(durationTime[2], 10) : parseInt(durationTime[1], 10);
-        var isWithSeconds = durationTime.length === 3 || durationTime.length === 4;
-        parse_parts.seconds = isWithSeconds ? parseInt(durationTime[durationTime.length - 1], 10) : 0;
-    }
+        return parse_parts(duration);
+    }, [
+        duration
+    ]), days = _ref.days, hours = _ref.hours, minutes = _ref.minutes, seconds = _ref.seconds;
     return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", {
         title: typeof duration === "string" ? duration : duration.toString(),
         style: {

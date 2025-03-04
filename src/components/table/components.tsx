@@ -345,33 +345,29 @@ export const DurationUI = ({
     className = "",
     direction,
 }: DurationUIProps) => {
-    const parse_parts = (duration: string | Number): { days: number; hours: number; minutes: number; seconds: number } => {
-        const days = 0;
-        const hours = 0;
-        const minutes = 0;
-        const seconds = 0;
-        return { days, hours, minutes, seconds };
-    };
-
-    const { days, hours, minutes, seconds } = parse_parts(duration);
-
-    if (typeof duration === "number") {
-        const totalSeconds = duration;
-        parse_parts.days = Math.floor(totalSeconds / 86400);
-        let remaining = totalSeconds % 86400;
-        parse_parts.hours = Math.floor(remaining / 3600);
-        remaining %= 3600;
-        parse_parts.minutes = Math.floor(remaining / 60);
-        parse_parts.seconds = remaining % 60;
-    } else {
-        const durationTime = duration.split(":");
-        parse_parts.days = durationTime.length === 4 ? parseInt(durationTime[0], 10) : 0;
-        parse_parts.hours = durationTime.length === 4 ? parseInt(durationTime[1], 10) : parseInt(durationTime[0], 10);
-        parse_parts.minutes = durationTime.length === 4 ? parseInt(durationTime[2], 10) : parseInt(durationTime[1], 10);
-        const isWithSeconds = durationTime.length === 3 || durationTime.length === 4;
-        parse_parts.seconds = isWithSeconds ? parseInt(durationTime[durationTime.length - 1], 10) : 0;
-    }
-
+    const { days, hours, minutes, seconds } = useMemo(() => {
+        const parse_parts = (duration: string | number): { days: number; hours: number; minutes: number; seconds: number } => {
+            if (typeof duration === "number") {
+                const totalSeconds = duration;
+                const days = Math.floor(totalSeconds / 86400);
+                let remaining = totalSeconds % 86400;
+                const hours = Math.floor(remaining / 3600);
+                remaining %= 3600;
+                const minutes = Math.floor(remaining / 60);
+                const seconds = remaining % 60;
+                return { days, hours, minutes, seconds };
+            } else {
+                const durationTime = duration.split(":");
+                const days = durationTime.length === 4 ? parseInt(durationTime[0], 10) : 0;
+                const hours = durationTime.length === 4 ? parseInt(durationTime[1], 10) : parseInt(durationTime[0], 10);
+                const minutes = durationTime.length === 4 ? parseInt(durationTime[2], 10) : parseInt(durationTime[1], 10);
+                const isWithSeconds = durationTime.length === 3 || durationTime.length === 4;
+                const seconds = isWithSeconds ? parseInt(durationTime[durationTime.length - 1], 10) : 0;
+                return { days, hours, minutes, seconds };
+            }
+        };
+        return parse_parts(duration);
+    }, [duration]);
     return (
         <div
             title={typeof duration === "string" ? duration : duration.toString()}
