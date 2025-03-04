@@ -299,6 +299,9 @@ __export(helpers_exports, {
     addressRegex: function() {
         return addressRegex;
     },
+    akeylessOnlineDomain: function() {
+        return akeylessOnlineDomain;
+    },
     auth: function() {
         return auth;
     },
@@ -1703,6 +1706,7 @@ var baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx-api.info
 var devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
 var biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 var callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
+var akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz" : "https://akeyless-online.info";
 var nx_api_call = /*#__PURE__*/ function() {
     var _ref = _async_to_generator(function(serverName, method, url, data) {
         var urlResult, headers, _tmp, _, response, error, _error_response;
@@ -1779,6 +1783,7 @@ var nx_api_call = /*#__PURE__*/ function() {
 0 && (module.exports = {
     add_document: add_document,
     addressRegex: addressRegex,
+    akeylessOnlineDomain: akeylessOnlineDomain,
     auth: auth,
     baseDomain: baseDomain,
     biDomain: biDomain,

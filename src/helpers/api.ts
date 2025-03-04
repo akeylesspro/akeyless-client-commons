@@ -7,7 +7,7 @@ export const baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx
 export const devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
 export const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 export const callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
-
+export const akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz" : "https://akeyless-online.info";
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 type ServerName = "devices" | "bi" | "call-center";
 
