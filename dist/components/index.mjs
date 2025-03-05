@@ -4485,62 +4485,71 @@ var TableButton = function(param) {
     });
 };
 var DurationUI = function(param) {
-    var duration = param.duration, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
-    var durationTime = duration.split(":");
-    var hours = parseInt(durationTime[0], 10);
-    var minutes = parseInt(durationTime[1], 10);
-    var isWithSeconds = durationTime.length === 3;
-    var seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
+    var duration = param.duration, _param_daysLabel = param.daysLabel, daysLabel = _param_daysLabel === void 0 ? "d" : _param_daysLabel, _param_hoursLabel = param.hoursLabel, hoursLabel = _param_hoursLabel === void 0 ? "h" : _param_hoursLabel, _param_minutesLabel = param.minutesLabel, minutesLabel = _param_minutesLabel === void 0 ? "m" : _param_minutesLabel, _param_secondsLabel = param.secondsLabel, secondsLabel = _param_secondsLabel === void 0 ? "s" : _param_secondsLabel, _param_className = param.className, className = _param_className === void 0 ? "" : _param_className, direction = param.direction;
+    var _useMemo6 = useMemo6(function() {
+        var secondsInDay = 86400;
+        var days = Math.floor(duration / secondsInDay);
+        var remainderAfterDays = duration % secondsInDay;
+        var hours = Math.floor(remainderAfterDays / 3600);
+        var remainderAfterHours = remainderAfterDays % 3600;
+        var minutes = Math.floor(remainderAfterHours / 60);
+        var seconds = remainderAfterHours % 60;
+        var daysStr2 = String(days).padStart(2, "0");
+        var hoursStr2 = String(hours).padStart(2, "0");
+        var minutesStr2 = String(minutes).padStart(2, "0");
+        var secondsStr2 = String(seconds).padStart(2, "0");
+        return {
+            daysStr: daysStr2,
+            hoursStr: hoursStr2,
+            minutesStr: minutesStr2,
+            secondsStr: secondsStr2
+        };
+    }, [
+        duration
+    ]), daysStr = _useMemo6.daysStr, hoursStr = _useMemo6.hoursStr, minutesStr = _useMemo6.minutesStr, secondsStr = _useMemo6.secondsStr;
     return /* @__PURE__ */ jsxs11("div", {
-        title: duration,
+        title: "".concat(daysStr, " ").concat(daysLabel, " ").concat(hoursStr, " ").concat(hoursLabel, " ").concat(minutesStr, " ").concat(minutesLabel, " ").concat(secondsStr, " ").concat(secondsLabel).trim(),
         style: {
             direction: "ltr"
         },
         className: cn("flex gap-1 ".concat(direction === "rtl" ? "justify-end" : "justify-start"), className),
         children: [
-            hours > 0 && /* @__PURE__ */ jsxs11(Fragment3, {
-                children: [
-                    /* @__PURE__ */ jsxs11("span", {
-                        style: {
-                            display: "inline-block"
-                        },
-                        children: [
-                            hours,
-                            " ",
-                            hoursLabel
-                        ]
-                    }),
-                    minutes === 0 && /* @__PURE__ */ jsxs11("span", {
-                        style: {
-                            display: "inline-block"
-                        },
-                        children: [
-                            " ",
-                            "0",
-                            " ",
-                            minutesLabel
-                        ]
-                    })
-                ]
-            }),
-            minutes > 0 && /* @__PURE__ */ jsxs11("span", {
+            daysStr !== "00" && /* @__PURE__ */ jsxs11("span", {
                 style: {
                     display: "inline-block"
                 },
                 children: [
+                    daysStr,
                     " ",
-                    minutes,
+                    daysLabel
+                ]
+            }),
+            hoursStr !== "00" && /* @__PURE__ */ jsxs11("span", {
+                style: {
+                    display: "inline-block"
+                },
+                children: [
+                    hoursStr,
+                    " ",
+                    hoursLabel
+                ]
+            }),
+            minutesStr !== "00" && /* @__PURE__ */ jsxs11("span", {
+                style: {
+                    display: "inline-block"
+                },
+                children: [
+                    minutesStr,
                     " ",
                     minutesLabel
                 ]
             }),
-            seconds > 0 && /* @__PURE__ */ jsxs11("span", {
+            secondsStr !== "00" && /* @__PURE__ */ jsxs11("span", {
                 style: {
                     display: "inline-block"
                 },
                 children: [
-                    " ",
-                    seconds,
+                    secondsStr,
                     " ",
                     secondsLabel
                 ]

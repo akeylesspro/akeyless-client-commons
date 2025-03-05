@@ -327,51 +327,67 @@ export const TableButton = ({ onClick, title, className, type, children }: Table
         </>
     );
 };
-
 interface DurationUIProps {
-    duration: string;
-    minutesLabel?: string;
+    duration: number;
+    daysLabel?: string;
     hoursLabel?: string;
+    minutesLabel?: string;
     secondsLabel?: string;
     className?: string;
-    direction?: Direction;
+    direction?: "rtl" | "ltr";
 }
-export const DurationUI = ({ duration, hoursLabel = "h", minutesLabel = "m", secondsLabel = "s", className = "", direction }: DurationUIProps) => {
-    const durationTime = duration.split(":");
-    const hours = parseInt(durationTime[0], 10);
-    const minutes = parseInt(durationTime[1], 10);
-    const isWithSeconds = durationTime.length === 3;
-    const seconds = isWithSeconds ? parseInt(durationTime[2], 10) : 0;
-
+export const DurationUI = ({
+    duration,
+    daysLabel = "d",
+    hoursLabel = "h",
+    minutesLabel = "m",
+    secondsLabel = "s",
+    className = "",
+    direction,
+}: DurationUIProps) => {
+    const { daysStr, hoursStr, minutesStr, secondsStr } = useMemo(() => {
+        const secondsInDay = 86400;
+        const days = Math.floor(duration / secondsInDay);
+        const remainderAfterDays = duration % secondsInDay;
+        const hours = Math.floor(remainderAfterDays / 3600);
+        const remainderAfterHours = remainderAfterDays % 3600;
+        const minutes = Math.floor(remainderAfterHours / 60);
+        const seconds = remainderAfterHours % 60;
+        const daysStr = String(days).padStart(2, "0");
+        const hoursStr = String(hours).padStart(2, "0");
+        const minutesStr = String(minutes).padStart(2, "0");
+        const secondsStr = String(seconds).padStart(2, "0");
+        return {
+            daysStr,
+            hoursStr,
+            minutesStr,
+            secondsStr,
+        };
+    }, [duration]);
     return (
         <div
-            title={duration}
+            title={`${daysStr} ${daysLabel} ${hoursStr} ${hoursLabel} ${minutesStr} ${minutesLabel} ${secondsStr} ${secondsLabel}`.trim()}
             style={{ direction: "ltr" }}
             className={cn(`flex gap-1 ${direction === "rtl" ? "justify-end" : "justify-start"}`, className)}
         >
-            {hours > 0 && (
-                <>
-                    <span style={{ display: "inline-block" }}>
-                        {hours} {hoursLabel}
-                    </span>
-                    {minutes === 0 && (
-                        <span style={{ display: "inline-block" }}>
-                            {" "}
-                            {"0"} {minutesLabel}
-                        </span>
-                    )}
-                </>
-            )}
-            {minutes > 0 && (
+            {daysStr !== "00" && (
                 <span style={{ display: "inline-block" }}>
-                    {" "}
-                    {minutes} {minutesLabel}
+                    {daysStr} {daysLabel}
                 </span>
             )}
-            {seconds > 0 && (
+            {hoursStr !== "00" && (
                 <span style={{ display: "inline-block" }}>
-                    {" "}
-                    {seconds} {secondsLabel}
+                    {hoursStr} {hoursLabel}
+                </span>
+            )}
+            {minutesStr !== "00" && (
+                <span style={{ display: "inline-block" }}>
+                    {minutesStr} {minutesLabel}
+                </span>
+            )}
+            {secondsStr !== "00" && (
+                <span style={{ display: "inline-block" }}>
+                    {secondsStr} {secondsLabel}
                 </span>
             )}
         </div>

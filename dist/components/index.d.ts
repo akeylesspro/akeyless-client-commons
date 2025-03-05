@@ -439,14 +439,15 @@ interface TableButtonProps {
 }
 declare const TableButton: ({ onClick, title, className, type, children }: TableButtonProps) => react_jsx_runtime.JSX.Element;
 interface DurationUIProps {
-    duration: string;
-    minutesLabel?: string;
+    duration: number;
+    daysLabel?: string;
     hoursLabel?: string;
+    minutesLabel?: string;
     secondsLabel?: string;
     className?: string;
-    direction?: Direction;
+    direction?: "rtl" | "ltr";
 }
-declare const DurationUI: ({ duration, hoursLabel, minutesLabel, secondsLabel, className, direction }: DurationUIProps) => react_jsx_runtime.JSX.Element;
+declare const DurationUI: ({ duration, daysLabel, hoursLabel, minutesLabel, secondsLabel, className, direction, }: DurationUIProps) => react_jsx_runtime.JSX.Element;
 declare const PhoneUI: ({ phone, direction, className }: {
     phone: string;
     direction?: Direction;
