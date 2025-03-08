@@ -1,9 +1,9 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.1",
+    "version": "1.0.5",
     "scripts": {
         "build": "tsup",
-        "deploy": "npm run build && git add . && git commit -am 'build' && git push origin main",
+        "deploy": "npm run build && npm publish",
         "dt": "npm run build && git add . && git commit -am 'build' && git push origin test",
         "uc": "npm i git+https://github.com/akeylesspro/akeyless-types-commons.git",
         "git": "powershell -ExecutionPolicy Bypass -File ./ps/create_branch.ps1",
@@ -50,6 +50,9 @@
         "tsup": "^8.3.0",
         "typescript": "^5.6.3"
     },
+    "files": [
+        "dist"
+    ],
     "exports": {
         "./assets": {
             "import": "./dist/assets/index.mjs",
