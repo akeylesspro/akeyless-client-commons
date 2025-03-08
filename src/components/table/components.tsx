@@ -1,17 +1,15 @@
 import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import React, { memo, ReactNode, useMemo } from "react";
-import { emptyFilterSvg, exportToExcelSvg, RedXSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
+import { emptyFilterSvg, exportToExcelSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
 import { Geo, TObject } from "akeyless-types-commons";
-import { TableBodySCN, TableCellSCN, TableHeaderSCN, TableHeadSCN, TableRowSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { useTableContext } from "./hooks";
 import { getLocationUrl, renderOnce } from "src/helpers";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
 import { Direction } from "src/types";
-import { Timestamp } from "firebase/firestore";
 
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
