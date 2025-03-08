@@ -1,6 +1,6 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "scripts": {
         "build": "tsup",
         "deploy": "npm run build && npm publish",
