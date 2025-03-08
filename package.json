@@ -1,11 +1,10 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "scripts": {
         "build": "tsup",
-        "deploy": "npm run build && npm publish",
-        "dt": "npm run build && git add . && git commit -am 'build' && git push origin test",
-        "uc": "npm i git+https://github.com/akeylesspro/akeyless-types-commons.git",
+        "deploy": "npm run build && npm version patch --no-git-tag-version && npm publish",
+        "uc": "npm i akeyless-types-commons",
         "git": "powershell -ExecutionPolicy Bypass -File ./ps/create_branch.ps1",
         "git2": "powershell -ExecutionPolicy Bypass -File ./ps/move_to_main.ps1"
     },
@@ -17,7 +16,7 @@
         "@radix-ui/react-progress": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.2",
         "@types/lodash": "^4.17.13",
-        "akeyless-types-commons": "github:akeylesspro/akeyless-types-commons",
+        "akeyless-types-commons": "^1.0.2",
         "axios": "^1.7.9",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
