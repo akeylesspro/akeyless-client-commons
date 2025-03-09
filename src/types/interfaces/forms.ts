@@ -72,6 +72,7 @@ export interface MultiSelectProps extends Omit<BaseElementProps, "containerClass
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
     searchInputProps?: MultipleSelectorProps["inputProps"];
+    createNewOptionLabel?: string;
 }
 export interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";
@@ -90,6 +91,7 @@ export interface SelectWithSearchProps extends BaseElementProps {
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
     disabled?: boolean;
+    createNewOptionLabel?: string;
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";

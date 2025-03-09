@@ -92,7 +92,7 @@ export interface MultipleSelectorProps {
     className?: string;
     badgeClassName?: string;
     selectFirstItem?: boolean;
-    creatable?: boolean;
+    createNewOptionLabel?: string;
     commandProps?: React.ComponentPropsWithoutRef<typeof Command>;
     inputProps?: Omit<React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>, "value" | "placeholder" | "disabled">;
     hideClearAllButton?: boolean;
@@ -132,7 +132,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             className,
             badgeClassName,
             selectFirstItem = true,
-            creatable = false,
+            createNewOptionLabel,
             triggerSearchOnFocus = true,
             commandProps,
             inputProps,
@@ -305,7 +305,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
         );
 
         const CreatableItem = () => {
-            if (!creatable) return undefined;
+            if (!createNewOptionLabel) return undefined;
             if (isOptionsExist(options, [{ value: inputValue, label: inputValue }]) || selected.find((s) => s.value === inputValue)) {
                 return undefined;
             }
@@ -328,7 +328,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                         onChange?.(newOptions);
                     }}
                 >
-                    {`Create "${inputValue}"`}
+                    {`${createNewOptionLabel} "${inputValue}"`}
                 </CommandItem>
             );
             if (!onSearch && inputValue.length > 0) {
@@ -342,7 +342,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
 
         const EmptyItem = useCallback(() => {
             if (!emptyIndicator) return undefined;
-            if (onSearch && !creatable && Object.keys(options).length === 0) {
+            if (onSearch && !createNewOptionLabel && Object.keys(options).length === 0) {
                 return (
                     <CommandItem className="" value="-" disabled>
                         {emptyIndicator}
@@ -350,7 +350,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                 );
             }
             return <CommandEmpty className={emptyIndicatorClassName}>{emptyIndicator}</CommandEmpty>;
-        }, [creatable, emptyIndicator, onSearch, options, emptyIndicatorClassName]);
+        }, [createNewOptionLabel, emptyIndicator, onSearch, options, emptyIndicatorClassName]);
 
         const selectables = useMemo<GroupOption>(() => removePickedOption(options, selected), [options, selected]);
 
@@ -358,11 +358,11 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             if (commandProps?.filter) {
                 return commandProps.filter;
             }
-            if (creatable) {
+            if (createNewOptionLabel) {
                 return (value: string, search: string) => (value.toLowerCase().includes(search.toLowerCase()) ? 1 : -1);
             }
             return undefined;
-        }, [creatable, commandProps?.filter]);
+        }, [createNewOptionLabel, commandProps?.filter]);
 
         return (
             <Command

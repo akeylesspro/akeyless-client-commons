@@ -156,6 +156,7 @@ export function MultiSelect({
     sortDirection = "abc",
     sortAsNumber,
     direction,
+    createNewOptionLabel,
     searchInputProps,
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
@@ -178,6 +179,7 @@ export function MultiSelect({
                 triggerSearchOnFocus={triggerSearchOnFocus}
                 groupBy={groupBy}
                 placeholder={placeholder}
+                createNewOptionLabel={createNewOptionLabel}
                 hideClearAllButton
                 hidePlaceholderWhenSelected
                 badgeClassName={styles.badgeClassName}
@@ -216,6 +218,7 @@ export const SelectWithSearch = ({
     sortAsNumber,
     disabled,
     direction,
+    createNewOptionLabel,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
@@ -226,6 +229,7 @@ export const SelectWithSearch = ({
             <SearchSelect
                 direction={direction}
                 // values props
+                createNewOptionLabel={createNewOptionLabel}
                 options={sortOptions}
                 value={value}
                 onChange={onChange}
