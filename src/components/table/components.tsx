@@ -424,7 +424,12 @@ export const GeoUi = ({ value, className, linkUi }: GeoUiProps) => {
     const googleMapsLink = getLocationUrl(lang, lat);
     const langLatUi = linkUi || ` ${lang} ${lat}`;
     return (
-        <a href={googleMapsLink} target="_blank" className={cn("_ellipsis", className)} title={`${lang} ${lat}`}>
+        <a
+            href={googleMapsLink}
+            target="_blank"
+            className={cn("_ellipsis text-blue-500 hover:text-blue-700 underline", className)}
+            title={`${lang} ${lat}`}
+        >
             {langLatUi}
         </a>
     );
