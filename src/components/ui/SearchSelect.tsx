@@ -21,7 +21,8 @@ export interface SearchSelectProps {
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
     notFoundLabelClassName?: string;
-    selectButtonClassName?: string;
+    buttonClassName?: string;
+    buttonFocusClassName?: string;
     elementClassName?: string;
     searchClassName?: string;
     onChange?: (value: SearchSelectOptions["value"]) => void;
@@ -43,7 +44,8 @@ export default function SearchSelect({
     notFoundLabelClassName,
     elementClassName,
     searchClassName,
-    selectButtonClassName,
+    buttonClassName,
+    buttonFocusClassName,
     value,
     disabled,
     onChange,
@@ -95,8 +97,9 @@ export default function SearchSelect({
                         aria-expanded={open}
                         disabled={disabled}
                         className={cn(
-                            "bg-background hover:bg-background border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
-                            selectButtonClassName
+                            "border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
+                            buttonClassName,
+                            open && buttonFocusClassName
                         )}
                     >
                         <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>{selectLabel}</span>

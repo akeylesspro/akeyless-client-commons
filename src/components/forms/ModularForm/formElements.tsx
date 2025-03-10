@@ -213,7 +213,8 @@ export const SelectWithSearch = ({
     elementClassName,
     notFoundLabelClassName,
     searchClassName,
-    selectButtonClassName,
+    buttonClassName,
+    buttonFocusClassName,
     sortDirection = "abc",
     sortAsNumber,
     disabled,
@@ -238,7 +239,8 @@ export const SelectWithSearch = ({
                 // select props
                 elementClassName={elementClassName}
                 selectPlaceholder={placeholder}
-                selectButtonClassName={selectButtonClassName}
+                buttonClassName={buttonClassName}
+                buttonFocusClassName={buttonFocusClassName}
                 disabled={disabled}
                 // search props
                 searchClassName={searchClassName}

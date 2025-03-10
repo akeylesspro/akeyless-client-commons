@@ -87,7 +87,8 @@ export interface SelectWithSearchProps extends BaseElementProps {
     searchPlaceholder?: string;
     notFoundLabelClassName?: string;
     searchClassName?: string;
-    selectButtonClassName?: string;
+    buttonClassName?: string;
+    buttonFocusClassName?: string;
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
     disabled?: boolean;
