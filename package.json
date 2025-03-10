@@ -1,9 +1,9 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.13",
+    "version": "1.0.37",
     "scripts": {
         "build": "tsup",
-        "deploy": "npm run build && npm version patch --no-git-tag-version && npm publish && [System.Console]::Beep(1000, 500)",
+        "deploy": "npm run build && npm version patch --no-git-tag-version && npm publish",
         "uc": "npm i akeyless-types-commons",
         "git": "powershell -ExecutionPolicy Bypass -File ./ps/create_branch.ps1",
         "git2": "powershell -ExecutionPolicy Bypass -File ./ps/move_to_main.ps1"
