@@ -220,6 +220,7 @@ export const SelectWithSearch = ({
     disabled,
     direction,
     createNewOptionLabel,
+    createNewOptionContainerClassName,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     return (
@@ -231,6 +232,7 @@ export const SelectWithSearch = ({
                 direction={direction}
                 // values props
                 createNewOptionLabel={createNewOptionLabel}
+                createNewOptionContainerClassName={createNewOptionContainerClassName}
                 options={sortOptions}
                 value={value}
                 onChange={onChange}

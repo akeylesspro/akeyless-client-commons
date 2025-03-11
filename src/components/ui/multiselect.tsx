@@ -2,7 +2,7 @@
 import ReactDOM from "react-dom";
 import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { X } from "lucide-react";
-import * as React from "react";
+import React, { ReactNode } from "react";
 import { forwardRef, useEffect, useCallback, useMemo, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";

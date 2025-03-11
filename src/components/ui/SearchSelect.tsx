@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandInput, CommandGroup, CommandItem, CommandList, CommandEmpty } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { ReactNode, useCallback, useEffect, useId, useMemo, useState } from "react";
 import { Direction } from "src/types";
 
 export interface SearchSelectOptions extends Record<string, string> {
@@ -30,6 +30,7 @@ export interface SearchSelectProps {
     disabled?: boolean;
     direction?: Direction;
     createNewOptionLabel?: string;
+    createNewOptionContainerClassName?: string;
 }
 
 export default function SearchSelect({
@@ -51,6 +52,7 @@ export default function SearchSelect({
     onChange,
     direction,
     createNewOptionLabel,
+    createNewOptionContainerClassName,
 }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
@@ -126,11 +128,14 @@ export default function SearchSelect({
                         <CommandList>
                             {filteredOptions.length === 0 && searchQuery !== "" ? (
                                 createNewOptionLabel ? (
-                                    <CommandEmpty onClick={addNewOption} className="hover:bg-[#cccbcb] cursor-pointer w-full">
-                                        <div
-                                            className="w-full h-10 flex items-center px-2"
-                                            style={{ direction }}
-                                        >{`${createNewOptionLabel}: ${searchQuery}`}</div>
+                                    <CommandEmpty
+                                        style={{ direction }}
+                                        onClick={addNewOption}
+                                        className={cn("hover:bg-[#cccbcb] cursor-pointer w-full", createNewOptionContainerClassName)}
+                                    >
+                                        <div className={cn("w-full h-10 flex items-center px-2", notFoundLabelClassName)}>
+                                            {`${createNewOptionLabel} : ${searchQuery}`}
+                                        </div>
                                     </CommandEmpty>
                                 ) : (
                                     <CommandEmpty className={cn("w-full py-2 text-center", notFoundLabelClassName)}>{notFoundLabel}</CommandEmpty>
