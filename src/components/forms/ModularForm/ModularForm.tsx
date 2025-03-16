@@ -15,6 +15,8 @@ const ModularForm = ({
     direction = "rtl",
     buttonClassName = "",
     submitRef,
+    footerClassName = "",
+    errorClassName = "",
 }: ModularFormProps) => {
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
@@ -70,8 +72,8 @@ const ModularForm = ({
                         return null;
                 }
             })}
-            <div className="flex justify-between w-full">
-                <div title={errorMsg} className="text-[#f22] text-[18px] max-w-[80%] ellipsis">
+            <div className={cn("flex justify-between w-full", footerClassName)}>
+                <div title={errorMsg} className={cn("text-[#f22] text-[18px] max-w-[80%] ellipsis", errorClassName)}>
                     {errorMsg}
                 </div>
                 <button

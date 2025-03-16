@@ -139,6 +139,8 @@ export interface ModularFormProps {
     headerClassName?: string;
     direction?: Direction;
     submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
+    footerClassName?: string;
+    errorClassName?: string;
 }
 export interface ConfirmFormProps {
     onV: () => Promise<void> | void;
