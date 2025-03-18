@@ -24,6 +24,8 @@ export interface TableProviderType {
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
     closeFilterWindow: () => void;
+    display: boolean;
+    setDisplay: (value: boolean) => void;
 }
 export interface UseFilterProps {
     data: Record<string, any>[];
@@ -73,6 +75,7 @@ export interface TableProps {
     maxRows?: number;
     maxRowsLabel1?: string;
     maxRowsLabel2?: string;
+    ShowDisplayButton?: boolean;
     maxRowsContainerClassName?: string;
     zebraStriping?: {
         oddRowClassName?: string;

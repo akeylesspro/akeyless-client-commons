@@ -82,7 +82,10 @@ export const useSort = () => {
     };
     return { sortColumn, sortOrder, handleSort, clearSort };
 };
-
+export const useDisplayToggle = () => {
+    const [display, setDisplay] = useState(false);
+    return { display, setDisplay };
+};
 export const useSearch = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [isPending, startTransition] = useTransition();
@@ -103,7 +106,7 @@ export const useSearch = () => {
         }
     };
 
-    return { searchQuery, handleSearch, clearSearch, isPending ,deferredSearchQuery};
+    return { searchQuery, handleSearch, clearSearch, isPending, deferredSearchQuery };
 };
 
 export const useCreateTableStore = () => {
