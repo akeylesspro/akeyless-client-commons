@@ -16,29 +16,14 @@ export const ConfirmForm = ({
     buttonsContainerClassName = "",
     headlineClassName = "",
 }: ConfirmFormProps) => {
-    const onConfirm = async () => {
-        try {
-            await onV();
-        } catch (error) {
-            console.error("'onV' failed:", error);
-        }
-    };
-    const onDenied = async () => {
-        try {
-            await onX();
-        } catch (error) {
-            console.error("'onX' failed:", error);
-        }
-    };
-
     return (
         <div style={{ direction, padding: "30px" }} className={cn("w-full h-full flex flex-col gap-3", containerClassName)}>
             <div className={cn("text-lg font-bold", headlineClassName)}>{headline}</div>
             <div className={cn("flex justify-center items-center gap-2 w-full", buttonsContainerClassName)}>
-                <button onClick={onDenied}>
+                <button onClick={onX}>
                     <RedXSvg />
                 </button>
-                <button onClick={onConfirm}>
+                <button onClick={onV}>
                     <GreenVSvg />
                 </button>
             </div>

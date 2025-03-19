@@ -53,7 +53,6 @@ const initApp = () => {
 
 // Initialize app
 export const { db, auth, storage } = initApp();
-
 interface Collections {
     [key: string]: CollectionReference<DocumentData>;
     clients: CollectionReference<DocumentData>;
