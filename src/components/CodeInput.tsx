@@ -2,15 +2,17 @@
 import { cn } from "@/lib/utils";
 import { OTPInput, SlotProps } from "input-otp";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Direction } from "src/types";
 
 interface CodeInputProps {
     codeValue: string;
     setCodeValue: Dispatch<SetStateAction<string>>;
     className?: string;
     slotContainerClassName?: string;
+    direction?: Direction;
 }
 
-export default function CodeInput({ codeValue, setCodeValue, className = "", slotContainerClassName = "" }: CodeInputProps) {
+export default function CodeInput({ codeValue, setCodeValue, className = "", slotContainerClassName = "", direction = "ltr" }: CodeInputProps) {
     const firstInputRef = useRef<HTMLInputElement | null>(null);
     useEffect(() => {
         if (firstInputRef.current) {
@@ -18,7 +20,7 @@ export default function CodeInput({ codeValue, setCodeValue, className = "", slo
         }
     }, []);
     return (
-        <div className={cn("space-y-2 flex justify-center items-center", className)}>
+        <div style={{ direction }} className={cn("space-y-2 flex justify-center items-center", className)}>
             <OTPInput
                 ref={firstInputRef}
                 value={codeValue}

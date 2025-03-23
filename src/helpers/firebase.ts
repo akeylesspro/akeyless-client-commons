@@ -1,7 +1,9 @@
 import moment from "moment";
 import { initializeApp, FirebaseApp } from "firebase/app";
 import { FirebaseStorage, getStorage } from "firebase/storage";
-import { Auth, getAuth } from "firebase/auth";
+import { Auth, getAuth, GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
+import { AppCheck, initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
+
 import {
     addDoc,
     collection,
@@ -28,8 +30,17 @@ import {
 import { formatCarNumber } from "./cars";
 import { TObject } from "akeyless-types-commons";
 import { Snapshot, SnapshotDocument, WhereCondition } from "../types";
+import { useCallback } from "react";
 
-const initApp = () => {
+interface FirebaseInitResult {
+    db?: Firestore;
+    auth?: Auth;
+    storage?: FirebaseStorage;
+    app?: FirebaseApp;
+    appCheck?: AppCheck;
+    googleLoginProvider?: GoogleAuthProvider;
+}
+const initApp = (): FirebaseInitResult => {
     const isNodeEnv = typeof process !== "undefined" && process.env;
     const firebaseConfig = {
         apiKey: isNodeEnv ? process.env.NEXT_PUBLIC_API_KEY : import.meta.env.VITE_API_KEY,
@@ -42,9 +53,20 @@ const initApp = () => {
     try {
         const app: FirebaseApp = initializeApp(firebaseConfig);
         const auth: Auth = getAuth(app);
+        auth.settings.appVerificationDisabledForTesting = false;
         const db: Firestore = getFirestore(app);
         const storage: FirebaseStorage = getStorage(app);
-        return { db, auth, storage };
+        const googleLoginProvider = new GoogleAuthProvider();
+        const recaptchaSiteKey = isNodeEnv ? process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY : import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+
+        const result: FirebaseInitResult = { db, auth, storage, app, googleLoginProvider };
+        if (recaptchaSiteKey) {
+            result.appCheck = initializeAppCheck(app, {
+                provider: new ReCaptchaEnterpriseProvider(recaptchaSiteKey),
+                isTokenAutoRefreshEnabled: true,
+            });
+        }
+        return result;
     } catch (error) {
         console.error("Failed to initialize Firebase app:", error);
         return {};
@@ -52,7 +74,16 @@ const initApp = () => {
 };
 
 // Initialize app
-export const { db, auth, storage } = initApp();
+export const { db, auth, storage, app, appCheck, googleLoginProvider } = initApp();
+
+export const useLoginWithGoogle = () => {
+    const signInWithGoogle = useCallback(async (): Promise<User> => {
+        const result = await signInWithPopup(auth, googleLoginProvider);
+        const user = result.user;
+        return user;
+    }, [auth, googleLoginProvider]);
+    return signInWithGoogle;
+};
 interface Collections {
     [key: string]: CollectionReference<DocumentData>;
     clients: CollectionReference<DocumentData>;
