@@ -3,6 +3,7 @@ import axios from "axios";
 import { query_document, snapshot } from "./firebase";
 import { local_israel_phone_format } from "./phoneNumber";
 import { isEmpty, isEqual } from "lodash";
+import { WhereCondition } from "src/types";
 
 export const calculateBearing = (startLat, startLng, endLat, endLng) => {
     if (startLat === endLat || startLng === endLng) {
@@ -65,18 +66,28 @@ export const parsePermissions = (object: NxUser | Client): TObject<TObject<boole
 };
 
 interface InitializeUserPermissionsProps {
-    phoneNumber: string;
+    phoneNumber?: string;
+    email?: string;
     firstTimeArray: string[];
     getUpdatePermissions: (permissions: TObject<TObject<boolean>>) => void;
 }
-export const initializeUserPermissions = async ({ phoneNumber, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => {
+export const initializeUserPermissions = async ({ phoneNumber, email, firstTimeArray, getUpdatePermissions }: InitializeUserPermissionsProps) => {
     let unsubscribe: (() => void) | null = null;
     let permissions: TObject<TObject<boolean>> = {};
     try {
+        const queryConditions: WhereCondition[] = [
+            phoneNumber
+                ? { field_name: "phone_number", operator: "in", value: [phoneNumber, local_israel_phone_format(phoneNumber)] }
+                : {
+                      field_name: "email",
+                      operator: "==",
+                      value: email,
+                  },
+        ];
         const { promise, unsubscribe: unsubscribeSnapshot } = snapshot(
             {
                 collectionName: "nx-users",
-                conditions: [{ field_name: "phone_number", operator: "in", value: [phoneNumber, local_israel_phone_format(phoneNumber)] }],
+                conditions: queryConditions,
                 onFirstTime: (docs) => {
                     if (!docs.length) {
                         throw new Error("User not found");

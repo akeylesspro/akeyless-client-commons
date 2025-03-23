@@ -94,7 +94,8 @@ export const useValidation = (validationType: ValidationType, requireError?: str
 };
 
 export const getFormElementValue = (form: EventTarget & HTMLFormElement, name: string) => {
-    return (form.elements.namedItem(name) as HTMLInputElement)?.value || "";
+    const inputValue = (form.elements.namedItem(name) as HTMLInputElement)?.value || "";
+    return inputValue.trim();
 };
 
 export const parseMultiSelectInput = (input: string) => {

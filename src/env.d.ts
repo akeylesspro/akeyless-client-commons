@@ -8,6 +8,7 @@ interface ImportMetaEnv {
     readonly VITE_APP_ID: string;
     readonly VITE_MODE: string;
     readonly VITE_is_local: string;
+    readonly VITE_RECAPTCHA_SITE_KEY: string;
 }
 
 interface ImportMeta {
