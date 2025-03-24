@@ -76,6 +76,7 @@ export const LoginWithGoogleButton = ({
         <div className={cn("flex justify-center", containerClassName)}>
             <button
                 {...buttonProps}
+                type="button"
                 className={cn(
                     "flex justify-center items-center gap-2 py-2 w-full",
                     "shadow-sm hover:border-[#303edb] border-[1px] rounded-lg text-lg",
