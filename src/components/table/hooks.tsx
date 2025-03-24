@@ -83,8 +83,8 @@ export const useSort = () => {
     return { sortColumn, sortOrder, handleSort, clearSort };
 };
 export const useDisplayToggle = () => {
-    const [display, setDisplay] = useState(false);
-    return { display, setDisplay };
+    const [displayAllRows, setDisplayAllRows] = useState(false);
+    return { displayAllRows, setDisplayAllRows };
 };
 export const useSearch = () => {
     const [searchQuery, setSearchQuery] = useState<string>("");

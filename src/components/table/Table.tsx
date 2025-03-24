@@ -62,7 +62,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     // rendered data
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
-    const { display, setDisplay } = useDisplayToggle();
+    const { displayAllRows, setDisplayAllRows } = useDisplayToggle();
     const { searchQuery, handleSearch, clearSearch, deferredSearchQuery } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
@@ -114,10 +114,10 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
                 return 0;
             });
         }
-        const renderedData = display ? filtered : filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [deferredSearchQuery, sortColumn, sortOrder, filters, data, display]);
+    }, [deferredSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows]);
 
     const providerValues = {
         ...props,
@@ -127,8 +127,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         filterableColumns,
         maxRows,
         // states and functions
-        display,
-        setDisplay,
+        displayAllRows,
+        setDisplayAllRows,
         sortColumn,
         sortOrder,
         handleSort,
@@ -155,7 +155,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
 const TableBase = (props: TableProps) => {
     const {
-        ShowDisplayButton = false,
+        showDisplayAllRowsButton = false,
         containerHeaderClassName,
         optionalElement,
         tableContainerClass,
@@ -178,7 +178,7 @@ const TableBase = (props: TableProps) => {
                     {includeSearch && <Search />}
                     {/* export to excel */}
                     {exportToExcelKeys && <ExportToExcel />}
-                    {ShowDisplayButton && <ButtonDisplay />}
+                    {showDisplayAllRowsButton && <ButtonDisplay />}
                 </div>
                 {/* max rows */}
                 {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
