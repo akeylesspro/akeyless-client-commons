@@ -31,6 +31,7 @@ import { formatCarNumber } from "./cars";
 import { TObject } from "akeyless-types-commons";
 import { Snapshot, SnapshotDocument, WhereCondition } from "../types";
 import { useCallback } from "react";
+import { local_israel_phone_format } from "./phoneNumber";
 
 interface FirebaseInitResult {
     db?: Firestore;
@@ -549,4 +550,15 @@ export const cleanNxSites = async () => {
         await delete_document("nx-sites", v.id);
         console.log(`Site ${v.id} deleted.`);
     });
+};
+
+export const getUserByPhone = async (phone: string) => {
+    const phones = [phone, local_israel_phone_format(phone)];
+    return await query_document("nx-users", "phone_number", "in", phones, true);
+};
+export const getUserByEmail = async (email: string) => {
+    return await query_document("nx-users", "email", "==", email, true);
+};
+export const getUserByIdentifier = async (identifier: string) => {
+    return (await getUserByPhone(identifier)) || (await getUserByEmail(identifier));
 };

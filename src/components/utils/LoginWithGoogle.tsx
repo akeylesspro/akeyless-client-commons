@@ -1,7 +1,8 @@
-import { cn, useLoginWithGoogle } from "src/helpers";
+import { cn, getUserByIdentifier, useLoginWithGoogle } from "src/helpers";
 import { Loader, LoaderProps } from "./loaders";
 import { ButtonHTMLAttributes, DetailedHTMLProps, MouseEvent, useState } from "react";
 import { User } from "firebase/auth";
+import { NxUser } from "akeyless-types-commons";
 
 interface GoogleSvgProps {
     width?: string;
@@ -33,7 +34,7 @@ const GoogleSvg = ({ width = "20px", height = "20px", viewBox = "0 0 256 266" }:
 
 interface LoginWithGoogleButtonProps {
     label: string;
-    onClick: (e: MouseEvent<HTMLButtonElement>, user: User) => Promise<void>;
+    onClick: (e: MouseEvent<HTMLButtonElement>, user: NxUser, token: string) => Promise<void>;
     className?: string;
     containerClassName?: string;
     loaderProps?: LoaderProps;
@@ -57,7 +58,13 @@ export const LoginWithGoogleButton = ({
         try {
             setIsLoading(true);
             const user = await signInWithGoogle();
-            await onClick(e, user);
+            const dbUser = await getUserByIdentifier(user.email!);
+            const token = await user.getIdToken();
+
+            if (!dbUser) {
+                throw "user_not_found";
+            }
+            await onClick(e, dbUser, token);
         } catch (error) {
             console.error("error from login with google:", error);
             onError?.(error);
