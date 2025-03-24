@@ -1,7 +1,7 @@
 import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
-import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel } from "./components";
+import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel, ButtonDisplay } from "./components";
 import { TableProps, TableProviderType } from "./types";
-import { useFilter, useSort, useSearch } from "./hooks";
+import { useFilter, useSort, useSearch, useDisplayToggle } from "./hooks";
 import { TableSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
@@ -62,6 +62,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     // rendered data
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
+    const { displayAllRows, setDisplayAllRows } = useDisplayToggle();
     const { searchQuery, handleSearch, clearSearch, deferredSearchQuery } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
@@ -113,10 +114,10 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
                 return 0;
             });
         }
-        const renderedData = filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
+        const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [deferredSearchQuery, sortColumn, sortOrder, filters, data]);
+    }, [deferredSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows]);
 
     const providerValues = {
         ...props,
@@ -126,6 +127,8 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         filterableColumns,
         maxRows,
         // states and functions
+        displayAllRows,
+        setDisplayAllRows,
         sortColumn,
         sortOrder,
         handleSort,
@@ -152,6 +155,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
 const TableBase = (props: TableProps) => {
     const {
+        showDisplayAllRowsButton = false,
         containerHeaderClassName,
         optionalElement,
         tableContainerClass,
@@ -174,6 +178,7 @@ const TableBase = (props: TableProps) => {
                     {includeSearch && <Search />}
                     {/* export to excel */}
                     {exportToExcelKeys && <ExportToExcel />}
+                    {showDisplayAllRowsButton && <ButtonDisplay />}
                 </div>
                 {/* max rows */}
                 {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}

@@ -159,17 +159,33 @@ export const TableBody = memo(() => {
 }, renderOnce);
 
 export const MaxRowsLabel = memo(() => {
-    const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, maxRowsContainerClassName } = useTableContext();
+    const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, displayAllRows, maxRowsContainerClassName } = useTableContext();
     return (
         <div className={cn("flex justify-start items-center text-lg gap-1", maxRowsContainerClassName || "")}>
             <div>{maxRowsLabel1}</div>
-            <div>{maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows}</div>
+            <div>{displayAllRows || maxRows > dataToRender.renderedData.length ? dataToRender.renderedData.length : maxRows}</div>
             <div>{maxRowsLabel2}</div>
             <div>{dataToRender.filtered.length}</div>
         </div>
     );
 }, renderOnce);
 
+export const ButtonDisplay = memo(() => {
+    const { setDisplayAllRows, displayAllRows, dataToRender, maxRows, displayAllRowsButtonProps, displayAllRowsButtonLabel } = useTableContext();
+
+    const toggleDisplayAmount = () => setDisplayAllRows(!displayAllRows);
+    const title = displayAllRows ? dataToRender.renderedData.length : maxRows;
+    return (
+        <button
+            {...(displayAllRowsButtonProps || {})}
+            className={cn("bg-[#547f22] text-white px-4 py-2 rounded-md hover:bg-[#3e671f] focus:outline-none", displayAllRowsButtonProps?.className)}
+            onClick={toggleDisplayAmount}
+        >
+            {displayAllRowsButtonLabel || "Display:"}
+            {title}
+        </button>
+    );
+}, renderOnce);
 export const ExportToExcel = memo(() => {
     const {
         exportToExcelKeys,

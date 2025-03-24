@@ -24,6 +24,8 @@ export interface TableProviderType {
     handleFilterChange: (dataKey: string, value: string) => void;
     handleFilterClick: (dataKey: string) => void;
     closeFilterWindow: () => void;
+    displayAllRows: boolean;
+    setDisplayAllRows: (value: boolean) => void;
 }
 export interface UseFilterProps {
     data: Record<string, any>[];
@@ -73,6 +75,9 @@ export interface TableProps {
     maxRows?: number;
     maxRowsLabel1?: string;
     maxRowsLabel2?: string;
+    showDisplayAllRowsButton?: boolean;
+    displayAllRowsButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
+    displayAllRowsButtonLabel?: string;
     maxRowsContainerClassName?: string;
     zebraStriping?: {
         oddRowClassName?: string;
