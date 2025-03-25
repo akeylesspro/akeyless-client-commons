@@ -1,8 +1,9 @@
-import { cn, getUserByIdentifier, useLoginWithGoogle } from "src/helpers";
+import { addLoginAudit, cn, getUserByIdentifier, useLoginWithGoogle, validateUserStatusAndPermissions } from "src/helpers";
 import { Loader, LoaderProps } from "./loaders";
 import { ButtonHTMLAttributes, DetailedHTMLProps, MouseEvent, useState } from "react";
 import { User } from "firebase/auth";
-import { NxUser } from "akeyless-types-commons";
+import { NxUser, TObject } from "akeyless-types-commons";
+import { AppName } from "src/types";
 
 interface GoogleSvgProps {
     width?: string;
@@ -31,16 +32,22 @@ const GoogleSvg = ({ width = "20px", height = "20px", viewBox = "0 0 256 266" }:
         </svg>
     );
 };
-
+export type LoginWithGoogleCallback = (
+    e: MouseEvent<HTMLButtonElement>,
+    user: NxUser,
+    token: string,
+    userPermissions: TObject<TObject<boolean>>
+) => Promise<void>;
 interface LoginWithGoogleButtonProps {
     label: string;
-    onClick: (e: MouseEvent<HTMLButtonElement>, user: NxUser, token: string) => Promise<void>;
+    onClick: LoginWithGoogleCallback;
     className?: string;
     containerClassName?: string;
     loaderProps?: LoaderProps;
     googleSvgProps?: GoogleSvgProps;
     onError?: (error: any) => void;
     buttonProps?: DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+    appName: AppName;
 }
 export const LoginWithGoogleButton = ({
     label,
@@ -51,6 +58,7 @@ export const LoginWithGoogleButton = ({
     loaderProps = { color: "#000" },
     googleSvgProps,
     buttonProps,
+    appName,
 }: LoginWithGoogleButtonProps) => {
     const signInWithGoogle = useLoginWithGoogle();
     const [isLoading, setIsLoading] = useState(false);
@@ -60,11 +68,9 @@ export const LoginWithGoogleButton = ({
             const user = await signInWithGoogle();
             const dbUser = await getUserByIdentifier(user.email!);
             const token = await user.getIdToken();
-
-            if (!dbUser) {
-                throw "user_not_found";
-            }
-            await onClick(e, dbUser, token);
+            const userPermissions = validateUserStatusAndPermissions(dbUser, appName);
+            await addLoginAudit(dbUser, appName, "google");
+            await onClick(e, dbUser, token, userPermissions);
         } catch (error) {
             console.error("error from login with google:", error);
             onError?.(error);

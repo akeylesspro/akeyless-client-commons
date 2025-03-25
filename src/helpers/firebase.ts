@@ -29,9 +29,10 @@ import {
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 import { NxUser, TObject } from "akeyless-types-commons";
-import { Snapshot, SnapshotDocument, WhereCondition } from "../types";
+import { AppName, LoginOption, Snapshot, SnapshotDocument, WhereCondition } from "../types";
 import { useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
+import { parsePermissions } from "./global";
 
 interface FirebaseInitResult {
     db?: Firestore;
@@ -563,7 +564,7 @@ export const getUserByIdentifier = async (identifier: string) => {
     return (await getUserByPhone(identifier)) || (await getUserByEmail(identifier));
 };
 
-export const addLoginAudit = async (user: NxUser | null, app: "installer" | "toolbox" | "dashboard", loginBy: "google" | "phone") => {
+export const addLoginAudit = async (user: NxUser | null, app: AppName, loginBy: LoginOption) => {
     const details = {
         app,
         login_by: loginBy,
@@ -584,9 +585,12 @@ export const addAuditRecord = async (action: string, entity: string, details: TO
                       id: user.id,
                       name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
                       clients: user.clients,
+                      email: user.email,
+                      phone_number: user.phone_number,
                   }
                 : null,
         };
+
         await setDoc(ref, {
             ...data,
             datetime: fire_base_TIME_TEMP(),
@@ -595,4 +599,17 @@ export const addAuditRecord = async (action: string, entity: string, details: TO
     } catch (error) {
         console.log(error);
     }
+};
+
+export const validateUserStatusAndPermissions = (user: NxUser, app: AppName) => {
+    if (!user || user.status === "deleted") {
+        throw new Error("user_not_found");
+    }
+    const userPermissions = parsePermissions(user);
+
+    if (!userPermissions[app]) {
+        throw new Error("user_without_permission");
+    }
+
+    return userPermissions;
 };

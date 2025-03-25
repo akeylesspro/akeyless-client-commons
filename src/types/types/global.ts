@@ -12,3 +12,6 @@ export type ModularPopUp = null | {
     right?: string;
     background?: string;
 };
+
+export type AppName = "installer" | "toolbox" | "dashboard";
+export type LoginOption = "google" | "phone";
