@@ -28,7 +28,7 @@ import {
     orderBy,
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
-import { TObject } from "akeyless-types-commons";
+import { NxUser, TObject } from "akeyless-types-commons";
 import { Snapshot, SnapshotDocument, WhereCondition } from "../types";
 import { useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
@@ -561,4 +561,38 @@ export const getUserByEmail = async (email: string) => {
 };
 export const getUserByIdentifier = async (identifier: string) => {
     return (await getUserByPhone(identifier)) || (await getUserByEmail(identifier));
+};
+
+export const addLoginAudit = async (user: NxUser | null, app: "installer" | "toolbox" | "dashboard", loginBy: "email" | "phone") => {
+    const details = {
+        app,
+        login_by: loginBy,
+    };
+    await set_document("nx-users", user.id, { last_login: fire_base_TIME_TEMP() });
+    await addAuditRecord("login", app, details, user);
+};
+
+export const addAuditRecord = async (action: string, entity: string, details: TObject<any>, user?: NxUser | null) => {
+    try {
+        const ref = doc(collections.audit);
+        const data = {
+            action,
+            entity,
+            details,
+            user: user
+                ? {
+                      id: user.id,
+                      name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
+                      clients: user.clients,
+                  }
+                : null,
+        };
+        await setDoc(ref, {
+            ...data,
+            datetime: fire_base_TIME_TEMP(),
+        });
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
 };
