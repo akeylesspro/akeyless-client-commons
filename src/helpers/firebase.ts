@@ -563,7 +563,7 @@ export const getUserByIdentifier = async (identifier: string) => {
     return (await getUserByPhone(identifier)) || (await getUserByEmail(identifier));
 };
 
-export const addLoginAudit = async (user: NxUser | null, app: "installer" | "toolbox" | "dashboard", loginBy: "email" | "phone") => {
+export const addLoginAudit = async (user: NxUser | null, app: "installer" | "toolbox" | "dashboard", loginBy: "google" | "phone") => {
     const details = {
         app,
         login_by: loginBy,
