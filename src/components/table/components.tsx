@@ -46,19 +46,24 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                             </button>
                         </div>
                         <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
-                            {filterOptions[filterableColumn.dataKey]?.map((option: string, i: number) => (
-                                <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
-                                    <input
-                                        type="checkbox"
-                                        className="cursor-pointer"
-                                        checked={filters[filterableColumn.dataKey]?.includes(option)}
-                                        onChange={() => handleFilterChange(filterableColumn.dataKey, option)}
-                                    />
-                                    <button className="flex-1 text-start px-2" onClick={() => handleFilterChange(filterableColumn.dataKey, option)}>
-                                        {filterableColumn.ui ? filterableColumn.ui(option) : option}
-                                    </button>
-                                </div>
-                            ))}
+                            {filterOptions[filterableColumn.dataKey]
+                                ?.sort((a, b) => b.localeCompare(a))
+                                .map((option: string, i: number) => (
+                                    <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
+                                        <input
+                                            type="checkbox"
+                                            className="cursor-pointer"
+                                            checked={filters[filterableColumn.dataKey]?.includes(option)}
+                                            onChange={() => handleFilterChange(filterableColumn.dataKey, option)}
+                                        />
+                                        <button
+                                            className="flex-1 text-start px-2"
+                                            onClick={() => handleFilterChange(filterableColumn.dataKey, option)}
+                                        >
+                                            {filterableColumn.ui ? filterableColumn.ui(option) : option}
+                                        </button>
+                                    </div>
+                                ))}
                         </div>
                     </div>
                 )}
