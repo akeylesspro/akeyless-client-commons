@@ -6,49 +6,12 @@ import { FilterProps } from "./types";
 import { Geo, TObject } from "akeyless-types-commons";
 import { cn } from "@/lib/utils";
 import { useTableContext } from "./hooks";
-import { getLocationUrl, renderOnce } from "src/helpers";
+import { getFixedNumber, getLocationUrl, renderOnce } from "src/helpers";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
 import { Direction } from "src/types";
 
-export const getFixedNumber = (number = 0, fix = 4) => {
-    const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
-    return String(sum_value);
-};
-
-export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
-    const { rowStyles, rowClassName, keysToRender, onRowClick, zebraStriping } = useTableContext();
-    const zebraClassName = zebraStriping
-        ? index % 2 === 0
-            ? zebraStriping.evenRowClassName || ""
-            : zebraStriping.oddRowClassName || "bg-gray-300"
-        : "";
-    return (
-        <tr
-            className={cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || "")}
-            onClick={() => onRowClick && onRowClick(item)}
-            style={rowStyles}
-        >
-            {keysToRender.map((key, index) => (
-                <TableCell key={index} value={item[key]} />
-            ))}
-        </tr>
-    );
-};
-
-export const TableCell = ({ value }: { value: any }) => {
-    const { cellStyle, cellClassName } = useTableContext();
-    return (
-        <td
-            title={["string", "number", "boolean"].includes(typeof value) ? value : ""}
-            style={cellStyle}
-            className={cn("chivo ellipsis border-black border-[1px] max-w-[90px] px-1 text-center", cellClassName || "")}
-        >
-            {value}
-        </td>
-    );
-};
-
+/// header elements
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, closeFilterWindow, filterLabel } =
         useTableContext();
@@ -104,60 +67,6 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     );
 });
 
-export const TableHead = memo(() => {
-    const {
-        headers,
-        headerStyle,
-        headerCellStyle,
-        sortColumn,
-        handleSort,
-        sortKeys,
-        sortOrder,
-        filterableColumns = [],
-        sortLabel,
-        headerClassName,
-        headerCellClassName,
-    } = useTableContext();
-    const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys?.length), [sortKeys]);
-    return (
-        <thead className={cn("bg-[#282828] text-white sticky top-0", headerClassName)}>
-            <tr style={headerStyle}>
-                {headers.map((header, index) => {
-                    const filterableColumn = filterableColumns.find((col) => col.header === header);
-                    return (
-                        <th
-                            title={sortDisplay ? `${sortLabel} ${header}` : header}
-                            style={headerCellStyle}
-                            key={index}
-                            className={cn("border-black border-[1px] max-w-[130px] px-2 text-center relative", headerCellClassName)}
-                        >
-                            {/* header value */}
-                            <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
-                                {header}
-                            </div>
-                            {/* sort */}
-                            {sortDisplay && sortColumn === index && (sortOrder === "desc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
-                            {/* filter */}
-                            {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
-                        </th>
-                    );
-                })}
-            </tr>
-        </thead>
-    );
-}, renderOnce);
-
-export const TableBody = memo(() => {
-    const { dataToRender } = useTableContext();
-    return (
-        <tbody className="divide-y divide-gray-600">
-            {dataToRender.renderedData.map((item, index) => (
-                <TableRow key={index} item={item} index={index} />
-            ))}
-        </tbody>
-    );
-}, renderOnce);
-
 export const MaxRowsLabel = memo(() => {
     const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, displayAllRows, maxRowsContainerClassName } = useTableContext();
     return (
@@ -170,7 +79,7 @@ export const MaxRowsLabel = memo(() => {
     );
 }, renderOnce);
 
-export const ButtonDisplay = memo(() => {
+export const DisplayAllRowsButton = memo(() => {
     const { setDisplayAllRows, displayAllRows, dataToRender, maxRows, displayAllRowsButtonProps, displayAllRowsButtonLabel } = useTableContext();
 
     const toggleDisplayAmount = () => setDisplayAllRows(!displayAllRows);
@@ -186,6 +95,7 @@ export const ButtonDisplay = memo(() => {
         </button>
     );
 }, renderOnce);
+
 export const ExportToExcel = memo(() => {
     const {
         exportToExcelKeys,
@@ -256,7 +166,7 @@ export const Search = memo(() => {
     const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle } = useTableContext();
     return (
         <input
-            className={cn("w-40 border-black border-[1px] text-lg px-2 ", searchInputClassName)}
+            className={cn("border-black border-[1px] text-lg px-2 w-11/12", searchInputClassName)}
             type="text"
             placeholder={searchPlaceHolder}
             value={searchQuery}
@@ -266,6 +176,95 @@ export const Search = memo(() => {
     );
 }, renderOnce);
 
+/// table header
+export const TableHead = memo(() => {
+    const {
+        headers,
+        headerStyle,
+        headerCellStyle,
+        sortColumn,
+        handleSort,
+        sortKeys,
+        sortOrder,
+        filterableColumns = [],
+        sortLabel,
+        headerClassName,
+        headerCellClassName,
+    } = useTableContext();
+    const sortDisplay = useMemo<boolean>(() => Boolean(sortKeys?.length), [sortKeys]);
+    return (
+        <thead className={cn("bg-black/50 text-white sticky z-10 top-0", headerClassName)}>
+            <tr style={headerStyle}>
+                {headers.map((header, index) => {
+                    const filterableColumn = filterableColumns.find((col) => col.header === header);
+                    return (
+                        <th
+                            title={sortDisplay ? `${sortLabel} ${header}` : header}
+                            style={headerCellStyle}
+                            key={index}
+                            className={cn("max-w-[130px] px-2 text-center h-6 relative", headerCellClassName)}
+                        >
+                            {/* header value */}
+                            <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
+                                {header}
+                            </div>
+                            {/* sort */}
+                            {sortDisplay && sortColumn === index && (sortOrder === "desc" ? <>{sortSvg()}</> : <>{sortSvg(true)}</>)}
+                            {/* filter */}
+                            {filterableColumn && <Filter filterableColumn={filterableColumn} index={index} />}
+                        </th>
+                    );
+                })}
+            </tr>
+        </thead>
+    );
+}, renderOnce);
+
+/// table body
+export const TableBody = memo(() => {
+    const { dataToRender } = useTableContext();
+    return (
+        <tbody className="divide-y divide-gray-600">
+            {dataToRender.renderedData.map((item, index) => (
+                <TableRow key={index} item={item} index={index} />
+            ))}
+        </tbody>
+    );
+}, renderOnce);
+
+export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
+    const { rowStyles, rowClassName, keysToRender, onRowClick, zebraStriping } = useTableContext();
+    const zebraClassName = zebraStriping
+        ? index % 2 === 0
+            ? zebraStriping.evenRowClassName || ""
+            : zebraStriping.oddRowClassName || "bg-gray-300"
+        : "";
+    return (
+        <tr
+            className={cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || "")}
+            onClick={() => onRowClick && onRowClick(item)}
+            style={rowStyles}
+        >
+            {keysToRender.map((key, index) => (
+                <TableCell key={index} value={item[key]} />
+            ))}
+        </tr>
+    );
+};
+
+export const TableCell = ({ value }: { value: any }) => {
+    const { cellStyle, cellClassName } = useTableContext();
+    return (
+        <td
+            title={["string", "number", "boolean"].includes(typeof value) ? value : ""}
+            style={cellStyle}
+            className={cn("chivo ellipsis _ellipsis text-start px-1 py-0.5 border-gray-400 border-[1px] max-w-[90px] ", cellClassName || "")}
+        >
+            {value}
+        </td>
+    );
+};
+/// table footer
 export const Summary = memo(() => {
     const { summaryContainerStyle, summaryLabelStyle, summaryLabel, summaryRowStyle, sumColumns, dataToRender, direction } = useTableContext();
 
@@ -292,6 +291,7 @@ export const Summary = memo(() => {
     );
 }, renderOnce);
 
+/// components
 interface TimesUIProps {
     timestamp: any;
     format?: string;
@@ -300,7 +300,6 @@ interface TimesUIProps {
     direction?: Direction;
     className?: string;
 }
-
 export const TimesUI = ({ timestamp, format, tz, direction, fromFormat, className = "" }: TimesUIProps) => {
     const time = timestamp_to_string(timestamp, { format, fromFormat, tz });
     return (
@@ -314,27 +313,31 @@ interface TableButtonProps {
     onClick: () => void;
     title?: string;
     className?: string;
+    buttonClassName?: string;
     type: "add" | "edit" | "delete" | "custom";
     children?: ReactNode;
+    disabled?: boolean;
 }
-export const TableButton = ({ onClick, title, className, type, children }: TableButtonProps) => {
+export const TableButton = ({ onClick, title, className, type, children, disabled, buttonClassName }: TableButtonProps) => {
     const icon = {
-        add: "fa-regular fa-plus text-2xl",
-        edit: "fa-light fa-pen-to-square text-xl",
-        delete: "fa-light fa-trash text-xl",
+        add: "fa-regular fa-plus text-xl",
+        edit: "fa-light fa-pen-to-square",
+        delete: "fa-light fa-trash",
     };
+    const baseClassName =
+        "transition-transform duration-500 scale-100 disabled:hover:cursor-not-allowed disabled:text-black/40 hover:scale-110 disabled:hover:scale-100";
     return (
         <>
             {type === "custom" ? (
-                <button className={className} title={title} onClick={onClick}>
+                <button disabled={disabled} className={cn(baseClassName, className, buttonClassName)} title={title} onClick={onClick}>
                     {children}
                 </button>
             ) : type === "add" ? (
-                <Button title={title} onClick={onClick}>
-                    <i className={cn("fa-regular fa-plus text-2xl", className)}></i>
+                <Button disabled={disabled} className={cn(baseClassName, buttonClassName)} title={title} onClick={onClick}>
+                    <i className={cn("fa-light fa-plus text-2xl", className)}></i>
                 </Button>
             ) : (
-                <button title={title} onClick={onClick}>
+                <button disabled={disabled} className={cn(baseClassName, buttonClassName)} title={title} onClick={onClick}>
                     <i className={cn(icon[type], className)}></i>
                 </button>
             )}

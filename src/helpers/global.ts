@@ -130,3 +130,8 @@ export const { mode, isLocal } = {
     mode: isNodeEnv ? process.env.NEXT_PUBLIC_MODE : import.meta.env.VITE_MODE,
     isLocal: (isNodeEnv ? process.env.NEXT_PUBLIC_IS_LOCAL : import.meta.env.VITE_is_local) === "true",
 };
+
+export const getFixedNumber = (number = 0, fix = 4) => {
+    const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
+    return String(sum_value);
+};

@@ -1,20 +1,27 @@
 import { MultipleSelectorOption, MultipleSelectorProps } from "@/components/ui/multiselect";
 import { Direction } from "../types";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ComponentProps, Dispatch, ReactNode, SetStateAction } from "react";
 import * as RPNInput from "react-phone-number-input";
 import { ValidationType } from "src/helpers";
 import { SearchSelectOptions } from "@/components/ui";
+import { CheckBoxProps } from "@/components/utils";
 
 export interface BaseElementProps {
     name?: string;
     labelContent?: string;
     required?: boolean;
-    labelClassName?: string;
-    containerClassName?: string;
-    elementClassName?: string;
+    labelClassName?: ComponentProps<"div">["className"];
+    labelWithDots?: boolean;
+    containerClassName?: ComponentProps<"div">["className"];
+    elementClassName?: ComponentProps<"div">["className"];
     minLength?: number;
     validationError?: string;
     direction?: Direction;
+    labelsCommonClassName?: string;
+    title?: string;
+}
+export interface CheckboxContainerProps extends Omit<BaseElementProps, "minLength" | "validationError">, CheckBoxProps {
+    type?: "checkbox";
 }
 
 export interface InputElement extends BaseElementProps {
@@ -41,11 +48,13 @@ export interface SelectElement extends BaseElementProps {
     type: "select";
     options: { value: any; label: string }[];
     optionsContainerClassName?: string;
+    selectClassName?: string;
     defaultValue?: any;
     onChange?: (value: any) => void;
     optionClassName?: string;
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
+    iconClassName?: string;
 }
 
 export interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
@@ -110,10 +119,17 @@ export interface InternationalInputProps extends Omit<BaseElementProps, "element
     defaultCountry?: RPNInput.Country;
     onEnter?: () => void;
     direction?: Direction;
+    defaultFocus?: boolean;
 }
-export interface CustomElementProps extends BaseElementProps {
-    type: "custom";
+export interface CustomElementProps {
+    type?: "custom";
     element: JSX.Element;
+}
+export interface FormSeparatorProps {
+    type?: "separator";
+    props?: ComponentProps<"div">;
+    children?: ReactNode;
+    direction?: Direction;
 }
 
 export interface InputContainerProps extends Partial<InputElement> {}
@@ -127,7 +143,9 @@ export type FormElement =
     | InternationalInputProps
     | CustomElementProps
     | TextAreaElement
-    | SelectWithSearchProps;
+    | SelectWithSearchProps
+    | FormSeparatorProps
+    | CheckboxContainerProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -140,7 +158,10 @@ export interface ModularFormProps {
     direction?: Direction;
     submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
     footerClassName?: string;
+    labelsCommonClassName?: string;
     errorClassName?: string;
+    onLoad?: (e: EventTarget & HTMLFormElement) => void;
+    autoFixLabelsWidth?: boolean;
 }
 export interface ConfirmFormProps {
     onV: () => Promise<void> | void;

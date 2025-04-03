@@ -97,8 +97,17 @@ export const getFormElementValue = (form: EventTarget & HTMLFormElement, name: s
     const inputValue = (form.elements.namedItem(name) as HTMLInputElement)?.value || "";
     return inputValue.trim();
 };
+export const setFormElementValue = (form: EventTarget & HTMLFormElement, name: string, newValue?: string) => {
+    const inputValue = form.elements.namedItem(name) as HTMLInputElement;
+    if (!inputValue) return;
+    inputValue.value = (newValue || "").trim();
+};
 
 export const parseMultiSelectInput = (input: string) => {
     const value = JSON.parse(input) || [];
     return value.map((v: any) => v.value);
+};
+
+export const getFormCheckboxValue = (form: EventTarget & HTMLFormElement, name: string) => {
+    return (form.elements.namedItem(name) as HTMLInputElement)?.checked || false;
 };

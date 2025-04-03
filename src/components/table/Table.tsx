@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
-import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel, ButtonDisplay } from "./components";
+import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel, DisplayAllRowsButton } from "./components";
 import { TableProps, TableProviderType } from "./types";
 import { useFilter, useSort, useSearch, useDisplayToggle } from "./hooks";
 import { TableSCN } from "../ui/table";
@@ -146,7 +146,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
     return (
         <TableContext.Provider value={providerValues}>
-            <div className={`flex flex-col gap-2 ${containerClassName}`} style={{ ...containerStyle, direction: direction }}>
+            <div className={cn(`flex flex-col gap-2 w-full h-full`, containerClassName)} style={{ ...containerStyle, direction: direction }}>
                 {props.children}
             </div>
         </TableContext.Provider>
@@ -172,13 +172,13 @@ const TableBase = (props: TableProps) => {
     return (
         <TableProvider {...props}>
             {/* container header */}
-            <div style={{ direction: direction }} className={cn("flex justify-start items-center gap-2", containerHeaderClassName || "")}>
+            <div style={{ direction: direction }} className={cn("flex justify-between items-center gap-2", containerHeaderClassName || "")}>
                 <div className={cn("flex justify-start items-center gap-2", searchContainerClassName)}>
                     {/* search */}
                     {includeSearch && <Search />}
                     {/* export to excel */}
                     {exportToExcelKeys && <ExportToExcel />}
-                    {showDisplayAllRowsButton && <ButtonDisplay />}
+                    {showDisplayAllRowsButton && <DisplayAllRowsButton />}
                 </div>
                 {/* max rows */}
                 {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
