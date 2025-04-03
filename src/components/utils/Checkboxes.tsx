@@ -28,7 +28,7 @@ export const Checkbox = ({
     elementClassName,
     name,
     props,
-    title
+    title,
 }: CheckBoxProps) => {
     const [isChecked, setIsChecked] = useState(checked);
 
@@ -43,7 +43,7 @@ export const Checkbox = ({
             <label title={title} {...props} htmlFor={id} className={cn("relative block w-[42px] h-[24px] cursor-pointer transform-gpu", className)}>
                 <div
                     className={cn(
-                        `relative top-[1px] left-[1px] w-[40px] h-[22px] rounded-[12px] transition-colors duration-200 ease-in-out ${
+                        `relative w-[40px] h-[22px] rounded-[12px] transition-colors duration-200 ease-in-out ${
                             isChecked ? "bg-[#52d66b]" : "bg-[#c8ccd4]"
                         }`,
                         elementClassName
@@ -51,10 +51,10 @@ export const Checkbox = ({
                 ></div>
                 <span
                     className={cn(
-                        `absolute ${
+                        `absolute top-[-1px] ${
                             rotate ? "left-0" : "right-0"
-                        } top-0 w-[24px] h-[24px] bg-white rounded-full shadow-md transition-transform duration-200 ease-in-out ${
-                            isChecked ? (rotate ? "translate-x-[18px]" : "-translate-x-[18px]") : ""
+                        } top-0 w-6 h-6  bg-white rounded-full shadow-md transition-transform duration-200 ease-in-out ${
+                            isChecked ? (rotate ? "translate-x-[19px]" : "-translate-x-[19px]") : ""
                         }`,
                         circleClassName
                     )}
