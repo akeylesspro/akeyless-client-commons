@@ -178,6 +178,7 @@ const TableBase = (props: TableProps) => {
                     {includeSearch && <Search />}
                     {/* export to excel */}
                     {exportToExcelKeys && <ExportToExcel />}
+                    {/* showDisplayAllRowsButton */}
                     {showDisplayAllRowsButton && <ButtonDisplay />}
                 </div>
                 {/* max rows */}
