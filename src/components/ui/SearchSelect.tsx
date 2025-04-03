@@ -60,8 +60,10 @@ export default function SearchSelect({
     const [searchQuery, setSearchQuery] = useState("");
     const [newOptions, setNewOptions] = useState<SearchSelectOptions[]>([]);
     useEffect(() => {
-        setSelectedValue(value);
-    }, [value]);
+        if (!defaultValue && onChange) {
+            setSelectedValue(value);
+        }
+    }, [value, onChange, defaultValue]);
     const allOptions = useMemo(() => [...options, ...newOptions], [options, newOptions]);
 
     const filteredOptions = useMemo(() => {
@@ -73,6 +75,7 @@ export default function SearchSelect({
     const selectLabel = useMemo(() => {
         return selectedValue ? allOptions.find((item) => item.value === selectedValue)?.label || selectPlaceholder : selectPlaceholder;
     }, [selectedValue, allOptions, selectPlaceholder]);
+
     const addNewOption = useCallback(() => {
         const newOption = { value: searchQuery, label: searchQuery };
         setNewOptions((prev) => [...prev, newOption]);
@@ -83,7 +86,7 @@ export default function SearchSelect({
     }, [searchQuery]);
 
     return (
-        <div style={{ direction }} className={cn("w-full", elementClassName)}>
+        <div style={{ direction }} className={cn("flex-1", elementClassName)}>
             <Popover
                 open={open}
                 onOpenChange={(isOpen) => {
@@ -144,6 +147,7 @@ export default function SearchSelect({
                                 <CommandGroup className={cn("max-h-52 overflow-y-auto", dropdownClassName)}>
                                     {filteredOptions.map((option) => (
                                         <CommandItem
+                                            style={{ direction }}
                                             className={cn(
                                                 "hover:bg-[#cccbcb] cursor-pointer",
                                                 dropdownOptionClassName,
@@ -160,7 +164,7 @@ export default function SearchSelect({
                                             }}
                                         >
                                             {option.label}
-                                            {selectedValue === option.value && <CheckIcon size={16} className="ml-auto" />}
+                                            {selectedValue === option.value && <CheckIcon size={16} className="me-auto" />}
                                         </CommandItem>
                                     ))}
                                 </CommandGroup>

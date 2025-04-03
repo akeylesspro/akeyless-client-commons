@@ -1,10 +1,13 @@
 import MultipleSelector from "@/components/ui/multiselect";
 import SearchSelect from "@/components/ui/SearchSelect";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { Checkbox, CheckBoxProps } from "@/components/utils";
+import { ComponentProps, CSSProperties, ReactNode, useCallback, useMemo, useState } from "react";
 import { cn, handleChange, useValidation } from "src/helpers";
 import {
     BaseElementProps,
+    CheckboxContainerProps,
     Direction,
+    FormSeparatorProps,
     InputContainerProps,
     MultiSelectProps,
     SelectContainerProps,
@@ -13,6 +16,8 @@ import {
 } from "src/types";
 
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
+export const defaultFormElementContainerClassName = "flex justify-start items-center gap-3 w-full";
+export const defaultFormElementBorderClassName = "border-[1px] border-gray-300 hover:border-black rounded-sm";
 
 export const useSortValues = (options: any[], sortDirection: "abc" | "cba", sortAsNumber?: boolean) => {
     const sortOptions = useMemo(() => {
@@ -42,6 +47,9 @@ export const InputContainer = ({
     onChange,
     direction,
     value,
+    labelWithDots,
+    labelsCommonClassName,
+    title,
 }: InputContainerProps) => {
     const handleChangeFunction = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,16 +61,17 @@ export const InputContainer = ({
     const validationProps = useMemo(() => {
         return { ...useValidation(validationName, validationError), onChange: handleChangeFunction };
     }, [handleChangeFunction]);
+    const containerProps = useMemo(() => {
+        return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required };
+    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required]);
     return (
-        <div className={cn(`center`, containerClassName)}>
-            {labelContent && (
-                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
-            )}
+        <FormElementContainer {...containerProps}>
             <input
                 {...props}
+                title={title}
                 minLength={minLength}
                 placeholder={placeholder}
-                className={cn(`w-[70%] bg-inherit border-b-[1px] border-black px-2`, elementClassName)}
+                className={cn(`flex-1 bg-inherit h-9 py-2 px-3`, defaultFormElementBorderClassName, elementClassName)}
                 defaultValue={defaultValue}
                 {...validationProps}
                 value={value}
@@ -72,7 +81,7 @@ export const InputContainer = ({
                 onKeyDown={onKeyDown}
                 type={inputType}
             />
-        </div>
+        </FormElementContainer>
     );
 };
 
@@ -86,11 +95,16 @@ export const SelectContainer = ({
     optionClassName = "",
     required = false,
     options = [],
+    selectClassName = "",
     optionsContainerClassName = "",
     sortDirection = "abc",
     sortAsNumber,
     direction,
     onChange,
+    labelWithDots,
+    iconClassName,
+    labelsCommonClassName,
+    title,
 }: SelectContainerProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     const [isOpen, setIsOpen] = useState(false);
@@ -101,20 +115,35 @@ export const SelectContainer = ({
         onChange?.(value);
         setIsOpen(false);
     };
-
+    const containerProps = useMemo(() => {
+        return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required };
+    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required]);
     return (
-        <div className={cn(`center`, containerClassName)}>
-            {labelContent && (
-                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
-            )}
-            <div className={cn(`w-[70%] relative`, elementClassName)} onClick={() => setIsOpen(!isOpen)}>
-                <div className={`border-b-[1px] border-black max-h-6 cursor-pointer`}>
+        <FormElementContainer {...containerProps}>
+            <div title={title} style={{ direction }} className={cn(`flex-1 relative`, elementClassName)} onClick={() => setIsOpen(!isOpen)}>
+                <div
+                    className={cn(
+                        `h-9 max-h-9 py-2 px-3 flex items-center justify-center cursor-pointer`,
+                        defaultFormElementBorderClassName,
+                        selectClassName
+                    )}
+                >
                     {options.find((opt) => opt.value === selectedValue)?.label || selectedValue}
                 </div>
                 {isOpen ? (
-                    <i className="fa-light fa-chevron-up absolute top-[1px] left-1 cursor-pointer"></i>
+                    <i
+                        className={cn(
+                            `fa-light fa-chevron-up absolute top-3 ${direction === "ltr" ? "right-2" : "left-2"} cursor-pointer`,
+                            iconClassName
+                        )}
+                    ></i>
                 ) : (
-                    <i className="fa-light fa-chevron-down absolute top-[1px] left-1 cursor-pointer"></i>
+                    <i
+                        className={cn(
+                            `fa-light fa-chevron-down absolute top-3 ${direction === "ltr" ? "right-2" : "left-2"} cursor-pointer`,
+                            iconClassName
+                        )}
+                    ></i>
                 )}
 
                 {isOpen && (
@@ -133,7 +162,7 @@ export const SelectContainer = ({
 
                 <input value={selectedValue} type="hidden" name={name} required={required} />
             </div>
-        </div>
+        </FormElementContainer>
     );
 };
 
@@ -158,13 +187,25 @@ export function MultiSelect({
     direction,
     createNewOptionLabel,
     searchInputProps,
+    labelWithDots,
+    labelsCommonClassName,
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
+    const containerProps = useMemo(() => {
+        return {
+            containerClassName: styles.containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+            defaultContainerClassName: !!labelContent,
+        };
+    }, [styles.containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required]);
     return (
-        <div className={cn(`${labelContent ? "flex gap-1 items-center" : ""}`, styles.containerClassName)}>
-            {labelContent && (
-                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
-            )}
+        <FormElementContainer {...containerProps}>
             <MultipleSelector
                 commandProps={{
                     label: placeholder,
@@ -183,7 +224,7 @@ export function MultiSelect({
                 hideClearAllButton
                 hidePlaceholderWhenSelected
                 badgeClassName={styles.badgeClassName}
-                className={styles.className}
+                className={cn(defaultFormElementBorderClassName, styles.className)}
                 dropdownClassName={styles.dropdownClassName}
                 dropdownOptionClassName={styles.dropdownOptionClassName}
                 emptyIndicator={emptyOptionsElement || <p className="text-center text-sm">{"all options selected."}</p>}
@@ -191,7 +232,7 @@ export function MultiSelect({
                 dropdownContainerClassName={styles.dropdownContainerClassName}
                 inputProps={searchInputProps}
             />
-        </div>
+        </FormElementContainer>
     );
 }
 
@@ -221,13 +262,24 @@ export const SelectWithSearch = ({
     direction,
     createNewOptionLabel,
     createNewOptionContainerClassName,
+    labelWithDots,
+    labelsCommonClassName,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
+    const containerProps = useMemo(() => {
+        return {
+            containerClassName: containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+        };
+    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required]);
     return (
-        <div className={cn(`flex justify-between items-center w-full`, containerClassName)}>
-            {labelContent && (
-                <ElementLabel direction={direction} labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />
-            )}
+        <FormElementContainer {...containerProps}>
             <SearchSelect
                 direction={direction}
                 // values props
@@ -241,7 +293,7 @@ export const SelectWithSearch = ({
                 // select props
                 elementClassName={elementClassName}
                 selectPlaceholder={placeholder}
-                buttonClassName={buttonClassName}
+                buttonClassName={cn(defaultFormElementBorderClassName, buttonClassName)}
                 buttonFocusClassName={buttonFocusClassName}
                 disabled={disabled}
                 // search props
@@ -254,7 +306,7 @@ export const SelectWithSearch = ({
                 notFoundLabelClassName={notFoundLabelClassName}
                 notFoundLabel={notFoundLabel}
             />
-        </div>
+        </FormElementContainer>
     );
 };
 
@@ -272,30 +324,122 @@ export const TextAreaContainer = ({
     onKeyDown,
     onChange,
     direction,
+    labelWithDots,
+    labelsCommonClassName,
 }: TextAreaContainerProps) => {
+    const containerProps = useMemo(() => {
+        return {
+            containerClassName: containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+        };
+    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required]);
     return (
-        <div className={cn(`flex flex-col gap-2 items-center`, containerClassName)}>
-            {labelContent && (
-                <ElementLabel
-                    direction={direction}
-                    labelContent={labelContent}
-                    labelClassName={`w-fit text-xl px-2 border-b-2 border-[#000] text-center ${labelClassName}`}
-                    name={name}
-                    required={required}
-                    withDots={false}
-                />
-            )}
+        <FormElementContainer {...containerProps}>
             <textarea
                 {...props}
                 onChange={onChange}
                 minLength={minLength}
                 placeholder={placeholder}
-                className={cn(`w-full bg-inherit border-[1px] border-black min-h-16 max-h-52 px-2`, elementClassName)}
+                className={cn(`flex-1 bg-inherit min-h-16 max-h-52 overflow-auto px-2 py-1`, defaultFormElementBorderClassName, elementClassName)}
                 defaultValue={defaultValue}
                 required={required}
                 name={name}
                 onKeyDown={onKeyDown}
             />
+        </FormElementContainer>
+    );
+};
+
+export const FormSeparator = ({ props, children }: FormSeparatorProps) => {
+    return (
+        <div {...props} className={cn("border-b-[1px] border-gray-300 h-[1px]", props?.className)}>
+            {children}
+        </div>
+    );
+};
+
+export const CheckboxContainer = ({
+    id,
+    checked,
+    setChecked,
+    circleClassName,
+    className,
+    containerClassName,
+    elementClassName,
+    name,
+    direction,
+    labelClassName,
+    labelContent,
+    labelWithDots,
+    labelsCommonClassName,
+    props,
+    rotate,
+    title,
+    required,
+}: CheckboxContainerProps) => {
+    const containerProps = useMemo(() => {
+        return {
+            containerClassName: containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+        };
+    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required]);
+    return (
+        <FormElementContainer {...containerProps}>
+            <Checkbox
+                id={id}
+                name={name}
+                checked={checked}
+                setChecked={setChecked}
+                props={props}
+                rotate={rotate}
+                circleClassName={circleClassName}
+                className={className}
+                containerClassName={containerClassName}
+                elementClassName={elementClassName}
+                title={title}
+            />
+        </FormElementContainer>
+    );
+};
+
+export const FormElementContainer = ({
+    containerClassName,
+    direction,
+    labelClassName,
+    labelContent,
+    labelWithDots,
+    labelsCommonClassName,
+    name,
+    required,
+    children,
+    defaultContainerClassName = true,
+}: BaseElementProps & { children: ReactNode; defaultContainerClassName?: boolean }) => {
+    return (
+        <div className={cn(defaultContainerClassName ? defaultFormElementContainerClassName : "", containerClassName)}>
+            {labelContent && (
+                <ElementLabel
+                    labelsCommonClassName={labelsCommonClassName}
+                    withDots={labelWithDots}
+                    direction={direction}
+                    labelContent={labelContent}
+                    labelClassName={labelClassName}
+                    name={name}
+                    required={required}
+                />
+            )}
+            {children}
         </div>
     );
 };
@@ -305,11 +449,16 @@ export const ElementLabel = ({
     labelClassName,
     name,
     required,
-    withDots = true,
+    withDots = false,
     direction,
+    labelsCommonClassName,
 }: Omit<BaseElementProps, "containerClassName" | "elementClassName"> & { withDots?: boolean }) => {
     return (
-        <label style={{ direction: direction }} className={cn(`text-start w-[30%] flex gap-0.5`, labelClassName)} htmlFor={name}>
+        <label
+            style={{ direction: direction }}
+            className={cn(`text-start w-fit flex gap-0.5 text-nowrap form-label`, labelsCommonClassName, labelClassName)}
+            htmlFor={name}
+        >
             <div>{labelContent}</div>
             {required && <div className="text-red-500">*</div>}
             {withDots && <div>:</div>}

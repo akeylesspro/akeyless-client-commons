@@ -1,29 +1,63 @@
+import { cn } from "src/helpers";
 import "../index.css";
-import React, { SetStateAction } from "react";
+import React, { ComponentProps, SetStateAction, useState } from "react";
+import { Component } from "lucide-react";
 
-interface CheckBoxProps {
-    id: string;
-    checked: boolean;
-    setChecked: (v: boolean) => void;
-    style?: React.CSSProperties;
-    rotate: boolean;
+export interface CheckBoxProps {
+    rotate?: boolean;
+    circleClassName?: string;
+    containerClassName?: string;
+    elementClassName?: string;
+    setChecked?: (v: boolean) => void;
+    checked?: boolean;
+    className?: string;
+    name?: string;
+    id?: string;
+    props?: ComponentProps<"label">;
+    title?: string;
 }
-export const Checkbox = ({ id, checked, setChecked, rotate = true, style }: CheckBoxProps) => {
+
+export const Checkbox = ({
+    id = Math.random().toString(),
+    checked = false,
+    setChecked,
+    rotate = true,
+    className,
+    circleClassName,
+    containerClassName,
+    elementClassName,
+    name,
+    props,
+    title,
+}: CheckBoxProps) => {
+    const [isChecked, setIsChecked] = useState(checked);
+
+    const toggleChecked = () => {
+        setIsChecked(!isChecked);
+        setChecked?.(!isChecked);
+    };
+
     return (
-        <div className="checkbox-wrapper-51">
-            <input type="checkbox" id={id} className="hidden" checked={checked} onChange={() => setChecked(!checked)} />
-            <label htmlFor={id} className="relative block w-[42px] h-[24px] cursor-pointer transform-gpu">
+        <div className={containerClassName}>
+            <input name={name} type="checkbox" id={id} className="hidden" checked={isChecked} onChange={toggleChecked} />
+            <label title={title} {...props} htmlFor={id} className={cn("relative block w-[42px] h-[24px] cursor-pointer transform-gpu", className)}>
                 <div
-                    className={`relative top-[1px] left-[1px] w-[40px] h-[22px] rounded-[12px] transition-colors duration-200 ease-in-out ${
-                        checked ? "bg-[#52d66b]" : "bg-[#c8ccd4]"
-                    }`}
+                    className={cn(
+                        `relative w-[40px] h-[22px] rounded-[12px] transition-colors duration-200 ease-in-out ${
+                            isChecked ? "bg-[#52d66b]" : "bg-[#c8ccd4]"
+                        }`,
+                        elementClassName
+                    )}
                 ></div>
                 <span
-                    className={`absolute ${
-                        rotate ? "left-0" : "right-0"
-                    } top-0  w-[24px] h-[24px] bg-white rounded-full shadow-md transition-transform duration-200 ease-in-out ${
-                        checked ? (rotate ? "translate-x-[18px]" : "-translate-x-[18px]") : ""
-                    }`}
+                    className={cn(
+                        `absolute top-[-1px] ${
+                            rotate ? "left-0" : "right-0"
+                        } top-0 w-6 h-6  bg-white rounded-full shadow-md transition-transform duration-200 ease-in-out ${
+                            isChecked ? (rotate ? "translate-x-[19px]" : "-translate-x-[19px]") : ""
+                        }`,
+                        circleClassName
+                    )}
                 >
                     <svg width="10px" height="10px" viewBox="0 0 10 10" className="m-[7px] fill-none">
                         <path
@@ -32,10 +66,10 @@ export const Checkbox = ({ id, checked, setChecked, rotate = true, style }: Chec
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className="transition-all duration-500 linear"
-                            stroke={checked ? "#52d66b" : "#c8ccd4"}
+                            stroke={isChecked ? "#52d66b" : "#c8ccd4"}
                             style={{
-                                strokeDasharray: checked ? "25" : "24",
-                                strokeDashoffset: checked ? "25" : "0",
+                                strokeDasharray: isChecked ? "25" : "24",
+                                strokeDashoffset: isChecked ? "25" : "0",
                             }}
                         ></path>
                     </svg>

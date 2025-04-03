@@ -25,6 +25,8 @@ export default function InternationalPhonePicker({
     labelClassName,
     required,
     direction,
+    defaultFocus = true,
+    labelsCommonClassName,
 }: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -44,11 +46,19 @@ export default function InternationalPhonePicker({
         }
     }, [defaultValue, setPhoneValue]);
     return (
-        <div style={{ direction }} className={cn("space-y-2", `${labelContent ? "flex gap-1 items-center" : ""}`, containerClassName)}>
-            {labelContent && <ElementLabel labelContent={labelContent} labelClassName={labelClassName} name={name} required={required} />}
+        <div style={{ direction }} className={cn(`${labelContent ? "flex justify-start items-center gap-3 w-full" : "w-full"}`, containerClassName)}>
+            {labelContent && (
+                <ElementLabel
+                    labelsCommonClassName={labelsCommonClassName}
+                    labelContent={labelContent}
+                    labelClassName={labelClassName}
+                    name={name}
+                    required={required}
+                />
+            )}
             <RPNInput.default
                 style={{ direction: "ltr" }}
-                className={cn("flex rounded-lg shadow-sm shadow-black/5", className)}
+                className={cn("flex flex-1 rounded-sm shadow-sm shadow-black/5", className)}
                 international
                 countries={["US", "IL", "NG"]}
                 defaultCountry={defaultCountry}
@@ -56,7 +66,7 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: cn("min-h-10", inputClassName), onKeyDown: handleKeyDown, defaultValue, style }}
+                numberInputProps={{ className: cn("min-h-10", inputClassName), onKeyDown: handleKeyDown, defaultValue, style, defaultFocus }}
                 placeholder={placeholder}
                 value={tempPhoneValue || phoneValue}
                 onChange={(newValue) => {
@@ -71,33 +81,35 @@ export default function InternationalPhonePicker({
     );
 }
 
-const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, onKeyDown, defaultValue, style, ...props }, ref) => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
+const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & { defaultFocus: boolean }>(
+    ({ className, onKeyDown, defaultValue, style, defaultFocus, ...props }, ref) => {
+        const inputRef = useRef<HTMLInputElement | null>(null);
 
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, []);
+        useEffect(() => {
+            if (inputRef.current && defaultFocus) {
+                inputRef.current.focus();
+            }
+        }, []);
 
-    return (
-        <Input
-            className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className)}
-            onKeyDown={onKeyDown}
-            defaultValue={defaultValue}
-            style={style}
-            ref={(el) => {
-                inputRef.current = el;
-                if (typeof ref === "function") {
-                    ref(el);
-                } else if (ref) {
-                    ref.current = el;
-                }
-            }}
-            {...props}
-        />
-    );
-});
+        return (
+            <Input
+                className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className)}
+                onKeyDown={onKeyDown}
+                defaultValue={defaultValue}
+                style={style}
+                ref={(el) => {
+                    inputRef.current = el;
+                    if (typeof ref === "function") {
+                        ref(el);
+                    } else if (ref) {
+                        ref.current = el;
+                    }
+                }}
+                {...props}
+            />
+        );
+    }
+);
 PhoneInput.displayName = "PhoneInput";
 
 type CountrySelectProps = {
