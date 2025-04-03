@@ -4,7 +4,7 @@ import { ComponentProps, Dispatch, ReactNode, SetStateAction } from "react";
 import * as RPNInput from "react-phone-number-input";
 import { ValidationType } from "src/helpers";
 import { SearchSelectOptions } from "@/components/ui";
-import { CheckBoxProps } from "@/components/utils";
+import { CheckBoxProps, LoaderProps } from "@/components/utils";
 
 export interface BaseElementProps {
     name?: string;
@@ -162,6 +162,7 @@ export interface ModularFormProps {
     errorClassName?: string;
     onLoad?: (e: EventTarget & HTMLFormElement) => void;
     autoFixLabelsWidth?: boolean;
+    loaderProps?: LoaderProps;
 }
 export interface ConfirmFormProps {
     onV: () => Promise<void> | void;

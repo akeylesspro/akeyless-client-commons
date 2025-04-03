@@ -28,6 +28,7 @@ const ModularForm = ({
     errorClassName = "",
     labelsCommonClassName,
     autoFixLabelsWidth = true,
+    loaderProps,
     onLoad,
 }: ModularFormProps) => {
     const [errorMsg, setErrorMsg] = useState<string>("");
@@ -129,10 +130,10 @@ const ModularForm = ({
                 <button
                     ref={submitRef}
                     disabled={isLoading}
-                    className={cn(`bg-[#547f22] px-3 py-1 rounded-lg text-white min-w-20`, buttonClassName)}
+                    className={cn(`bg-[#547f22] px-3 py-1.5 rounded-lg text-white min-w-20`, buttonClassName)}
                     type="submit"
                 >
-                    {isLoading ? <Loader size={25} color="#fff" /> : buttonContent}
+                    {isLoading ? <Loader size={18} color="#fff" {...loaderProps} /> : buttonContent}
                 </button>
             </div>
         </form>
