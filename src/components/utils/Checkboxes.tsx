@@ -53,7 +53,7 @@ export const Checkbox = ({
                     className={cn(
                         `absolute top-[-1px] ${
                             rotate ? "left-0" : "right-0"
-                        } top-0 w-6 h-6  bg-white rounded-full shadow-md transition-transform duration-200 ease-in-out ${
+                        } w-6 h-6  bg-white rounded-full shadow-md transition-transform duration-200 ease-in-out ${
                             isChecked ? (rotate ? "translate-x-[19px]" : "-translate-x-[19px]") : ""
                         }`,
                         circleClassName

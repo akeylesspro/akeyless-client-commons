@@ -49,7 +49,7 @@ const ModularForm = ({
                 (label as HTMLElement).style.minWidth = `${max_width}px`;
             });
         }
-    }, [formRef.current, autoFixLabelsWidth]);
+    }, []);
 
     useEffect(() => {
         if (formRef.current) {
