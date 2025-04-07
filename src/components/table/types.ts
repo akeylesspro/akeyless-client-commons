@@ -58,6 +58,7 @@ export interface TableProps {
     sortKeys?: string[];
     exportToExcelKeys?: string[];
     excelFileName?: string;
+    excelHeadline?: string;
     exportExcelContent?: ReactNode;
     exportToExcelClassName?: string;
     dataToAddToExcelTable?: { key: string; value: any; header: string }[];

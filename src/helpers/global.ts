@@ -1,4 +1,4 @@
-import { Client, CountryOptions, NxUser, TObject } from "akeyless-types-commons";
+import { Client, CountryOptions, LanguageOptions, NxUser, TObject } from "akeyless-types-commons";
 import axios from "axios";
 import { query_document, snapshot } from "./firebase";
 import { local_israel_phone_format } from "./phoneNumber";
@@ -134,4 +134,21 @@ export const { mode, isLocal } = {
 export const getFixedNumber = (number = 0, fix = 4) => {
     const sum_value = number % 1 === 0 ? number : number.toFixed(fix).replace(/\.?0+$/, "");
     return String(sum_value);
+};
+
+export const getAddressByGeo = async ({ lat, lng }, currentLanguage: LanguageOptions) => {
+    const language = currentLanguage === LanguageOptions.He ? "iw" : "en";
+    const apiKey = import.meta.env.VITE_api_google_key;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&language=${language}`;
+
+    try {
+        const response = await axios.get(url);
+        if (response?.data?.results[0]) {
+            return response.data.results[0].formatted_address.slice(0, 35);
+        } else {
+            return "address not found";
+        }
+    } catch (error) {
+        console.error("getAddressByGeo error:", error);
+    }
 };

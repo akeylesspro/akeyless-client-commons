@@ -10,6 +10,7 @@ import { getFixedNumber, getLocationUrl, renderOnce } from "src/helpers";
 import { timestamp_to_string } from "src/helpers/time_helpers";
 import { Button } from "../ui";
 import { Direction } from "src/types";
+import { exportToExcel } from "src/helpers/excel";
 
 /// header elements
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
@@ -111,7 +112,9 @@ export const ExportToExcel = memo(() => {
         sumColumns,
         exportExcelTitle,
         exportExcelContent,
+        excelHeadline,
         exportToExcelClassName,
+        direction,
     } = useTableContext();
 
     const addPropertiesToExcel = (properties: { key: string; value: any; header: string }[]) => {
@@ -125,35 +128,41 @@ export const ExportToExcel = memo(() => {
     };
 
     const onExportExcelClick = async (): Promise<void> => {
-        if (exportToExcelKeys) {
-            // create worksheet
-            const workbook = new ExcelJS.Workbook();
-            const worksheet = workbook.addWorksheet("Sheet1");
-            const dataToExport = dataToAddToExcelTable ? addPropertiesToExcel(dataToAddToExcelTable) : { data: dataToRender.renderedData, headers };
-            // add rows
-            worksheet.addRow(dataToExport.headers);
-            dataToExport.data.forEach((item: Record<string, any>) => {
-                const row = exportToExcelKeys.map((key: string) => item[key]);
-                worksheet.addRow(row);
+        if (!exportToExcelKeys || !dataToRender?.renderedData) return;
+
+        const { data: baseData, headers: baseHeaders } =
+            dataToAddToExcelTable?.length > 0 ? addPropertiesToExcel(dataToAddToExcelTable) : { data: dataToRender.renderedData, headers };
+
+        const columns = exportToExcelKeys.map((key, index) => ({
+            key,
+            header: baseHeaders[index] || key,
+        }));
+
+        const dataWithSummary = [...baseData];
+
+        if (sumColumns?.length) {
+            sumColumns.forEach(({ label, dataKey }) => {
+                const sumValue = dataToRender.renderedData.reduce((acc, row) => acc + Number(row[dataKey] || 0), 0).toFixed(2);
+                const summaryRow: Record<string, any> = {
+                    [exportToExcelKeys[0]]: label,
+                    [exportToExcelKeys[1]]: sumValue,
+                };
+
+                dataWithSummary.push(summaryRow);
             });
-            // summary
-            if (sumColumns) {
-                sumColumns.forEach((val) => {
-                    const sumRow = worksheet.addRow([]);
-                    sumRow.getCell(1).value = val.label;
-                    const value = dataToRender.renderedData
-                        .reduce((acc, v) => {
-                            return acc + Number(v[val.dataKey]) || 0;
-                        }, 0)
-                        .toFixed(2);
-                    sumRow.getCell(2).value = value;
-                });
-            }
-            // download file
-            const buffer = await workbook.xlsx.writeBuffer();
-            const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-            saveAs(blob, `${excelFileName || "table_data"}.xlsx`);
         }
+
+        await exportToExcel({
+            columns,
+            data: dataWithSummary,
+            headline: excelHeadline,
+            fileName: `${excelFileName || "table_data"}.xlsx`,
+            cellStyle: {
+                horizontal: direction === "ltr" ? "left" : "right",
+                readingOrder: direction,
+            },
+            direction
+        });
     };
 
     return (
