@@ -1,7 +1,7 @@
-import { useContext, useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
+import { useCallback, useContext, useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
 import { TObject } from "akeyless-types-commons";
 import { create } from "zustand";
-import { isEqual } from "lodash";
+import { debounce, isEqual } from "lodash";
 import { TableContext } from "./Table";
 import { UseFilterProps } from "./types";
 export const useTableContext = () => {
@@ -86,27 +86,62 @@ export const useDisplayToggle = () => {
     const [displayAllRows, setDisplayAllRows] = useState(false);
     return { displayAllRows, setDisplayAllRows };
 };
-export const useSearch = () => {
+
+// export const useSearch = () => {
+//     const [searchQuery, setSearchQuery] = useState<string>("");
+//     const [isPending, startTransition] = useTransition();
+//     const deferredSearchQuery = useDeferredValue(searchQuery);
+
+//     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+//         const value = e.target.value;
+//         startTransition(() => {
+//             setSearchQuery(value);
+//         });
+//     };
+
+//     const clearSearch = () => {
+//         if (searchQuery) {
+//             startTransition(() => {
+//                 setSearchQuery("");
+//             });
+//         }
+//     };
+
+//     return { searchQuery, handleSearch, clearSearch, isPending, deferredSearchQuery };
+// };
+
+export const useSearch = (debounceDelay = 300) => {
     const [searchQuery, setSearchQuery] = useState<string>("");
-    const [isPending, startTransition] = useTransition();
-    const deferredSearchQuery = useDeferredValue(searchQuery);
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>("");
 
-    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        startTransition(() => {
+    const debouncedUpdate = useMemo(
+        () =>
+            debounce((query: string) => {
+                setDebouncedSearchQuery(query);
+            }, debounceDelay),
+        [debounceDelay]
+    );
+
+    const handleSearch = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
             setSearchQuery(value);
-        });
-    };
+            debouncedUpdate(value);
+        },
+        [debouncedUpdate]
+    );
 
-    const clearSearch = () => {
-        if (searchQuery) {
-            startTransition(() => {
-                setSearchQuery("");
-            });
-        }
-    };
+    const clearSearch = useCallback(() => {
+        setSearchQuery("");
+        setDebouncedSearchQuery("");
+    }, []);
 
-    return { searchQuery, handleSearch, clearSearch, isPending, deferredSearchQuery };
+    return {
+        searchQuery,
+        debouncedSearchQuery,
+        handleSearch,
+        clearSearch,
+    };
 };
 
 export const useCreateTableStore = () => {

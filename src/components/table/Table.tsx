@@ -63,7 +63,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
     const { displayAllRows, setDisplayAllRows } = useDisplayToggle();
-    const { searchQuery, handleSearch, clearSearch, deferredSearchQuery } = useSearch();
+    const { searchQuery, handleSearch, debouncedSearchQuery } = useSearch();
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
         filterableColumns,
@@ -80,9 +80,9 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     const dataToRender = useMemo(() => {
         let filtered = data;
         // search
-        if (includeSearch && deferredSearchQuery.length > 0) {
+        if (includeSearch && debouncedSearchQuery.length > 0) {
             const cleanString = (str: string) => str.replace(textNumbersRegex, "").toLowerCase().trim();
-            const normalizedSearchQuery = cleanString(deferredSearchQuery);
+            const normalizedSearchQuery = cleanString(debouncedSearchQuery);
             filtered = data.filter((item) =>
                 allKeys.some((key) => {
                     return cleanString(String(item[key])).includes(normalizedSearchQuery);
@@ -117,7 +117,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [deferredSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows]);
+    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows]);
 
     const providerValues = {
         ...props,
@@ -133,7 +133,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         sortOrder,
         handleSort,
         searchQuery,
-        deferredSearchQuery,
+        deferredSearchQuery: debouncedSearchQuery,
         handleSearch,
         dataToRender,
         filters,

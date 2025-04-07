@@ -1,5 +1,3 @@
-import ExcelJS from "exceljs";
-import { saveAs } from "file-saver";
 import React, { memo, ReactNode, useMemo } from "react";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
@@ -13,6 +11,8 @@ import { Direction } from "src/types";
 import { exportToExcel } from "src/helpers/excel";
 
 /// header elements
+
+/// filter
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, closeFilterWindow, filterLabel } =
         useTableContext();
@@ -73,6 +73,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     );
 });
 
+/// max rows
 export const MaxRowsLabel = memo(() => {
     const { data, dataToRender, maxRowsLabel1, maxRowsLabel2, maxRows, displayAllRows, maxRowsContainerClassName } = useTableContext();
     return (
@@ -84,7 +85,6 @@ export const MaxRowsLabel = memo(() => {
         </div>
     );
 }, renderOnce);
-
 export const DisplayAllRowsButton = memo(() => {
     const { setDisplayAllRows, displayAllRows, dataToRender, maxRows, displayAllRowsButtonProps, displayAllRowsButtonLabel } = useTableContext();
 
@@ -102,6 +102,7 @@ export const DisplayAllRowsButton = memo(() => {
     );
 }, renderOnce);
 
+/// export to excel
 export const ExportToExcel = memo(() => {
     const {
         exportToExcelKeys,
@@ -161,7 +162,7 @@ export const ExportToExcel = memo(() => {
                 horizontal: direction === "ltr" ? "left" : "right",
                 readingOrder: direction,
             },
-            direction
+            direction,
         });
     };
 
@@ -176,6 +177,7 @@ export const ExportToExcel = memo(() => {
     );
 }, renderOnce);
 
+/// search
 export const Search = memo(() => {
     const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle } = useTableContext();
     return (
