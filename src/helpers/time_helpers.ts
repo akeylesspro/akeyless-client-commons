@@ -4,8 +4,12 @@ interface TimeOptions {
     format?: string;
     fromFormat?: string;
     tz?: string;
+    defaultReturnedValue?: string;
 }
 export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string {
+    if (!firebaseTimestamp) {
+        return options.defaultReturnedValue ?? "-";
+    }
     let date: Date;
     if (firebaseTimestamp instanceof Timestamp) {
         date = firebaseTimestamp.toDate();
@@ -14,10 +18,10 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
     } else if (typeof firebaseTimestamp === "string") {
         date = moment.utc(firebaseTimestamp, options?.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {
-            throw new Error("Invalid date string format");
+            return options.defaultReturnedValue ?? "-";
         }
     } else {
-        throw new Error("Invalid input: firebaseTimestamp must be a Timestamp, Date, or valid date string.");
+        return options.defaultReturnedValue ?? "-";
     }
     if (options?.tz) {
         const result = moment(date)
@@ -30,6 +34,9 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
 }
 
 export function timestamp_to_millis(firebaseTimestamp: Timestamp): number {
+    if (!firebaseTimestamp) {
+        return 0;
+    }
     const timestamp = new Timestamp(firebaseTimestamp?.seconds, firebaseTimestamp?.nanoseconds);
     return timestamp.toMillis();
 }

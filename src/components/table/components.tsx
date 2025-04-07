@@ -315,9 +315,10 @@ interface TimesUIProps {
     tz?: string;
     direction?: Direction;
     className?: string;
+    defaultReturnedValue?: string;
 }
-export const TimesUI = ({ timestamp, format, tz, direction, fromFormat, className = "" }: TimesUIProps) => {
-    const time = timestamp_to_string(timestamp, { format, fromFormat, tz });
+export const TimesUI = ({ timestamp, format, tz, direction, fromFormat, className = "", defaultReturnedValue }: TimesUIProps) => {
+    const time = timestamp_to_string(timestamp, { format, fromFormat, tz, defaultReturnedValue });
     return (
         <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={time}>
             {time}
