@@ -14,7 +14,7 @@ export const useDocumentTitle = (title: string) => {
 export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => {
     const snapshotsFirstTime = useRef<string[]>([]);
     const unsubscribeFunctions = useRef<(() => void)[]>([]);
-
+    
     useDeepCompareEffect(() => {
         const start = performance.now();
         console.log(`==> ${label || "Custom snapshots"} started... `);
@@ -34,6 +34,7 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
                     unsubscribe();
                 }
             });
+            console.log(`==> ${label || "Custom snapshots"} unsubscribed`);
         };
     }, []);
 };

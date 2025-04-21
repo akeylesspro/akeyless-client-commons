@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useMemo } from "react";
+import React, { memo, ReactNode, useEffect, useMemo } from "react";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
 import { Geo, TObject } from "akeyless-types-commons";
@@ -429,6 +429,9 @@ export const DurationUI = ({
 };
 
 export const PhoneUI = ({ phone, direction, className = "" }: { phone: string; direction?: Direction; className?: string }) => {
+    useEffect(() => {
+        const dir = document.body.style.direction;
+    }, []);
     return (
         <div style={{ direction: "ltr" }} className={cn(`_ellipsis  ${direction === "rtl" ? "text-right" : "text-left"}`, className)} title={phone}>
             {phone}

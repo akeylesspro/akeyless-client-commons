@@ -16,6 +16,10 @@ export const international_israel_phone_format: ConvertFunction = (phone) => {
     const validNumber = phone.slice(1, phone.length);
     return "+972".concat(validNumber);
 };
+export const get_international_phone_number: ConvertFunction = (phone) => {
+    if (!phone) return "+972";
+    return isInternational(phone) ? phone : international_israel_phone_format(phone);
+};
 export const displayFormatPhoneNumber: ConvertFunction = (phoneNumber) => {
     if (isInternational(phoneNumber)) {
         const phoneNumberObject = parsePhoneNumberFromString(phoneNumber);

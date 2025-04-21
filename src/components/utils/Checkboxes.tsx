@@ -1,6 +1,6 @@
 import { cn } from "src/helpers";
 import "../index.css";
-import React, { ComponentProps, SetStateAction, useState } from "react";
+import React, { ComponentProps, SetStateAction, useEffect, useState } from "react";
 import { Component } from "lucide-react";
 
 export interface CheckBoxProps {
@@ -8,12 +8,14 @@ export interface CheckBoxProps {
     circleClassName?: string;
     containerClassName?: string;
     elementClassName?: string;
+    disabled?: boolean;
     setChecked?: (v: boolean) => void;
     checked?: boolean;
     className?: string;
     name?: string;
     id?: string;
     props?: ComponentProps<"label">;
+    inputProps?: ComponentProps<"input">;
     title?: string;
 }
 
@@ -29,18 +31,44 @@ export const Checkbox = ({
     name,
     props,
     title,
+    disabled = false,
+    inputProps,
 }: CheckBoxProps) => {
     const [isChecked, setIsChecked] = useState(checked);
 
     const toggleChecked = () => {
+        if (disabled) return;
         setIsChecked(!isChecked);
         setChecked?.(!isChecked);
     };
+    useEffect(() => {
+        if (checked !== isChecked) {
+            setIsChecked(checked);
+        }
+    }, [checked]);
 
     return (
         <div className={containerClassName}>
-            <input name={name} type="checkbox" id={id} className="hidden" checked={isChecked} onChange={toggleChecked} />
-            <label title={title} {...props} htmlFor={id} className={cn("relative block w-[42px] h-[24px] cursor-pointer transform-gpu", className)}>
+            <input
+                {...inputProps}
+                disabled={disabled}
+                name={name}
+                type="checkbox"
+                id={id}
+                className="hidden"
+                checked={isChecked}
+                onChange={toggleChecked}
+            />
+            <label
+                title={title}
+                {...props}
+                htmlFor={id}
+                className={cn(
+                    "relative block w-[42px] h-[24px] cursor-pointer transform-gpu",
+                    disabled ? "opacity-70 cursor-not-allowed" : "",
+                    className
+                )}
+            >
                 <div
                     className={cn(
                         `relative w-[40px] h-[22px] rounded-[12px] transition-colors duration-200 ease-in-out ${

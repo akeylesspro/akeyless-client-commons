@@ -153,7 +153,6 @@ export interface ModularFormProps {
     buttonContent: React.ReactNode;
     headerContent?: React.ReactNode;
     buttonClassName?: string;
-    formClassName?: string;
     headerClassName?: string;
     direction?: Direction;
     submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
@@ -162,7 +161,10 @@ export interface ModularFormProps {
     errorClassName?: string;
     onLoad?: (e: EventTarget & HTMLFormElement) => void;
     autoFixLabelsWidth?: boolean;
+    autoFixLabelsWidthDeps?: any[];
     loaderProps?: LoaderProps;
+    elementsContainerClassName?: string;
+    className?: string;
 }
 export interface ConfirmFormProps {
     onV: () => Promise<void> | void;

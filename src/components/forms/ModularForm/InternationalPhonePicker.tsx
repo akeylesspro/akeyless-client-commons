@@ -27,6 +27,7 @@ export default function InternationalPhonePicker({
     direction,
     defaultFocus = true,
     labelsCommonClassName,
+    minLength,
 }: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -58,7 +59,7 @@ export default function InternationalPhonePicker({
             )}
             <RPNInput.default
                 style={{ direction: "ltr" }}
-                className={cn("flex flex-1 rounded-sm shadow-sm shadow-black/5", className)}
+                className={cn("flex flex-1 rounded-sm shadow-sm shadow-black/5 border-[1px] border-gray-300", className)}
                 international
                 countries={["US", "IL", "NG"]}
                 defaultCountry={defaultCountry}
@@ -97,6 +98,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & 
                 onKeyDown={onKeyDown}
                 defaultValue={defaultValue}
                 style={style}
+                minLength={props.minLength}
                 ref={(el) => {
                     inputRef.current = el;
                     if (typeof ref === "function") {
