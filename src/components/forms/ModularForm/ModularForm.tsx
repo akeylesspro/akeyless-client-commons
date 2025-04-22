@@ -13,13 +13,15 @@ import {
 import { Loader } from "@/components/utils";
 import { cn, getFormElementValue } from "src/helpers";
 import InternationalPhonePicker from "./InternationalPhonePicker";
+import { useDeepCompareEffect } from "@/hooks/react";
 
 const ModularForm = ({
     submitFunction = async (form) => {},
     elements = [],
     headerContent,
     buttonContent,
-    formClassName = "",
+    className = "",
+    elementsContainerClassName = "",
     headerClassName = "",
     direction = "rtl",
     buttonClassName = "",
@@ -29,13 +31,14 @@ const ModularForm = ({
     labelsCommonClassName,
     autoFixLabelsWidth = true,
     loaderProps,
+    autoFixLabelsWidthDeps = [],
     onLoad,
 }: ModularFormProps) => {
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
 
-    useEffect(() => {
+    useDeepCompareEffect(() => {
         if (formRef.current && autoFixLabelsWidth) {
             const labels = formRef.current.getElementsByClassName("form-label");
             let max_width = 0;
@@ -49,7 +52,7 @@ const ModularForm = ({
                 (label as HTMLElement).style.minWidth = `${max_width}px`;
             });
         }
-    }, []);
+    }, autoFixLabelsWidthDeps);
 
     useEffect(() => {
         if (formRef.current) {
@@ -89,40 +92,55 @@ const ModularForm = ({
     };
 
     return (
-        <form ref={formRef} onSubmit={onSubmit} style={{ direction }} className={cn(`w-[350px] px-5 py-5 flex flex-col gap-5`, formClassName)}>
+        <form ref={formRef} onSubmit={onSubmit} style={{ direction }} className={cn(`w-[350px] px-5 py-5 flex flex-col gap-4`, className)}>
             {headerContent && (
                 <div className={cn(`border-b-2 border-[#547f22] pb-2 text-start font-bold text-[20px]`, headerClassName)}>{headerContent}</div>
             )}
-            {elements.map((element, index) => {
-                switch (element.type) {
-                    case "input":
-                        return <InputContainer key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />;
-                    case "textarea":
-                        return <TextAreaContainer key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />;
-                    case "select":
-                        return <SelectContainer key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />;
-                    case "checkbox":
-                        return <CheckboxContainer key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />;
-                    case "multiSelect":
-                        return <MultiSelect key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />;
-                    case "selectWithSearch":
-                        return <SelectWithSearch key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />;
-                    case "internationalPhoneInput":
-                        return (
-                            <InternationalPhonePicker key={index} {...element} direction={direction} labelsCommonClassName={labelsCommonClassName} />
-                        );
-                    case "separator":
-                        return (
-                            <FormSeparator key={index} {...element} direction={direction}>
-                                {element.children}
-                            </FormSeparator>
-                        );
-                    case "custom":
-                        return typeof element.element?.type !== "string" && cloneElement(element.element, { key: index });
-                    default:
-                        return null;
-                }
-            })}
+            <div className={cn(`w-full flex flex-col gap-5`, elementsContainerClassName)}>
+                {elements.map((element, index) => {
+                    switch (element.type) {
+                        case "input":
+                            return <InputContainer key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                        case "textarea":
+                            return (
+                                <TextAreaContainer
+                                    key={index}
+                                    direction={element.direction || direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                />
+                            );
+                        case "select":
+                            return <SelectContainer key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                        case "checkbox":
+                            return <CheckboxContainer key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                        case "multiSelect":
+                            return <MultiSelect key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                        case "selectWithSearch":
+                            return <SelectWithSearch key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                        case "internationalPhoneInput":
+                            return (
+                                <InternationalPhonePicker
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                />
+                            );
+                        case "separator":
+                            return (
+                                <FormSeparator key={index} direction={direction} {...element}>
+                                    {element.children}
+                                </FormSeparator>
+                            );
+                        case "custom":
+                            return typeof element.element?.type !== "string" && cloneElement(element.element, { key: index });
+                        default:
+                            return null;
+                    }
+                })}
+            </div>
+
             <div className={cn("flex justify-between w-full", footerClassName)}>
                 <div title={errorMsg} className={cn("text-[#f22] text-[18px] max-w-[80%] ellipsis", errorClassName)}>
                     {errorMsg}

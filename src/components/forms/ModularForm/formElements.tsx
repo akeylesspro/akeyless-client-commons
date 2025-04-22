@@ -1,8 +1,21 @@
 import MultipleSelector from "@/components/ui/multiselect";
 import SearchSelect from "@/components/ui/SearchSelect";
 import { Checkbox, CheckBoxProps } from "@/components/utils";
-import { ComponentProps, CSSProperties, ReactNode, useCallback, useMemo, useState } from "react";
-import { cn, handleChange, useValidation } from "src/helpers";
+import { useDeepCompareEffect } from "@/hooks/react";
+import {
+    Children,
+    cloneElement,
+    ComponentProps,
+    CSSProperties,
+    isValidElement,
+    memo,
+    ReactNode,
+    useCallback,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
+import { cn, handleChange, propsAreEqual, useValidation } from "src/helpers";
 import {
     BaseElementProps,
     CheckboxContainerProps,
@@ -344,6 +357,7 @@ export const TextAreaContainer = ({
             <textarea
                 {...props}
                 onChange={onChange}
+                dir={direction}
                 minLength={minLength}
                 placeholder={placeholder}
                 className={cn(`flex-1 bg-inherit min-h-16 max-h-52 overflow-auto px-2 py-1`, defaultFormElementBorderClassName, elementClassName)}
@@ -380,7 +394,9 @@ export const CheckboxContainer = ({
     labelsCommonClassName,
     props,
     rotate,
+    disabled,
     title,
+    inputProps,
     required,
 }: CheckboxContainerProps) => {
     const containerProps = useMemo(() => {
@@ -409,6 +425,8 @@ export const CheckboxContainer = ({
                 containerClassName={containerClassName}
                 elementClassName={elementClassName}
                 title={title}
+                disabled={disabled}
+                inputProps={inputProps}
             />
         </FormElementContainer>
     );
@@ -465,3 +483,87 @@ export const ElementLabel = ({
         </label>
     );
 };
+
+/// elements container
+export interface ElementsContainerProps extends BaseElementProps {
+    children: ReactNode;
+    childrenContainerClassName?: string;
+    className?: string;
+    headlineClassName?: string;
+    autoFixLabelsWidth?: boolean;
+    autoFixLabelsWidthDeps?: any[];
+    headline?: string;
+}
+export const ElementsContainer = memo((props: ElementsContainerProps) => {
+    const {
+        children,
+        className,
+        elementClassName,
+        labelClassName,
+        headline,
+        headlineClassName,
+        autoFixLabelsWidth = true,
+        autoFixLabelsWidthDeps = [labelClassName],
+        containerClassName,
+        childrenContainerClassName,
+    } = props;
+
+    const elementProps = useMemo(() => {
+        const clone = { ...props };
+        delete clone.children;
+        delete clone.className;
+        delete clone.headline;
+        delete clone.headlineClassName;
+        delete clone.autoFixLabelsWidth;
+        delete clone.autoFixLabelsWidthDeps;
+        return clone;
+    }, [props]);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+    useDeepCompareEffect(() => {
+        if (containerRef.current && autoFixLabelsWidth) {
+            const labels = containerRef.current.getElementsByClassName("form-label");
+            let max_width = 0;
+            Array.from(labels).forEach((label) => {
+                // const label_width = label.clientWidth || (label as HTMLElement).offsetWidth || (label as HTMLElement).scrollWidth;
+                const label_width = label.scrollWidth;
+                // const label_width = label.clientWidth;
+                if (label_width > max_width) {
+                    max_width = label_width;
+                }
+            });
+            Array.from(labels).forEach((label) => {
+                (label as HTMLElement).style.minWidth = `${max_width}px`;
+            });
+        }
+    }, autoFixLabelsWidthDeps);
+
+    const enhancedChildren = useMemo(() => {
+        return Children.map(children, (child) => {
+            if (!isValidElement(child) || typeof child.type == "string") {
+                return child;
+            }
+            const props = elementProps;
+            if (isValidElement<{ elementClassName?: string }>) {
+                props.elementClassName = cn(elementClassName, props.elementClassName);
+            }
+            if (isValidElement<{ labelClassName?: string }>) {
+                props.labelClassName = cn(labelClassName, props.labelClassName);
+            }
+            if (isValidElement<{ containerClassName?: string }>) {
+                props.containerClassName = cn(containerClassName, props.containerClassName);
+            }
+            return cloneElement(child, props);
+        });
+    }, [children, elementClassName, labelClassName, containerClassName, elementProps]);
+
+    return (
+        <div ref={containerRef} className={cn("border-[1px] border-gray-400 flex flex-col h-fit w-64 rounded-md", className)}>
+            {headline && (
+                <div className={cn("text-start text-primary font-bold border-b-[1px] border-gray-400 pb-0.5", headlineClassName)}>{headline}</div>
+            )}
+            <div className={cn("flex flex-col gap-1.5", childrenContainerClassName)}>{enhancedChildren}</div>
+        </div>
+    );
+}, propsAreEqual);
+ElementsContainer.displayName = "ElementsContainer";

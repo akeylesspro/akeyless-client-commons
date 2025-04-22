@@ -108,7 +108,7 @@ export interface SelectWithSearchProps extends BaseElementProps {
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
     phoneValue?: string;
-    setPhoneValue?: Dispatch<SetStateAction<string>>;
+    setPhoneValue?: Dispatch<SetStateAction<string>> | ((value: string) => void);
     placeholder?: string;
     className?: string;
     containerClassName?: string;
@@ -120,6 +120,7 @@ export interface InternationalInputProps extends Omit<BaseElementProps, "element
     onEnter?: () => void;
     direction?: Direction;
     defaultFocus?: boolean;
+    disabled?: boolean;
 }
 export interface CustomElementProps {
     type?: "custom";
@@ -153,7 +154,6 @@ export interface ModularFormProps {
     buttonContent: React.ReactNode;
     headerContent?: React.ReactNode;
     buttonClassName?: string;
-    formClassName?: string;
     headerClassName?: string;
     direction?: Direction;
     submitRef?: React.MutableRefObject<HTMLButtonElement | null>;
@@ -162,7 +162,10 @@ export interface ModularFormProps {
     errorClassName?: string;
     onLoad?: (e: EventTarget & HTMLFormElement) => void;
     autoFixLabelsWidth?: boolean;
+    autoFixLabelsWidthDeps?: any[];
     loaderProps?: LoaderProps;
+    elementsContainerClassName?: string;
+    className?: string;
 }
 export interface ConfirmFormProps {
     onV: () => Promise<void> | void;

@@ -1,6 +1,6 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.149",
+    "version": "1.0.173",
     "scripts": {
         "build": "tsup",
         "deploy": "npm run build && npm version patch --no-git-tag-version && npm publish",
@@ -24,7 +24,7 @@
         "cmdk": "^1.0.0",
         "exceljs": "^4.4.0",
         "file-saver": "^2.0.5",
-        "firebase": "^11.0.2",
+        "firebase": "^11.6.0",
         "input-otp": "^1.4.1",
         "libphonenumber-js": "^1.11.12",
         "lodash": "^4.17.21",
