@@ -11,10 +11,10 @@ export const useDocumentTitle = (title: string) => {
     return null;
 };
 
-export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => {
+export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string, cleanupForConfigChange = false) => {
     const snapshotsFirstTime = useRef<string[]>([]);
     const unsubscribeFunctions = useRef<(() => void)[]>([]);
-    
+
     useDeepCompareEffect(() => {
         const start = performance.now();
         console.log(`==> ${label || "Custom snapshots"} started... `);
@@ -25,7 +25,17 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string) => 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
             console.log(`==> ${label || "Custom snapshots"} ended. It took ${(performance.now() - start).toFixed(2)} ms`);
         });
-    }, [configs, label]);
+        if (cleanupForConfigChange) {
+            return () => {
+                unsubscribeFunctions.current.forEach((unsubscribe) => {
+                    if (unsubscribe) {
+                        unsubscribe();
+                    }
+                });
+                console.log(`==> ${label || "Custom snapshots"} unsubscribed`);
+            };
+        }
+    }, [configs, label, cleanupForConfigChange]);
 
     useEffect(() => {
         return () => {
