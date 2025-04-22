@@ -139,7 +139,7 @@ export const getFixedNumber = (number = 0, fix = 4) => {
 export const getAddressByGeo = async ({ lat, lng }, currentLanguage: LanguageOptions) => {
     const language = currentLanguage === LanguageOptions.He ? "iw" : "en";
     const apiKey = isNodeEnv ? process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY : import.meta.env.VITE_api_google_key;
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},$ {lng}&key=${apiKey}&language=${language}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&language=${language}`;
 
     try {
         const response = await axios.get(url);
