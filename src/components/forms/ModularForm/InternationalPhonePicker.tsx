@@ -28,6 +28,7 @@ export default function InternationalPhonePicker({
     defaultFocus = true,
     labelsCommonClassName,
     minLength,
+    disabled,
 }: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
@@ -58,6 +59,7 @@ export default function InternationalPhonePicker({
                 />
             )}
             <RPNInput.default
+                disabled={disabled}
                 style={{ direction: "ltr" }}
                 className={cn("flex flex-1 rounded-sm shadow-sm shadow-black/5 border-[1px] border-gray-300", className)}
                 international
@@ -67,7 +69,14 @@ export default function InternationalPhonePicker({
                 countrySelectComponent={CountrySelect}
                 countrySelectProps={{ className: flagContainerClassName }}
                 inputComponent={PhoneInput}
-                numberInputProps={{ className: cn("min-h-10", inputClassName), onKeyDown: handleKeyDown, defaultValue, style, defaultFocus }}
+                numberInputProps={{
+                    className: cn("min-h-10", inputClassName),
+                    onKeyDown: handleKeyDown,
+                    defaultValue,
+                    style,
+                    defaultFocus,
+                    disabled: disabled,
+                }}
                 placeholder={placeholder}
                 value={tempPhoneValue || phoneValue}
                 onChange={(newValue) => {
@@ -82,8 +91,8 @@ export default function InternationalPhonePicker({
     );
 }
 
-const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & { defaultFocus: boolean }>(
-    ({ className, onKeyDown, defaultValue, style, defaultFocus, ...props }, ref) => {
+const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & { defaultFocus: boolean; disabled: boolean }>(
+    ({ className, onKeyDown, defaultValue, style, defaultFocus, disabled, ...props }, ref) => {
         const inputRef = useRef<HTMLInputElement | null>(null);
 
         useEffect(() => {
@@ -99,6 +108,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & 
                 defaultValue={defaultValue}
                 style={style}
                 minLength={props.minLength}
+                disabled={disabled}
                 ref={(el) => {
                     inputRef.current = el;
                     if (typeof ref === "function") {

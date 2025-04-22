@@ -108,7 +108,7 @@ export interface SelectWithSearchProps extends BaseElementProps {
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
     phoneValue?: string;
-    setPhoneValue?: Dispatch<SetStateAction<string>>;
+    setPhoneValue?: Dispatch<SetStateAction<string>> | ((value: string) => void);
     placeholder?: string;
     className?: string;
     containerClassName?: string;
@@ -120,6 +120,7 @@ export interface InternationalInputProps extends Omit<BaseElementProps, "element
     onEnter?: () => void;
     direction?: Direction;
     defaultFocus?: boolean;
+    disabled?: boolean;
 }
 export interface CustomElementProps {
     type?: "custom";
