@@ -183,7 +183,7 @@ export const Search = memo(() => {
     return (
         <input
             className={cn("border-black border-[1px] text-lg px-2 w-11/12", searchInputClassName)}
-            type="text"
+            type="search"
             placeholder={searchPlaceHolder}
             value={searchQuery}
             onChange={handleSearch}

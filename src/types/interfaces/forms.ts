@@ -40,6 +40,7 @@ export interface TextAreaElement extends BaseElementProps {
     defaultValue?: string;
     onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
     onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    value?: string;
     placeholder?: string;
     props?: React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 }

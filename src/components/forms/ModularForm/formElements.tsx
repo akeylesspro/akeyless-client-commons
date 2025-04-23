@@ -335,6 +335,7 @@ export const TextAreaContainer = ({
     props,
     minLength,
     onKeyDown,
+    value,
     onChange,
     direction,
     labelWithDots,
@@ -356,6 +357,7 @@ export const TextAreaContainer = ({
         <FormElementContainer {...containerProps}>
             <textarea
                 {...props}
+                value={value}
                 onChange={onChange}
                 dir={direction}
                 minLength={minLength}

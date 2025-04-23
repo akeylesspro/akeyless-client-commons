@@ -20,13 +20,13 @@ export const get_international_phone_number: ConvertFunction = (phone) => {
     if (!phone) return "+972";
     return isInternational(phone) ? phone : international_israel_phone_format(phone);
 };
-export const displayFormatPhoneNumber: ConvertFunction = (phoneNumber) => {
+export const displayFormatPhoneNumber = (phoneNumber: string, separator?: string) => {
     if (isInternational(phoneNumber)) {
         const phoneNumberObject = parsePhoneNumberFromString(phoneNumber);
         if (!phoneNumberObject) {
             return phoneNumber;
         }
-        return phoneNumberObject.formatInternational().replace(/\s/g, "");
+        return phoneNumberObject.formatInternational().replace(/\s/g, separator ?? "");
     }
     return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
 };
