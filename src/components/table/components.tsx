@@ -1,4 +1,4 @@
-import React, { memo, ReactNode, useEffect, useMemo } from "react";
+import React, { memo, ReactNode, useEffect, useMemo, useState } from "react";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
 import { Geo, TObject } from "akeyless-types-commons";
@@ -249,7 +249,7 @@ export const TableBody = memo(() => {
 }, renderOnce);
 
 export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
-    const { rowStyles, rowClassName, keysToRender, onRowClick, zebraStriping } = useTableContext();
+    const { rowStyles, rowClassName = "", keysToRender, onRowClick, zebraStriping, selectedRow } = useTableContext();
     const zebraClassName = zebraStriping
         ? index % 2 === 0
             ? zebraStriping.evenRowClassName || ""
@@ -257,8 +257,16 @@ export const TableRow = ({ item, index }: { item: TObject<any>; index: number })
         : "";
     return (
         <tr
-            className={cn("hover:bg-[#808080] hover:text-[#fff]", zebraClassName, rowClassName || "")}
-            onClick={() => onRowClick && onRowClick(item)}
+            className={cn(
+                "hover:bg-[#808080] hover:text-[#fff]",
+                zebraClassName,
+                rowClassName,
+                selectedRow?.rowIndex === index ? selectedRow?.className || "" : ""
+            )}
+            onClick={() => {
+                selectedRow?.onChange && selectedRow.onChange(index);
+                onRowClick && onRowClick(item, index);
+            }}
             style={rowStyles}
         >
             {keysToRender.map((key, index) => (

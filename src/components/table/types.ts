@@ -71,7 +71,7 @@ export interface TableProps {
     filterLabel?: string;
     sortLabel?: string;
     exportExcelTitle?: string;
-    onRowClick?: (data?: any) => void;
+    onRowClick?: (data?: any, rowIndex?: number) => void;
     direction?: Direction;
     maxRows?: number;
     maxRowsLabel1?: string;
@@ -84,6 +84,12 @@ export interface TableProps {
         oddRowClassName?: string;
         evenRowClassName?: string;
     };
+    selectedRow?: {
+        className?: string;
+        rowIndex?: number | null;
+        onChange?: (rowIndex: number) => void;
+    };
+    noneSearchKeys?: string[];
 }
 
 export interface FilterProps {

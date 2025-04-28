@@ -32,7 +32,7 @@ import { NxUser, TObject } from "akeyless-types-commons";
 import { AppName, LoginOption, Snapshot, SnapshotDocument, WhereCondition } from "../types";
 import { useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
-import { parsePermissions } from "./global";
+import { parsePermissions } from "./permissions";
 
 interface FirebaseInitResult {
     db?: Firestore;

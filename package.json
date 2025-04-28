@@ -1,6 +1,6 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.0.177",
+    "version": "1.0.190",
     "scripts": {
         "build": "tsup",
         "deploy": "npm run build && npm version patch --no-git-tag-version && npm publish",
@@ -16,7 +16,7 @@
         "@radix-ui/react-progress": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.2",
         "@types/lodash": "^4.17.13",
-        "akeyless-types-commons": "^1.0.4",
+        "akeyless-types-commons": "^1.0.18",
         "assets": "^3.0.1",
         "axios": "^1.7.9",
         "class-variance-authority": "^0.7.0",

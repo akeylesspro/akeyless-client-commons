@@ -57,6 +57,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         summaryRowStyle = {},
         //  max rows
         maxRows = data.length,
+        noneSearchKeys = [],
     } = props;
 
     // rendered data
@@ -68,6 +69,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         data,
         filterableColumns,
     });
+
     const allKeys = useMemo(() => {
         return Array.from(
             data.reduce<Set<string>>((keys, obj) => {
@@ -81,12 +83,14 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         let filtered = data;
         // search
         if (includeSearch && debouncedSearchQuery.length > 0) {
-            const cleanString = (str: string) => str.replace(textNumbersRegex, "").toLowerCase().trim();
+            const cleanString = (str: string) => str.toLowerCase().trim();
             const normalizedSearchQuery = cleanString(debouncedSearchQuery);
             filtered = data.filter((item) =>
-                allKeys.some((key) => {
-                    return cleanString(String(item[key])).includes(normalizedSearchQuery);
-                })
+                allKeys
+                    .filter((val) => !noneSearchKeys.includes(val))
+                    .some((key) => {
+                        return cleanString(String(item[key])).includes(normalizedSearchQuery);
+                    })
             );
 
             // clearFilter();
@@ -117,7 +121,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows]);
+    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows, noneSearchKeys]);
 
     const providerValues = {
         ...props,

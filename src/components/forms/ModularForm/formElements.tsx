@@ -479,7 +479,7 @@ export const ElementLabel = ({
             className={cn(`text-start w-fit flex gap-0.5 text-nowrap form-label`, labelsCommonClassName, labelClassName)}
             htmlFor={name}
         >
-            <div>{labelContent}</div>
+            {labelContent}
             {required && <div className="text-red-500">*</div>}
             {withDots && <div>:</div>}
         </label>
@@ -546,14 +546,14 @@ export const ElementsContainer = memo((props: ElementsContainerProps) => {
                 return child;
             }
             const props = elementProps;
-            if (isValidElement<{ elementClassName?: string }>) {
-                props.elementClassName = cn(elementClassName, props.elementClassName);
+            if (isValidElement<{ elementClassName?: string }>(child)) {
+                props.elementClassName = cn(elementClassName, child.props.elementClassName);
             }
-            if (isValidElement<{ labelClassName?: string }>) {
-                props.labelClassName = cn(labelClassName, props.labelClassName);
+            if (isValidElement<{ labelClassName?: string }>(child)) {
+                props.labelClassName = cn(labelClassName, child.props.labelClassName);
             }
-            if (isValidElement<{ containerClassName?: string }>) {
-                props.containerClassName = cn(containerClassName, props.containerClassName);
+            if (isValidElement<{ containerClassName?: string }>(child)) {
+                props.containerClassName = cn(containerClassName, child.props.containerClassName);
             }
             return cloneElement(child, props);
         });
