@@ -29,8 +29,8 @@ import {
 } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 import { NxUser, TObject } from "akeyless-types-commons";
-import { AppName, LoginOption, Snapshot, SnapshotDocument, WhereCondition } from "../types";
-import { useCallback } from "react";
+import { AppName, LoginOption, OnSnapshotParsers, SetState, Snapshot, SnapshotDocument, WhereCondition } from "../types";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
 import { parsePermissions } from "./permissions";
 
@@ -515,6 +515,35 @@ export const snapshotDocument: SnapshotDocument = (config, snapshotsFirstTime) =
     );
 
     return { promise, unsubscribe };
+};
+
+export const parseSnapshotAsArray = (setState: SetState<any[]> | Dispatch<SetStateAction<any[]>>): OnSnapshotParsers => {
+    return {
+        onAdd: (data: any[]) => {
+            setState((prev) => {
+                return [...prev, ...data];
+            });
+        },
+        onFirstTime: (data: any[]) => {
+            setState((prev) => {
+                return [...prev, ...data];
+            });
+        },
+        onModify: (data: any[]) => {
+            setState((prev) => {
+                const update = prev.map((item) => {
+                    const updatedItem = data.find((v) => v.id === item.id);
+                    return updatedItem ? updatedItem : item;
+                });
+                return update;
+            });
+        },
+        onRemove: (data: any[]) => {
+            setState((prev) => {
+                return prev.filter((item) => !data.some((v) => v.id === item.id));
+            });
+        },
+    };
 };
 
 const checkConditions = (document: DocumentData, conditions?: WhereCondition[]): boolean => {

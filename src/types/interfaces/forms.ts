@@ -19,6 +19,7 @@ export interface BaseElementProps {
     direction?: Direction;
     labelsCommonClassName?: string;
     title?: string;
+    labelStyle?: React.CSSProperties;
 }
 export interface CheckboxContainerProps extends Omit<BaseElementProps, "minLength" | "validationError">, CheckBoxProps {
     type?: "checkbox";
