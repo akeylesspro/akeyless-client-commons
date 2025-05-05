@@ -177,6 +177,12 @@ export interface ConfirmFormProps {
     containerClassName?: string;
     headlineClassName?: string;
     buttonsContainerClassName?: string;
+    cancelButtonClassName?: string;
+    confirmButtonClassName?: string;
+    confirmButtonProps?: ComponentProps<"button">;
+    cancelButtonProps?: ComponentProps<"button">;
+    cancelElement?: ReactNode;
+    confirmElement?: ReactNode;
 }
 
 export interface DatePickerProps {

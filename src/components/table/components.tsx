@@ -238,9 +238,9 @@ export const TableHead = memo(() => {
 
 /// table body
 export const TableBody = memo(() => {
-    const { dataToRender } = useTableContext();
+    const { dataToRender, tableBodyClassName } = useTableContext();
     return (
-        <tbody className="divide-y divide-gray-600">
+        <tbody className={cn("divide-y divide-gray-600", tableBodyClassName)}>
             {dataToRender.renderedData.map((item, index) => (
                 <TableRow key={index} item={item} index={index} />
             ))}

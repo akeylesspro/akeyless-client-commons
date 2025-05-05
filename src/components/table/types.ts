@@ -46,6 +46,7 @@ export interface TableProps {
     tableContainerStyle?: React.CSSProperties;
     tableContainerClass?: string;
     tableStyle?: React.CSSProperties;
+    tableBodyClassName?: string;
     rowStyles?: React.CSSProperties;
     rowClassName?: string;
     headerStyle?: React.CSSProperties;
