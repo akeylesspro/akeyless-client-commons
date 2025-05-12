@@ -5,6 +5,7 @@ import * as RPNInput from "react-phone-number-input";
 import { ValidationType } from "src/helpers";
 import { SearchSelectOptions } from "@/components/ui";
 import { CheckBoxProps, LoaderProps } from "@/components/utils";
+import { MouseEvent } from "react";
 
 export interface BaseElementProps {
     name?: string;
@@ -151,7 +152,7 @@ export type FormElement =
     | CheckboxContainerProps;
 
 export interface ModularFormProps {
-    submitFunction: (form: React.FormEvent<HTMLFormElement>) => Promise<void>;
+    submitFunction: (form: React.FormEvent<HTMLFormElement>, clickEvent?: MouseEvent) => Promise<void>;
     elements: FormElement[];
     buttonContent: React.ReactNode;
     headerContent?: React.ReactNode;

@@ -249,7 +249,7 @@ export const TableBody = memo(() => {
 }, renderOnce);
 
 export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
-    const { rowStyles, rowClassName = "", keysToRender, onRowClick, zebraStriping, selectedRow } = useTableContext();
+    const { rowStyles, rowClassName = "", keysToRender, onRowClick, zebraStriping, selectedRow, rowClassNameFunction } = useTableContext();
     const zebraClassName = zebraStriping
         ? index % 2 === 0
             ? zebraStriping.evenRowClassName || ""
@@ -261,6 +261,7 @@ export const TableRow = ({ item, index }: { item: TObject<any>; index: number })
                 "hover:bg-[#808080] hover:text-[#fff]",
                 zebraClassName,
                 rowClassName,
+                rowClassNameFunction?.(item) || "",
                 selectedRow?.rowIndex === index ? selectedRow?.className || "" : ""
             )}
             onClick={() => {

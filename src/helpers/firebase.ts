@@ -385,11 +385,13 @@ export const query_document_by_conditions = async (collection_path: string, wher
     }
 };
 
-export const snapshot: Snapshot = (config, snapshotsFirstTime) => {
+export const snapshot: Snapshot = (config, snapshotsFirstTime, settings) => {
     let resolvePromise: () => void;
     let isResolved = false;
     const promise = new Promise<void>((resolve) => {
-        console.log(`==> ${config.collectionName} subscribed.`);
+        if (!settings?.disableLogs) {
+            console.log(`==> ${config.collectionName} subscribed.`);
+        }
         resolvePromise = () => {
             if (!isResolved) {
                 isResolved = true;

@@ -14,6 +14,7 @@ import { Loader } from "@/components/utils";
 import { cn, getFormElementValue } from "src/helpers";
 import InternationalPhonePicker from "./InternationalPhonePicker";
 import { useDeepCompareEffect } from "@/hooks/react";
+import { MouseEvent } from "react";
 
 const ModularForm = ({
     submitFunction = async (form) => {},
@@ -37,6 +38,7 @@ const ModularForm = ({
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
     const formRef = useRef<HTMLFormElement>(null);
+    const submitClickEventRef = useRef<MouseEvent | null>(null);
 
     useDeepCompareEffect(() => {
         if (formRef.current && autoFixLabelsWidth) {
@@ -65,6 +67,8 @@ const ModularForm = ({
         setErrorMsg("");
         setIsLoading(true);
         try {
+            const clickEvent = submitClickEventRef.current;
+
             const form = e.currentTarget;
             elements.forEach((element) => {
                 const hasMinLengthType = (element: FormElement): element is Extract<FormElement, { minLength?: number }> => {
@@ -78,7 +82,7 @@ const ModularForm = ({
                     }
                 }
             });
-            await submitFunction(e);
+            await submitFunction(e, clickEvent);
         } catch (err) {
             if (typeof err === "string") {
                 setErrorMsg(err);
@@ -148,6 +152,9 @@ const ModularForm = ({
                 <button
                     ref={submitRef}
                     disabled={isLoading}
+                    onClick={(e) => {
+                        submitClickEventRef.current = e;
+                    }}
                     className={cn(`bg-[#547f22] px-3 py-1.5 rounded-lg text-white min-w-20`, buttonClassName)}
                     type="submit"
                 >

@@ -82,3 +82,5 @@ export const getAddressByGeo = async ({ lat, lng }, currentLanguage: LanguageOpt
         console.error("getAddressByGeo error:", error);
     }
 };
+
+export const isValid = <T extends any>(variable: any, condition: Boolean): variable is T => !!condition;

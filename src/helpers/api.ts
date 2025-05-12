@@ -37,7 +37,7 @@ export const nx_api_call = async (serverName: ServerName, method: Method, url: s
             headers,
             data,
         });
-        return response.data || null;
+        return response?.data || null;
     } catch (error) {
         console.error(`Error from nx_api_call: ${JSON.stringify({ serverName, method, url, data })}`, error?.response?.data || error);
         return null;

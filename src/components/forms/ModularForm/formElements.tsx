@@ -508,7 +508,7 @@ export interface ElementsContainerProps extends BaseElementProps {
     headlineClassName?: string;
     autoFixLabelsWidth?: boolean;
     autoFixLabelsWidthDeps?: any[];
-    headline?: string;
+    headline?: ReactNode;
 }
 export const ElementsContainer = memo((props: ElementsContainerProps) => {
     const {
@@ -574,7 +574,7 @@ export const ElementsContainer = memo((props: ElementsContainerProps) => {
     }, [children, elementClassName, labelClassName, containerClassName, elementProps]);
 
     return (
-        <div ref={containerRef} className={cn("border-[1px] border-gray-400 flex flex-col h-fit w-64 rounded-md", className)}>
+        <div ref={containerRef} className={cn("flex flex-col gap-1", className)}>
             {headline && (
                 <div className={cn("text-start text-primary font-bold border-b-[1px] border-gray-400 pb-0.5", headlineClassName)}>{headline}</div>
             )}

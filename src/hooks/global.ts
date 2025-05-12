@@ -11,31 +11,41 @@ export const useDocumentTitle = (title: string) => {
     return null;
 };
 
-export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string, cleanupForConfigChange = false) => {
+export const useSnapshotBulk = (
+    configs: OnSnapshotConfig[],
+    label?: string,
+    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
+) => {
     const snapshotsFirstTime = useRef<string[]>([]);
     const unsubscribeFunctions = useRef<(() => void)[]>([]);
 
     useDeepCompareEffect(() => {
         const start = performance.now();
-        console.log(`==> ${label || "Custom snapshots"} started... `);
-        const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current));
-
+        if (!settings?.disableLogs) {
+            console.log(`==> ${label || "Custom snapshots"} started... `);
+        }
+        const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
         unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
-            console.log(`==> ${label || "Custom snapshots"} ended. It took ${(performance.now() - start).toFixed(2)} ms`);
+            if (!settings?.disableLogs) {
+                console.log(`==> ${label || "Custom snapshots"} ended. It took ${(performance.now() - start).toFixed(2)} ms`);
+            }
         });
-        if (cleanupForConfigChange) {
+
+        if (settings?.cleanupForConfigChange) {
             return () => {
                 unsubscribeFunctions.current.forEach((unsubscribe) => {
                     if (unsubscribe) {
                         unsubscribe();
                     }
                 });
-                console.log(`==> ${label || "Custom snapshots"} unsubscribed`);
+                if (!settings?.disableLogs) {
+                    console.log(`==> ${label || "Custom snapshots"} unsubscribed`);
+                }
             };
         }
-    }, [configs, label, cleanupForConfigChange]);
+    }, [configs, label, settings]);
 
     useEffect(() => {
         return () => {
@@ -44,7 +54,9 @@ export const useSnapshotBulk = (configs: OnSnapshotConfig[], label?: string, cle
                     unsubscribe();
                 }
             });
-            console.log(`==> ${label || "Custom snapshots"} unsubscribed`);
+            if (!settings?.disableLogs) {
+                console.log(`==> ${label || "Custom snapshots"} unsubscribed`);
+            }
         };
     }, []);
 };

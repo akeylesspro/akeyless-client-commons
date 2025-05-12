@@ -90,6 +90,7 @@ export interface TableProps {
         rowIndex?: number | null;
         onChange?: (rowIndex: number) => void;
     };
+    rowClassNameFunction?: (data?: any) => string;
     noneSearchKeys?: string[];
 }
 

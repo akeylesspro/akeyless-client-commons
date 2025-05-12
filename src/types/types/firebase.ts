@@ -32,6 +32,6 @@ export interface SnapshotResult {
     unsubscribe: Unsubscribe;
 }
 
-export type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[]) => SnapshotResult;
+export type Snapshot = (config: OnSnapshotConfig, snapshotsFirstTime: string[], settings?: { disableLogs?: boolean }) => SnapshotResult;
 
 export type SnapshotDocument = (config: OnSnapshotConfigDocument, snapshotsFirstTime: string[]) => SnapshotResult;
