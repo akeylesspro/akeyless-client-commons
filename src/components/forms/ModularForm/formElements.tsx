@@ -205,6 +205,7 @@ export function MultiSelect({
     labelWithDots,
     labelsCommonClassName,
     labelStyle,
+    closeDropdownOnSelect,
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     const containerProps = useMemo(() => {
@@ -224,6 +225,7 @@ export function MultiSelect({
     return (
         <FormElementContainer {...containerProps}>
             <MultipleSelector
+                closeDropdownOnSelect={closeDropdownOnSelect}
                 commandProps={{
                     label: placeholder,
                 }}

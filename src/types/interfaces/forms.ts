@@ -86,6 +86,7 @@ export interface MultiSelectProps extends Omit<BaseElementProps, "containerClass
     searchInputProps?: MultipleSelectorProps["inputProps"];
     createNewOptionLabel?: string;
     createNewOptionContainerClassName?: string;
+    closeDropdownOnSelect?: boolean;
 }
 export interface SelectWithSearchProps extends BaseElementProps {
     type?: "selectWithSearch";

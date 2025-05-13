@@ -9,9 +9,9 @@ export const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + 
 export const callCenterDomain = isLocal ? "http://localhost:9003/api/call-center" : baseDomain + "/call-center";
 export const akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz" : "https://akeyless-online.info";
 type Method = "GET" | "POST" | "PUT" | "DELETE";
-type ServerName = "devices" | "bi" | "call-center";
+type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications";
 
-export const nx_api_call = async (serverName: ServerName, method: Method, url: string, data?: TObject<any>) => {
+export const nxApiCall = async (serverName: ServerName, method: Method, url: string, data?: TObject<any>) => {
     try {
         let urlResult: string = `${devicesDomain}/${url}`;
         switch (serverName) {
@@ -21,8 +21,14 @@ export const nx_api_call = async (serverName: ServerName, method: Method, url: s
             case "devices":
                 urlResult = `${devicesDomain}/${url}`;
                 break;
-            case "call-center":
-                urlResult = `${callCenterDomain}/${url}`;
+            case "notifications":
+                urlResult = `${devicesDomain}/${url}`;
+                break;
+            case "call-center-events":
+                urlResult = `${callCenterDomain}/call-center/events`;
+                break;
+            case "call-center-geo":
+                urlResult = `${callCenterDomain}/call-center/geo`;
                 break;
             default:
                 break;
@@ -39,7 +45,7 @@ export const nx_api_call = async (serverName: ServerName, method: Method, url: s
         });
         return response?.data || null;
     } catch (error) {
-        console.error(`Error from nx_api_call: ${JSON.stringify({ serverName, method, url, data })}`, error?.response?.data || error);
+        console.error(`Error from nxApiCall: ${JSON.stringify({ serverName, method, url, data })}`, error?.response?.data || error);
         return null;
     }
 };

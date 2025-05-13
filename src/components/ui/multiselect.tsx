@@ -102,6 +102,7 @@ export interface MultipleSelectorProps {
     emptyIndicatorClassName?: string;
     unremovableOptions?: MultipleSelectorOption[];
     name?: string;
+    closeDropdownOnSelect?: boolean;
 }
 
 export interface MultipleSelectorRef {
@@ -137,6 +138,7 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
             commandProps,
             inputProps,
             hideClearAllButton = false,
+            closeDropdownOnSelect = false,
             dropdownClassName,
             dropdownOptionClassName,
             emptyIndicatorClassName,
@@ -534,6 +536,10 @@ const MultipleSelector = forwardRef<MultipleSelectorRef, MultipleSelectorProps>(
                                                             const newOptions = [...selected, option];
                                                             setSelected(newOptions);
                                                             onChange?.(newOptions);
+                                                            if (closeDropdownOnSelect) {
+                                                                setOpen(false);
+                                                                inputRef.current?.blur();
+                                                            }
                                                         }}
                                                         className={cn(
                                                             "cursor-pointer",

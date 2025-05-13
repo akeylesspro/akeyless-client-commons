@@ -184,11 +184,11 @@ const TableBase = (props: TableProps) => {
                     {exportToExcelKeys && <ExportToExcel />}
                     {/* showDisplayAllRowsButton */}
                     {showDisplayAllRowsButton && <DisplayAllRowsButton />}
+                    {/* optional element */}
+                    {optionalElement && optionalElement}
                 </div>
                 {/* max rows */}
                 {maxRowsLabel1 && maxRowsLabel2 && <MaxRowsLabel />}
-                {/* optional element */}
-                {optionalElement && optionalElement}
             </div>
             {/* table */}
             <div
