@@ -589,7 +589,7 @@ export const getUserByPhone = async (phone: string) => {
     return await query_document("nx-users", "phone_number", "in", phones, true);
 };
 export const getUserByEmail = async (email: string) => {
-    return await query_document("nx-users", "email", "==", email, true);
+    return await query_document("nx-users", "email", "==", email.toLowerCase(), true);
 };
 export const getUserByIdentifier = async (identifier: string) => {
     return (await getUserByPhone(identifier)) || (await getUserByEmail(identifier));
