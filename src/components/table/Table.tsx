@@ -58,6 +58,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         //  max rows
         maxRows = data.length,
         noneSearchKeys = [],
+        showDisplayAllRowsButton,
     } = props;
 
     // rendered data
@@ -147,10 +148,13 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         handleFilterClick,
         closeFilterWindow,
     };
-
+    const gapClassName = Boolean(includeSearch || exportToExcelKeys || showDisplayAllRowsButton || optionalElement);
     return (
         <TableContext.Provider value={providerValues}>
-            <div className={cn(`flex flex-col gap-2 w-full h-full`, containerClassName)} style={{ ...containerStyle, direction: direction }}>
+            <div
+                className={cn(`flex flex-col w-full h-full`, gapClassName ? "gap-2" : "", containerClassName)}
+                style={{ ...containerStyle, direction: direction }}
+            >
                 {props.children}
             </div>
         </TableContext.Provider>
