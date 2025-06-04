@@ -218,7 +218,7 @@ export const TableHead = memo(() => {
                             title={sortDisplay ? `${sortLabel} ${header}` : header}
                             style={headerCellStyle}
                             key={index}
-                            className={cn("max-w-[130px] px-2 text-center h-6 relative", headerCellClassName)}
+                            className={cn("px-2 text-center h-6 relative w-fit max-w-[130px]", headerCellClassName)}
                         >
                             {/* header value */}
                             <div className={`px-2 ${sortDisplay ? "cursor-pointer" : ""}`} onClick={() => sortDisplay && handleSort(index)}>
@@ -283,7 +283,7 @@ export const TableCell = ({ value }: { value: any }) => {
         <td
             title={["string", "number", "boolean"].includes(typeof value) ? value : ""}
             style={cellStyle}
-            className={cn("chivo ellipsis _ellipsis text-start px-1 py-0.5 border-gray-400 border-[1px] max-w-[90px] ", cellClassName || "")}
+            className={cn("chivo ellipsis _ellipsis text-start px-1 py-0.5 border-gray-400 border-[1px] w-fit max-w-[130px]", cellClassName || "")}
         >
             {value}
         </td>
