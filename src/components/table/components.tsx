@@ -48,7 +48,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                         </div>
                         <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
                             {filterOptions[filterableColumn.dataKey]
-                                ?.sort((a, b) => b.localeCompare(a))
+                                ?.sort((a, b) => a.localeCompare(b))
                                 .map((option: string, i: number) => (
                                     <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
                                         <input
