@@ -86,12 +86,11 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         if (includeSearch && debouncedSearchQuery.length > 0) {
             const cleanString = (str: string) => str.toLowerCase().trim();
             const normalizedSearchQuery = cleanString(debouncedSearchQuery);
+            const keys = allKeys.filter((val) => !noneSearchKeys?.includes(val));
             filtered = data.filter((item) =>
-                allKeys
-                    .filter((val) => !noneSearchKeys.includes(val))
-                    .some((key) => {
-                        return cleanString(String(item[key])).includes(normalizedSearchQuery);
-                    })
+                keys.some((key) => {
+                    return cleanString(String(item[key])).includes(normalizedSearchQuery);
+                })
             );
 
             // clearFilter();
