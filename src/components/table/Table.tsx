@@ -61,6 +61,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         showDisplayAllRowsButton,
     } = props;
 
+
     // rendered data
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
@@ -86,7 +87,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         if (includeSearch && debouncedSearchQuery.length > 0) {
             const cleanString = (str: string) => str.toLowerCase().trim();
             const normalizedSearchQuery = cleanString(debouncedSearchQuery);
-            const keys = allKeys.filter((val) => !noneSearchKeys?.includes(val));
+            const keys = allKeys.filter((val) => !noneSearchKeys.includes(val));
             filtered = data.filter((item) =>
                 keys.some((key) => {
                     return cleanString(String(item[key])).includes(normalizedSearchQuery);
@@ -97,15 +98,15 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
             // clearSort();
         }
         // filter
-        if (filterableColumns.length > 0 && filterPopupsDisplay !== "") {
-            console.log("filtering ...");
+        if (
+            filterableColumns.length > 0 &&
+            Object.values(filters).some((arr) => Array.isArray(arr) && arr.length > 0)
+        ) {
             Object.keys(filters).forEach((key) => {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter((item) => filters[key].includes(item[key]));
                 }
             });
-            // clearSearch();
-            // clearSort();
         }
         // sort
         if (sortColumn !== null && sortOrder !== null && sortKeys?.length > 0) {
@@ -121,7 +122,17 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows, noneSearchKeys]);
+    }, [
+        debouncedSearchQuery,
+        sortColumn,
+        sortOrder,
+        filters,
+        data,
+        displayAllRows,
+        noneSearchKeys,
+        filterableColumns,
+        filterPopupsDisplay,
+    ]);
 
     const providerValues = {
         ...props,

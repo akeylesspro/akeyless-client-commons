@@ -11,7 +11,6 @@ import { Direction } from "src/types";
 import { exportToExcel } from "src/helpers/excel";
 
 /// header elements
-
 /// filter
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
     const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, closeFilterWindow, filterLabel } =
