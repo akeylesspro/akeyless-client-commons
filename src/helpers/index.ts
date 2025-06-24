@@ -8,3 +8,4 @@ export * from "../lib/utils";
 export * from "./time_helpers";
 export * from "./api";
 export * from "./permissions";
+export * from "./socket";
