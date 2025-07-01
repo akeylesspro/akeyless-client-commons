@@ -141,6 +141,22 @@ export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 export interface TextAreaContainerProps extends Partial<TextAreaElement> {}
 
+export interface DurationValues {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+
+export type DurationInputOption = keyof DurationValues;
+
+export interface DurationInputProps extends BaseElementProps {
+    value?: DurationValues;
+    onChange?: (v: DurationValues) => void;
+    hideLabels?: boolean;
+    options?: DurationInputOption[];
+}
+
 export type FormElement =
     | InputElement
     | SelectElement

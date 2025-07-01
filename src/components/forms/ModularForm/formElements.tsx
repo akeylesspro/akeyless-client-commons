@@ -20,6 +20,8 @@ import {
     BaseElementProps,
     CheckboxContainerProps,
     Direction,
+    DurationInputProps,
+    DurationValues,
     FormSeparatorProps,
     InputContainerProps,
     MultiSelectProps,
@@ -446,6 +448,61 @@ export const CheckboxContainer = ({
     );
 };
 
+export const DurationPicker = ({
+    name = "",
+    labelContent = "",
+    containerClassName = "h-12",
+    labelClassName = "",
+    elementClassName = "",
+    required = false,
+    direction,
+    onChange,
+    labelWithDots,
+    labelsCommonClassName,
+    title,
+    labelStyle,
+    value,
+    options = ["days", "hours", "minutes", "seconds"],
+    hideLabels = false,
+}: DurationInputProps) => {
+    const containerProps = useMemo(() => {
+        return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle };
+    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+
+    const [duration, setDuration] = useState<DurationValues>(value || { days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+    const handleField = (field: keyof DurationValues, range: [number, number]) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const raw = parseInt(e.target.value, 10);
+        const clamped = isNaN(raw) ? 0 : Math.min(range[1], Math.max(range[0], raw));
+        setDuration({ ...duration, [field]: clamped });
+        onChange?.({ ...duration, [field]: clamped });
+    };
+    return (
+        <FormElementContainer {...containerProps}>
+            <div className={cn("flex gap-1.5 text-sm", elementClassName)} dir="ltr">
+                {Array.from(new Set(options)).map((field) => (
+                    <div key={field} className="flex flex-col border p-0.5 rounded-md">
+                        {!hideLabels && (
+                            <label className="mb-1 ps-1 capitalize text-start border-b-[1px] border-b-gray-300">{field.slice(0, 1)}</label>
+                        )}
+                        <input
+                            type="number"
+                            inputMode="numeric"
+                            min={0}
+                            max={field === "days" ? 30 : 59}
+                            value={duration[field]}
+                            onChange={handleField(field, field === "days" ? [0, 30] : [0, field === "hours" ? 23 : 59])}
+                            className={cn("text-center w-8 ")}
+                        />
+                    </div>
+                ))}
+                <input name={name} type="hidden" value={JSON.stringify(duration)} />
+            </div>
+        </FormElementContainer>
+    );
+};
+
+/// helpers
 export const FormElementContainer = ({
     containerClassName,
     direction,
