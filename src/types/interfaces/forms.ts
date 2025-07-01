@@ -151,6 +151,7 @@ export interface DurationValues {
 export type DurationInputOption = keyof DurationValues;
 
 export interface DurationInputProps extends BaseElementProps {
+    type?: "duration";
     value?: DurationValues;
     onChange?: (v: DurationValues) => void;
     hideLabels?: boolean;
@@ -166,7 +167,8 @@ export type FormElement =
     | TextAreaElement
     | SelectWithSearchProps
     | FormSeparatorProps
-    | CheckboxContainerProps;
+    | CheckboxContainerProps
+    | DurationInputProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>, clickEvent?: MouseEvent) => Promise<void>;

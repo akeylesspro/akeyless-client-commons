@@ -1,4 +1,5 @@
 import React from "react";
+import { DurationValues } from "src/types";
 import XRegExp from "xregexp";
 
 export const textRegex = XRegExp("[^\\p{L}\\s-]", "gu"); // Only letters, spaces, and hyphens
@@ -97,6 +98,7 @@ export const getFormElementValue = (form: EventTarget & HTMLFormElement, name: s
     const inputValue = (form.elements.namedItem(name) as HTMLInputElement)?.value || "";
     return inputValue.trim();
 };
+
 export const setFormElementValue = (form: EventTarget & HTMLFormElement, name: string, newValue?: string) => {
     const inputValue = form.elements.namedItem(name) as HTMLInputElement;
     if (!inputValue) return;
@@ -111,3 +113,31 @@ export const parseMultiSelectInput = (input: string) => {
 export const getFormCheckboxValue = (form: EventTarget & HTMLFormElement, name: string) => {
     return (form.elements.namedItem(name) as HTMLInputElement)?.checked || false;
 };
+
+export const durationToSeconds = (d: DurationValues): number => {
+    const safe = clampNegative(d);
+    return ((safe.days * 24 + safe.hours) * 60 + safe.minutes) * 60 + safe.seconds;
+};
+
+export const secondsToDuration = (total: number): DurationValues => {
+    let secs = Math.max(0, Math.floor(total));
+    const days = Math.floor(secs / 86_400);
+    secs -= days * 86_400;
+
+    const hours = Math.floor(secs / 3_600);
+    secs -= hours * 3_600;
+
+    const minutes = Math.floor(secs / 60);
+    secs -= minutes * 60;
+
+    return { days, hours, minutes, seconds: secs };
+};
+
+function clampNegative({ days, hours, minutes, seconds }: DurationValues) {
+    return {
+        days: Math.max(0, days),
+        hours: Math.max(0, hours),
+        minutes: Math.max(0, minutes),
+        seconds: Math.max(0, seconds),
+    };
+}
