@@ -152,8 +152,8 @@ export type DurationInputOption = keyof DurationValues;
 
 export interface DurationInputProps extends BaseElementProps {
     type?: "duration";
-    value?: DurationValues;
-    onChange?: (v: DurationValues) => void;
+    value?: number;
+    onChange?: (seconds: number) => void;
     hideLabels?: boolean;
     options?: DurationInputOption[];
 }

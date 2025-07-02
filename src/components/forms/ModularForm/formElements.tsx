@@ -15,7 +15,7 @@ import {
     useRef,
     useState,
 } from "react";
-import { cn, handleChange, propsAreEqual, useValidation } from "src/helpers";
+import { cn, durationToSeconds, handleChange, propsAreEqual, secondsToDuration, useValidation } from "src/helpers";
 import {
     BaseElementProps,
     CheckboxContainerProps,
@@ -469,17 +469,18 @@ export const DurationPicker = ({
         return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle };
     }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
 
-    const [duration, setDuration] = useState<DurationValues>(value || { days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const [duration, setDuration] = useState<DurationValues>(value ? secondsToDuration(value) : { days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     const handleField = (field: keyof DurationValues, range: [number, number]) => (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = parseInt(e.target.value, 10);
         const clamped = isNaN(raw) ? 0 : Math.min(range[1], Math.max(range[0], raw));
-        setDuration({ ...duration, [field]: clamped });
-        onChange?.({ ...duration, [field]: clamped });
+        const update = { ...duration, [field]: clamped };
+        setDuration(update);
+        onChange?.(durationToSeconds(update));
     };
     return (
         <FormElementContainer {...containerProps}>
-            <div className={cn("flex gap-1.5 text-sm", elementClassName)} dir="ltr">
+            <div title={title} className={cn("flex gap-1.5 text-sm", elementClassName)} dir="ltr">
                 {Array.from(new Set(options)).map((field) => (
                     <div key={field} className="flex flex-col border p-0.5 rounded-md">
                         {!hideLabels && (
@@ -496,7 +497,7 @@ export const DurationPicker = ({
                         />
                     </div>
                 ))}
-                <input name={name} type="hidden" value={JSON.stringify(duration)} />
+                <input name={name} type="hidden" value={durationToSeconds(duration)} />
             </div>
         </FormElementContainer>
     );
