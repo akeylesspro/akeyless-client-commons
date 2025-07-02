@@ -141,6 +141,23 @@ export interface InputContainerProps extends Partial<InputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 export interface TextAreaContainerProps extends Partial<TextAreaElement> {}
 
+export interface DurationValues {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+
+export type DurationInputOption = keyof DurationValues;
+
+export interface DurationInputProps extends BaseElementProps {
+    type?: "duration";
+    value?: number;
+    onChange?: (seconds: number) => void;
+    hideLabels?: boolean;
+    options?: DurationInputOption[];
+}
+
 export type FormElement =
     | InputElement
     | SelectElement
@@ -150,7 +167,8 @@ export type FormElement =
     | TextAreaElement
     | SelectWithSearchProps
     | FormSeparatorProps
-    | CheckboxContainerProps;
+    | CheckboxContainerProps
+    | DurationInputProps;
 
 export interface ModularFormProps {
     submitFunction: (form: React.FormEvent<HTMLFormElement>, clickEvent?: MouseEvent) => Promise<void>;

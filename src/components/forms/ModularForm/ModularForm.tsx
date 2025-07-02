@@ -2,6 +2,7 @@ import { cloneElement, useEffect, useMemo, useRef, useState } from "react";
 import { FormElement, ModularFormProps } from "src/types";
 import {
     CheckboxContainer,
+    DurationPicker,
     FormElementContainer,
     FormSeparator,
     InputContainer,
@@ -131,6 +132,8 @@ const ModularForm = ({
                                     labelsCommonClassName={labelsCommonClassName}
                                 />
                             );
+                        case "duration":
+                            return <DurationPicker key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
                         case "separator":
                             return (
                                 <FormSeparator key={index} direction={direction} {...element}>
