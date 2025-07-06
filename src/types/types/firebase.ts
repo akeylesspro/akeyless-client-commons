@@ -19,6 +19,8 @@ export interface OnSnapshotConfig extends OnSnapshotParsers {
     extraParsers?: OnSnapshotParsers[];
     conditions?: WhereCondition[];
     orderBy?: { fieldName: string; direction: "asc" | "desc" }[];
+    parseAs?: "object" | "array";
+    subscribeTo?: "cache" | "db";
 }
 export interface OnSnapshotConfigDocument extends Omit<OnSnapshotParsers, "onAdd"> {
     collectionName: string;

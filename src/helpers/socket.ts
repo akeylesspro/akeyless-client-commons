@@ -40,9 +40,7 @@ class SocketService {
         }
     }
 
-    private constructor() {
-        this.initSocket();
-    }
+    private constructor() {}
 
     public static getInstance(): SocketService {
         if (!SocketService.instance) {
