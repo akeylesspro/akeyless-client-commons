@@ -644,3 +644,4 @@ export const validateUserStatusAndPermissions = (user: NxUser, app: AppName) => 
 
     return userPermissions;
 };
+

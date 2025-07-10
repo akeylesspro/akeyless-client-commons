@@ -1,72 +1,67 @@
-import { useEffect, useMemo, useState } from "react";
-import { get_document_by_id, socketServiceInstance } from "src/helpers";
+import { useEffect, useRef, useState } from "react";
+import { auth, socketServiceInstance } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
-import { useDeepCompareEffect, useDeepCompareMemo } from "./react";
-import { useSnapshotBulk } from "./global";
+import { useDeepCompareEffect } from "./react";
 
-export const useSocketSubscription = (config: OnSnapshotConfig[]) => {
+export const useSocketSubscription = (
+    configs: OnSnapshotConfig[],
+    label?: string,
+    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
+) => {
     const [socketConnected, setSocketConnected] = useState<boolean>(socketServiceInstance.isConnected());
-
+    const [cleanupSubscriptions, setCleanupSubscriptions] = useState<(() => void)[]>([]);
+    const tryToAuth = useRef(false);
     useDeepCompareEffect(() => {
-        let cleanupSubscriptions: () => void;
+        if (!auth.currentUser) {
+            return;
+        }
         if (socketConnected) {
-            cleanupSubscriptions = socketServiceInstance.subscribeToCollections(config);
+            setCleanupSubscriptions((prev) => [...prev, socketServiceInstance.subscribeToCollections(configs)]);
+            if (!settings?.disableLogs && configs.length > 0) {
+                console.log(`==> ${label || "Cache snapshots"} subscribed to ${configs.map((c) => c.collectionName).join(", ")}`);
+            }
+        } else {
+            if (tryToAuth.current) {
+                return;
+            }
+            tryToAuth.current = true;
+            auth.currentUser.getIdToken().then((token) => {
+                socketServiceInstance.setAuthToken(token);
+                socketServiceInstance.getSocketInstance();
+                if (!settings?.disableLogs && configs.length > 0) {
+                    console.log(`==> ${label || "Cache snapshots"} started... `);
+                }
+            });
         }
         const uiOnConnect = () => {
             setSocketConnected(true);
         };
         const uiOnDisconnect = () => {
-            cleanupSubscriptions?.();
+            cleanupSubscriptions.forEach((cleanup) => cleanup());
             setSocketConnected(false);
         };
 
-        socketServiceInstance.onConnect(uiOnConnect);
         socketServiceInstance.onDisconnect(uiOnDisconnect);
+        socketServiceInstance.onConnect(uiOnConnect);
         setSocketConnected(socketServiceInstance.isConnected());
 
         return () => {
-            console.log("cleanupSubscriptions");
-            cleanupSubscriptions?.();
-            socketServiceInstance.offConnect(uiOnConnect);
-            socketServiceInstance.offDisconnect(uiOnDisconnect);
+            if (settings?.cleanupForConfigChange) {
+                cleanupSubscriptions.forEach((cleanup) => cleanup());
+                socketServiceInstance.offConnect(uiOnConnect);
+                socketServiceInstance.offDisconnect(uiOnDisconnect);
+            }
+            if (!settings?.disableLogs && configs.length > 0) {
+                console.log(`==> ${label || "Cache snapshots"} unsubscribed. `);
+            }
         };
-    }, [socketConnected]);
+    }, [socketConnected, configs, auth, tryToAuth.current]);
 
-    return { socketConnected };
-};
-
-type UseSmartSubscriptionSettings = {
-    label?: string;
-    settings?: {
-        cleanupForConfigChange?: boolean;
-        disableLogs?: boolean;
-    };
-};
-
-export const useSmartSnapshot = (configs: OnSnapshotConfig[], options?: UseSmartSubscriptionSettings) => {
-    const [cacheCollectionsConfig, setCacheCollectionsConfig] = useState<Record<string, any> | null>(null);
     useEffect(() => {
-        get_document_by_id("nx-settings", "cache_collections_config").then((res) => setCacheCollectionsConfig(res));
-        return () => setCacheCollectionsConfig(null);
+        return () => {
+            cleanupSubscriptions.forEach((cleanup) => cleanup());
+        };
     }, []);
 
-    const groupedConfig = useDeepCompareMemo(() => {
-        if (!cacheCollectionsConfig) {
-            return { configForDb: [], configForCache: [] };
-        }
-        const configForDb = [];
-        const configForCache = [];
-        configs.forEach((cfg) => {
-            const { collectionName, subscribeTo = "cache" } = cfg;
-            if (subscribeTo === "cache" && cacheCollectionsConfig[collectionName]) {
-                configForCache.push(cfg);
-            } else {
-                configForDb.push(cfg);
-            }
-        });
-        return { configForDb, configForCache };
-    }, [configs, cacheCollectionsConfig]);
-
-    useSnapshotBulk(groupedConfig.configForDb, options?.label, options?.settings);
-    useSocketSubscription(groupedConfig.configForCache);
+    return { socketConnected };
 };

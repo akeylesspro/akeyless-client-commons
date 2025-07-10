@@ -1,6 +1,8 @@
 import { RedisUpdatePayload, RedisUpdateType, SocketCallbackResponse } from "akeyless-types-commons";
 import { io, Socket } from "socket.io-client";
 import { OnSnapshotCallback, OnSnapshotConfig } from "src/types";
+import { dataSocketDomain } from "./api";
+import { isLocal, mode } from "./global";
 
 interface GetDataPayload<T = any> {
     key: string;
@@ -13,15 +15,17 @@ class SocketService {
     private socket: Socket | null = null;
     private connectCallbacks: Array<() => void> = [];
     private disconnectCallbacks: Array<() => void> = [];
+    private authToken: string | null = null;
 
     /// Initialize the socket connection
     private initSocket(): void {
         if (!this.socket) {
-            const SOCKET_SERVER_URL = "http://localhost:9009";
-            const SOCKET_PATH = "/api/data-socket/connect";
-            this.socket = io(SOCKET_SERVER_URL, {
-                path: SOCKET_PATH,
+            const socketUrl = isLocal ? "http://localhost:9009" : mode === "qa" ? "https://nx-api.xyz" : "https://nx-api.info";
+
+            this.socket = io(socketUrl, {
+                path: "/api/data-socket/connect",
                 transports: ["websocket"],
+                auth: this.authToken ? { token: this.authToken } : undefined,
             });
 
             this.socket.on("connect", () => {
@@ -50,7 +54,7 @@ class SocketService {
     }
 
     /// get socket instance
-    private getSocketInstance(): Socket {
+    public getSocketInstance(): Socket {
         if (!this.socket) {
             this.initSocket();
         }
@@ -65,6 +69,9 @@ class SocketService {
 
     /// subscribe to collections
     public subscribeToCollections(config: OnSnapshotConfig[]): () => void {
+        if (config.length === 0) {
+            return () => {};
+        }
         const s = this.getSocketInstance();
         const collectionsNames = config.map((c) => c.collectionName);
 
@@ -214,7 +221,17 @@ class SocketService {
     public isConnected(): boolean {
         return this.socket?.connected || false;
     }
+
+    public setAuthToken(token: string) {
+        this.authToken = token;
+        if (this.socket) {
+            this.socket.auth = { token };
+            if (this.socket.connected) {
+                this.socket.disconnect();
+            }
+            this.socket.connect();
+        }
+    }
 }
 
-// Export a singleton instance of the service
 export const socketServiceInstance = SocketService.getInstance();
