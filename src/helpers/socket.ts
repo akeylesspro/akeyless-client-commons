@@ -1,8 +1,9 @@
 import { RedisUpdatePayload, RedisUpdateType, SocketCallbackResponse } from "akeyless-types-commons";
 import { io, Socket } from "socket.io-client";
-import { OnSnapshotCallback, OnSnapshotConfig } from "src/types";
-import { dataSocketDomain } from "./api";
 import { isLocal, mode } from "./global";
+import { OnSnapshotCallback, OnSnapshotConfig } from "src/types";
+
+const SESSION_STORAGE_KEY = "sessionId";
 
 interface GetDataPayload<T = any> {
     key: string;
@@ -24,12 +25,21 @@ class SocketService {
 
             this.socket = io(socketUrl, {
                 path: "/api/data-socket/connect",
-                transports: ["websocket"],
-                auth: this.authToken ? { token: this.authToken } : undefined,
+                auth: (cb: any) => {
+                    const sessionId = localStorage.getItem(SESSION_STORAGE_KEY) || undefined;
+                    const token = this.authToken;
+                    const authPayload: Record<string, string> = {};
+                    if (token) authPayload.token = token;
+                    if (sessionId) authPayload.sessionId = sessionId;
+                    cb(authPayload);
+                },
+                reconnection: true,
+                reconnectionAttempts: 30,
+                reconnectionDelay: 2 * 1000,
             });
 
             this.socket.on("connect", () => {
-                console.log("Socket connected:", this.socket?.id);
+                console.log(`🟢 Socket connected: ${this.socket?.id} (recovered - ${this.socket?.recovered})`);
                 this.connectCallbacks.forEach((cb) => cb());
             });
 
@@ -38,6 +48,11 @@ class SocketService {
                 this.disconnectCallbacks.forEach((cb) => cb());
             });
 
+            this.socket.on("session", ({ sessionId }) => {
+                if (sessionId) {
+                    localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+                }
+            });
             this.socket.on("connect_error", (error: Error) => {
                 console.error("Socket connection error:", error);
             });
@@ -54,7 +69,7 @@ class SocketService {
     }
 
     /// get socket instance
-    public getSocketInstance(): Socket {
+    private getSocketInstance(): Socket {
         if (!this.socket) {
             this.initSocket();
         }
@@ -65,6 +80,58 @@ class SocketService {
             this.socket.connect();
         }
         return this.socket;
+    }
+
+    /// connection management methods
+
+    public startSession(token: string): void {
+        this.setAuthToken(token);
+        this.initSocket();
+    }
+
+    public onConnect(callback: () => void): () => void {
+        if (!this.connectCallbacks.includes(callback)) {
+            this.connectCallbacks.push(callback);
+        }
+        if (this.socket?.connected) {
+            callback();
+        }
+        return () => this.offConnect(callback);
+    }
+
+    public offConnect(callback: () => void): void {
+        this.connectCallbacks = this.connectCallbacks.filter((cb) => cb !== callback);
+    }
+
+    public onDisconnect(callback: () => void): () => void {
+        if (!this.disconnectCallbacks.includes(callback)) {
+            this.disconnectCallbacks.push(callback);
+        }
+        if (this.socket && !this.socket.connected) {
+            callback();
+        }
+        return () => this.offDisconnect(callback);
+    }
+
+    public offDisconnect(callback: () => void): void {
+        this.disconnectCallbacks = this.disconnectCallbacks.filter((cb) => cb !== callback);
+    }
+
+    public isConnected(): boolean {
+        return this.socket?.connected || false;
+    }
+
+    public setAuthToken(token: string) {
+        this.authToken = token;
+        if (this.socket) {
+            this.socket.connect();
+        }
+    }
+
+    public disconnectSocket(): void {
+        if (this.socket) {
+            this.socket.io.engine.close();
+        }
     }
 
     /// subscribe to collections
@@ -79,31 +146,24 @@ class SocketService {
 
         config.forEach((configuration) => {
             const { collectionName, onAdd, onFirstTime, onModify, onRemove, extraParsers, conditions, orderBy } = configuration;
-            s.on(`initial:${collectionName}`, onFirstTime!);
-            eventHandlers.push({ eventName: `initial:${collectionName}`, handler: onFirstTime! });
+            // Before attaching, make sure the specific handler is NOT already registered.
+            const attach = (eventName: string, handler: OnSnapshotCallback) => {
+                this.socket!.off(eventName, handler);
+                this.socket!.on(eventName, handler);
+                eventHandlers.push({ eventName, handler });
+            };
 
-            s.on(`add:${collectionName}`, onAdd!);
-            eventHandlers.push({ eventName: `add:${collectionName}`, handler: onAdd! });
-
-            s.on(`update:${collectionName}`, onModify!);
-            eventHandlers.push({ eventName: `update:${collectionName}`, handler: onModify! });
-
-            s.on(`delete:${collectionName}`, onRemove!);
-            eventHandlers.push({ eventName: `delete:${collectionName}`, handler: onRemove! });
+            attach(`initial:${collectionName}`, onFirstTime!);
+            attach(`add:${collectionName}`, onAdd!);
+            attach(`update:${collectionName}`, onModify!);
+            attach(`delete:${collectionName}`, onRemove!);
 
             extraParsers?.forEach((parsers) => {
                 const { onAdd: extraOnAdd, onFirstTime: extraOnFirstTime, onModify: extraOnModify, onRemove: extraOnRemove } = parsers;
-                s.on(`initial:${collectionName}`, extraOnFirstTime!);
-                eventHandlers.push({ eventName: `initial:${collectionName}`, handler: extraOnFirstTime! });
-
-                s.on(`add:${collectionName}`, extraOnAdd!);
-                eventHandlers.push({ eventName: `add:${collectionName}`, handler: extraOnAdd! });
-
-                s.on(`update:${collectionName}`, extraOnModify!);
-                eventHandlers.push({ eventName: `update:${collectionName}`, handler: extraOnModify! });
-
-                s.on(`delete:${collectionName}`, extraOnRemove!);
-                eventHandlers.push({ eventName: `delete:${collectionName}`, handler: extraOnRemove! });
+                attach(`initial:${collectionName}`, extraOnFirstTime!);
+                attach(`add:${collectionName}`, extraOnAdd!);
+                attach(`update:${collectionName}`, extraOnModify!);
+                attach(`delete:${collectionName}`, extraOnRemove!);
             });
         });
 
@@ -193,44 +253,6 @@ class SocketService {
                 }
             });
         });
-    }
-
-    /// connection management methods
-    public onConnect(callback: () => void): void {
-        this.connectCallbacks.push(callback);
-        if (this.socket?.connected) {
-            callback();
-        }
-    }
-
-    public offConnect(callback: () => void): void {
-        this.connectCallbacks = this.connectCallbacks.filter((cb) => cb !== callback);
-    }
-
-    public onDisconnect(callback: () => void): void {
-        this.disconnectCallbacks.push(callback);
-        if (this.socket && !this.socket.connected) {
-            callback();
-        }
-    }
-
-    public offDisconnect(callback: () => void): void {
-        this.disconnectCallbacks = this.disconnectCallbacks.filter((cb) => cb !== callback);
-    }
-
-    public isConnected(): boolean {
-        return this.socket?.connected || false;
-    }
-
-    public setAuthToken(token: string) {
-        this.authToken = token;
-        if (this.socket) {
-            this.socket.auth = { token };
-            if (this.socket.connected) {
-                this.socket.disconnect();
-            }
-            this.socket.connect();
-        }
     }
 }
 
