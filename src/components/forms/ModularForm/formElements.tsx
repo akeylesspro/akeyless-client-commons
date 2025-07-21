@@ -19,7 +19,6 @@ import { cn, durationToSeconds, handleChange, propsAreEqual, secondsToDuration, 
 import {
     BaseElementProps,
     CheckboxContainerProps,
-    Direction,
     DurationInputProps,
     DurationValues,
     FormSeparatorProps,
@@ -88,9 +87,9 @@ export const InputContainer = ({
                 minLength={minLength}
                 placeholder={placeholder}
                 className={cn(`flex-1 bg-inherit h-9 py-2 px-3`, defaultFormElementBorderClassName, elementClassName)}
-                defaultValue={defaultValue}
+                defaultValue={value ? undefined : defaultValue}
+                value={defaultValue ? undefined : value}
                 {...validationProps}
-                value={value}
                 onChange={(e) => handleChangeFunction(e)}
                 required={required}
                 name={name}
@@ -369,13 +368,13 @@ export const TextAreaContainer = ({
         <FormElementContainer {...containerProps}>
             <textarea
                 {...props}
-                value={value}
+                defaultValue={value ? undefined : defaultValue}
+                value={defaultValue ? undefined : value}
                 onChange={onChange}
                 dir={direction}
                 minLength={minLength}
                 placeholder={placeholder}
                 className={cn(`flex-1 bg-inherit min-h-16 max-h-52 overflow-auto px-2 py-1`, defaultFormElementBorderClassName, elementClassName)}
-                defaultValue={defaultValue}
                 required={required}
                 name={name}
                 onKeyDown={onKeyDown}
