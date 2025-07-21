@@ -133,24 +133,24 @@ export const useSmartSnapshots = (
         return () => setCacheCollectionsConfig(null);
     }, []);
 
-    const groupedConfig = useMemo(() => {
+    const { dbConfig, cacheConfig } = useMemo(() => {
         if (!cacheCollectionsConfig) {
-            return { configForDb: [], configForCache: [] };
+            return { dbConfig: [], cacheConfig: [] };
         }
-        const configForDb: OnSnapshotConfig[] = [];
-        const configForCache: OnSnapshotConfig[] = [];
+        const dbConfig: OnSnapshotConfig[] = [];
+        const cacheConfig: OnSnapshotConfig[] = [];
         configs.forEach((cfg) => {
             const { collectionName, subscribeTo = "cache" } = cfg;
-            if (subscribeTo === "cache" && cacheCollectionsConfig[collectionName]) {
-                configForCache.push(cfg);
+            if (subscribeTo === "cache" && cacheCollectionsConfig[collectionName].sync_direction !== "redis_to_firebase") {
+                cacheConfig.push(cfg);
             } else {
-                configForDb.push(cfg);
+                dbConfig.push(cfg);
             }
         });
-        return { configForDb, configForCache };
+        return { dbConfig, cacheConfig };
     }, [configs, cacheCollectionsConfig]);
 
-    useDbSnapshots(groupedConfig.configForDb, label, settings);
-    const { socketConnected } = useSocketSnapshots(groupedConfig.configForCache, label, settings);
-    return { groupedConfig, socketConnected };
+    useDbSnapshots(dbConfig, label, settings);
+    const { socketConnected } = useSocketSnapshots(cacheConfig, label, settings);
+    return { dbConfig, cacheConfig, socketConnected };
 };
