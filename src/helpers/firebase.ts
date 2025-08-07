@@ -33,6 +33,7 @@ import { AppName, LoginOption, OnSnapshotParsers, SetState, Snapshot, SnapshotDo
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
 import { parsePermissions } from "./permissions";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 
 interface FirebaseInitResult {
     db?: Firestore;
@@ -643,4 +644,29 @@ export const validateUserStatusAndPermissions = (user: NxUser, app: AppName) => 
     }
 
     return userPermissions;
+};
+
+// Storage functions
+
+export const getFileUrlFromStorage = async (filePath: string): Promise<string> => {
+    try {
+        const fileRef = ref(storage, filePath);
+        const downloadURL = await getDownloadURL(fileRef);
+        return downloadURL;
+    } catch (error) {
+        console.error(`Error getting file from storage: ${filePath}`, error);
+        return "";
+    }
+};
+
+export const uploadFileToStorage = async (file: File, filePath: string): Promise<string> => {
+    try {
+        const fileRef = ref(storage, filePath);
+        const uploadResult = await uploadBytes(fileRef, file);
+        const downloadURL = await getDownloadURL(uploadResult.ref);
+        return downloadURL;
+    } catch (error) {
+        console.error(`Error uploading file to storage: ${filePath}`, error);
+        return "";
+    }
 };
