@@ -3,6 +3,89 @@ import { auth, get_document_by_id, snapshot, socketServiceInstance } from "src/h
 import { OnSnapshotConfig } from "src/types";
 import { useDeepCompareEffect } from "./react";
 
+export const useDbSnapshots = (
+    configs: OnSnapshotConfig[],
+    label?: string,
+    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
+) => {
+    const snapshotsFirstTime = useRef<string[]>([]);
+    const unsubscribeFunctions = useRef<(() => void)[]>([]);
+
+    useDeepCompareEffect(() => {
+        const start = performance.now();
+        if (!settings?.disableLogs && configs.length > 0) {
+            console.log(`==> ${label || "DB snapshots"} started from db... `);
+        }
+        const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
+        unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
+
+        Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
+            if (!settings?.disableLogs && configs.length > 0) {
+                console.log(`==> ${label || "DB snapshots"} ended from db. It took ${(performance.now() - start).toFixed(2)} ms`);
+            }
+        });
+
+        if (settings?.cleanupForConfigChange) {
+            return () => {
+                unsubscribeFunctions.current.forEach((unsubscribe: any) => {
+                    if (unsubscribe) {
+                        unsubscribe();
+                    }
+                });
+                if (!settings?.disableLogs && configs.length > 0) {
+                    console.log(`==> ${label || "DB snapshots"} unsubscribed from db`);
+                }
+            };
+        }
+    }, [configs, label, settings]);
+
+    useEffect(() => {
+        return () => {
+            unsubscribeFunctions.current.forEach((unsubscribe: any) => {
+                if (unsubscribe) {
+                    unsubscribe();
+                }
+            });
+            if (!settings?.disableLogs) {
+                console.log(`==> ${label || "DB snapshots"} unsubscribed`);
+            }
+        };
+    }, []);
+};
+
+export const useSmartSnapshots = (
+    configs: OnSnapshotConfig[],
+    label?: string,
+    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
+) => {
+    const [cacheCollectionsConfig, setCacheCollectionsConfig] = useState<Record<string, any> | null>(null);
+    useEffect(() => {
+        get_document_by_id("nx-settings", "cache_collections_config").then((res) => setCacheCollectionsConfig(res));
+        return () => setCacheCollectionsConfig(null);
+    }, []);
+
+    const groupedConfig = useMemo(() => {
+        if (!cacheCollectionsConfig) {
+            return { configForDb: [], configForCache: [] };
+        }
+        const configForDb: OnSnapshotConfig[] = [];
+        const configForCache: OnSnapshotConfig[] = [];
+        configs.forEach((cfg) => {
+            const { collectionName, subscribeTo = "cache" } = cfg;
+            if (subscribeTo === "cache" && cacheCollectionsConfig[collectionName]) {
+                configForCache.push(cfg);
+            } else {
+                configForDb.push(cfg);
+            }
+        });
+        return { configForDb, configForCache };
+    }, [configs, cacheCollectionsConfig]);
+
+    useDbSnapshots(groupedConfig.configForDb, label, settings);
+    const { socketConnected } = useSocketSnapshots(groupedConfig.configForCache, label, settings);
+    return { groupedConfig, socketConnected };
+};
+
 export const useSocketSnapshots = (
     configs: OnSnapshotConfig[],
     label?: string,
@@ -70,87 +153,4 @@ export const useSocketSnapshots = (
     }, []);
 
     return { socketConnected };
-};
-
-export const useDbSnapshots = (
-    configs: OnSnapshotConfig[],
-    label?: string,
-    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
-) => {
-    const snapshotsFirstTime = useRef<string[]>([]);
-    const unsubscribeFunctions = useRef<(() => void)[]>([]);
-
-    useDeepCompareEffect(() => {
-        const start = performance.now();
-        if (!settings?.disableLogs && configs.length > 0) {
-            console.log(`==> ${label || "DB snapshots"} started from db... `);
-        }
-        const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
-        unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
-
-        Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
-            if (!settings?.disableLogs && configs.length > 0) {
-                console.log(`==> ${label || "DB snapshots"} ended from db. It took ${(performance.now() - start).toFixed(2)} ms`);
-            }
-        });
-
-        if (settings?.cleanupForConfigChange) {
-            return () => {
-                unsubscribeFunctions.current.forEach((unsubscribe: any) => {
-                    if (unsubscribe) {
-                        unsubscribe();
-                    }
-                });
-                if (!settings?.disableLogs && configs.length > 0) {
-                    console.log(`==> ${label || "DB snapshots"} unsubscribed from db`);
-                }
-            };
-        }
-    }, [configs, label, settings]);
-
-    useEffect(() => {
-        return () => {
-            unsubscribeFunctions.current.forEach((unsubscribe: any) => {
-                if (unsubscribe) {
-                    unsubscribe();
-                }
-            });
-            if (!settings?.disableLogs) {
-                console.log(`==> ${label || "DB snapshots"} unsubscribed`);
-            }
-        };
-    }, []);
-};
-
-export const useSmartSnapshots = (
-    configs: OnSnapshotConfig[],
-    label?: string,
-    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
-) => {
-    const [cacheCollectionsConfig, setCacheCollectionsConfig] = useState<Record<string, any> | null>(null);
-    useEffect(() => {
-        get_document_by_id("nx-settings", "cache_collections_config").then((res) => setCacheCollectionsConfig(res));
-        return () => setCacheCollectionsConfig(null);
-    }, []);
-
-    const { dbConfig, cacheConfig } = useMemo(() => {
-        if (!cacheCollectionsConfig) {
-            return { dbConfig: [], cacheConfig: [] };
-        }
-        const dbConfig: OnSnapshotConfig[] = [];
-        const cacheConfig: OnSnapshotConfig[] = [];
-        configs.forEach((cfg) => {
-            const { collectionName, subscribeTo = "cache" } = cfg;
-            if (subscribeTo === "cache" && cacheCollectionsConfig[collectionName].sync_direction !== "redis_to_firebase") {
-                cacheConfig.push(cfg);
-            } else {
-                dbConfig.push(cfg);
-            }
-        });
-        return { dbConfig, cacheConfig };
-    }, [configs, cacheCollectionsConfig]);
-
-    useDbSnapshots(dbConfig, label, settings);
-    const { socketConnected } = useSocketSnapshots(cacheConfig, label, settings);
-    return { dbConfig, cacheConfig, socketConnected };
 };

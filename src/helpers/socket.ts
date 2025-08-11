@@ -33,6 +33,7 @@ class SocketService {
                     if (sessionId) authPayload.sessionId = sessionId;
                     cb(authPayload);
                 },
+                transports: ["websocket"],
                 reconnection: true,
                 reconnectionAttempts: 30,
                 reconnectionDelay: 2 * 1000,
@@ -48,9 +49,9 @@ class SocketService {
                 this.disconnectCallbacks.forEach((cb) => cb());
             });
 
-            this.socket.on("session", ({ sessionId }) => {
-                if (sessionId) {
-                    localStorage.setItem(SESSION_STORAGE_KEY, sessionId);
+            this.socket.on("session", ({ session_id }) => {
+                if (session_id) {
+                    localStorage.setItem(SESSION_STORAGE_KEY, session_id);
                 }
             });
             this.socket.on("connect_error", (error: Error) => {
