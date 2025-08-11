@@ -9,10 +9,12 @@ export const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + 
 export const notificationsDomain = isLocal ? "http://localhost:9006/api/notifications" : baseDomain + "/notifications";
 export const callCenterGeoDomain = isLocal ? "http://localhost:9007/api/call-center/geo" : baseDomain + "/call-center/geo";
 export const callCenterEventsDomain = isLocal ? "http://localhost:9008/api/call-center/events" : baseDomain + "/call-center/events";
+export const dataSocketDomain = isLocal ? "http://localhost:9009/api/data-socket" : baseDomain + "/data-socket";
+export const dataSyncDomain = isLocal ? "http://localhost:9010/api/data-sync" : baseDomain + "/data-sync";
 export const akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz" : "https://akeyless-online.info";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
-type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications";
+type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications" | "data-socket" | "data-sync";
 
 export const nxApiCall = async (serverName: ServerName, method: Method, url: string, data?: TObject<any>) => {
     try {
@@ -32,6 +34,12 @@ export const nxApiCall = async (serverName: ServerName, method: Method, url: str
                 break;
             case "call-center-geo":
                 urlResult = `${callCenterGeoDomain}/${url}`;
+                break;
+            case "data-socket":
+                urlResult = `${dataSocketDomain}/${url}`;
+                break;
+            case "data-sync":
+                urlResult = `${dataSyncDomain}/${url}`;
                 break;
             default:
                 break;
