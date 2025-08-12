@@ -1,12 +1,13 @@
 import { Timestamp } from "firebase/firestore";
 import moment from "moment-timezone";
+import { firebase_timestamp } from "akeyless-types-commons";
 interface TimeOptions {
     format?: string;
     fromFormat?: string;
     tz?: string;
     defaultReturnedValue?: string;
 }
-export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string, options?: TimeOptions): string {
+export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string | firebase_timestamp, options?: TimeOptions): string {
     if (!firebaseTimestamp) {
         return options.defaultReturnedValue ?? "-";
     }
@@ -15,6 +16,8 @@ export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string
         date = firebaseTimestamp.toDate();
     } else if (firebaseTimestamp instanceof Date) {
         date = firebaseTimestamp;
+    } else if ((firebaseTimestamp as firebase_timestamp)._seconds && (firebaseTimestamp as firebase_timestamp)._nanoseconds) {
+        date = new Date((firebaseTimestamp as firebase_timestamp)._seconds * 1000 + (firebaseTimestamp as firebase_timestamp)._nanoseconds / 1000000);
     } else if (typeof firebaseTimestamp === "string") {
         date = moment.utc(firebaseTimestamp, options?.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
         if (isNaN(date.getTime())) {

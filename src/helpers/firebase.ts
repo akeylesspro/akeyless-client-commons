@@ -520,35 +520,6 @@ export const snapshotDocument: SnapshotDocument = (config, snapshotsFirstTime) =
     return { promise, unsubscribe };
 };
 
-export const parseSnapshotAsArray = (setState: SetState<any[]> | Dispatch<SetStateAction<any[]>>): OnSnapshotParsers => {
-    return {
-        onAdd: (data: any[]) => {
-            setState((prev) => {
-                return [...prev, ...data];
-            });
-        },
-        onFirstTime: (data: any[]) => {
-            setState((prev) => {
-                return [...prev, ...data];
-            });
-        },
-        onModify: (data: any[]) => {
-            setState((prev) => {
-                const update = prev.map((item) => {
-                    const updatedItem = data.find((v) => v.id === item.id);
-                    return updatedItem ? updatedItem : item;
-                });
-                return update;
-            });
-        },
-        onRemove: (data: any[]) => {
-            setState((prev) => {
-                return prev.filter((item) => !data.some((v) => v.id === item.id));
-            });
-        },
-    };
-};
-
 const checkConditions = (document: DocumentData, conditions?: WhereCondition[]): boolean => {
     if (!conditions || conditions.length === 0) return true;
     return conditions.every((condition) => {
@@ -669,4 +640,90 @@ export const uploadFileToStorage = async (file: File, filePath: string): Promise
         console.error(`Error uploading file to storage: ${filePath}`, error);
         return "";
     }
+};
+
+export const parseSnapshotAsObject = (setState: SetState<any>, filterCondition?: (v: any) => boolean): OnSnapshotParsers => {
+    return {
+        onFirstTime: (docs) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            const object: TObject<any> = {};
+            docs.forEach((v) => {
+                object[v.id] = v;
+            });
+            setState(object);
+        },
+        onAdd: (docs) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            setState((prev: any) => {
+                const update = { ...prev };
+                docs.forEach((v) => {
+                    update[v.id] = v;
+                });
+                return update;
+            });
+        },
+        onModify: (docs) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            setState((prev: any) => {
+                const update = { ...prev };
+                docs.forEach((v) => {
+                    update[v.id] = v;
+                });
+                return update;
+            });
+        },
+        onRemove: (docs) => {
+            setState((prev: any) => {
+                const update = { ...prev };
+                docs.forEach((v) => {
+                    delete update[v.id];
+                });
+                return update;
+            });
+        },
+    };
+};
+
+export const parseSnapshotAsArray = (setState: SetState<any>, filterCondition?: (v: any) => boolean): OnSnapshotParsers => {
+    return {
+        onFirstTime: (docs: any[]) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            setState(docs);
+        },
+        onAdd: (docs: any[]) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            setState((prev: any) => [...prev, ...docs]);
+        },
+        onModify: (docs: any[]) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            setState((prev: any) => {
+                const newState = [...prev];
+                docs.forEach((doc: any) => {
+                    const index = newState.findIndex((d: any) => d.id === doc.id);
+                    if (index !== -1) {
+                        newState[index] = doc;
+                    }
+                });
+                return newState;
+            });
+        },
+        onRemove: (docs: any[]) => {
+            if (filterCondition) {
+                docs = docs.filter(filterCondition);
+            }
+            setState((prev: any) => prev.filter((doc: any) => !docs.some((d: any) => d.id === doc.id)));
+        },
+    };
 };

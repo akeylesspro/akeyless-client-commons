@@ -135,20 +135,24 @@ export const useSocketSnapshots = (
             setSocketConnected(false);
             cleanupSubscriptions.forEach((cleanup) => cleanup());
         });
-
-        return () => {
-            cleanupSubscriptions.forEach((cleanup) => cleanup());
-            offConnect?.();
-            offDisconnect?.();
-            if (!settings?.disableLogs && configs.length > 0) {
-                console.log(`==> ${label || "Cache snapshots"} unsubscribed. `);
-            }
-        };
+        if (settings?.cleanupForConfigChange) {
+            return () => {
+                cleanupSubscriptions.forEach((cleanup) => cleanup());
+                // offConnect?.();
+                // offDisconnect?.();
+                if (!settings?.disableLogs && configs.length > 0) {
+                    console.log(`==> ${label || "Cache snapshots"} unsubscribed. `);
+                }
+            };
+        }
     }, [configs, auth.currentUser?.uid]);
 
     useEffect(() => {
         return () => {
             cleanupSubscriptions.forEach((cleanup) => cleanup());
+            if (!settings?.disableLogs && configs.length > 0) {
+                console.log(`==> ${label || "Cache snapshots"} unsubscribed. `);
+            }
         };
     }, []);
 
