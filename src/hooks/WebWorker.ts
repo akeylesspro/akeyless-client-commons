@@ -1,17 +1,66 @@
 import { useCallback, useEffect, useRef } from "react";
 
-type WebWorkerFunction<TInput, TOutput> = (data: TInput) => TOutput | Promise<TOutput>;
+export type WebWorkerFunction<TInput, TOutput> = (data: TInput) => TOutput | Promise<TOutput>;
 
-const useWebWorker = <TInput = unknown, TOutput = unknown>(fn: WebWorkerFunction<TInput, TOutput>) => {
+export interface UseWebWorkerOptions {
+    debug?: boolean;
+    name?: string;
+    onError?: (error: Error) => void;
+    warmStart?: boolean; // create the worker eagerly on mount
+    recreateOnError?: boolean; // terminate and recreate worker after errors
+}
+
+export type RunWorkerFunction<TInput, TOutput> = ((data: TInput, transfer?: Transferable[]) => Promise<TOutput>) & {
+    isSupported: () => boolean;
+    isUsingWorker: () => boolean;
+    pendingJobs: () => number;
+    lastError: () => Error | null;
+};
+
+export const useWebWorker = <TInput = unknown, TOutput = unknown>(fn: WebWorkerFunction<TInput, TOutput>, options?: UseWebWorkerOptions) => {
     const workerRef = useRef<Worker | null>(null);
     const workerUrlRef = useRef<string | null>(null);
     const nextJobIdRef = useRef<number>(1);
     const pendingJobsRef = useRef<Map<number, { resolve: (value: TOutput) => void; reject: (reason?: unknown) => void }>>(new Map());
+    const isSupportedRef = useRef<boolean>(typeof window !== "undefined" && typeof Worker !== "undefined");
+    const isReadyRef = useRef<boolean>(false);
+    const lastErrorRef = useRef<Error | null>(null);
 
     useEffect(() => {
-        if (typeof window === "undefined" || typeof Worker === "undefined") {
+        if (!isSupportedRef.current) {
             return () => {};
         }
+
+        // eager warm start if requested
+        if (options?.warmStart) {
+            try {
+                ensureWorker();
+            } catch (error) {
+                console.error("Error creating worker", error);
+            }
+        }
+
+        return () => {
+            if (workerRef.current) {
+                workerRef.current.terminate();
+                workerRef.current = null;
+            }
+            if (workerUrlRef.current) {
+                URL.revokeObjectURL(workerUrlRef.current);
+                workerUrlRef.current = null;
+            }
+            // Reject any still-pending jobs on cleanup
+            pendingJobsRef.current.forEach((job) => {
+                job.reject(new Error("Worker terminated"));
+            });
+            pendingJobsRef.current.clear();
+            isReadyRef.current = false;
+        };
+    }, [fn, options?.debug, options?.name, options?.onError]);
+
+    const ensureWorker = useCallback(() => {
+        if (!isSupportedRef.current) return;
+        if (workerRef.current) return;
 
         const functionString = fn.toString();
         const workerSource = [
@@ -32,6 +81,10 @@ const useWebWorker = <TInput = unknown, TOutput = unknown>(fn: WebWorkerFunction
         const workerBlob = new Blob([workerSource], { type: "application/javascript" });
         const url = URL.createObjectURL(workerBlob);
         const worker = new Worker(url);
+        isReadyRef.current = true;
+        if (options?.debug) {
+            console.log(`[WebWorker${options?.name ? ":" + options.name : ""}] created`);
+        }
 
         worker.onmessage = (event: MessageEvent) => {
             const data = event.data || {};
@@ -43,76 +96,121 @@ const useWebWorker = <TInput = unknown, TOutput = unknown>(fn: WebWorkerFunction
             if (data.ok) {
                 pending.resolve(data.result as TOutput);
             } else {
-                pending.reject(new Error(data.error ?? "Worker error"));
+                const err = new Error(data.error ?? "Worker error");
+                lastErrorRef.current = err;
+                options?.onError?.(err);
+                pending.reject(err);
             }
         };
 
-        worker.onerror = () => {
-            // Reject all pending jobs on an unhandled worker error
+        worker.onerror = (event: ErrorEvent) => {
+            const err = new Error(event.message || "Worker encountered an error");
+            lastErrorRef.current = err;
+            options?.onError?.(err);
             pendingJobsRef.current.forEach((job) => {
-                job.reject(new Error("Worker encountered an error"));
+                job.reject(err);
             });
             pendingJobsRef.current.clear();
+            if (options?.recreateOnError) {
+                try {
+                    workerRef.current?.terminate();
+                } catch (_) {}
+                workerRef.current = null;
+                if (workerUrlRef.current) {
+                    try {
+                        URL.revokeObjectURL(workerUrlRef.current);
+                    } catch (_) {}
+                    workerUrlRef.current = null;
+                }
+                isReadyRef.current = false;
+            }
         };
-
-        // Replace existing worker if present
-        if (workerRef.current) {
-            workerRef.current.terminate();
-        }
-        if (workerUrlRef.current) {
-            URL.revokeObjectURL(workerUrlRef.current);
-        }
 
         workerRef.current = worker;
         workerUrlRef.current = url;
+    }, [fn, options?.debug, options?.name, options?.onError]);
 
-        return () => {
-            if (workerRef.current) {
-                workerRef.current.terminate();
-                workerRef.current = null;
+    const runWorkerBase = useCallback(
+        (data: TInput, transfer?: Transferable[]) => {
+            if (!workerRef.current) {
+                // Lazily create the worker to avoid StrictMode double-mount creation
+                ensureWorker();
+                if (options?.debug) {
+                    console.warn(`[WebWorker${options?.name ? ":" + options.name : ""}] fallback to main thread`);
+                }
+                return new Promise<TOutput>(async (resolve, reject) => {
+                    try {
+                        const result = await (fn as WebWorkerFunction<TInput, TOutput>)(data);
+                        resolve(result);
+                    } catch (err: any) {
+                        const error = err instanceof Error ? err : new Error(String(err));
+                        lastErrorRef.current = error;
+                        options?.onError?.(error);
+                        reject(error);
+                    }
+                });
             }
-            if (workerUrlRef.current) {
-                URL.revokeObjectURL(workerUrlRef.current);
-                workerUrlRef.current = null;
-            }
-            // Reject any still-pending jobs on cleanup
-            pendingJobsRef.current.forEach((job) => {
-                job.reject(new Error("Worker terminated"));
-            });
-            pendingJobsRef.current.clear();
-        };
-    }, [fn]);
 
-    const runWorker = useCallback((data: TInput, transfer?: Transferable[]) => {
-        // Fallback: if Worker is unavailable (SSR or older env), run on main thread
-        if (!workerRef.current) {
-            return new Promise<TOutput>(async (resolve, reject) => {
+            const id = nextJobIdRef.current++;
+            if (options?.debug) {
+                console.log(`[WebWorker${options?.name ? ":" + options.name : ""}] postMessage id=${id}`);
+            }
+            return new Promise<TOutput>((resolve, reject) => {
+                pendingJobsRef.current.set(id, { resolve, reject });
                 try {
-                    const result = await (fn as WebWorkerFunction<TInput, TOutput>)(data);
-                    resolve(result);
-                } catch (err) {
-                    reject(err);
+                    const shouldTransfer = Array.isArray(transfer) ? transfer : [];
+                    // Attempt to auto-detect transferables if none were supplied
+                    if (!shouldTransfer.length) {
+                        const maybeArrayBuffer = (data as any)?.buffer instanceof ArrayBuffer ? (data as any).buffer : undefined;
+                        if (maybeArrayBuffer) {
+                            workerRef.current!.postMessage({ id, payload: data }, [maybeArrayBuffer]);
+                            return;
+                        }
+                    }
+                    if (shouldTransfer.length) {
+                        workerRef.current!.postMessage({ id, payload: data }, shouldTransfer);
+                    } else {
+                        workerRef.current!.postMessage({ id, payload: data });
+                    }
+                } catch (err: any) {
+                    pendingJobsRef.current.delete(id);
+                    const error = err instanceof Error ? err : new Error(String(err));
+                    lastErrorRef.current = error;
+                    options?.onError?.(error);
+                    reject(error);
                 }
             });
-        }
+        },
+        [fn, options?.debug, options?.name, options?.onError, ensureWorker]
+    );
 
-        const id = nextJobIdRef.current++;
-        return new Promise<TOutput>((resolve, reject) => {
-            pendingJobsRef.current.set(id, { resolve, reject });
+    const runWorker = runWorkerBase as RunWorkerFunction<TInput, TOutput>;
+    runWorker.isSupported = () => isSupportedRef.current;
+    runWorker.isUsingWorker = () => Boolean(workerRef.current) && isReadyRef.current;
+    runWorker.pendingJobs = () => pendingJobsRef.current.size;
+    runWorker.lastError = () => lastErrorRef.current;
+    // Optional explicit teardown
+    (runWorker as any).terminate = () => {
+        if (workerRef.current) {
             try {
-                if (transfer && transfer.length) {
-                    workerRef.current!.postMessage({ id, payload: data }, transfer);
-                } else {
-                    workerRef.current!.postMessage({ id, payload: data });
-                }
-            } catch (err) {
-                pendingJobsRef.current.delete(id);
-                reject(err);
+                workerRef.current.terminate();
+            } catch (error) {
+                console.error("Error terminating worker", error);
             }
-        });
-    }, [fn]);
+            workerRef.current = null;
+        }
+        if (workerUrlRef.current) {
+            try {
+                URL.revokeObjectURL(workerUrlRef.current);
+            } catch (error) {
+                console.error("Error revoking worker URL", error);
+            }
+            workerUrlRef.current = null;
+        }
+        pendingJobsRef.current.forEach((job) => job.reject(new Error("Worker terminated")));
+        pendingJobsRef.current.clear();
+        isReadyRef.current = false;
+    };
 
     return runWorker;
 };
-
-export default useWebWorker;

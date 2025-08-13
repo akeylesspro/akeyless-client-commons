@@ -1,22 +1,35 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { auth, get_document_by_id, snapshot, socketServiceInstance } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
 import { useDeepCompareEffect } from "./react";
+import { UseWebWorkerOptions, useWebWorker } from "./WebWorker";
+import { SnapshotOp, wrapConfigsWithWorker } from "./snapshotWorker";
 
-export const useDbSnapshots = (
-    configs: OnSnapshotConfig[],
-    label?: string,
-    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
-) => {
+interface UseDbSnapshotsSettings {
+    cleanupForConfigChange?: boolean;
+    disableLogs?: boolean;
+    worker?: UseWebWorkerOptions;
+}
+
+export const useDbSnapshots = (configs: OnSnapshotConfig[], label?: string, settings?: UseDbSnapshotsSettings) => {
     const snapshotsFirstTime = useRef<string[]>([]);
     const unsubscribeFunctions = useRef<(() => void)[]>([]);
+    const lastDbCollectionsRef = useRef<string[]>([]);
+    const workerProcessorDb = useCallback((payload: { op: SnapshotOp; docs: any[] }) => {
+        return { docs: payload.docs };
+    }, []);
+    const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorDb, settings?.worker);
+
+    const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] => wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
 
     useDeepCompareEffect(() => {
         const start = performance.now();
         if (!settings?.disableLogs && configs.length > 0) {
             console.log(`==> ${label || "DB snapshots"} started from db... `);
         }
-        const snapshotResults = configs.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
+        const wrappedConfigs = wrapConfigsForWorker(configs);
+        lastDbCollectionsRef.current = configs.map((c) => c.collectionName);
+        const snapshotResults = wrappedConfigs.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
         unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
@@ -32,6 +45,11 @@ export const useDbSnapshots = (
                         unsubscribe();
                     }
                 });
+                if (settings?.worker?.debug && lastDbCollectionsRef.current.length) {
+                    console.log(
+                        `==> ${label || "DB snapshots"} cleanup: cleaned previous subscriptions for [${lastDbCollectionsRef.current.join(", ")}]`
+                    );
+                }
                 if (!settings?.disableLogs && configs.length > 0) {
                     console.log(`==> ${label || "DB snapshots"} unsubscribed from db`);
                 }
@@ -46,6 +64,11 @@ export const useDbSnapshots = (
                     unsubscribe();
                 }
             });
+            if (settings?.worker?.debug && lastDbCollectionsRef.current.length) {
+                console.log(
+                    `==> ${label || "DB snapshots"} cleanup: cleaned previous subscriptions for [${lastDbCollectionsRef.current.join(", ")}]`
+                );
+            }
             if (!settings?.disableLogs) {
                 console.log(`==> ${label || "DB snapshots"} unsubscribed`);
             }
@@ -53,11 +76,7 @@ export const useDbSnapshots = (
     }, []);
 };
 
-export const useSmartSnapshots = (
-    configs: OnSnapshotConfig[],
-    label?: string,
-    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
-) => {
+export const useSmartSnapshots = (configs: OnSnapshotConfig[], label?: string, settings?: UseDbSnapshotsSettings) => {
     const [cacheCollectionsConfig, setCacheCollectionsConfig] = useState<Record<string, any> | null>(null);
     useEffect(() => {
         get_document_by_id("nx-settings", "cache_collections_config").then((res) => setCacheCollectionsConfig(res));
@@ -78,6 +97,10 @@ export const useSmartSnapshots = (
                 configForDb.push(cfg);
             }
         });
+        if (!settings?.disableLogs) {
+            console.log(`configForDb`, configForDb);
+            console.log(`configForCache`, configForCache);
+        }
         return { configForDb, configForCache };
     }, [configs, cacheCollectionsConfig]);
 
@@ -86,28 +109,57 @@ export const useSmartSnapshots = (
     return { groupedConfig, socketConnected };
 };
 
-export const useSocketSnapshots = (
-    configs: OnSnapshotConfig[],
-    label?: string,
-    settings?: { cleanupForConfigChange?: boolean; disableLogs?: boolean }
-) => {
+export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, settings?: UseDbSnapshotsSettings) => {
     const [socketConnected, setSocketConnected] = useState<boolean>(socketServiceInstance.isConnected());
-    const [cleanupSubscriptions, setCleanupSubscriptions] = useState<(() => void)[]>([]);
+    const cleanupSubscriptionsRef = useRef<(() => void)[]>([]);
     const socketStarted = useRef(false);
+    const activeSubscriptionKeyRef = useRef<string | null>(null);
+    const activeCollectionsRef = useRef<Set<string>>(new Set());
+    const offConnectRef = useRef<(() => void) | null>(null);
+    const offDisconnectRef = useRef<(() => void) | null>(null);
+    const workerProcessorSocket = useCallback((payload: { op: SnapshotOp; docs: any[] }) => {
+        return { docs: payload.docs };
+    }, []);
+    const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorSocket, settings?.worker);
+
+    const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] => wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
     useDeepCompareEffect(() => {
         if (!auth.currentUser) {
             return;
         }
 
-        // Helper to (re)subscribe when socket is connected
         const subscribe = () => {
-            if (configs.length === 0) {
+            const desiredNames = new Set(configs.map((c) => c.collectionName));
+            const key = JSON.stringify(Array.from(desiredNames).sort());
+            if (settings?.cleanupForConfigChange) {
+                if (activeSubscriptionKeyRef.current === key) return;
+                if (cleanupSubscriptionsRef.current.length) {
+                    cleanupSubscriptionsRef.current.forEach((cleanup) => cleanup());
+                    cleanupSubscriptionsRef.current = [];
+                }
+                if (configs.length === 0) return;
+                const disposer = socketServiceInstance.subscribeToCollections(wrapConfigsForWorker(configs));
+                cleanupSubscriptionsRef.current.push(disposer);
+                activeCollectionsRef.current = new Set(desiredNames);
+                activeSubscriptionKeyRef.current = key;
+                if (!settings?.disableLogs) {
+                    console.log(`==> ${label || "Cache snapshots"} subscribed to ${configs.map((c) => c.collectionName).join(", ")}`);
+                }
                 return;
             }
-            const disposer = socketServiceInstance.subscribeToCollections(configs);
-            setCleanupSubscriptions((prev) => [...prev, disposer]);
+
+            const toAdd = Array.from(desiredNames).filter((name) => !activeCollectionsRef.current.has(name));
+            if (toAdd.length === 0) {
+                return;
+            }
+
+            const configsToAdd = configs.filter((c) => toAdd.includes(c.collectionName));
+            const disposer = socketServiceInstance.subscribeToCollections(wrapConfigsForWorker(configsToAdd));
+            cleanupSubscriptionsRef.current.push(disposer);
+            toAdd.forEach((n) => activeCollectionsRef.current.add(n));
+            activeSubscriptionKeyRef.current = JSON.stringify(Array.from(activeCollectionsRef.current).sort());
             if (!settings?.disableLogs) {
-                console.log(`==> ${label || "Cache snapshots"} subscribed to ${configs.map((c) => c.collectionName).join(", ")}`);
+                console.log(`==> ${label || "Cache snapshots"} appended subscriptions for ${toAdd.join(", ")}`);
             }
         };
 
@@ -116,30 +168,49 @@ export const useSocketSnapshots = (
             subscribe();
         } else if (!socketStarted.current) {
             socketStarted.current = true;
-            auth.currentUser.getIdToken().then((token) => {
-                socketServiceInstance.startSession(token);
-                if (!settings?.disableLogs) {
-                    console.log(`==> ${label || "Cache snapshots"} started... `);
-                }
-            });
+            auth.currentUser
+                .getIdToken()
+                .then((token) => {
+                    socketServiceInstance.startSession(token);
+                    if (!settings?.disableLogs) {
+                        console.log(`==> ${label || "Cache snapshots"} started... `);
+                    }
+                })
+                .catch((err) => {
+                    socketStarted.current = false;
+                    if (!settings?.disableLogs) {
+                        console.error(`==> ${label || "Cache snapshots"} failed to acquire token:`, err);
+                    }
+                });
         }
 
-        // Register one-shot listeners for connection state
-        const offConnect: () => void = socketServiceInstance.onConnect(() => {
+        // Clean any previous listeners before registering new ones (defensive in case effect re-runs)
+        offConnectRef.current?.();
+        offDisconnectRef.current?.();
+
+        offConnectRef.current = socketServiceInstance.onConnect(() => {
             setSocketConnected(true);
             socketStarted.current = false;
             subscribe();
         });
 
-        const offDisconnect: () => void = socketServiceInstance.onDisconnect(() => {
+        offDisconnectRef.current = socketServiceInstance.onDisconnect(() => {
             setSocketConnected(false);
-            cleanupSubscriptions.forEach((cleanup) => cleanup());
+            cleanupSubscriptionsRef.current.forEach((cleanup) => cleanup());
+            cleanupSubscriptionsRef.current = [];
+            activeSubscriptionKeyRef.current = null;
+            activeCollectionsRef.current = new Set();
         });
         if (settings?.cleanupForConfigChange) {
             return () => {
-                cleanupSubscriptions.forEach((cleanup) => cleanup());
-                // offConnect?.();
-                // offDisconnect?.();
+                cleanupSubscriptionsRef.current.forEach((cleanup) => cleanup());
+                cleanupSubscriptionsRef.current = [];
+                activeSubscriptionKeyRef.current = null;
+                activeCollectionsRef.current = new Set();
+                offConnectRef.current?.();
+                offConnectRef.current = null;
+                offDisconnectRef.current?.();
+                offDisconnectRef.current = null;
                 if (!settings?.disableLogs && configs.length > 0) {
                     console.log(`==> ${label || "Cache snapshots"} unsubscribed. `);
                 }
@@ -149,7 +220,14 @@ export const useSocketSnapshots = (
 
     useEffect(() => {
         return () => {
-            cleanupSubscriptions.forEach((cleanup) => cleanup());
+            cleanupSubscriptionsRef.current.forEach((cleanup) => cleanup());
+            cleanupSubscriptionsRef.current = [];
+            activeSubscriptionKeyRef.current = null;
+            activeCollectionsRef.current = new Set();
+            offConnectRef.current?.();
+            offConnectRef.current = null;
+            offDisconnectRef.current?.();
+            offDisconnectRef.current = null;
             if (!settings?.disableLogs && configs.length > 0) {
                 console.log(`==> ${label || "Cache snapshots"} unsubscribed. `);
             }
