@@ -1,9 +1,10 @@
 {
     "name": "akeyless-client-commons",
-    "version": "1.1.22",
+    "version": "1.1.38",
     "scripts": {
         "build": "tsup",
         "deploy": "npm run build && npm version patch --no-git-tag-version && npm publish",
+        "deployTest": "npm version prerelease --preid=test --no-git-tag-version && npm run build && npm publish --tag test",
         "uc": "npm i akeyless-types-commons",
         "git": "powershell -ExecutionPolicy Bypass -File ./ps/create_branch.ps1",
         "git2": "powershell -ExecutionPolicy Bypass -File ./ps/move_to_main.ps1"
@@ -16,7 +17,7 @@
         "@radix-ui/react-progress": "^1.1.1",
         "@radix-ui/react-slot": "^1.1.2",
         "@types/lodash": "^4.17.13",
-        "akeyless-types-commons": "^1.0.18",
+        "akeyless-types-commons": "^1.0.41",
         "assets": "^3.0.1",
         "axios": "^1.7.9",
         "class-variance-authority": "^0.7.0",
@@ -35,8 +36,10 @@
         "react-dom": "^18.3.1",
         "react-phone-number-input": "^3.4.10",
         "react-spinners": "^0.14.1",
+        "socket.io-client": "^4.8.1",
         "tailwind-merge": "^2.5.4",
         "tailwindcss-animate": "^1.0.7",
+        "types": "^0.1.1",
         "xregexp": "^5.1.1",
         "zustand": "^5.0.0"
     },
