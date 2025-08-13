@@ -131,7 +131,7 @@ class SocketService {
 
     public disconnectSocket(): void {
         if (this.socket) {
-            this.socket.io.engine.close();
+            this.socket.disconnect();
         }
     }
 
@@ -146,25 +146,26 @@ class SocketService {
         const eventHandlers: Array<{ eventName: string; handler: OnSnapshotCallback }> = [];
 
         config.forEach((configuration) => {
-            const { collectionName, onAdd, onFirstTime, onModify, onRemove, extraParsers, conditions, orderBy } = configuration;
+            const { collectionName, onAdd, onFirstTime, onModify, onRemove, extraParsers } = configuration;
             // Before attaching, make sure the specific handler is NOT already registered.
-            const attach = (eventName: string, handler: OnSnapshotCallback) => {
+            const attach = (eventName: string, handler?: OnSnapshotCallback) => {
+                if (!handler) return;
                 this.socket!.off(eventName, handler);
                 this.socket!.on(eventName, handler);
                 eventHandlers.push({ eventName, handler });
             };
 
-            attach(`initial:${collectionName}`, onFirstTime!);
-            attach(`add:${collectionName}`, onAdd!);
-            attach(`update:${collectionName}`, onModify!);
-            attach(`delete:${collectionName}`, onRemove!);
+            attach(`initial:${collectionName}`, onFirstTime);
+            attach(`add:${collectionName}`, onAdd);
+            attach(`update:${collectionName}`, onModify);
+            attach(`delete:${collectionName}`, onRemove);
 
             extraParsers?.forEach((parsers) => {
                 const { onAdd: extraOnAdd, onFirstTime: extraOnFirstTime, onModify: extraOnModify, onRemove: extraOnRemove } = parsers;
-                attach(`initial:${collectionName}`, extraOnFirstTime!);
-                attach(`add:${collectionName}`, extraOnAdd!);
-                attach(`update:${collectionName}`, extraOnModify!);
-                attach(`delete:${collectionName}`, extraOnRemove!);
+                attach(`initial:${collectionName}`, extraOnFirstTime);
+                attach(`add:${collectionName}`, extraOnAdd);
+                attach(`update:${collectionName}`, extraOnModify);
+                attach(`delete:${collectionName}`, extraOnRemove);
             });
         });
 

@@ -417,8 +417,13 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime, settings) => {
     const unsubscribe = onSnapshot(
         collectionRef,
         (snapshot: QuerySnapshot<DocumentData>) => {
-            if (!snapshotsFirstTime.includes(config.collectionName)) {
-                snapshotsFirstTime.push(config.collectionName);
+            const firstTimeKey = JSON.stringify({
+                collectionName: config.collectionName,
+                conditions: config.conditions || [],
+                orderBy: config.orderBy || [],
+            });
+            if (!snapshotsFirstTime.includes(firstTimeKey)) {
+                snapshotsFirstTime.push(firstTimeKey);
                 const documents = snapshot.docs.map((doc) => simpleExtractData(doc));
 
                 config.onFirstTime?.(documents, config);
