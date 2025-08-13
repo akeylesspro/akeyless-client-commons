@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { auth, get_document_by_id, snapshot, socketServiceInstance } from "src/helpers";
 import { OnSnapshotConfig } from "src/types";
-import { useDeepCompareEffect } from "./react";
-import { UseWebWorkerOptions, useWebWorker } from "./WebWorker";
+import { useDeepCompareEffect } from "../react";
+import { UseWebWorkerOptions, useWebWorker } from "../WebWorker";
 import { SnapshotOp, wrapConfigsWithWorker } from "./snapshotWorker";
 
 interface UseDbSnapshotsSettings {
