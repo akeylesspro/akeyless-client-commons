@@ -1,47 +1,116 @@
 import { Timestamp } from "firebase/firestore";
 import moment from "moment-timezone";
 import { firebase_timestamp } from "akeyless-types-commons";
-interface TimeOptions {
+interface TimeToStringOptions {
     format?: string;
     fromFormat?: string;
     tz?: string;
     defaultReturnedValue?: string;
+    debug?: boolean;
 }
-export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string | firebase_timestamp, options?: TimeOptions): string {
-    if (!firebaseTimestamp) {
-        return options.defaultReturnedValue ?? "-";
-    }
+export function timestamp_to_string(firebaseTimestamp: Timestamp | Date | string | firebase_timestamp, options?: TimeToStringOptions): string {
+    const { defaultReturnedValue, format, fromFormat, tz, debug }: TimeToStringOptions = {
+        defaultReturnedValue: options?.defaultReturnedValue ?? "-",
+        format: options?.format ?? "DD/MM/YYYY HH:mm:ss",
+        fromFormat: options?.fromFormat ?? "DD/MM/YYYY HH:mm:ss",
+        tz: options?.tz,
+        debug: options?.debug ?? false,
+    };
     let date: Date;
-    if (firebaseTimestamp instanceof Timestamp) {
-        date = firebaseTimestamp.toDate();
-    } else if (firebaseTimestamp instanceof Date) {
-        date = firebaseTimestamp;
-    } else if ((firebaseTimestamp as firebase_timestamp)._seconds && (firebaseTimestamp as firebase_timestamp)._nanoseconds) {
-        date = new Date((firebaseTimestamp as firebase_timestamp)._seconds * 1000 + (firebaseTimestamp as firebase_timestamp)._nanoseconds / 1000000);
-    } else if (typeof firebaseTimestamp === "string") {
-        date = moment.utc(firebaseTimestamp, options?.fromFormat || "DD/MM/YYYY HH:mm:ss").toDate();
-        if (isNaN(date.getTime())) {
-            return options.defaultReturnedValue ?? "-";
+    switch (true) {
+        case !firebaseTimestamp: {
+            return defaultReturnedValue;
         }
-    } else {
-        return options.defaultReturnedValue ?? "-";
+        case firebaseTimestamp instanceof Timestamp: {
+            date = firebaseTimestamp.toDate();
+            break;
+        }
+        case firebaseTimestamp instanceof Date: {
+            date = firebaseTimestamp as Date;
+            break;
+        }
+        case typeof firebaseTimestamp === "string": {
+            const m = moment.utc(firebaseTimestamp, fromFormat);
+            switch (m.isValid()) {
+                case true:
+                    date = m.toDate();
+                    break;
+                default:
+                    return defaultReturnedValue;
+            }
+            break;
+        }
+        case !!(firebaseTimestamp as firebase_timestamp)._seconds: {
+            const ft = firebaseTimestamp as firebase_timestamp;
+            date = new Date(ft._seconds * 1000 + (ft._nanoseconds ?? 0) / 1000000);
+            break;
+        }
+        case !!(firebaseTimestamp as any).seconds: {
+            const ft: any = firebaseTimestamp as any;
+            date = new Date(ft.seconds * 1000 + ft.nanoseconds / 1000000);
+            break;
+        }
+        default: {
+            if (debug) {
+                console.error("Invalid timestamp format: ", firebaseTimestamp);
+            }
+            return defaultReturnedValue;
+        }
     }
-    if (options?.tz) {
-        const result = moment(date)
-            .tz(options?.tz)
-            .format(options?.format || "DD/MM/YYYY HH:mm:ss");
-
-        return result;
+    switch (Boolean(tz)) {
+        case true:
+            return moment(date).tz(tz as string).format(format);
+        default:
+            return moment.utc(date).format(format);
     }
-    return moment.utc(date).format(options?.format || "DD/MM/YYYY HH:mm:ss");
 }
-
-export function timestamp_to_millis(firebaseTimestamp: Timestamp): number {
-    if (!firebaseTimestamp) {
-        return 0;
+interface TimeToMillisOptions extends Omit<TimeToStringOptions, "defaultReturnedValue" | "format"> {
+    defaultReturnedValue?: number;
+}
+export function timestamp_to_millis(firebaseTimestamp: Timestamp | Date | string | firebase_timestamp, options?: TimeToMillisOptions): number {
+    const { defaultReturnedValue, fromFormat, tz, debug }: TimeToMillisOptions = {
+        defaultReturnedValue: options?.defaultReturnedValue ?? 0,
+        fromFormat: options?.fromFormat ?? "DD/MM/YYYY HH:mm:ss",
+        tz: options?.tz,
+        debug: options?.debug ?? false,
+    };
+    switch (true) {
+        case !firebaseTimestamp: {
+            return defaultReturnedValue;
+        }
+        case firebaseTimestamp instanceof Timestamp: {
+            return firebaseTimestamp.toMillis();
+        }
+        case firebaseTimestamp instanceof Date: {
+            const ms = firebaseTimestamp.getTime();
+            return isNaN(ms) ? defaultReturnedValue : ms;
+        }
+        case typeof firebaseTimestamp === "string": {
+            const m = tz ? moment.tz(firebaseTimestamp, fromFormat, tz) : moment.utc(firebaseTimestamp, fromFormat);
+            switch (m.isValid()) {
+                case true:
+                    return m.valueOf();
+                default:
+                    return defaultReturnedValue;
+            }
+        }
+        case !!(firebaseTimestamp as firebase_timestamp)._seconds: {
+            const seconds = (firebaseTimestamp as firebase_timestamp)._seconds;
+            const nanos = (firebaseTimestamp as firebase_timestamp)._nanoseconds ?? 0;
+            return seconds * 1000 + Math.floor(nanos / 1000000);
+        }
+        case !!(firebaseTimestamp as any).seconds: {
+            const seconds = (firebaseTimestamp as any).seconds;
+            const nanos = (firebaseTimestamp as any).nanoseconds ?? 0;
+            return seconds * 1000 + Math.floor(nanos / 1000000);
+        }
+        default: {
+            if (debug) {
+                console.error("Invalid timestamp format: ", firebaseTimestamp);
+            }
+            return defaultReturnedValue;
+        }
     }
-    const timestamp = new Timestamp(firebaseTimestamp?.seconds, firebaseTimestamp?.nanoseconds);
-    return timestamp.toMillis();
 }
 export function sort_by_timestamp(a: Timestamp, b: Timestamp, reverse: boolean = false) {
     return reverse ? timestamp_to_millis(b) - timestamp_to_millis(a) : timestamp_to_millis(a) - timestamp_to_millis(b);
