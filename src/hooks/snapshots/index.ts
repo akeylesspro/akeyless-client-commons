@@ -9,6 +9,9 @@ interface UseDbSnapshotsSettings {
     cleanupForConfigChange?: boolean;
     disableLogs?: boolean;
     worker?: UseWebWorkerOptions;
+    socket?: {
+        getSocket?: (socket: typeof socketServiceInstance) => void;
+    };
 }
 
 export const useDbSnapshots = (configs: OnSnapshotConfig[], label?: string, settings?: UseDbSnapshotsSettings) => {
@@ -201,6 +204,7 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
             activeSubscriptionKeyRef.current = null;
             activeCollectionsRef.current = new Set();
         });
+
         if (settings?.cleanupForConfigChange) {
             return () => {
                 cleanupSubscriptionsRef.current.forEach((cleanup) => cleanup());
@@ -219,6 +223,7 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
     }, [configs, auth.currentUser?.uid]);
 
     useEffect(() => {
+        settings?.socket?.getSocket?.(socketServiceInstance);
         return () => {
             cleanupSubscriptionsRef.current.forEach((cleanup) => cleanup());
             cleanupSubscriptionsRef.current = [];
