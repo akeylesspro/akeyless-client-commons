@@ -49,6 +49,16 @@ class SocketService {
                 this.disconnectCallbacks.forEach((cb) => cb());
             });
 
+            this.socket.io.on("close", (reason: any) => {
+                console.log("Socket Manager close:", reason);
+                this.disconnectCallbacks.forEach((cb) => cb());
+            });
+
+            this.socket.io.engine.on("close", (reason: any) => {
+                console.log("Socket Engine close:", reason);
+                this.disconnectCallbacks.forEach((cb) => cb());
+            });
+
             this.socket.on("session", ({ session_id }) => {
                 if (session_id) {
                     localStorage.setItem(SESSION_STORAGE_KEY, session_id);
@@ -132,6 +142,7 @@ class SocketService {
     public disconnectSocket(): void {
         if (this.socket) {
             this.socket.disconnect();
+            this.socket.io.engine.close();
         }
     }
 
