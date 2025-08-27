@@ -61,7 +61,6 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         showDisplayAllRowsButton,
     } = props;
 
-
     // rendered data
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
@@ -98,10 +97,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
             // clearSort();
         }
         // filter
-        if (
-            filterableColumns.length > 0 &&
-            Object.values(filters).some((arr) => Array.isArray(arr) && arr.length > 0)
-        ) {
+        if (filterableColumns.length > 0 && Object.values(filters).some((arr) => Array.isArray(arr) && arr.length > 0)) {
             Object.keys(filters).forEach((key) => {
                 if (filters[key].length > 0) {
                     filtered = filtered.filter((item) => filters[key].includes(item[key]));
@@ -122,17 +118,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [
-        debouncedSearchQuery,
-        sortColumn,
-        sortOrder,
-        filters,
-        data,
-        displayAllRows,
-        noneSearchKeys,
-        filterableColumns,
-        filterPopupsDisplay,
-    ]);
+    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows, noneSearchKeys, filterableColumns, filterPopupsDisplay]);
 
     const providerValues = {
         ...props,
@@ -157,6 +143,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         handleFilterChange,
         handleFilterClick,
         closeFilterWindow,
+        clearFilter,
     };
     const gapClassName = Boolean(includeSearch || exportToExcelKeys || showDisplayAllRowsButton || optionalElement);
     return (

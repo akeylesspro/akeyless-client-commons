@@ -26,6 +26,7 @@ export interface TableProviderType {
     closeFilterWindow: () => void;
     displayAllRows: boolean;
     setDisplayAllRows: (value: boolean) => void;
+    clearFilter: () => void;
 }
 export interface UseFilterProps {
     data: Record<string, any>[];

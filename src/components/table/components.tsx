@@ -1,4 +1,5 @@
-import React, { memo, ReactNode, useEffect, useMemo, useState } from "react";
+import React, { memo, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
 import { Geo, TObject } from "akeyless-types-commons";
@@ -12,9 +13,39 @@ import { exportToExcel } from "src/helpers/excel";
 
 /// filter
 export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
-    const { direction, headers, filters, filterOptions, filterPopupsDisplay, handleFilterChange, handleFilterClick, closeFilterWindow, filterLabel } =
-        useTableContext();
+    const {
+        direction,
+        headers,
+        filters,
+        filterOptions,
+        filterPopupsDisplay,
+        handleFilterChange,
+        handleFilterClick,
+        closeFilterWindow,
+        filterLabel,
+        clearFilter,
+    } = useTableContext();
+
     const displayRight = (direction === "rtl" && index === headers.length - 1) || (direction === "ltr" && index !== headers.length - 1);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+    const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
+
+    useEffect(() => {
+        const updateRect = () => {
+            if (buttonRef.current) {
+                setAnchorRect(buttonRef.current.getBoundingClientRect());
+            }
+        };
+        if (filterPopupsDisplay === filterableColumn.dataKey) {
+            updateRect();
+            window.addEventListener("resize", updateRect);
+            window.addEventListener("scroll", updateRect, true);
+        }
+        return () => {
+            window.removeEventListener("resize", updateRect);
+            window.removeEventListener("scroll", updateRect, true);
+        };
+    }, [filterPopupsDisplay, filterableColumn.dataKey]);
 
     return (
         <div className="absolute top-1 right-1 ">
@@ -23,6 +54,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                 title={filterLabel + " " + filterableColumn.header}
                 className="text-[12px]"
                 onClick={() => handleFilterClick(filterableColumn.dataKey)}
+                ref={buttonRef}
             >
                 {filterPopupsDisplay === filterableColumn.dataKey ? (
                     <>{filters[filterableColumn.dataKey]?.length > 0 ? <>{slashFilterSvg(true)}</> : <>{emptyFilterSvg(true)}</>}</>
@@ -30,43 +62,60 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                     <>{filters[filterableColumn.dataKey]?.length > 0 ? <>{slashFilterSvg()}</> : <>{emptyFilterSvg()}</>}</>
                 )}
             </button>
-            {/* filter popup */}
-            <div className="relative">
-                {filterPopupsDisplay === filterableColumn.dataKey && (
-                    <div
-                        className={`absolute top-[-20px] z-20 ${
-                            displayRight ? " left-[100%]" : "right-[100%]"
-                        } w-44 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow`}
-                    >
-                        <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
-                            <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
-                            <button onClick={closeFilterWindow}>
-                                <RedXSvg2 />
-                            </button>
-                        </div>
-                        <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
-                            {filterOptions[filterableColumn.dataKey]
-                                ?.sort((a, b) => a.localeCompare(b))
-                                .map((option: string, i: number) => (
-                                    <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
-                                        <input
-                                            type="checkbox"
-                                            className="cursor-pointer"
-                                            checked={filters[filterableColumn.dataKey]?.includes(option)}
-                                            onChange={() => handleFilterChange(filterableColumn.dataKey, option)}
-                                        />
-                                        <button
-                                            className="flex-1 text-start px-2"
-                                            onClick={() => handleFilterChange(filterableColumn.dataKey, option)}
-                                        >
-                                            {filterableColumn.ui ? filterableColumn.ui(option) : option}
+            {/* filter popup rendered in a portal to avoid clipping by table container */}
+            {filterPopupsDisplay === filterableColumn.dataKey &&
+                anchorRect &&
+                createPortal(
+                    (() => {
+                        const POPUP_WIDTH_PX = 192;
+                        const GAP_PX = 8;
+                        const left = displayRight ? anchorRect.right + GAP_PX : anchorRect.left - POPUP_WIDTH_PX - GAP_PX;
+                        return (
+                            <div
+                                className={"fixed z-[30] w-48 h-52 text-black bg-white p-1 flex flex-col items-center gap-2 shadow "}
+                                style={{ top: "49px", left }}
+                            >
+                                <div className="flex justify-between items-center border-black border-b-[1px] w-[90%]">
+                                    <div className="text-start">{filterLabel + " " + filterableColumn.header}</div>
+                                    <div className="flex gap-1">
+                                        {filters[filterableColumn.dataKey]?.length > 0 && (
+                                            <button onClick={clearFilter}>{slashFilterSvg(false, "gray")}</button>
+                                        )}
+                                        <button onClick={closeFilterWindow}>
+                                            <RedXSvg2 />
                                         </button>
                                     </div>
-                                ))}
-                        </div>
-                    </div>
+                                </div>
+                                <div className="overflow-auto h-[80%] flex flex-col gap-1 w-full cursor-pointer ">
+                                    {filterOptions[filterableColumn.dataKey]
+                                        ?.filter(Boolean)
+                                        ?.sort((a, b) => (a || "").localeCompare(b || ""))
+                                        .map((option: string, i: number) => {
+                                            const ui = filterableColumn.ui ? filterableColumn.ui(option) : option;
+                                            return (
+                                                <div key={i} className="flex items-center px-2 justify-start hover:bg-[#547f22] hover:text-white">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="cursor-pointer"
+                                                        checked={filters[filterableColumn.dataKey]?.includes(option)}
+                                                        onChange={() => handleFilterChange(filterableColumn.dataKey, option)}
+                                                    />
+                                                    <button
+                                                        className="flex-1 text-start px-2 truncate"
+                                                        onClick={() => handleFilterChange(filterableColumn.dataKey, option)}
+                                                        title={typeof ui === "string" ? ui : option}
+                                                    >
+                                                        {ui}
+                                                    </button>
+                                                </div>
+                                            );
+                                        })}
+                                </div>
+                            </div>
+                        );
+                    })(),
+                    document.body
                 )}
-            </div>
         </div>
     );
 });
@@ -83,6 +132,7 @@ export const MaxRowsLabel = memo(() => {
         </div>
     );
 }, renderOnce);
+
 export const DisplayAllRowsButton = memo(() => {
     const { setDisplayAllRows, displayAllRows, dataToRender, maxRows, displayAllRowsButtonProps, displayAllRowsButtonLabel } = useTableContext();
 

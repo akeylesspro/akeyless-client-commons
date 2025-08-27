@@ -36,8 +36,8 @@ export const defaultFormElementBorderClassName = "border-[1px] border-gray-300 h
 export const useSortValues = (options: any[], sortDirection: "abc" | "cba", sortAsNumber?: boolean) => {
     const sortOptions = useMemo(() => {
         const sorted = sortAsNumber
-            ? options.sort((a, b) => parseInt(b.label) - parseInt(a.label))
-            : options.sort((a, b) => a.label.localeCompare(b.label));
+            ? options.filter(Boolean).sort((a, b) => parseInt(b.label || "") - parseInt(a.label || ""))
+            : options.filter(Boolean).sort((a, b) => (a.label || "").localeCompare(b.label || ""));
         return sortDirection === "cba" ? sorted.reverse() : sorted;
     }, [options, sortDirection, sortAsNumber]);
     return sortOptions;
