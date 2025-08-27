@@ -31,6 +31,7 @@ const ModularForm = ({
     footerClassName = "",
     errorClassName = "",
     labelsCommonClassName,
+    elementsCommonClassName,
     autoFixLabelsWidth = true,
     loaderProps,
     autoFixLabelsWidthDeps = [],
@@ -105,7 +106,15 @@ const ModularForm = ({
                 {elements.map((element, index) => {
                     switch (element.type) {
                         case "input":
-                            return <InputContainer key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                            return (
+                                <InputContainer
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
                         case "textarea":
                             return (
                                 <TextAreaContainer
@@ -113,16 +122,49 @@ const ModularForm = ({
                                     direction={element.direction || direction}
                                     {...element}
                                     labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
                                 />
                             );
                         case "select":
-                            return <SelectContainer key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                            return (
+                                <SelectContainer
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
                         case "checkbox":
-                            return <CheckboxContainer key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                            return (
+                                <CheckboxContainer
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
                         case "multiSelect":
-                            return <MultiSelect key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                            return (
+                                <MultiSelect
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
                         case "selectWithSearch":
-                            return <SelectWithSearch key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                            return (
+                                <SelectWithSearch
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
                         case "internationalPhoneInput":
                             return (
                                 <InternationalPhonePicker
@@ -130,10 +172,19 @@ const ModularForm = ({
                                     direction={direction}
                                     {...element}
                                     labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
                                 />
                             );
                         case "duration":
-                            return <DurationPicker key={index} direction={direction} {...element} labelsCommonClassName={labelsCommonClassName} />;
+                            return (
+                                <DurationPicker
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
                         case "separator":
                             return (
                                 <FormSeparator key={index} direction={direction} {...element}>

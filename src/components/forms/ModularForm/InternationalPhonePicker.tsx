@@ -27,6 +27,7 @@ export default function InternationalPhonePicker({
     direction,
     defaultFocus = true,
     labelsCommonClassName,
+    elementsCommonClassName,
     minLength,
     disabled,
 }: InternationalInputProps) {
@@ -48,7 +49,10 @@ export default function InternationalPhonePicker({
         }
     }, [defaultValue, setPhoneValue]);
     return (
-        <div style={{ direction }} className={cn(`${labelContent ? "flex justify-start items-center gap-3 w-full" : "w-full"}`, containerClassName)}>
+        <div
+            style={{ direction }}
+            className={cn(`${labelContent ? "flex justify-start items-center gap-3 w-full" : "w-full"}`, containerClassName, elementsCommonClassName)}
+        >
             {labelContent && (
                 <ElementLabel
                     labelsCommonClassName={labelsCommonClassName}

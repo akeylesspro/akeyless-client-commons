@@ -19,6 +19,7 @@ export interface BaseElementProps {
     validationError?: string;
     direction?: Direction;
     labelsCommonClassName?: string;
+    elementsCommonClassName?: string;
     title?: string;
     labelStyle?: React.CSSProperties;
 }
@@ -187,6 +188,8 @@ export interface ModularFormProps {
     autoFixLabelsWidthDeps?: any[];
     loaderProps?: LoaderProps;
     elementsContainerClassName?: string;
+    elementsCommonClassName?: string;
+
     className?: string;
 }
 export interface ConfirmFormProps {

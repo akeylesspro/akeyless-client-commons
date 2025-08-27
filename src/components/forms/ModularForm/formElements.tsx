@@ -63,6 +63,7 @@ export const InputContainer = ({
     value,
     labelWithDots,
     labelsCommonClassName,
+    elementsCommonClassName,
     title,
     labelStyle,
 }: InputContainerProps) => {
@@ -77,8 +78,30 @@ export const InputContainer = ({
         return { ...useValidation(validationName, validationError), onChange: handleChangeFunction };
     }, [handleChangeFunction]);
     const containerProps = useMemo(() => {
-        return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle };
-    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+        return {
+            containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+            labelStyle,
+            elementsCommonClassName,
+        };
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
     return (
         <FormElementContainer {...containerProps}>
             <input
@@ -119,6 +142,7 @@ export const SelectContainer = ({
     labelWithDots,
     iconClassName,
     labelsCommonClassName,
+    elementsCommonClassName,
     title,
     labelStyle,
 }: SelectContainerProps) => {
@@ -132,8 +156,30 @@ export const SelectContainer = ({
         setIsOpen(false);
     };
     const containerProps = useMemo(() => {
-        return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle };
-    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+        return {
+            containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+            labelStyle,
+            elementsCommonClassName,
+        };
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
     return (
         <FormElementContainer {...containerProps}>
             <div title={title} style={{ direction }} className={cn(`flex-1 relative`, elementClassName)} onClick={() => setIsOpen(!isOpen)}>
@@ -207,6 +253,7 @@ export function MultiSelect({
     labelsCommonClassName,
     labelStyle,
     closeDropdownOnSelect,
+    elementsCommonClassName,
 }: MultiSelectProps) {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     const containerProps = useMemo(() => {
@@ -221,8 +268,20 @@ export function MultiSelect({
             required,
             defaultContainerClassName: !!labelContent,
             labelStyle,
+            elementsCommonClassName,
         };
-    }, [styles.containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+    }, [
+        styles.containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
     return (
         <FormElementContainer {...containerProps}>
             <MultipleSelector
@@ -284,6 +343,7 @@ export const SelectWithSearch = ({
     createNewOptionContainerClassName,
     labelWithDots,
     labelsCommonClassName,
+    elementsCommonClassName,
     labelStyle,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
@@ -298,8 +358,20 @@ export const SelectWithSearch = ({
             name,
             required,
             labelStyle,
+            elementsCommonClassName,
         };
-    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
     return (
         <FormElementContainer {...containerProps}>
             <SearchSelect
@@ -349,6 +421,7 @@ export const TextAreaContainer = ({
     direction,
     labelWithDots,
     labelsCommonClassName,
+    elementsCommonClassName,
     labelStyle,
 }: TextAreaContainerProps) => {
     const containerProps = useMemo(() => {
@@ -362,8 +435,20 @@ export const TextAreaContainer = ({
             name,
             required,
             labelStyle,
+            elementsCommonClassName,
         };
-    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
     return (
         <FormElementContainer {...containerProps}>
             <textarea
@@ -412,6 +497,7 @@ export const CheckboxContainer = ({
     inputProps,
     required,
     labelStyle,
+    elementsCommonClassName,
 }: CheckboxContainerProps) => {
     const containerProps = useMemo(() => {
         return {
@@ -424,8 +510,20 @@ export const CheckboxContainer = ({
             name,
             required,
             labelStyle,
+            elementsCommonClassName,
         };
-    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
     return (
         <FormElementContainer {...containerProps}>
             <Checkbox
@@ -463,10 +561,33 @@ export const DurationPicker = ({
     value,
     options = ["days", "hours", "minutes", "seconds"],
     hideLabels = false,
+    elementsCommonClassName,
 }: DurationInputProps) => {
     const containerProps = useMemo(() => {
-        return { containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle };
-    }, [containerClassName, direction, labelClassName, labelContent, labelWithDots, labelsCommonClassName, name, required, labelStyle]);
+        return {
+            containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+            labelStyle,
+            elementsCommonClassName,
+        };
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
 
     const [duration, setDuration] = useState<DurationValues>(value ? secondsToDuration(value) : { days: 0, hours: 0, minutes: 0, seconds: 0 });
 
@@ -514,10 +635,11 @@ export const FormElementContainer = ({
     required,
     children,
     defaultContainerClassName = true,
+    elementsCommonClassName = "",
     labelStyle,
 }: BaseElementProps & { children: ReactNode; defaultContainerClassName?: boolean }) => {
     return (
-        <div className={cn(defaultContainerClassName ? defaultFormElementContainerClassName : "", containerClassName)}>
+        <div className={cn(defaultContainerClassName ? defaultFormElementContainerClassName : "", containerClassName, elementsCommonClassName)}>
             {labelContent && (
                 <ElementLabel
                     labelStyle={labelStyle}
