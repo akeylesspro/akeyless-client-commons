@@ -52,10 +52,14 @@ export const wrapConfigsWithWorker = (
         run: SnapshotDocsProcessor
     ) => {
         if (!cb) return undefined;
+        // Use a unique handler id per wrapped callback so dedupe is per-callback,
+        // not global across base parser and extraParsers (which would suppress them).
+        const handlerId = Math.random().toString(36).slice(2);
         return async (docs: any[], config: OnSnapshotConfig) => {
             try {
                 const key = makeKey(op, docs, config?.collectionName);
-                if (!shouldProcess(key)) {
+                const perHandlerKey = `${handlerId}:${key}`;
+                if (!shouldProcess(perHandlerKey)) {
                     return;
                 }
                 const safeDocs = options?.jsonClone === false ? docs : JSON.parse(JSON.stringify(docs));
