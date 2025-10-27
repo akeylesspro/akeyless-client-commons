@@ -50,7 +50,7 @@ export const nxApiCall = async (serverName: ServerName, method: Method, url: str
         }
 
         const headers = {
-            authorization: "bearer " + (await auth.currentUser.getIdToken()),
+            authorization: data.ignoreAuth ? undefined : "bearer " + (await auth.currentUser.getIdToken()),
         };
         const response = await axios({
             method,
