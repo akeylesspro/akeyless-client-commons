@@ -16,7 +16,7 @@ export const LeftToRightDiv = ({
     direction: Direction;
     children: ReactNode;
     className?: string;
-    props: ComponentProps<"div">;
+    props?: ComponentProps<"div">;
     title?: string;
 }) => {
     return (
