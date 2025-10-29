@@ -16,10 +16,16 @@ export const akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
 type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications" | "data-socket" | "data-sync" | "cloudwise";
-
-export const nxApiCall = async (serverName: ServerName, method: Method, url: string, data?: TObject<any>) => {
+interface ErrorDetails {
+    serverName: ServerName;
+    method: Method;
+    url: string;
+    error: any;
+}
+export const nxApiCall = async <T = any>(serverName: ServerName, method: Method, url: string, data?: TObject<any>): Promise<T | ErrorDetails> => {
     try {
         let urlResult: string = `${devicesDomain}/${url}`;
+
         switch (serverName) {
             case "bi":
                 urlResult = `${biDomain}/${url}`;
@@ -52,15 +58,20 @@ export const nxApiCall = async (serverName: ServerName, method: Method, url: str
         const headers = {
             authorization: data.ignoreAuth ? undefined : "bearer " + (await auth.currentUser.getIdToken()),
         };
+        if (data.ignoreAuth) {
+            delete data.ignoreAuth;
+        }
         const response = await axios({
             method,
             url: urlResult,
             headers,
             data,
         });
+
         return response?.data || null;
     } catch (error) {
-        console.error(`Error from nxApiCall: ${JSON.stringify({ serverName, method, url, data })}`, error?.response?.data || error);
-        return null;
+        const details = { serverName, method, url, data };
+        console.error(`Error from nxApiCall: ${JSON.stringify(details)}`, error?.response?.data || error);
+        return { error: error?.response?.data || error, ...details };
     }
 };
