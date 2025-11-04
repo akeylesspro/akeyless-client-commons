@@ -34,6 +34,7 @@ import { Dispatch, SetStateAction, useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
 import { parsePermissions } from "./permissions";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { timestamp_to_string } from "./time_helpers";
 
 interface FirebaseInitResult {
     db?: Firestore;
@@ -166,38 +167,32 @@ export const simpleExtractData = (doc: DocumentSnapshot<DocumentData>): TObject<
         id: doc.id,
     };
 };
-
 export const extractSiteData = (doc: DocumentSnapshot<DocumentData>) => {
     const data = doc.data()!;
-    const dateUpdated = new Date(data.updated?.seconds * 1000 + data.updated.nanoseconds / 1000000);
-    const dateCreated = new Date(data.created?.seconds * 1000 + data.created.nanoseconds / 1000000);
     return {
         ...data,
         id: doc.id,
-        created: moment(dateCreated).format("DD.MM.YYYY - HH:mm"),
-        updated: moment(dateUpdated).format("DD.MM.YYYY - HH:mm"),
+        created: timestamp_to_string(data.created),
+        updated: timestamp_to_string(data.updated),
     };
 };
 
 export const extractClientData = (doc: DocumentSnapshot<DocumentData>) => {
     const data = doc.data()!;
-    const dateUpdated = new Date(data.updated?.seconds * 1000 + data.updated.nanoseconds / 1000000);
-    const dateCreated = new Date(data.created?.seconds * 1000 + data.created.nanoseconds / 1000000);
     return {
         ...data,
         id: doc.id,
-        created: moment(dateCreated).format("HH:mm  DD/MM/YY"),
-        updated: moment(dateUpdated).format("HH:mm  DD/MM/YY"),
+        created: timestamp_to_string(data.created),
+        updated: timestamp_to_string(data.updated),
     };
 };
 
 export const extractBoardsData = (doc: DocumentSnapshot<DocumentData>) => {
     const data = doc.data()!;
-    const dateUploaded = typeof data.uploaded === "string" ? data.uploaded : moment.unix(data.uploaded?.seconds).format("DD/MM/YY HH:mm");
     return {
         ...data,
         id: doc.id,
-        uploaded: dateUploaded,
+        uploaded: timestamp_to_string(data.uploaded),
     };
 };
 
@@ -732,4 +727,3 @@ export const parseSnapshotAsArray = (setState: SetState<any>, filterCondition?: 
         },
     };
 };
-
