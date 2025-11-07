@@ -19,6 +19,7 @@ export interface SearchSelectProps {
     searchPlaceholder?: string;
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
+    dropdownContainerClassName?: string;
     dropdownOptionClassName?: string;
     notFoundLabelClassName?: string;
     buttonClassName?: string;
@@ -53,6 +54,7 @@ export default function SearchSelect({
     direction,
     createNewOptionLabel,
     createNewOptionContainerClassName,
+    dropdownContainerClassName,
 }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
@@ -112,7 +114,10 @@ export default function SearchSelect({
                     </Button>
                 </PopoverTrigger>
                 {/* dropdown */}
-                <PopoverContent className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]")} align="start">
+                <PopoverContent
+                    className={cn("border-input w-full min-w-[var(--radix-popper-anchor-width)] p-0 bg-[#fff]", dropdownContainerClassName)}
+                    align="start"
+                >
                     <Command>
                         {/* search */}
                         <CommandInput

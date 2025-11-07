@@ -97,6 +97,7 @@ export interface SelectWithSearchProps extends BaseElementProps {
     defaultValue?: SearchSelectOptions["value"];
     dropdownClassName?: string;
     dropdownOptionClassName?: string;
+    dropdownContainerClassName?: string;
     placeholder?: string;
     notFoundLabel?: string;
     searchPlaceholder?: string;

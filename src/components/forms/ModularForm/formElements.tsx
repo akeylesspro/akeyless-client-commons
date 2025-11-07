@@ -345,6 +345,7 @@ export const SelectWithSearch = ({
     labelsCommonClassName,
     elementsCommonClassName,
     labelStyle,
+    dropdownContainerClassName,
 }: SelectWithSearchProps) => {
     const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
     const containerProps = useMemo(() => {
@@ -396,6 +397,7 @@ export const SelectWithSearch = ({
                 //dropdown props
                 dropdownClassName={dropdownClassName}
                 dropdownOptionClassName={dropdownOptionClassName}
+                dropdownContainerClassName={dropdownContainerClassName}
                 // not found props
                 notFoundLabelClassName={notFoundLabelClassName}
                 notFoundLabel={notFoundLabel}

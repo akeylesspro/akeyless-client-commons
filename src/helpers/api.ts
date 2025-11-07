@@ -11,11 +11,11 @@ export const callCenterGeoDomain = isLocal ? "http://localhost:9007/api/call-cen
 export const callCenterEventsDomain = isLocal ? "http://localhost:9008/api/call-center/events" : baseDomain + "/call-center/events";
 export const dataSocketDomain = isLocal ? "http://localhost:9009/api/data-socket" : baseDomain + "/data-socket";
 export const dataSyncDomain = isLocal ? "http://localhost:9010/api/data-sync" : baseDomain + "/data-sync";
-export const cloudwiseDomain = isLocal ? "http://localhost:9012/api/cloudwise" : baseDomain + "/cloudwise";
+export const chargeDomain = isLocal ? "http://localhost:9012/api/charge" : baseDomain + "/charge";
 export const akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz" : "https://akeyless-online.info";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
-type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications" | "data-socket" | "data-sync" | "cloudwise";
+type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications" | "data-socket" | "data-sync" | "charge";
 interface ErrorDetails {
     serverName: ServerName;
     method: Method;
@@ -48,8 +48,8 @@ export const nxApiCall = async <T = any>(serverName: ServerName, method: Method,
             case "data-sync":
                 urlResult = `${dataSyncDomain}/${url}`;
                 break;
-            case "cloudwise":
-                urlResult = `${cloudwiseDomain}/${url}`;
+            case "charge":
+                urlResult = `${chargeDomain}/${url}`;
                 break;
             default:
                 break;
