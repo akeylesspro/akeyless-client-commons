@@ -29,6 +29,7 @@ export default function InternationalPhonePicker({
     labelsCommonClassName,
     elementsCommonClassName,
     minLength,
+    countries = [],
     disabled,
 }: InternationalInputProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -48,6 +49,9 @@ export default function InternationalPhonePicker({
             }
         }
     }, [defaultValue, setPhoneValue]);
+    const defaultCountries = useMemo<RPNInput.Country[]>(() => {
+        return ["US", "IL", "NG"];
+    }, []);
     return (
         <div
             style={{ direction }}
@@ -67,7 +71,7 @@ export default function InternationalPhonePicker({
                 style={{ direction: "ltr" }}
                 className={cn("flex flex-1 rounded-sm shadow-sm shadow-black/5 border-[1px] border-gray-300", className)}
                 international
-                countries={["US", "IL", "NG"]}
+                countries={Array.from(new Set([...countries, ...defaultCountries]))}
                 defaultCountry={defaultCountry}
                 flagComponent={FlagComponent}
                 countrySelectComponent={CountrySelect}

@@ -123,10 +123,12 @@ export interface InternationalInputProps extends Omit<BaseElementProps, "element
     inputClassName?: string;
     defaultValue?: string;
     defaultCountry?: RPNInput.Country;
+    countries?: RPNInput.Country[];
     onEnter?: () => void;
     direction?: Direction;
     defaultFocus?: boolean;
     disabled?: boolean;
+
 }
 export interface CustomElementProps {
     type?: "custom";

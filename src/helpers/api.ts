@@ -7,6 +7,7 @@ export const baseDomain = mode === "qa" ? "https://nx-api.xyz/api" : "https://nx
 export const devicesDomain = isLocal ? "http://localhost:9001/api/devices" : baseDomain + "/devices";
 export const biDomain = isLocal ? "http://localhost:9002/api/bi" : baseDomain + "/bi";
 export const notificationsDomain = isLocal ? "http://localhost:9006/api/notifications" : baseDomain + "/notifications";
+export const endUsersDomain = isLocal ? "http://localhost:9011/api/end-users" : baseDomain + "/end-users";
 export const callCenterGeoDomain = isLocal ? "http://localhost:9007/api/call-center/geo" : baseDomain + "/call-center/geo";
 export const callCenterEventsDomain = isLocal ? "http://localhost:9008/api/call-center/events" : baseDomain + "/call-center/events";
 export const dataSocketDomain = isLocal ? "http://localhost:9009/api/data-socket" : baseDomain + "/data-socket";
@@ -15,7 +16,16 @@ export const chargeDomain = isLocal ? "http://localhost:9012/api/charge" : baseD
 export const akeylessOnlineDomain = mode === "qa" ? "https://akeyless-online.xyz" : "https://akeyless-online.info";
 
 type Method = "GET" | "POST" | "PUT" | "DELETE";
-type ServerName = "devices" | "bi" | "call-center-geo" | "call-center-events" | "notifications" | "data-socket" | "data-sync" | "charge";
+type ServerName =
+    | "devices"
+    | "bi"
+    | "call-center-geo"
+    | "call-center-events"
+    | "notifications"
+    | "data-socket"
+    | "data-sync"
+    | "charge"
+    | "end-users";
 interface ErrorDetails {
     serverName: ServerName;
     method: Method;
@@ -50,6 +60,9 @@ export const nxApiCall = async <T = any>(serverName: ServerName, method: Method,
                 break;
             case "charge":
                 urlResult = `${chargeDomain}/${url}`;
+                break;
+            case "end-users":
+                urlResult = `${endUsersDomain}/${url}`;
                 break;
             default:
                 break;
