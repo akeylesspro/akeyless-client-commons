@@ -50,7 +50,7 @@ export default function InternationalPhonePicker({
         }
     }, [defaultValue, setPhoneValue]);
     const defaultCountries = useMemo<RPNInput.Country[]>(() => {
-        return ["US", "IL", "NG"];
+        return ["US", "IL", "NG", "TH"];
     }, []);
     return (
         <div
