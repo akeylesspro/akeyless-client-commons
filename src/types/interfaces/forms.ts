@@ -224,4 +224,5 @@ export interface DatePickerProps {
     fromText?: string;
     toText?: string;
     buttonText?: string;
+    calendarClassName?: string;
 }
