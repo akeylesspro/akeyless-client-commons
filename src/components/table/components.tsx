@@ -137,15 +137,20 @@ export const DisplayAllRowsButton = memo(() => {
     const { setDisplayAllRows, displayAllRows, dataToRender, maxRows, displayAllRowsButtonProps, displayAllRowsButtonLabel } = useTableContext();
 
     const toggleDisplayAmount = () => setDisplayAllRows(!displayAllRows);
-    const title = displayAllRows ? dataToRender.renderedData.length : maxRows;
+    const totalFiltered = dataToRender.filtered.length;
+    const limitedCount = Math.min(maxRows, totalFiltered);
+    const title = displayAllRows ? limitedCount : totalFiltered;
     return (
         <button
             {...(displayAllRowsButtonProps || {})}
-            className={cn("bg-[#547f22] text-white px-4 py-2 rounded-md hover:bg-[#3e671f] focus:outline-none", displayAllRowsButtonProps?.className)}
+            className={cn(
+                "bg-[#547f22] text-white px-3 py-1.5 rounded-md hover:bg-[#3e671f] focus:outline-none flex gap-1",
+                displayAllRowsButtonProps?.className
+            )}
             onClick={toggleDisplayAmount}
         >
-            {displayAllRowsButtonLabel || "Display:"}
-            {title}
+            <span>{displayAllRowsButtonLabel || "Display:"}</span>
+            <span>{title}</span>
         </button>
     );
 }, renderOnce);
