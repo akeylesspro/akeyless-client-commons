@@ -38,6 +38,20 @@ export interface InputElement extends BaseElementProps {
     placeholder?: string;
     props?: React.InputHTMLAttributes<HTMLInputElement>;
 }
+
+export interface DateInputElement extends BaseElementProps {
+    type: "dateInput";
+    defaultValue?: string;
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    value?: string;
+    placeholder?: string;
+    props?: React.InputHTMLAttributes<HTMLInputElement>;
+    calendarClassName?: string;
+    inputClassName?: string;
+    selectedDayClassName?: string;
+    todayDayClassName?: string;
+}
 export interface TextAreaElement extends BaseElementProps {
     type: "textarea";
     defaultValue?: string;
@@ -142,6 +156,7 @@ export interface FormSeparatorProps {
 }
 
 export interface InputContainerProps extends Partial<InputElement> {}
+export interface DateInputContainerProps extends Partial<DateInputElement> {}
 export interface SelectContainerProps extends Partial<SelectElement> {}
 export interface TextAreaContainerProps extends Partial<TextAreaElement> {}
 
@@ -164,6 +179,7 @@ export interface DurationInputProps extends BaseElementProps {
 
 export type FormElement =
     | InputElement
+    | DateInputElement
     | SelectElement
     | MultiSelectProps
     | InternationalInputProps
@@ -225,4 +241,6 @@ export interface DatePickerProps {
     toText?: string;
     buttonText?: string;
     calendarClassName?: string;
+    selectedDayClassName?: string;
+    todayDayClassName?: string;
 }

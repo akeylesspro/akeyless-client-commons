@@ -108,6 +108,8 @@ export function DatePicker2({
     inputsClassName = "",
     buttonClassName = "",
     calendarClassName = "",
+    selectedDayClassName = "",
+    todayDayClassName = "",
     buttonStyle = {},
     defaultFrom,
     defaultTo,
@@ -157,7 +159,11 @@ export function DatePicker2({
                         offset={4}
                     >
                         <Dialog className="max-h-[inherit] overflow-auto p-2">
-                            <Calendar className={cn("bg-white", calendarClassName)} />
+                            <Calendar
+                                selectedDayClassName={selectedDayClassName}
+                                todayDayClassName={todayDayClassName}
+                                className={cn("bg-white", calendarClassName)}
+                            />
                         </Dialog>
                     </Popover>
                 </RACDatePicker>
@@ -180,7 +186,11 @@ export function DatePicker2({
                         offset={4}
                     >
                         <Dialog className="max-h-[inherit] overflow-auto p-2">
-                            <Calendar className={cn("bg-white", calendarClassName)} />
+                            <Calendar
+                                selectedDayClassName={selectedDayClassName}
+                                todayDayClassName={todayDayClassName}
+                                className={cn("bg-white", calendarClassName)}
+                            />
                         </Dialog>
                     </Popover>
                 </RACDatePicker>

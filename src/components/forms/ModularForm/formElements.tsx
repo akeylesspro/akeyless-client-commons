@@ -1,24 +1,14 @@
 import MultipleSelector from "@/components/ui/multiselect";
 import SearchSelect from "@/components/ui/SearchSelect";
-import { Checkbox, CheckBoxProps } from "@/components/utils";
+import { Checkbox } from "@/components/utils";
 import { useDeepCompareEffect } from "@/hooks/react";
-import {
-    Children,
-    cloneElement,
-    ComponentProps,
-    CSSProperties,
-    isValidElement,
-    memo,
-    ReactNode,
-    useCallback,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import { Children, cloneElement, isValidElement, memo, ReactNode, useCallback, useMemo, useRef, useState } from "react";
+import { I18nProvider } from "react-aria-components";
 import { cn, durationToSeconds, handleChange, propsAreEqual, secondsToDuration, useValidation } from "src/helpers";
 import {
     BaseElementProps,
     CheckboxContainerProps,
+    DateInputContainerProps,
     DurationInputProps,
     DurationValues,
     FormSeparatorProps,
@@ -32,6 +22,11 @@ import {
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 export const defaultFormElementContainerClassName = "flex justify-start items-center gap-3 w-full";
 export const defaultFormElementBorderClassName = "border-[1px] border-gray-300 hover:border-black rounded-sm";
+import { Button, DatePicker as RACDatePicker, Dialog, Group, Label, Popover } from "react-aria-components";
+import { DateInput } from "@/components/ui/datefield-rac";
+import { Calendar } from "@/components/ui/calendar-rac";
+import { CalendarIcon } from "lucide-react";
+import { parseDate, today, getLocalTimeZone } from "@internationalized/date";
 
 export const useSortValues = (options: any[], sortDirection: "abc" | "cba", sortAsNumber?: boolean) => {
     const sortOptions = useMemo(() => {
@@ -119,6 +114,133 @@ export const InputContainer = ({
                 onKeyDown={onKeyDown}
                 type={inputType}
             />
+        </FormElementContainer>
+    );
+};
+
+export const DateInputContainer = ({
+    name = "",
+    labelContent = "",
+    defaultValue = "",
+    containerClassName = "",
+    labelClassName = "",
+    elementClassName = "",
+    required = false,
+    placeholder,
+    props,
+    onKeyDown,
+    onChange,
+    direction,
+    value,
+    labelWithDots,
+    labelsCommonClassName,
+    elementsCommonClassName,
+    title,
+    labelStyle,
+    calendarClassName = "",
+    inputClassName = "",
+    selectedDayClassName = "",
+    todayDayClassName = "",
+}: DateInputContainerProps) => {
+    const containerProps = useMemo(() => {
+        return {
+            containerClassName,
+            direction,
+            labelClassName,
+            labelContent,
+            labelWithDots,
+            labelsCommonClassName,
+            name,
+            required,
+            labelStyle,
+            elementsCommonClassName,
+        };
+    }, [
+        containerClassName,
+        direction,
+        labelClassName,
+        labelContent,
+        labelWithDots,
+        labelsCommonClassName,
+        name,
+        required,
+        labelStyle,
+        elementsCommonClassName,
+    ]);
+
+    const getDefaultValue = (dateStr?: string) => {
+        if (dateStr) {
+            try {
+                return parseDate(dateStr);
+            } catch {
+                return today(getLocalTimeZone());
+            }
+        }
+        return today(getLocalTimeZone());
+    };
+
+    const handleDateChange = useCallback(
+        (date: any) => {
+            if (!onChange) {
+                return;
+            }
+
+            const valueStr = date ? date.toString() : "";
+
+            const syntheticEvent = {
+                target: {
+                    name,
+                    value: valueStr,
+                },
+            } as React.ChangeEvent<HTMLInputElement>;
+
+            onChange(syntheticEvent);
+        },
+        [onChange, name]
+    );
+
+    const pickerValue = value ? getDefaultValue(value) : undefined;
+    const pickerDefaultValue = !pickerValue && defaultValue ? getDefaultValue(defaultValue) : undefined;
+
+    return (
+        <FormElementContainer {...containerProps}>
+            <I18nProvider locale={"en-GB"}>
+                <RACDatePicker
+                    placeholderValue={placeholder ? parseDate(placeholder) : undefined}
+                    className={cn("flex items-center gap-2 flex-1", elementClassName)}
+                    name={name}
+                    defaultValue={pickerDefaultValue}
+                    value={pickerValue}
+                    onChange={handleDateChange}
+                    onKeyDown={onKeyDown as any}
+                >
+                    <div title={title} className={cn("flex flex-1")}>
+                        <Group className={cn("flex-1 bg-background", defaultFormElementBorderClassName)}>
+                            <DateInput
+                                {...props}
+                                unstyled
+                                style={{ direction: "ltr" }}
+                                className={cn(
+                                    "flex-1 h-9 px-3 py-2 text-sm",
+                                    direction === "rtl" ? "justify-end text-right" : "justify-start text-left",
+                                    inputClassName
+                                )}
+                            />
+                        </Group>
+                        <Button className="-ms-9 -me-px z-10 flex w-9 items-center justify-center rounded-e-md text-muted-foreground/80 outline-none transition-[color,box-shadow] hover:text-foreground data-focus-visible:border-ring data-focus-visible:ring-[3px] data-focus-visible:ring-ring/50">
+                            <CalendarIcon size={16} />
+                        </Button>
+                    </div>
+                    <Popover
+                        className="data-[entering]:fade-in-0 data-[entering]:zoom-in-95 data-[exiting]:fade-out-0 data-[exiting]:zoom-out-95 data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 z-50 rounded-lg border bg-background text-popover-foreground shadow-lg outline-hidden data-entering:animate-in data-exiting:animate-out"
+                        offset={4}
+                    >
+                        <Dialog className="max-h-[inherit] overflow-auto p-2">
+                            <Calendar selectedDayClassName={selectedDayClassName} todayDayClassName={todayDayClassName} className={cn("bg-white", calendarClassName)} />
+                        </Dialog>
+                    </Popover>
+                </RACDatePicker>
+            </I18nProvider>
         </FormElementContainer>
     );
 };

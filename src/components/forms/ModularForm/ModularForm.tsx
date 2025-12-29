@@ -6,6 +6,7 @@ import {
     FormElementContainer,
     FormSeparator,
     InputContainer,
+    DateInputContainer,
     MultiSelect,
     SelectContainer,
     SelectWithSearch,
@@ -108,6 +109,16 @@ const ModularForm = ({
                         case "input":
                             return (
                                 <InputContainer
+                                    key={index}
+                                    direction={direction}
+                                    {...element}
+                                    labelsCommonClassName={labelsCommonClassName}
+                                    elementsCommonClassName={elementsCommonClassName}
+                                />
+                            );
+                        case "dateInput":
+                            return (
+                                <DateInputContainer
                                     key={index}
                                     direction={direction}
                                     {...element}
