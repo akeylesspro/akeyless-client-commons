@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { auth, get_document_by_id, snapshot, socketServiceInstance } from "src/helpers";
-import { OnSnapshotConfig } from "src/types";
+import { auth, get_document_by_id, snapshot, snapshotDocument, socketServiceInstance } from "src/helpers";
+import { OnSnapshotConfig, OnSnapshotConfigDocument } from "src/types";
 import { useDeepCompareEffect } from "../react";
 import { UseWebWorkerOptions, useWebWorker } from "../WebWorker";
-import { SnapshotOp, wrapConfigsWithWorker } from "./snapshotWorker";
+import { SnapshotOp, wrapConfigsWithWorker, wrapDocumentConfigsWithWorker } from "./snapshotWorker";
 
 interface UseDbSnapshotsSettings {
     cleanupForConfigChange?: boolean;
@@ -74,6 +74,92 @@ export const useDbSnapshots = (configs: OnSnapshotConfig[], label?: string, sett
             }
             if (!settings?.disableLogs) {
                 console.log(`==> ${label || "DB snapshots"} unsubscribed`);
+            }
+        };
+    }, []);
+};
+
+export const useDbDocumentSnapshots = (configs: OnSnapshotConfigDocument[], label?: string, settings?: UseDbSnapshotsSettings) => {
+    const unsubscribeFunctions = useRef<(() => void)[]>([]);
+    const lastDbDocsRef = useRef<string[]>([]);
+    const perDocFirstTimeRef = useRef<Record<string, string[]>>({});
+
+    const workerProcessorDb = useCallback((payload: { op: SnapshotOp; docs: any[] }) => {
+        return { docs: payload.docs };
+    }, []);
+    const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorDb, settings?.worker);
+
+    const wrapConfigsForWorker = (cfgs: OnSnapshotConfigDocument[]): OnSnapshotConfigDocument[] =>
+        wrapDocumentConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
+
+    const getDocKey = (config: OnSnapshotConfigDocument) => {
+        const conditionsKey = config.conditions?.length ? JSON.stringify(config.conditions) : "";
+        return `${config.collectionName}/${config.documentId}${conditionsKey ? `:${conditionsKey}` : ""}`;
+    };
+
+    const getFirstTimeBucket = (config: OnSnapshotConfigDocument) => {
+        const key = getDocKey(config);
+        if (!perDocFirstTimeRef.current[key]) {
+            perDocFirstTimeRef.current[key] = [];
+        }
+        return perDocFirstTimeRef.current[key];
+    };
+
+    useDeepCompareEffect(() => {
+        const start = performance.now();
+        if (!settings?.disableLogs && configs.length > 0) {
+            console.log(`==> ${label || "DB document snapshots"} started from db... `);
+        }
+
+        const wrappedConfigs = wrapConfigsForWorker(configs);
+        lastDbDocsRef.current = configs.map((c) => `${c.collectionName}/${c.documentId}`);
+
+        const snapshotResults = wrappedConfigs.map((config) => snapshotDocument(config, getFirstTimeBucket(config)));
+        unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
+
+        Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
+            if (!settings?.disableLogs && configs.length > 0) {
+                console.log(
+                    `==> ${label || "DB document snapshots"} ended from db. It took ${(performance.now() - start).toFixed(2)} ms`
+                );
+            }
+        });
+
+        if (settings?.cleanupForConfigChange) {
+            return () => {
+                unsubscribeFunctions.current.forEach((unsubscribe: any) => {
+                    if (unsubscribe) {
+                        unsubscribe();
+                    }
+                });
+                if (settings?.worker?.debug && lastDbDocsRef.current.length) {
+                    console.log(
+                        `==> ${label || "DB document snapshots"} cleanup: cleaned previous subscriptions for [${lastDbDocsRef.current.join(
+                            ", "
+                        )}]`
+                    );
+                }
+                if (!settings?.disableLogs && configs.length > 0) {
+                    console.log(`==> ${label || "DB document snapshots"} unsubscribed from db`);
+                }
+            };
+        }
+    }, [configs, label, settings]);
+
+    useEffect(() => {
+        return () => {
+            unsubscribeFunctions.current.forEach((unsubscribe: any) => {
+                if (unsubscribe) {
+                    unsubscribe();
+                }
+            });
+            if (settings?.worker?.debug && lastDbDocsRef.current.length) {
+                console.log(
+                    `==> ${label || "DB document snapshots"} cleanup: cleaned previous subscriptions for [${lastDbDocsRef.current.join(", ")}]`
+                );
+            }
+            if (!settings?.disableLogs) {
+                console.log(`==> ${label || "DB document snapshots"} unsubscribed`);
             }
         };
     }, []);

@@ -1,4 +1,4 @@
-import { OnSnapshotConfig } from "src/types";
+import { OnSnapshotConfig, OnSnapshotConfigDocument } from "src/types";
 
 export type SnapshotOp = "first" | "add" | "modify" | "remove";
 
@@ -10,27 +10,11 @@ export interface WrapWorkerOptions {
     jsonClone?: boolean; // default true
 }
 
-export const wrapConfigsWithWorker = (
-    cfgs: OnSnapshotConfig[],
-    runProcessor: SnapshotDocsProcessor,
-    options?: WrapWorkerOptions
-): OnSnapshotConfig[] => {
+const createRecentEventsDedupe = (options?: WrapWorkerOptions) => {
     const recentEvents = new Map<string, number>();
     const EVENT_TTL_MS = options?.eventTtlMs ?? 1500;
     const MAX_RECENT = options?.maxRecentEvents ?? 500;
     const now = () => Date.now();
-    const makeKey = (op: SnapshotOp, docs: any[], collectionName?: string) => {
-        try {
-            const ids = (docs || [])
-                .map((d) => d?.id)
-                .filter(Boolean)
-                .sort()
-                .join(",");
-            return `${collectionName || "unknown"}:${op}:${ids}`;
-        } catch {
-            return `${collectionName || "unknown"}:${op}:*`;
-        }
-    };
     const shouldProcess = (key: string) => {
         const ts = recentEvents.get(key);
         if (ts && now() - ts < EVENT_TTL_MS) {
@@ -45,6 +29,28 @@ export const wrapConfigsWithWorker = (
         }
         recentEvents.set(key, now());
         return true;
+    };
+
+    return { shouldProcess };
+};
+
+export const wrapConfigsWithWorker = (
+    cfgs: OnSnapshotConfig[],
+    runProcessor: SnapshotDocsProcessor,
+    options?: WrapWorkerOptions
+): OnSnapshotConfig[] => {
+    const { shouldProcess } = createRecentEventsDedupe(options);
+    const makeKey = (op: SnapshotOp, docs: any[], collectionName?: string) => {
+        try {
+            const ids = (docs || [])
+                .map((d) => d?.id)
+                .filter(Boolean)
+                .sort()
+                .join(",");
+            return `${collectionName || "unknown"}:${op}:${ids}`;
+        } catch {
+            return `${collectionName || "unknown"}:${op}:*`;
+        }
     };
     const wrapCb = (
         cb: OnSnapshotConfig["onFirstTime"] | OnSnapshotConfig["onAdd"] | OnSnapshotConfig["onModify"] | OnSnapshotConfig["onRemove"],
@@ -83,6 +89,61 @@ export const wrapConfigsWithWorker = (
                 onAdd: wrapCb(p.onAdd, "add", runProcessor),
                 onModify: wrapCb(p.onModify, "modify", runProcessor),
                 onRemove: wrapCb(p.onRemove, "remove", runProcessor),
+            }));
+        }
+        return wrapped;
+    });
+};
+
+export const wrapDocumentConfigsWithWorker = (
+    cfgs: OnSnapshotConfigDocument[],
+    runProcessor: SnapshotDocsProcessor,
+    options?: WrapWorkerOptions
+): OnSnapshotConfigDocument[] => {
+    const { shouldProcess } = createRecentEventsDedupe(options);
+    const makeKey = (op: SnapshotOp, docs: any[], collectionName?: string, documentId?: string) => {
+        try {
+            const ids = (docs || [])
+                .map((d) => d?.id)
+                .filter(Boolean)
+                .sort()
+                .join(",");
+            return `${collectionName || "unknown"}/${documentId || "unknown"}:${op}:${ids}`;
+        } catch {
+            return `${collectionName || "unknown"}/${documentId || "unknown"}:${op}:*`;
+        }
+    };
+    const wrapCb = (cb: OnSnapshotConfigDocument["onFirstTime"] | OnSnapshotConfigDocument["onModify"] | OnSnapshotConfigDocument["onRemove"], op: SnapshotOp) => {
+        if (!cb) return undefined;
+        // Use a unique handler id per wrapped callback so dedupe is per-callback,
+        // not global across base parser and extraParsers (which would suppress them).
+        const handlerId = Math.random().toString(36).slice(2);
+        return async (docs: any[], config: OnSnapshotConfigDocument) => {
+            try {
+                const key = makeKey(op, docs, config?.collectionName, config?.documentId);
+                const perHandlerKey = `${handlerId}:${key}`;
+                if (!shouldProcess(perHandlerKey)) {
+                    return;
+                }
+                const safeDocs = options?.jsonClone === false ? docs : JSON.parse(JSON.stringify(docs));
+                const { docs: processed } = await runProcessor({ op, docs: safeDocs });
+                cb(processed, config);
+            } catch {
+                cb(docs, config);
+            }
+        };
+    };
+
+    return cfgs.map((cfg) => {
+        const wrapped: OnSnapshotConfigDocument = { ...cfg };
+        wrapped.onFirstTime = wrapCb(cfg.onFirstTime, "first");
+        wrapped.onModify = wrapCb(cfg.onModify, "modify");
+        wrapped.onRemove = wrapCb(cfg.onRemove, "remove");
+        if (cfg.extraParsers && cfg.extraParsers.length) {
+            wrapped.extraParsers = cfg.extraParsers.map((p) => ({
+                onFirstTime: wrapCb(p.onFirstTime, "first"),
+                onModify: wrapCb(p.onModify, "modify"),
+                onRemove: wrapCb(p.onRemove, "remove"),
             }));
         }
         return wrapped;
