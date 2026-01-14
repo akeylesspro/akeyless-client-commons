@@ -275,10 +275,10 @@ export const get_document_by_id = async (collection_path: string, doc_id: string
     }
 };
 
-export const set_document = async (collection_path: string, doc_id: string, data: DocumentData) => {
+export const set_document = async (collection_path: string, doc_id: string, data: DocumentData, options?: { merge?: boolean }) => {
     try {
         const doc_ref = doc(db, collection_path, doc_id);
-        await setDoc(doc_ref, data, { merge: true });
+        await setDoc(doc_ref, data, { merge: options?.merge ?? true });
         return true;
     } catch (error) {
         console.error(`Failed to create document by id: ${doc_id} in collection: ${collection_path}`, { error, data });
