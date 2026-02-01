@@ -5,14 +5,14 @@ export type SnapshotOp = "first" | "add" | "modify" | "remove";
 export type SnapshotDocsProcessor = (payload: { op: SnapshotOp; docs: any[] }) => Promise<{ docs: any[] }> | { docs: any[] };
 
 export interface WrapWorkerOptions {
-    eventTtlMs?: number; // default 1500
+    eventTtlMs?: number; // default 100
     maxRecentEvents?: number; // default 500
     jsonClone?: boolean; // default true
 }
 
 const createRecentEventsDedupe = (options?: WrapWorkerOptions) => {
     const recentEvents = new Map<string, number>();
-    const EVENT_TTL_MS = options?.eventTtlMs ?? 1500;
+    const EVENT_TTL_MS = options?.eventTtlMs ?? 100;
     const MAX_RECENT = options?.maxRecentEvents ?? 500;
     const now = () => Date.now();
     const shouldProcess = (key: string) => {
@@ -95,12 +95,22 @@ export const wrapConfigsWithWorker = (
     });
 };
 
+/** Get a doc "version" for dedupe key so different updates on same doc get different keys */
+const getDocVersionKey = (doc: any): string => {
+    if (!doc || typeof doc !== "object") return "";
+    const ts = doc.updatedAt ?? doc._updatedAt ?? doc.updated_at ?? doc.modifiedAt ?? doc._modifiedAt;
+    if (ts != null) return String(ts);
+    return "";
+};
+
 export const wrapDocumentConfigsWithWorker = (
     cfgs: OnSnapshotConfigDocument[],
     runProcessor: SnapshotDocsProcessor,
     options?: WrapWorkerOptions
 ): OnSnapshotConfigDocument[] => {
-    const { shouldProcess } = createRecentEventsDedupe(options);
+    // Shorter TTL for document snapshots so rapid updates (e.g. 100ms apart) are not treated as duplicates
+    const docOptions: WrapWorkerOptions = { ...options, eventTtlMs: options?.eventTtlMs ?? 100 };
+    const { shouldProcess } = createRecentEventsDedupe(docOptions);
     const makeKey = (op: SnapshotOp, docs: any[], collectionName?: string, documentId?: string) => {
         try {
             const ids = (docs || [])
@@ -108,7 +118,9 @@ export const wrapDocumentConfigsWithWorker = (
                 .filter(Boolean)
                 .sort()
                 .join(",");
-            return `${collectionName || "unknown"}/${documentId || "unknown"}:${op}:${ids}`;
+            const versionPart = docs?.length === 1 ? getDocVersionKey(docs[0]) : (docs || []).map(getDocVersionKey).join(",");
+            const versionSuffix = versionPart ? `:${versionPart}` : "";
+            return `${collectionName || "unknown"}/${documentId || "unknown"}:${op}:${ids}${versionSuffix}`;
         } catch {
             return `${collectionName || "unknown"}/${documentId || "unknown"}:${op}:*`;
         }

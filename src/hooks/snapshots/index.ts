@@ -25,7 +25,8 @@ export const useDbSnapshots = (configs: OnSnapshotConfig[], label?: string, sett
     }, []);
     const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorDb, settings?.worker);
 
-    const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] => wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
+    const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] =>
+        wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload), settings?.worker?.options);
 
     useDeepCompareEffect(() => {
         const useWorker = settings?.useWorker !== false;
@@ -93,7 +94,7 @@ export const useDbDocumentSnapshots = (configs: OnSnapshotConfigDocument[], labe
     const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorDb, settings?.worker);
 
     const wrapConfigsForWorker = (cfgs: OnSnapshotConfigDocument[]): OnSnapshotConfigDocument[] =>
-        wrapDocumentConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
+        wrapDocumentConfigsWithWorker(cfgs, (payload) => runProcessor(payload), settings?.worker?.options);
 
     const getDocKey = (config: OnSnapshotConfigDocument) => {
         const conditionsKey = config.conditions?.length ? JSON.stringify(config.conditions) : "";
@@ -211,7 +212,8 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
     }, []);
     const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorSocket, settings?.worker);
 
-    const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] => wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
+    const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] =>
+        wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload), settings?.worker?.options);
 
     useDeepCompareEffect(() => {
         if (!auth.currentUser) {
