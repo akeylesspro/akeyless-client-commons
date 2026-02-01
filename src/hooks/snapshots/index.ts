@@ -8,6 +8,8 @@ import { SnapshotOp, wrapConfigsWithWorker, wrapDocumentConfigsWithWorker } from
 interface UseDbSnapshotsSettings {
     cleanupForConfigChange?: boolean;
     disableLogs?: boolean;
+    /** When false, snapshots run on main thread without Web Worker. Default true. */
+    useWorker?: boolean;
     worker?: UseWebWorkerOptions;
     socket?: {
         getSocket?: (socket: typeof socketServiceInstance) => void;
@@ -26,13 +28,14 @@ export const useDbSnapshots = (configs: OnSnapshotConfig[], label?: string, sett
     const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] => wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
 
     useDeepCompareEffect(() => {
+        const useWorker = settings?.useWorker !== false;
+        const configsToUse = useWorker ? wrapConfigsForWorker(configs) : configs;
         const start = performance.now();
         if (!settings?.disableLogs && configs.length > 0) {
             console.log(`==> ${label || "DB snapshots"} started from db... `);
         }
-        const wrappedConfigs = wrapConfigsForWorker(configs);
         lastDbCollectionsRef.current = configs.map((c) => c.collectionName);
-        const snapshotResults = wrappedConfigs.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
+        const snapshotResults = configsToUse.map((config) => snapshot(config, snapshotsFirstTime.current, settings));
         unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
@@ -106,22 +109,21 @@ export const useDbDocumentSnapshots = (configs: OnSnapshotConfigDocument[], labe
     };
 
     useDeepCompareEffect(() => {
+        const useWorker = settings?.useWorker !== false;
+        const configsToUse = useWorker ? wrapConfigsForWorker(configs) : configs;
         const start = performance.now();
         if (!settings?.disableLogs && configs.length > 0) {
             console.log(`==> ${label || "DB document snapshots"} started from db... `);
         }
 
-        const wrappedConfigs = wrapConfigsForWorker(configs);
         lastDbDocsRef.current = configs.map((c) => `${c.collectionName}/${c.documentId}`);
 
-        const snapshotResults = wrappedConfigs.map((config) => snapshotDocument(config, getFirstTimeBucket(config)));
+        const snapshotResults = configsToUse.map((config) => snapshotDocument(config, getFirstTimeBucket(config)));
         unsubscribeFunctions.current = snapshotResults.map((result) => result.unsubscribe);
 
         Promise.all(snapshotResults.map((result) => result.promise)).then(() => {
             if (!settings?.disableLogs && configs.length > 0) {
-                console.log(
-                    `==> ${label || "DB document snapshots"} ended from db. It took ${(performance.now() - start).toFixed(2)} ms`
-                );
+                console.log(`==> ${label || "DB document snapshots"} ended from db. It took ${(performance.now() - start).toFixed(2)} ms`);
             }
         });
 
@@ -134,9 +136,7 @@ export const useDbDocumentSnapshots = (configs: OnSnapshotConfigDocument[], labe
                 });
                 if (settings?.worker?.debug && lastDbDocsRef.current.length) {
                     console.log(
-                        `==> ${label || "DB document snapshots"} cleanup: cleaned previous subscriptions for [${lastDbDocsRef.current.join(
-                            ", "
-                        )}]`
+                        `==> ${label || "DB document snapshots"} cleanup: cleaned previous subscriptions for [${lastDbDocsRef.current.join(", ")}]`
                     );
                 }
                 if (!settings?.disableLogs && configs.length > 0) {
@@ -212,10 +212,13 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
     const runProcessor = useWebWorker<{ op: SnapshotOp; docs: any[] }, { docs: any[] }>(workerProcessorSocket, settings?.worker);
 
     const wrapConfigsForWorker = (cfgs: OnSnapshotConfig[]): OnSnapshotConfig[] => wrapConfigsWithWorker(cfgs, (payload) => runProcessor(payload));
+
     useDeepCompareEffect(() => {
         if (!auth.currentUser) {
             return;
         }
+        const useWorker = settings?.useWorker !== false;
+        const configsToUse = (cfgs: OnSnapshotConfig[]) => (useWorker ? wrapConfigsForWorker(cfgs) : cfgs);
 
         const subscribe = () => {
             const desiredNames = new Set(configs.map((c) => c.collectionName));
@@ -227,7 +230,7 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
                     cleanupSubscriptionsRef.current = [];
                 }
                 if (configs.length === 0) return;
-                const disposer = socketServiceInstance.subscribeToCollections(wrapConfigsForWorker(configs));
+                const disposer = socketServiceInstance.subscribeToCollections(configsToUse(configs));
                 cleanupSubscriptionsRef.current.push(disposer);
                 activeCollectionsRef.current = new Set(desiredNames);
                 activeSubscriptionKeyRef.current = key;
@@ -243,7 +246,7 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
             }
 
             const configsToAdd = configs.filter((c) => toAdd.includes(c.collectionName));
-            const disposer = socketServiceInstance.subscribeToCollections(wrapConfigsForWorker(configsToAdd));
+            const disposer = socketServiceInstance.subscribeToCollections(configsToUse(configsToAdd));
             cleanupSubscriptionsRef.current.push(disposer);
             toAdd.forEach((n) => activeCollectionsRef.current.add(n));
             activeSubscriptionKeyRef.current = JSON.stringify(Array.from(activeCollectionsRef.current).sort());
