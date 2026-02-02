@@ -241,6 +241,7 @@ export const Search = memo(() => {
             value={searchQuery}
             onChange={handleSearch}
             style={searchInputStyle}
+            autoFocus={true}
         />
     );
 }, renderOnce);

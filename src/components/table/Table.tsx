@@ -82,20 +82,33 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
     const dataToRender = useMemo(() => {
         let filtered = data;
-        // search
-        if (includeSearch && debouncedSearchQuery.length > 0) {
-            const cleanString = (str: string) => str.toLowerCase().trim();
-            const normalizedSearchQuery = cleanString(debouncedSearchQuery);
-            const keys = allKeys.filter((val) => !noneSearchKeys.includes(val));
-            filtered = data.filter((item) =>
-                keys.some((key) => {
-                    return cleanString(String(item[key])).includes(normalizedSearchQuery);
-                })
-            );
 
-            // clearFilter();
-            // clearSort();
+        // search
+        if (includeSearch && debouncedSearchQuery.trim().length > 0) {
+            const cleanString = (str: string) => String(str).toLowerCase().trim();
+
+            const keys = allKeys.filter((val) => !noneSearchKeys.includes(val));
+            const terms = debouncedSearchQuery
+                .split("+")
+                .map((t) => cleanString(t))
+                .filter(Boolean); // FIXES("a++b")
+
+            filtered = data.filter((item) => terms.every((term) => keys.some((key) => cleanString(item?.[key] ?? "").includes(term))));
         }
+        // search
+        // if (includeSearch && debouncedSearchQuery.length > 0) {
+        //     const cleanString = (str: string) => str.toLowerCase().trim();
+        //     const normalizedSearchQuery = cleanString(debouncedSearchQuery);
+        //     const keys = allKeys.filter((val) => !noneSearchKeys.includes(val));
+        //     filtered = data.filter((item) =>
+        //         keys.some((key) => {
+        //             return cleanString(String(item[key])).includes(normalizedSearchQuery);
+        //         })
+        //     );
+
+        //     // clearFilter();
+        //     // clearSort();
+        // }
         // filter
         if (filterableColumns.length > 0 && Object.values(filters).some((arr) => Array.isArray(arr) && arr.length > 0)) {
             Object.keys(filters).forEach((key) => {
