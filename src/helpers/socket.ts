@@ -17,6 +17,17 @@ class SocketService {
     private connectCallbacks: Array<() => void> = [];
     private disconnectCallbacks: Array<() => void> = [];
     private authToken: string | null = null;
+    private isDisconnected = true;
+
+    private handleDisconnect = (source: string, reason: Socket.DisconnectReason | string): void => {
+        if (this.isDisconnected) {
+            return;
+        }
+        this.isDisconnected = true;
+        const transport = this.socket?.io.engine.transport.name;
+        console.log(`Socket disconnected (${source}) [transport=${transport}]:`, reason);
+        this.disconnectCallbacks.forEach((cb) => cb());
+    };
 
     /// Initialize the socket connection
     private initSocket(): void {
@@ -37,26 +48,27 @@ class SocketService {
                 reconnection: true,
                 reconnectionAttempts: 30,
                 reconnectionDelay: 2 * 1000,
+                reconnectionDelayMax: 10 * 1000,
+                timeout: 20 * 1000,
             });
 
             this.socket.on("connect", () => {
-                console.log(`🟢 Socket connected: ${this.socket?.id} (recovered - ${this.socket?.recovered})`);
+                const transport = this.socket?.io.engine.transport.name;
+                console.log(`🟢 Socket connected: ${this.socket?.id} (recovered - ${this.socket?.recovered}) (transport - ${transport})`);
+                this.isDisconnected = false;
                 this.connectCallbacks.forEach((cb) => cb());
             });
 
             this.socket.on("disconnect", (reason: Socket.DisconnectReason) => {
-                console.log("Socket disconnected:", reason);
-                this.disconnectCallbacks.forEach((cb) => cb());
+                this.handleDisconnect("disconnect", reason);
             });
 
             this.socket.io.on("close", (reason: any) => {
-                console.log("Socket Manager close:", reason);
-                this.disconnectCallbacks.forEach((cb) => cb());
+                this.handleDisconnect("manager_close", reason);
             });
 
             this.socket.io.engine.on("close", (reason: any) => {
-                console.log("Socket Engine close:", reason);
-                this.disconnectCallbacks.forEach((cb) => cb());
+                this.handleDisconnect("engine_close", reason);
             });
 
             this.socket.on("session", ({ session_id }) => {
@@ -66,6 +78,19 @@ class SocketService {
             });
             this.socket.on("connect_error", (error: Error) => {
                 console.error("Socket connection error:", error);
+            });
+
+            this.socket.io.on("reconnect_attempt", (attempt: number) => {
+                console.log("Socket reconnect attempt:", attempt);
+            });
+
+            this.socket.io.on("reconnect_error", (error: Error) => {
+                console.error("Socket reconnect error:", error);
+            });
+
+            this.socket.io.on("reconnect", (attempt: number) => {
+                console.log("Socket reconnected after attempts:", attempt);
+                this.isDisconnected = false;
             });
         }
     }
@@ -255,18 +280,18 @@ class SocketService {
         });
     }
 
-    public clearAllRedisData(): Promise<SocketCallbackResponse> {
-        const s = this.getSocketInstance();
-        return new Promise((resolve, reject) => {
-            s.emit("clear_all_redis_data", (ack: SocketCallbackResponse) => {
-                if (ack.success) {
-                    resolve(ack);
-                } else {
-                    reject(new Error(ack.message || "Clear all Redis data operation failed"));
-                }
-            });
-        });
-    }
+    // public clearAllRedisData(): Promise<SocketCallbackResponse> {
+    //     const s = this.getSocketInstance();
+    //     return new Promise((resolve, reject) => {
+    //         s.emit("clear_all_redis_data", (ack: SocketCallbackResponse) => {
+    //             if (ack.success) {
+    //                 resolve(ack);
+    //             } else {
+    //                 reject(new Error(ack.message || "Clear all Redis data operation failed"));
+    //             }
+    //         });
+    //     });
+    // }
 }
 
 export const socketServiceInstance = SocketService.getInstance();

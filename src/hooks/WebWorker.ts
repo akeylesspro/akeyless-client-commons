@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
+import { WrapWorkerOptions } from "./snapshots/snapshotWorker";
 
 export type WebWorkerFunction<TInput, TOutput> = (data: TInput) => TOutput | Promise<TOutput>;
 
@@ -8,6 +9,7 @@ export interface UseWebWorkerOptions {
     onError?: (error: Error) => void;
     warmStart?: boolean; // create the worker eagerly on mount
     recreateOnError?: boolean; // terminate and recreate worker after errors
+    options?: WrapWorkerOptions;
 }
 
 export type RunWorkerFunction<TInput, TOutput> = ((data: TInput, transfer?: Transferable[]) => Promise<TOutput>) & {
