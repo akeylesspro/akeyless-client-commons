@@ -232,7 +232,7 @@ export const ExportToExcel = memo(() => {
 
 /// search
 export const Search = memo(() => {
-    const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle } = useTableContext();
+    const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle ,autoFocus} = useTableContext();
     return (
         <input
             className={cn("border-black border-[1px] text-lg px-2 w-11/12", searchInputClassName)}
@@ -241,7 +241,7 @@ export const Search = memo(() => {
             value={searchQuery}
             onChange={handleSearch}
             style={searchInputStyle}
-            autoFocus={true}
+            autoFocus={autoFocus}
         />
     );
 }, renderOnce);
