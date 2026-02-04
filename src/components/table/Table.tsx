@@ -38,6 +38,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         searchInputClassName = "",
         includeSearch,
         searchPlaceHolder,
+        autoFocus = true,
         // sort
         sortKeys,
         sortLabel = "Sort by",
@@ -83,18 +84,16 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
     const dataToRender = useMemo(() => {
         let filtered = data;
         // search
-        if (includeSearch && debouncedSearchQuery.length > 0) {
-            const cleanString = (str: string) => str.toLowerCase().trim();
-            const normalizedSearchQuery = cleanString(debouncedSearchQuery);
-            const keys = allKeys.filter((val) => !noneSearchKeys.includes(val));
-            filtered = data.filter((item) =>
-                keys.some((key) => {
-                    return cleanString(String(item[key])).includes(normalizedSearchQuery);
-                })
-            );
+        if (includeSearch && debouncedSearchQuery.trim().length > 0) {
+            const cleanString = (str: string) => String(str).toLowerCase().trim();
 
-            // clearFilter();
-            // clearSort();
+            const keys = allKeys.filter((val) => !noneSearchKeys.includes(val));
+            const terms = debouncedSearchQuery
+                .split("+")
+                .map((t) => cleanString(t))
+                .filter(Boolean);
+
+            filtered = data.filter((item) => terms.every((term) => keys.some((key) => cleanString(item?.[key] ?? "").includes(term))));
         }
         // filter
         if (filterableColumns.length > 0 && Object.values(filters).some((arr) => Array.isArray(arr) && arr.length > 0)) {
@@ -136,6 +135,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         searchQuery,
         deferredSearchQuery: debouncedSearchQuery,
         handleSearch,
+        autoFocus,
         dataToRender,
         filters,
         filterPopupsDisplay,
@@ -144,7 +144,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         handleFilterClick,
         closeFilterWindow,
         clearFilter,
-    };
+        };
     const gapClassName = Boolean(includeSearch || exportToExcelKeys || showDisplayAllRowsButton || optionalElement);
     return (
         <TableContext.Provider value={providerValues}>
