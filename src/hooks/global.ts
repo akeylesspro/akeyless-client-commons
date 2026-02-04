@@ -11,18 +11,18 @@ export const useDocumentTitle = (title: string) => {
     return null;
 };
 
-export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<CountryOptions>>, changLang: (lang: string) => void) => {
+export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<CountryOptions>>, changLang?: (lang: string) => void) => {
     useLayoutEffect(() => {
-        const currentCountry = localStorage.getItem("userCountry") as CountryOptions;
-        if (!currentCountry) {
-            const updateCountry = async () => {
-                const country = await getUserCountryByIp();
-                changLang(country === CountryOptions.IL ? "he" : "en");
-                setUserCountry(country);
-                localStorage.setItem("userCountry", country);
-            };
-            updateCountry();
-        }
+        const lang = localStorage.getItem("lang");
+        const updateCountry = async () => {
+            const country = await getUserCountryByIp();
+            if (!lang) {
+                changLang?.(country === CountryOptions.IL ? "he" : "en");
+            }
+            setUserCountry(country);
+            localStorage.setItem("userCountry", country);
+        };
+        updateCountry();
     }, []);
     return null;
 };

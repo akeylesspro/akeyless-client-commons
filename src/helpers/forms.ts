@@ -2,14 +2,14 @@ import React from "react";
 import { DurationValues } from "src/types";
 import XRegExp from "xregexp";
 
-export const textRegex = XRegExp("[^\\p{L}\\s-]", "gu"); // Only letters, spaces, and hyphens
-export const numbersRegex = XRegExp("[^0-9\\s-+]", "g"); // Only numbers, spaces, hyphens, and plus signs
+export const textRegex = XRegExp(String.raw`[^\p{L}\s+\-.,]`, "gu"); // Only letters, spaces, hyphens, plus signs, dots, and commas
+export const numbersRegex = XRegExp(String.raw`[^0-9\s+\-.,]`, "g"); // Only numbers, spaces, hyphens, plus signs, dots, and commas
 export const numbersOnlyRegex = XRegExp("[^0-9]", "g"); // Only numbers
 export const priceRegex = XRegExp("[^0-9.]", "g"); // Only numbers and decimal points
 export const emailRegex = XRegExp("[^\\p{L}0-9.@\\s-]", "gu"); // Email-safe characters
 export const colorRegex = XRegExp("[^#0-9A-Fa-f]", "g"); // Hex color codes
 export const carsRegex = XRegExp("[^\\p{L}0-9,_]", "gu"); // Letters, numbers, commas, and underscores
-export const textNumbersRegex = XRegExp("[^\\p{L}0-9\\s+\\-]", "gu"); // Letters, numbers, spaces, hyphens, and plus signs
+export const textNumbersRegex = XRegExp(String.raw`[^\p{L}0-9\s+\-.,_+]`, "gu"); // Letters, numbers, spaces, hyphens, plus signs, dots, commas, and underscores
 export const addressRegex = XRegExp("[^\\p{L}0-9\\s.,+-\\-]", "gu"); // Letters, numbers, spaces, hyphens, dots, and commas
 export const chartsRegex = XRegExp("[^\\p{L}0-9\\s.,_@!+-\\-]", "gu"); // Letters, numbers, spaces, and allowed symbols
 

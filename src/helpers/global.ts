@@ -35,8 +35,9 @@ export const propsAreEqual = (prevProps: any, nextProps: any) => {
 
 export const getUserCountryByIp = async (): Promise<CountryOptions> => {
     try {
-        const response = await axios.get("https://ipapi.co/json/");
-        return (response.data.country_code || CountryOptions.IL).toLowerCase();
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        return (data.country_code || CountryOptions.IL).toLowerCase();
     } catch (error) {
         console.error("Error fetching Country:", error);
         return CountryOptions.IL;
