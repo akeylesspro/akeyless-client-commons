@@ -17,7 +17,7 @@ export const useSetUserCountry = (setUserCountry: Dispatch<SetStateAction<Countr
         const updateCountry = async () => {
             const country = await getUserCountryByIp();
             if (!lang) {
-                changLang?.(country === CountryOptions.IL ? "he" : "en");
+                changLang?.(country === CountryOptions.IL ? "he" : country === CountryOptions.TH ? "th" : "en");
             }
             setUserCountry(country);
             localStorage.setItem("userCountry", country);
