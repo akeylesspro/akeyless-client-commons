@@ -41,6 +41,7 @@ export interface TableProps {
     containerClassName?: string;
     containerHeaderClassName?: string;
     includeSearch?: boolean;
+    autoFocus?: boolean;
     searchInputStyle?: React.CSSProperties;
     searchInputClassName?: string;
     searchContainerClassName?: string;
