@@ -67,7 +67,7 @@ export const InputContainer = ({
             handleChange(e);
             onChange?.(e);
         },
-        [onChange]
+        [onChange],
     );
     const validationProps = useMemo(() => {
         return { ...useValidation(validationName, validationError), onChange: handleChangeFunction };
@@ -196,7 +196,7 @@ export const DateInputContainer = ({
 
             onChange(syntheticEvent);
         },
-        [onChange, name]
+        [onChange, name],
     );
 
     const pickerValue = value ? getDefaultValue(value) : undefined;
@@ -223,7 +223,7 @@ export const DateInputContainer = ({
                                 className={cn(
                                     "flex-1 h-9 px-3 py-2 text-sm",
                                     direction === "rtl" ? "justify-end text-right" : "justify-start text-left",
-                                    inputClassName
+                                    inputClassName,
                                 )}
                             />
                         </Group>
@@ -236,7 +236,11 @@ export const DateInputContainer = ({
                         offset={4}
                     >
                         <Dialog className="max-h-[inherit] overflow-auto p-2">
-                            <Calendar selectedDayClassName={selectedDayClassName} todayDayClassName={todayDayClassName} className={cn("bg-white", calendarClassName)} />
+                            <Calendar
+                                selectedDayClassName={selectedDayClassName}
+                                todayDayClassName={todayDayClassName}
+                                className={cn("bg-white", calendarClassName)}
+                            />
                         </Dialog>
                     </Popover>
                 </RACDatePicker>
@@ -267,10 +271,11 @@ export const SelectContainer = ({
     elementsCommonClassName,
     title,
     labelStyle,
+    includeSort = true,
 }: SelectContainerProps) => {
-    const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
+    const sortOptions = includeSort ? useSortValues(options, sortDirection, sortAsNumber) : options;
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState(defaultValue || sortOptions[0]?.value || "");
+    const [selectedValue, setSelectedValue] = useState(defaultValue ?? sortOptions[0]?.value ?? "");
 
     const handleOptionClick = (value: string) => {
         setSelectedValue(value);
@@ -309,7 +314,7 @@ export const SelectContainer = ({
                     className={cn(
                         `h-9 max-h-9 py-2 px-3 flex items-center justify-center cursor-pointer`,
                         defaultFormElementBorderClassName,
-                        selectClassName
+                        selectClassName,
                     )}
                 >
                     {options.find((opt) => opt.value === selectedValue)?.label || selectedValue}
@@ -318,14 +323,14 @@ export const SelectContainer = ({
                     <i
                         className={cn(
                             `fa-light fa-chevron-up absolute top-3 ${direction === "ltr" ? "right-2" : "left-2"} cursor-pointer`,
-                            iconClassName
+                            iconClassName,
                         )}
                     ></i>
                 ) : (
                     <i
                         className={cn(
                             `fa-light fa-chevron-down absolute top-3 ${direction === "ltr" ? "right-2" : "left-2"} cursor-pointer`,
-                            iconClassName
+                            iconClassName,
                         )}
                     ></i>
                 )}
@@ -368,6 +373,7 @@ export function MultiSelect({
     triggerSearchOnFocus,
     sortDirection = "abc",
     sortAsNumber,
+    includeSort = true,
     direction,
     createNewOptionLabel,
     searchInputProps,
@@ -377,7 +383,7 @@ export function MultiSelect({
     closeDropdownOnSelect,
     elementsCommonClassName,
 }: MultiSelectProps) {
-    const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
+    const sortOptions = includeSort ? useSortValues(options, sortDirection, sortAsNumber) : options;
     const containerProps = useMemo(() => {
         return {
             containerClassName: styles.containerClassName,
@@ -459,6 +465,7 @@ export const SelectWithSearch = ({
     buttonFocusClassName,
     sortDirection = "abc",
     sortAsNumber,
+    includeSort = true,
     disabled,
     direction,
     createNewOptionLabel,
@@ -469,7 +476,7 @@ export const SelectWithSearch = ({
     labelStyle,
     dropdownContainerClassName,
 }: SelectWithSearchProps) => {
-    const sortOptions = useSortValues(options, sortDirection, sortAsNumber);
+    const sortOptions = includeSort ? useSortValues(options, sortDirection, sortAsNumber) : options;
     const containerProps = useMemo(() => {
         return {
             containerClassName: containerClassName,

@@ -7,8 +7,8 @@ import { CheckIcon, ChevronDownIcon } from "lucide-react";
 import { ReactNode, useCallback, useEffect, useId, useMemo, useState } from "react";
 import { Direction } from "src/types";
 
-export interface SearchSelectOptions extends Record<string, string> {
-    value: string;
+export interface SearchSelectOptions extends Record<string, string | number> {
+    value: string | number;
     label: string;
 }
 export interface SearchSelectProps {
@@ -58,7 +58,7 @@ export default function SearchSelect({
 }: SearchSelectProps) {
     const id = useId();
     const [open, setOpen] = useState<boolean>(false);
-    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value || defaultValue || "");
+    const [selectedValue, setSelectedValue] = useState<SearchSelectOptions["value"]>(value ?? defaultValue ?? "");
     const [searchQuery, setSearchQuery] = useState("");
     const [newOptions, setNewOptions] = useState<SearchSelectOptions[]>([]);
     useEffect(() => {
@@ -71,7 +71,7 @@ export default function SearchSelect({
     const filteredOptions = useMemo(() => {
         if (!searchQuery) return allOptions;
         const query = searchQuery.toLowerCase().trim();
-        return allOptions.filter((option) => Object.values(option).some((field) => field.toLowerCase().trim().includes(query)));
+        return allOptions.filter((option) => Object.values(option).some((field) => String(field).toLowerCase().trim().includes(query)));
     }, [allOptions, searchQuery]);
 
     const selectLabel = useMemo(() => {
@@ -106,7 +106,7 @@ export default function SearchSelect({
                         className={cn(
                             "border-input w-full justify-between px-3 font-normal outline-offset-0 outline-none focus-visible:outline-[3px]",
                             buttonClassName,
-                            open && buttonFocusClassName
+                            open && buttonFocusClassName,
                         )}
                     >
                         <span className={cn("truncate", !selectedValue && "text-muted-foreground")}>{selectLabel}</span>
@@ -156,7 +156,7 @@ export default function SearchSelect({
                                             className={cn(
                                                 "hover:bg-[#cccbcb] cursor-pointer",
                                                 dropdownOptionClassName,
-                                                selectedValue === option.value && "bg-[#cccbcb]"
+                                                selectedValue === option.value && "bg-[#cccbcb]",
                                             )}
                                             key={option.value}
                                             value={JSON.stringify(option)}

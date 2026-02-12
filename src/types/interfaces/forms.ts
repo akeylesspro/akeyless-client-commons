@@ -73,6 +73,7 @@ export interface SelectElement extends BaseElementProps {
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
     iconClassName?: string;
+    includeSort?: boolean;
 }
 
 export interface MultiSelectProps extends Omit<BaseElementProps, "containerClassName" | "elementClassName"> {
@@ -98,6 +99,7 @@ export interface MultiSelectProps extends Omit<BaseElementProps, "containerClass
     groupBy?: string;
     sortDirection?: "abc" | "cba";
     sortAsNumber?: boolean;
+    includeSort?: boolean;
     searchInputProps?: MultipleSelectorProps["inputProps"];
     createNewOptionLabel?: string;
     createNewOptionContainerClassName?: string;
@@ -124,6 +126,8 @@ export interface SelectWithSearchProps extends BaseElementProps {
     disabled?: boolean;
     createNewOptionLabel?: string;
     createNewOptionContainerClassName?: string;
+    includeSort?: boolean;
+
 }
 export interface InternationalInputProps extends Omit<BaseElementProps, "elementClassName"> {
     type?: "internationalPhoneInput";
