@@ -17,22 +17,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Get changed files
         id: changes
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD -- src/ | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          # Use github.event.before for reliable diff across merge commits
+          BEFORE="${{ github.event.before }}"
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || [ -z "$BEFORE" ]; then
+            # Initial push or force-push — fall back to HEAD~1
+            BEFORE="HEAD~1"
+          fi
+          CHANGED=$(git diff --name-only "$BEFORE" "${{ github.sha }}" -- src/ | jq -R -s -c 'split("\n") | map(select(length > 0))')
           echo "files=$CHANGED" >> $GITHUB_OUTPUT
-          echo "count=$(echo $CHANGED | jq 'length')" >> $GITHUB_OUTPUT
+          echo "count=$(echo "$CHANGED" | jq 'length')" >> $GITHUB_OUTPUT
 
       - name: Dispatch to NX-KNOWLEDGE-BASE
+        if: steps.changes.outputs.count != '0'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.NX_KB_DISPATCH_TOKEN }}
+          # NOTE: Verify this matches the actual GitHub repo name (not the local folder name)
           repository: akeylesspro/nx-knowledge-base
           event-type: sync-docs
-          client-payload: |
+          client-payload: >-
             {
               "repo": "${{ github.event.repository.name }}",
               "branch": "${{ github.ref_name }}",
