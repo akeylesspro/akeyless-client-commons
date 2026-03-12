@@ -316,7 +316,7 @@ export const query_document = async (
     field_name: string,
     operator: WhereFilterOp,
     value: any,
-    ignore_log = false
+    ignore_log = false,
 ): Promise<null | TObject<any>> => {
     try {
         const q = query(collection(db, collection_path), where(field_name, operator, value));
@@ -324,7 +324,7 @@ export const query_document = async (
         const documents = query_snapshot.docs.map((doc) => simpleExtractData(doc));
         if (documents.length < 1) {
             throw new Error(
-                `No data to return from: \ncollection: ${collection_path}, \nfield_name: ${field_name}, \noperator: ${operator}, \nvalue: ${value}`
+                `No data to return from: \ncollection: ${collection_path}, \nfield_name: ${field_name}, \noperator: ${operator}, \nvalue: ${value}`,
             );
         }
         return documents[0];
@@ -454,7 +454,7 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime, settings) => {
         (error) => {
             console.error(`Error listening to collection: ${config.collectionName}`, error);
             resolvePromise();
-        }
+        },
     );
 
     return { promise, unsubscribe };
@@ -514,7 +514,7 @@ export const snapshotDocument: SnapshotDocument = (config, snapshotsFirstTime) =
         (error) => {
             console.error(`Error listening to document in ${config.collectionName}:`, error);
             resolvePromise();
-        }
+        },
     );
 
     return { promise, unsubscribe };
@@ -641,8 +641,12 @@ export const uploadFileToStorage = async (file: File, filePath: string): Promise
         return "";
     }
 };
-
-export const parseSnapshotAsObject = (setState: SetState<any>, filterCondition?: (v: any) => boolean): OnSnapshotParsers => {
+interface ParseSnapshotAsObjectOptions {
+    filterCondition?: (v: any) => boolean;
+    keyToSave?: string;
+}
+export const parseSnapshotAsObject = (setState: SetState<any>, options?: ParseSnapshotAsObjectOptions): OnSnapshotParsers => {
+    const { filterCondition, keyToSave = "id" } = options || {};
     return {
         onFirstTime: (docs) => {
             if (filterCondition) {
@@ -650,7 +654,7 @@ export const parseSnapshotAsObject = (setState: SetState<any>, filterCondition?:
             }
             const object: TObject<any> = {};
             docs.forEach((v) => {
-                object[v.id] = v;
+                object[v[keyToSave]] = v;
             });
             setState(object);
         },
@@ -661,7 +665,7 @@ export const parseSnapshotAsObject = (setState: SetState<any>, filterCondition?:
             setState((prev: any) => {
                 const update = { ...prev };
                 docs.forEach((v) => {
-                    update[v.id] = v;
+                    update[v[keyToSave]] = v;
                 });
                 return update;
             });
@@ -673,7 +677,7 @@ export const parseSnapshotAsObject = (setState: SetState<any>, filterCondition?:
             setState((prev: any) => {
                 const update = { ...prev };
                 docs.forEach((v) => {
-                    update[v.id] = v;
+                    update[v[keyToSave]] = v;
                 });
                 return update;
             });
@@ -682,15 +686,18 @@ export const parseSnapshotAsObject = (setState: SetState<any>, filterCondition?:
             setState((prev: any) => {
                 const update = { ...prev };
                 docs.forEach((v) => {
-                    delete update[v.id];
+                    delete update[v[keyToSave]];
                 });
                 return update;
             });
         },
     };
 };
-
-export const parseSnapshotAsArray = (setState: SetState<any>, filterCondition?: (v: any) => boolean): OnSnapshotParsers => {
+interface ParseSnapshotAsArrayOptions {
+    filterCondition?: (v: any) => boolean;
+}
+export const parseSnapshotAsArray = (setState: SetState<any>, options?: ParseSnapshotAsArrayOptions): OnSnapshotParsers => {
+    const { filterCondition } = options || {};
     return {
         onFirstTime: (docs: any[]) => {
             if (filterCondition) {
