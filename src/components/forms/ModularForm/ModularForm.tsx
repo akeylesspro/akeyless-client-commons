@@ -79,7 +79,7 @@ const ModularForm = ({
                 };
 
                 if (hasMinLengthType(element) && element.minLength) {
-                    const elementValue = getFormElementValue(form, element.name);
+                    const elementValue = getFormElementValue(form, element.name).trim();
                     if (elementValue.length < element.minLength) {
                         throw element.validationError || `${element.labelContent || element.name} must be at least ${element.minLength} characters`;
                     }
