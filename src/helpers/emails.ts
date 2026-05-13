@@ -3,15 +3,16 @@ import axios from "axios";
 export interface EmailAttachment {
     content: string;
     filename: string;
-    type: string;
-    disposition: "attachment" | "inline";
+    type?: string;
+    disposition?: "attachment" | "inline";
+    content_id?: string;
 }
 
 export const createAttachmentFromBlob = async (
     blob: Blob,
     filename: string,
     mimeType?: string,
-    disposition: "attachment" | "inline" = "attachment"
+    disposition: "attachment" | "inline" = "attachment",
 ): Promise<EmailAttachment> => {
     try {
         const arrayBuffer = await blob.arrayBuffer();
@@ -59,4 +60,27 @@ export const createAttachmentFromUrl = async (url: string, filename?: string): P
     const blob = response.data;
     const finalFilename = filename ?? getFilenameFromUrl(url);
     return await createAttachmentFromBlob(blob, finalFilename);
+};
+
+import { nxApiCall } from "./api";
+
+export interface EmailData {
+    subject: string;
+    entity_for_audit: string;
+    to?: string | string[];
+    from?:
+        | string
+        | {
+              email: string;
+              name?: string;
+          };
+    group_name?: string;
+    cc?: string | string[];
+    body_plain_text?: string;
+    body_html?: string;
+    attachments?: EmailAttachment[];
+}
+
+export const sendEmail = async (data: EmailData) => {
+    return await nxApiCall("notifications", "POST", "email/send", data);
 };

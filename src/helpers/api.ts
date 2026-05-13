@@ -26,52 +26,55 @@ type ServerName =
     | "data-sync"
     | "charge"
     | "end-users";
+
 interface ErrorDetails {
     serverName: ServerName;
     method: Method;
     url: string;
     error: any;
 }
+
 export const nxApiCall = async <T = any>(serverName: ServerName, method: Method, url: string, data?: TObject<any>): Promise<T | ErrorDetails> => {
+    const fixedUrl = url.startsWith("/") ? url.slice(1) : url;
     try {
-        let urlResult: string = `${devicesDomain}/${url}`;
+        let urlResult: string = `${devicesDomain}/${fixedUrl}`;
 
         switch (serverName) {
             case "bi":
-                urlResult = `${biDomain}/${url}`;
+                urlResult = `${biDomain}/${fixedUrl}`;
                 break;
             case "devices":
-                urlResult = `${devicesDomain}/${url}`;
+                urlResult = `${devicesDomain}/${fixedUrl}`;
                 break;
             case "notifications":
-                urlResult = `${notificationsDomain}/${url}`;
+                urlResult = `${notificationsDomain}/${fixedUrl}`;
                 break;
             case "call-center-events":
-                urlResult = `${callCenterEventsDomain}/${url}`;
+                urlResult = `${callCenterEventsDomain}/${fixedUrl}`;
                 break;
             case "call-center-geo":
-                urlResult = `${callCenterGeoDomain}/${url}`;
+                urlResult = `${callCenterGeoDomain}/${fixedUrl}`;
                 break;
             case "data-socket":
-                urlResult = `${dataSocketDomain}/${url}`;
+                urlResult = `${dataSocketDomain}/${fixedUrl}`;
                 break;
             case "data-sync":
-                urlResult = `${dataSyncDomain}/${url}`;
+                urlResult = `${dataSyncDomain}/${fixedUrl}`;
                 break;
             case "charge":
-                urlResult = `${chargeDomain}/${url}`;
+                urlResult = `${chargeDomain}/${fixedUrl}`;
                 break;
             case "end-users":
-                urlResult = `${endUsersDomain}/${url}`;
+                urlResult = `${endUsersDomain}/${fixedUrl}`;
                 break;
             default:
                 break;
         }
 
         const headers = {
-            authorization: data.ignoreAuth ? undefined : "bearer " + (await auth.currentUser.getIdToken()),
+            authorization: data?.ignoreAuth ? undefined : "bearer " + (await auth?.currentUser?.getIdToken()),
         };
-        if (data.ignoreAuth) {
+        if (data?.ignoreAuth) {
             delete data.ignoreAuth;
         }
         const response = await axios({
@@ -82,7 +85,7 @@ export const nxApiCall = async <T = any>(serverName: ServerName, method: Method,
         });
 
         return response?.data || null;
-    } catch (error) {
+    } catch (error: any) {
         const details = { serverName, method, url, data };
         console.error(`Error from nxApiCall: ${JSON.stringify(details)}`, error?.response?.data || error);
         return { error: error?.response?.data || error, ...details };
