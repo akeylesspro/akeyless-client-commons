@@ -104,7 +104,7 @@ export const InputContainer = ({
                 title={title}
                 minLength={minLength}
                 placeholder={placeholder}
-                className={cn(`flex-1 bg-inherit h-9 py-2 px-3`, defaultFormElementBorderClassName, elementClassName)}
+                className={cn(`flex-1 bg-inherit h-9 py-2 px-3 disabled:cursor-text`, defaultFormElementBorderClassName, elementClassName)}
                 defaultValue={value ? undefined : defaultValue}
                 value={defaultValue ? undefined : value}
                 {...validationProps}

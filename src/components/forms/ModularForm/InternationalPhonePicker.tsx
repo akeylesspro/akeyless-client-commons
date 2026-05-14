@@ -111,7 +111,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & 
 
         return (
             <Input
-                className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full", className)}
+                className={cn("-ms-px rounded-s-none shadow-none focus-visible:z-10 h-full disabled:cursor-text disabled:opacity-100", className)}
                 onKeyDown={onKeyDown}
                 defaultValue={defaultValue}
                 style={style}
@@ -128,7 +128,7 @@ const PhoneInput = forwardRef<HTMLInputElement, React.ComponentProps<"input"> & 
                 {...props}
             />
         );
-    }
+    },
 );
 PhoneInput.displayName = "PhoneInput";
 
