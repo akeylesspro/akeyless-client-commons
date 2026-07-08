@@ -112,7 +112,7 @@ export const longShortPhoneNumbers = (phoneNumber: string): LongShortPhoneNumber
     let longPhoneNumber = phoneNumber;
     if (phoneNumber.startsWith("05")) {
         shortPhoneNumber = phoneNumber;
-        longPhoneNumber = longPhoneNumber.replace("+9725", "05");
+        longPhoneNumber = longPhoneNumber.replace("05", "+9725");
     } else if (phoneNumber.startsWith("103")) {
         shortPhoneNumber = phoneNumber;
         longPhoneNumber = `+972${shortPhoneNumber}`;
