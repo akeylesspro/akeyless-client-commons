@@ -114,7 +114,7 @@ export const Filter = memo<FilterProps>(({ filterableColumn, index }) => {
                             </div>
                         );
                     })(),
-                    document.body
+                    document.body,
                 )}
         </div>
     );
@@ -145,7 +145,7 @@ export const DisplayAllRowsButton = memo(() => {
             {...(displayAllRowsButtonProps || {})}
             className={cn(
                 "bg-[#547f22] text-white px-3 py-1.5 rounded-md hover:bg-[#3e671f] focus:outline-none flex gap-1",
-                displayAllRowsButtonProps?.className
+                displayAllRowsButtonProps?.className,
             )}
             onClick={toggleDisplayAmount}
         >
@@ -232,7 +232,7 @@ export const ExportToExcel = memo(() => {
 
 /// search
 export const Search = memo(() => {
-    const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle ,autoFocus} = useTableContext();
+    const { searchQuery, handleSearch, searchPlaceHolder, searchInputClassName, searchInputStyle, autoFocus } = useTableContext();
     return (
         <input
             className={cn("border-black border-[1px] text-lg px-2 w-11/12", searchInputClassName)}
@@ -316,7 +316,7 @@ export const TableRow = ({ item, index }: { item: TObject<any>; index: number })
                 zebraClassName,
                 rowClassName,
                 rowClassNameFunction?.(item) || "",
-                selectedRow?.rowIndex === index ? selectedRow?.className || "" : ""
+                selectedRow?.rowIndex === index ? selectedRow?.className || "" : "",
             )}
             onClick={() => {
                 selectedRow?.onChange && selectedRow.onChange(index);
@@ -510,8 +510,8 @@ interface BooleanUIProps {
 }
 export const BooleanUi = ({ value, size, className, falseUi, trueUi }: BooleanUIProps) => {
     return value
-        ? trueUi ?? <i className={cn(`fa-light fa-check  ${size === "small" ? "text-lg" : "text-2xl"}`, className)} />
-        : falseUi ?? <i className={cn(`fa-light fa-xmark  ${size === "small" ? "text-lg" : "text-2xl"}`, className)} />;
+        ? (trueUi ?? <i className={cn(`fa-light fa-check  ${size === "small" ? "text-lg" : "text-2xl"}`, className)} />)
+        : (falseUi ?? <i className={cn(`fa-light fa-xmark  ${size === "small" ? "text-lg" : "text-2xl"}`, className)} />);
 };
 
 export interface GeoUiProps {
@@ -521,8 +521,8 @@ export interface GeoUiProps {
 }
 
 export const GeoUi = ({ value, className, linkUi }: GeoUiProps) => {
-    const lang = value.lng || value.longitude;
-    const lat = value.lat || value.latitude;
+    const lang = value.lng || value.longitude || 0;
+    const lat = value.lat || value.latitude || 0;
     const googleMapsLink = getLocationUrl(lang, lat);
     const langLatUi = linkUi || ` ${lang} ${lat}`;
     return (

@@ -32,11 +32,11 @@ export const ConfirmForm = ({
         <div style={{ direction, padding: "30px" }} className={cn("w-full h-full flex flex-col gap-3", containerClassName)}>
             <div className={cn("text-lg font-bold", headlineClassName)}>{headline}</div>
             <div className={cn("flex justify-center items-center gap-2 w-full", buttonsContainerClassName)}>
-                <button className={cn("disabled:cursor-not-allowed opacity-70", cancelButtonClassName)} onClick={onX}>
+                <button className={cn("disabled:cursor-not-allowed disabled:opacity-70", cancelButtonClassName)} onClick={onX}>
                     {cancelElement || <RedXSvg />}
                 </button>
 
-                <button className={cn("disabled:cursor-not-allowed opacity-70", confirmButtonClassName)} {...confirmButtonProps} onClick={onV}>
+                <button className={cn("disabled:cursor-not-allowed disabled:opacity-70", confirmButtonClassName)} {...confirmButtonProps} onClick={onV}>
                     {confirmElement || <GreenVSvg />}
                 </button>
             </div>
