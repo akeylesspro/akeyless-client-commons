@@ -8,15 +8,16 @@ export const isInternational: CheckFunction = (phone_number) => {
 };
 
 export const isInternationalIsraelPhone: CheckFunction = (phone_number: string) => {
-    return phone_number.startsWith("+9725");
+    return phone_number.startsWith("+972");
 };
 
 export const local_israel_phone_format: ConvertFunction = (international_number) => {
-    return international_number.replace("+972", "0");
+    const base = international_number.replace("+972", "");
+    return base.startsWith("130") ? base : `0${base}`;
 };
 
 export const international_israel_phone_format: ConvertFunction = (phone) => {
-    const validNumber = phone.slice(1, phone.length);
+    const validNumber = phone.startsWith("130") ? phone : phone.slice(1, phone.length);
     return "+972".concat(validNumber);
 };
 
@@ -37,7 +38,7 @@ export const displayFormatPhoneNumber = (phoneNumber: string, separator?: string
         return phone_obj.formatInternational().replace(/\s/g, sep);
     }
 
-    if (is_fixed_or_service_number(cleaned)) {
+    if (isFixedOrServiceNumber(cleaned)) {
         if (/^(1700|1800|1900|1599)/.test(cleaned)) {
             //
             return cleaned.replace(/^(\d{4})(\d{3})(\d{3,4})$/, `$1${sep}$2${sep}$3`);
@@ -62,15 +63,10 @@ export const is_iccid = (number: string) => {
     return true;
 };
 
-export const is_msisdn = (number: string) => {
-    if (number.length < 10 || number.length > 15) return false;
-    if (!/^\d+$/.test(number)) return false;
-    return true;
-};
-
-export const is_fixed_or_service_number = (number: string): boolean => {
-    if (!number) return false;
-
+export const isFixedOrServiceNumber = (number: string): boolean => {
+    if (!number || is_iccid(number) || isInternational(number)) {
+        return false;
+    }
     const cleaned = number.replace(/[\s\-]/g, "");
 
     if (!/^\d+$/.test(cleaned)) return false;
@@ -88,4 +84,67 @@ export const is_fixed_or_service_number = (number: string): boolean => {
         voip_prefixes.some((p) => cleaned.startsWith(p)) ||
         service_prefixes.some((p) => cleaned.startsWith(p))
     );
+};
+
+interface LongShortPhoneNumbers {
+    shortPhoneNumber: string;
+    longPhoneNumber: string;
+    isIsraeli: boolean;
+}
+export const longShortPhoneNumbers = (phoneNumber: string): LongShortPhoneNumbers => {
+    phoneNumber = phoneNumber.trim();
+    if (!phoneNumber.length) {
+        return {
+            shortPhoneNumber: phoneNumber,
+            longPhoneNumber: phoneNumber,
+            isIsraeli: false,
+        };
+    }
+    if (is_iccid(phoneNumber)) {
+        return {
+            shortPhoneNumber: phoneNumber,
+            longPhoneNumber: phoneNumber,
+            isIsraeli: false,
+        };
+    }
+
+    let shortPhoneNumber = phoneNumber;
+    let longPhoneNumber = phoneNumber;
+    if (phoneNumber.startsWith("05")) {
+        shortPhoneNumber = phoneNumber;
+        longPhoneNumber = longPhoneNumber.replace("+9725", "05");
+    } else if (phoneNumber.startsWith("103")) {
+        shortPhoneNumber = phoneNumber;
+        longPhoneNumber = `+972${shortPhoneNumber}`;
+    } else if (phoneNumber.startsWith("+972")) {
+        longPhoneNumber = phoneNumber;
+        shortPhoneNumber = longPhoneNumber.replace("+9725", "05");
+    } else if (phoneNumber.startsWith("+1")) {
+        longPhoneNumber = phoneNumber;
+        shortPhoneNumber = longPhoneNumber.replace("+1", "");
+    }
+    return {
+        shortPhoneNumber,
+        longPhoneNumber,
+        isIsraeli: longPhoneNumber.startsWith("+972"),
+    };
+};
+
+export const isSimProviderPartner = (phoneNumber: string) => {
+    const { shortPhoneNumber, isIsraeli } = longShortPhoneNumbers(phoneNumber);
+    return isIsraeli && (shortPhoneNumber.startsWith("054") || shortPhoneNumber.startsWith("1302"));
+};
+
+export const isSimProviderPelephone = (phoneNumber: string) => {
+    const { shortPhoneNumber, isIsraeli } = longShortPhoneNumbers(phoneNumber);
+    return isIsraeli && shortPhoneNumber.startsWith("050");
+};
+
+export const isSimProviderCelcom = (phoneNumber: string) => {
+    const { shortPhoneNumber, isIsraeli } = longShortPhoneNumbers(phoneNumber);
+    return isIsraeli && (shortPhoneNumber.startsWith("052") || shortPhoneNumber.startsWith("1303"));
+};
+
+export const isSimProviderMonogoto = (phoneNumber: string) => {
+    return is_iccid(phoneNumber);
 };
