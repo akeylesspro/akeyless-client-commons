@@ -78,7 +78,7 @@ const initApp = (): FirebaseInitResult => {
 };
 
 // Initialize app
-export const { db, auth, storage, app, appCheck, googleLoginProvider } = initApp();
+export const { db, auth, storage, app, appCheck, googleLoginProvider } = initApp() as Required<FirebaseInitResult>;
 
 export const useLoginWithGoogle = () => {
     const signInWithGoogle = useCallback(async (): Promise<User> => {
@@ -355,7 +355,7 @@ export const query_documents_by_conditions = async (collection_path: string, whe
             db_query = query(db_query, where(condition.field_name, condition.operator, condition.value));
         });
         const query_snapshot = await getDocs(db_query);
-        const documents = query_snapshot.docs.map((doc) => simpleExtractData(doc));
+        const documents = query_snapshot.docs.map((doc) => simpleExtractData(doc as any));
         return documents;
     } catch (error) {
         console.error(`Error querying documents: ${collection_path} - ${JSON.stringify(where_conditions)} `, error);
@@ -370,7 +370,7 @@ export const query_document_by_conditions = async (collection_path: string, wher
             db_query = query(db_query, where(condition.field_name, condition.operator, condition.value));
         });
         const query_snapshot = await getDocs(db_query);
-        const documents = query_snapshot.docs.map((doc) => simpleExtractData(doc));
+        const documents = query_snapshot.docs.map((doc) => simpleExtractData(doc as any));
         if (!documents[0]) {
             throw new Error("No data returned from DB");
         }
@@ -567,12 +567,12 @@ export const getUserByIdentifier = async (identifier: string) => {
     return (await getUserByPhone(identifier)) || (await getUserByEmail(identifier));
 };
 
-export const addLoginAudit = async (user: NxUser | null, app: AppName, loginBy: LoginOption) => {
+export const addLoginAudit = async (user: NxUser, app: AppName, loginBy: LoginOption) => {
     const details = {
         app,
         login_by: loginBy,
     };
-    await set_document("nx-users", user.id, { last_login: fire_base_TIME_TEMP() });
+    await set_document("nx-users", user.id!, { last_login: fire_base_TIME_TEMP() });
     await addAuditRecord("login", app, details, user);
 };
 
@@ -601,6 +601,20 @@ export const addAuditRecord = async (action: string, entity: string, details: TO
         return data;
     } catch (error) {
         console.log(error);
+    }
+};
+
+export const addNxProblem = async (problem: string, key: string, details: TObject<any>) => {
+    const data = {
+        problem,
+        key,
+        details,
+        timestamp: Timestamp.now(),
+    };
+    try {
+        await add_document("nx-problems", data);
+    } catch (error: any) {
+        console.error("error from add_nx_problem", error);
     }
 };
 

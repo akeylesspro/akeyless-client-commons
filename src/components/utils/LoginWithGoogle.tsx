@@ -67,6 +67,9 @@ export const LoginWithGoogleButton = ({
             setIsLoading(true);
             const user = await signInWithGoogle();
             const dbUser = await getUserByIdentifier(user.email!);
+            if (!dbUser) {
+                throw new Error("user not found in db")
+            }
             const token = await user.getIdToken();
             const userPermissions = validateUserStatusAndPermissions(dbUser, appName);
             await addLoginAudit(dbUser, appName, "google");
