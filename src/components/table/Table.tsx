@@ -1,12 +1,9 @@
-import React, { createContext, useMemo, useRef, useState, useContext, useEffect } from "react";
-import { ExportToExcel, Search, Summary, TableHead, TableRow, TableBody, MaxRowsLabel, DisplayAllRowsButton } from "./components";
+import React, { createContext, useMemo } from "react";
+import { ExportToExcel, Search, Summary, TableHead, TableBody, MaxRowsLabel, DisplayAllRowsButton } from "./components";
 import { TableProps, TableProviderType } from "./types";
 import { useFilter, useSort, useSearch, useDisplayToggle } from "./hooks";
-import { TableSCN } from "../ui/table";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
-import { textNumbersRegex } from "src/helpers/forms";
-
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
 export const TableProvider = (props: TableProps & { children: React.ReactNode }) => {

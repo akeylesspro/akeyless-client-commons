@@ -1,9 +1,6 @@
 import { CountryOptions } from "akeyless-types-commons";
-import { Dispatch, SetStateAction, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { get_document_by_id, getUserCountryByIp, snapshot } from "src/helpers";
-import { OnSnapshotConfig } from "src/types";
-import { useDeepCompareEffect, useDeepCompareMemo } from "./react";
-
+import { Dispatch, SetStateAction, useEffect, useLayoutEffect } from "react";
+import { getUserCountryByIp } from "src/helpers";
 export const useDocumentTitle = (title: string) => {
     useEffect(() => {
         document.title = title;

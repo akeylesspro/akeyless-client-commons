@@ -22,7 +22,7 @@ import {
 export { default as InternationalPhonePicker } from "./InternationalPhonePicker";
 export const defaultFormElementContainerClassName = "flex justify-start items-center gap-3 w-full";
 export const defaultFormElementBorderClassName = "border-[1px] border-gray-300 hover:border-black rounded-sm";
-import { Button, DatePicker as RACDatePicker, Dialog, Group, Label, Popover } from "react-aria-components";
+import { Button, DatePicker as RACDatePicker, Dialog, Group, Popover } from "react-aria-components";
 import { DateInput } from "@/components/ui/datefield-rac";
 import { Calendar } from "@/components/ui/calendar-rac";
 import { CalendarIcon } from "lucide-react";

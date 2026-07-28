@@ -1,11 +1,8 @@
-import { Client, CountryOptions, LanguageOptions, NxUser, TObject } from "akeyless-types-commons";
+import { CountryOptions, Geo, LanguageOptions, NxUser } from "akeyless-types-commons";
 import axios from "axios";
-import { query_document, snapshot } from "./firebase";
-import { local_israel_phone_format } from "./phoneNumber";
-import { isEmpty, isEqual } from "lodash";
-import { WhereCondition } from "src/types";
+import { isEqual } from "lodash";
 
-export const calculateBearing = (startLat, startLng, endLat, endLng) => {
+export const calculateBearing = (startLat: number, startLng: number, endLat: number, endLng: number) => {
     if (startLat === endLat || startLng === endLng) {
         return 0;
     }
@@ -67,7 +64,7 @@ export const getFixedNumber = (number = 0, fix = 4) => {
     return String(sum_value);
 };
 
-export const getAddressByGeo = async ({ lat, lng }, currentLanguage: LanguageOptions) => {
+export const getAddressByGeo = async ({ lat, lng }: Geo, currentLanguage: LanguageOptions) => {
     const language = currentLanguage === LanguageOptions.He ? "iw" : "en";
     const apiKey = isNodeEnv ? process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY : import.meta.env.VITE_api_google_key;
     const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${apiKey}&language=${language}`;

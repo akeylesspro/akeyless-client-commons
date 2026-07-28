@@ -1,7 +1,6 @@
 import { addLoginAudit, cn, getUserByIdentifier, useLoginWithGoogle, validateUserStatusAndPermissions } from "src/helpers";
 import { Loader, LoaderProps } from "./loaders";
 import { ButtonHTMLAttributes, DetailedHTMLProps, MouseEvent, useState } from "react";
-import { User } from "firebase/auth";
 import { NxUser, TObject } from "akeyless-types-commons";
 import { AppName } from "src/types";
 

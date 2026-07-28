@@ -4,33 +4,11 @@ import { FirebaseStorage, getStorage } from "firebase/storage";
 import { Auth, getAuth, GoogleAuthProvider, signInWithPopup, User } from "firebase/auth";
 import { AppCheck, initializeAppCheck, ReCaptchaEnterpriseProvider } from "firebase/app-check";
 
-import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    query,
-    setDoc,
-    Timestamp,
-    where,
-    DocumentData,
-    DocumentSnapshot,
-    CollectionReference,
-    WhereFilterOp,
-    Firestore,
-    getFirestore,
-    Unsubscribe,
-    onSnapshot,
-    QuerySnapshot,
-    Query,
-    orderBy,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, Timestamp, where, DocumentData, DocumentSnapshot, CollectionReference, WhereFilterOp, Firestore, getFirestore, onSnapshot, QuerySnapshot, Query, orderBy } from "firebase/firestore";
 import { formatCarNumber } from "./cars";
 import { NxUser, TObject } from "akeyless-types-commons";
 import { AppName, LoginOption, OnSnapshotParsers, SetState, Snapshot, SnapshotDocument, WhereCondition } from "../types";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { useCallback } from "react";
 import { local_israel_phone_format } from "./phoneNumber";
 import { parsePermissions } from "./permissions";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";

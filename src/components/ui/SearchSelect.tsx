@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandInput, CommandGroup, CommandItem, CommandList, CommandEmpty } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CheckIcon, ChevronDownIcon } from "lucide-react";
-import { ReactNode, useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { Direction } from "src/types";
 
 export interface SearchSelectOptions extends Record<string, string | number> {

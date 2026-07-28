@@ -1,8 +1,6 @@
 import { cn } from "src/helpers";
 import "../index.css";
-import React, { ComponentProps, SetStateAction, useEffect, useState } from "react";
-import { Component } from "lucide-react";
-
+import { ComponentProps, useEffect, useState } from "react";
 export interface CheckBoxProps {
     rotate?: boolean;
     circleClassName?: string;
