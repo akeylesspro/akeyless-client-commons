@@ -1,4 +1,4 @@
-import { RedisUpdatePayload, RedisUpdateType, SocketCallbackResponse } from "akeyless-types-commons";
+import { RedisUpdatePayload, RedisUpdateType, SocketCallbackResponse, SubscribeCollectionsOptions } from "akeyless-types-commons";
 import { io, Socket } from "socket.io-client";
 import { isLocal, mode } from "./global";
 import { OnSnapshotCallback, OnSnapshotConfig } from "src/types";
@@ -172,7 +172,7 @@ class SocketService {
     }
 
     /// subscribe to collections
-    public subscribeToCollections(config: OnSnapshotConfig[]): () => void {
+    public subscribeToCollections(config: OnSnapshotConfig[], options?: SubscribeCollectionsOptions): () => void {
         if (config.length === 0) {
             return () => {};
         }
@@ -205,13 +205,18 @@ class SocketService {
             });
         });
 
-        s.emit("subscribe_collections", collectionsNames, (callback: SocketCallbackResponse) => {
+        const acknowledge = (callback: SocketCallbackResponse) => {
             if (callback.success) {
                 console.log(`Successfully subscribed to: ${collectionsNames.join(", ")}`);
             } else {
                 console.error(`Failed to subscribe to ${config.join(", ")}: ${callback.message}`);
             }
-        });
+        };
+        if (options) {
+            s.emit("subscribe_collections", collectionsNames, options, acknowledge);
+        } else {
+            s.emit("subscribe_collections", collectionsNames, acknowledge);
+        }
 
         return () => {
             console.log(`Cleaning up subscriptions for: ${collectionsNames.join(", ")}`);
@@ -280,18 +285,6 @@ class SocketService {
         });
     }
 
-    // public clearAllRedisData(): Promise<SocketCallbackResponse> {
-    //     const s = this.getSocketInstance();
-    //     return new Promise((resolve, reject) => {
-    //         s.emit("clear_all_redis_data", (ack: SocketCallbackResponse) => {
-    //             if (ack.success) {
-    //                 resolve(ack);
-    //             } else {
-    //                 reject(new Error(ack.message || "Clear all Redis data operation failed"));
-    //             }
-    //         });
-    //     });
-    // }
 }
 
 export const socketServiceInstance = SocketService.getInstance();
