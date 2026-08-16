@@ -212,11 +212,13 @@ class SocketService {
                 console.error(`Failed to subscribe to ${config.join(", ")}: ${callback.message}`);
             }
         };
+        /// options go out on their own event, and subscribe_collections keeps its original
+        /// two argument shape. a data-socket instance that predates the options ignores the
+        /// extra event instead of mistaking it for the acknowledgement callback
         if (options) {
-            s.emit("subscribe_collections", collectionsNames, options, acknowledge);
-        } else {
-            s.emit("subscribe_collections", collectionsNames, acknowledge);
+            s.emit("subscribe_options", options);
         }
+        s.emit("subscribe_collections", collectionsNames, acknowledge);
 
         return () => {
             console.log(`Cleaning up subscriptions for: ${collectionsNames.join(", ")}`);
