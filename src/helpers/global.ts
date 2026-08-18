@@ -1,4 +1,5 @@
-import { CountryOptions, Geo, LanguageOptions, NxUser } from "akeyless-types-commons";
+import { CountryOptions, Geo, LanguageOptions, NxUser, TObject } from "akeyless-types-commons";
+import { WhereCondition } from "../types";
 import axios from "axios";
 import { isEqual } from "lodash";
 
@@ -82,3 +83,34 @@ export const getAddressByGeo = async ({ lat, lng }: Geo, currentLanguage: Langua
 };
 
 export const validateAndCast = <T extends any>(variable: any, condition: Boolean): variable is T => !!condition;
+
+export const checkConditions = (document: TObject<any>, conditions?: WhereCondition[]): boolean => {
+    if (!conditions || conditions.length === 0) return true;
+    return conditions.every((condition) => {
+        const fieldValue = document[condition.field_name];
+        switch (condition.operator) {
+            case "==":
+                return fieldValue === condition.value;
+            case "!=":
+                return fieldValue !== condition.value;
+            case "<":
+                return fieldValue < condition.value;
+            case "<=":
+                return fieldValue <= condition.value;
+            case ">":
+                return fieldValue > condition.value;
+            case ">=":
+                return fieldValue >= condition.value;
+            case "in":
+                return Array.isArray(condition.value) && condition.value.includes(fieldValue);
+            case "not-in":
+                return Array.isArray(condition.value) && !condition.value.includes(fieldValue);
+            case "array-contains":
+                return Array.isArray(fieldValue) && fieldValue.includes(condition.value);
+            case "array-contains-any":
+                return Array.isArray(fieldValue) && Array.isArray(condition.value) && condition.value.some((v: any) => fieldValue.includes(v));
+            default:
+                return false;
+        }
+    });
+};

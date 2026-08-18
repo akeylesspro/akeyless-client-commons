@@ -13,6 +13,7 @@ import { local_israel_phone_format } from "./phoneNumber";
 import { parsePermissions } from "./permissions";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { timestamp_to_string } from "./time_helpers";
+import { checkConditions } from "./global";
 
 interface FirebaseInitResult {
     db?: Firestore;
@@ -496,31 +497,6 @@ export const snapshotDocument: SnapshotDocument = (config, snapshotsFirstTime) =
     );
 
     return { promise, unsubscribe };
-};
-
-const checkConditions = (document: DocumentData, conditions?: WhereCondition[]): boolean => {
-    if (!conditions || conditions.length === 0) return true;
-    return conditions.every((condition) => {
-        const fieldValue = document[condition.field_name];
-        switch (condition.operator) {
-            case "==":
-                return fieldValue === condition.value;
-            case "!=":
-                return fieldValue !== condition.value;
-            case "<":
-                return fieldValue < condition.value;
-            case "<=":
-                return fieldValue <= condition.value;
-            case ">":
-                return fieldValue > condition.value;
-            case ">=":
-                return fieldValue >= condition.value;
-            case "array-contains":
-                return Array.isArray(fieldValue) && fieldValue.includes(condition.value);
-            default:
-                return false;
-        }
-    });
 };
 
 export const cleanNxSites = async () => {

@@ -14,7 +14,7 @@ interface UseDbSnapshotsSettings {
     worker?: UseWebWorkerOptions;
     socket?: {
         getSocket?: (socket: typeof socketServiceInstance) => void;
-        subscribeOptions?: SubscribeCollectionsOptions;
+        subscribeOptions?: Omit<SubscribeCollectionsOptions, "conditions">;
     };
 }
 
