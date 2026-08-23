@@ -1,7 +1,7 @@
-import { RedisUpdatePayload, RedisUpdateType, SocketCallbackResponse } from "akeyless-types-commons";
+import { RedisUpdatePayload, RedisUpdateType, SocketCallbackResponse, SubscribeCollectionsOptions } from "akeyless-types-commons";
 import { io, Socket } from "socket.io-client";
-import { isLocal, mode } from "./global";
-import { OnSnapshotCallback, OnSnapshotConfig } from "src/types";
+import { checkConditions, isLocal, mode } from "./global";
+import { OnSnapshotConfig, OnSnapshotParsers, WhereCondition } from "src/types";
 
 const SESSION_STORAGE_KEY = "sessionId";
 
@@ -18,6 +18,9 @@ class SocketService {
     private disconnectCallbacks: Array<() => void> = [];
     private authToken: string | null = null;
     private isDisconnected = true;
+    /// the data-socket keeps one subscription per collection per socket, so a second condition set
+    /// for a collection never reaches it and would silently receive the first one's documents
+    private activeConditions = new Map<string, { signature: string; conditions: WhereCondition[]; count: number }>();
 
     private handleDisconnect = (source: string, reason: Socket.DisconnectReason | string): void => {
         if (this.isDisconnected) {
@@ -164,6 +167,34 @@ class SocketService {
         }
     }
 
+    private registerConditions(collectionName: string, conditions: WhereCondition[] = []): void {
+        const signature = JSON.stringify(conditions);
+        const active = this.activeConditions.get(collectionName);
+        if (!active) {
+            this.activeConditions.set(collectionName, { signature, conditions, count: 1 });
+            return;
+        }
+        active.count++;
+        if (active.signature !== signature) {
+            console.error(
+                `[socket] "${collectionName}" is already subscribed with different conditions, and a collection supports one condition set at a time. ` +
+                    `The active set stays in effect, so this subscription receives its documents instead of its own. ` +
+                    `active: ${active.signature} requested: ${signature}`
+            );
+        }
+    }
+
+    private releaseConditions(collectionName: string): void {
+        const active = this.activeConditions.get(collectionName);
+        if (!active) {
+            return;
+        }
+        active.count--;
+        if (active.count <= 0) {
+            this.activeConditions.delete(collectionName);
+        }
+    }
+
     public disconnectSocket(): void {
         if (this.socket) {
             this.socket.disconnect();
@@ -172,49 +203,104 @@ class SocketService {
     }
 
     /// subscribe to collections
-    public subscribeToCollections(config: OnSnapshotConfig[]): () => void {
+    /// conditions are derived from OnSnapshotConfig.conditions, never passed in, so a caller cannot
+    /// set them in a second place and have them silently overwritten
+    public subscribeToCollections(config: OnSnapshotConfig[], options?: Omit<SubscribeCollectionsOptions, "conditions">): () => void {
         if (config.length === 0) {
             return () => {};
         }
         const s = this.getSocketInstance();
         const collectionsNames = config.map((c) => c.collectionName);
 
-        const eventHandlers: Array<{ eventName: string; handler: OnSnapshotCallback }> = [];
+        const eventHandlers: Array<{ eventName: string; handler: (payload: any) => void }> = [];
 
         config.forEach((configuration) => {
-            const { collectionName, onAdd, onFirstTime, onModify, onRemove, extraParsers } = configuration;
-            // Before attaching, make sure the specific handler is NOT already registered.
-            const attach = (eventName: string, handler?: OnSnapshotCallback) => {
-                if (!handler) return;
-                this.socket!.off(eventName, handler);
+            const { collectionName, conditions } = configuration;
+            const parsers: OnSnapshotParsers[] = [configuration, ...(configuration.extraParsers || [])];
+            const matchedIds = new Set<string>();
+
+            const attach = (eventName: string, handler: (payload: any) => void) => {
                 this.socket!.on(eventName, handler);
                 eventHandlers.push({ eventName, handler });
             };
+            const toDocs = (payload: any): any[] => (Array.isArray(payload) ? payload : payload ? [payload] : []);
+            const run = (op: keyof OnSnapshotParsers, docs: any[]) => parsers.forEach((parser) => parser[op]?.(docs, configuration));
+            const runIfAny = (op: keyof OnSnapshotParsers, docs: any[]) => {
+                if (docs.length) {
+                    run(op, docs);
+                }
+            };
 
-            attach(`initial:${collectionName}`, onFirstTime);
-            attach(`add:${collectionName}`, onAdd);
-            attach(`update:${collectionName}`, onModify);
-            attach(`delete:${collectionName}`, onRemove);
+            attach(`initial:${collectionName}`, (payload) => {
+                const docs = toDocs(payload).filter((doc) => checkConditions(doc, conditions));
+                matchedIds.clear();
+                docs.forEach((doc) => matchedIds.add(doc.id));
+                run("onFirstTime", docs);
+            });
 
-            extraParsers?.forEach((parsers) => {
-                const { onAdd: extraOnAdd, onFirstTime: extraOnFirstTime, onModify: extraOnModify, onRemove: extraOnRemove } = parsers;
-                attach(`initial:${collectionName}`, extraOnFirstTime);
-                attach(`add:${collectionName}`, extraOnAdd);
-                attach(`update:${collectionName}`, extraOnModify);
-                attach(`delete:${collectionName}`, extraOnRemove);
+            /// a doc that starts matching the conditions arrives as onAdd, one that stops matching as
+            /// onRemove, exactly like a firestore query snapshot narrows its result set
+            const handleUpsert = (payload: any, defaultOp: "onAdd" | "onModify") => {
+                const added: any[] = [];
+                const modified: any[] = [];
+                const removed: any[] = [];
+                toDocs(payload).forEach((doc) => {
+                    if (!conditions?.length) {
+                        (defaultOp === "onAdd" ? added : modified).push(doc);
+                        return;
+                    }
+                    const wasMatching = matchedIds.has(doc.id);
+                    if (checkConditions(doc, conditions)) {
+                        matchedIds.add(doc.id);
+                        (wasMatching ? modified : added).push(doc);
+                    } else if (wasMatching) {
+                        matchedIds.delete(doc.id);
+                        removed.push(doc);
+                    }
+                });
+                runIfAny("onAdd", added);
+                runIfAny("onModify", modified);
+                runIfAny("onRemove", removed);
+            };
+
+            attach(`add:${collectionName}`, (payload) => handleUpsert(payload, "onAdd"));
+            attach(`update:${collectionName}`, (payload) => handleUpsert(payload, "onModify"));
+            attach(`delete:${collectionName}`, (payload) => {
+                const docs = toDocs(payload).filter((doc) => !conditions?.length || matchedIds.delete(doc.id));
+                runIfAny("onRemove", docs);
             });
         });
 
-        s.emit("subscribe_collections", collectionsNames, (callback: SocketCallbackResponse) => {
+        const acknowledge = (callback: SocketCallbackResponse) => {
             if (callback.success) {
                 console.log(`Successfully subscribed to: ${collectionsNames.join(", ")}`);
             } else {
                 console.error(`Failed to subscribe to ${config.join(", ")}: ${callback.message}`);
             }
-        });
+        };
+        /// options go out on their own event, and subscribe_collections keeps its original
+        /// two argument shape. a data-socket instance that predates the options ignores the
+        /// extra event instead of mistaking it for the acknowledgement callback
+        config.forEach((c) => this.registerConditions(c.collectionName, c.conditions));
+        /// what goes out is the set already in effect for the collection, not the last one asked for
+        const conditionsByCollection = config.reduce<Record<string, WhereCondition[]>>((acc, c) => {
+            const active = this.activeConditions.get(c.collectionName);
+            if (active?.conditions.length) {
+                acc[c.collectionName] = active.conditions;
+            }
+            return acc;
+        }, {});
+        /// a data-socket that understands conditions filters server side, one that does not sends
+        /// everything and the local gate below still produces the same events
+        const subscribeOptions = Object.keys(conditionsByCollection).length ? { ...options, conditions: conditionsByCollection } : options;
+        if (subscribeOptions) {
+            s.emit("subscribe_options", subscribeOptions);
+        }
+        s.emit("subscribe_collections", collectionsNames, acknowledge);
 
         return () => {
             console.log(`Cleaning up subscriptions for: ${collectionsNames.join(", ")}`);
+            collectionsNames.forEach((name) => this.releaseConditions(name));
             s.emit("unsubscribe_collections", collectionsNames);
             eventHandlers.forEach((eh) => {
                 s.off(eh.eventName, eh.handler);
@@ -280,18 +366,6 @@ class SocketService {
         });
     }
 
-    // public clearAllRedisData(): Promise<SocketCallbackResponse> {
-    //     const s = this.getSocketInstance();
-    //     return new Promise((resolve, reject) => {
-    //         s.emit("clear_all_redis_data", (ack: SocketCallbackResponse) => {
-    //             if (ack.success) {
-    //                 resolve(ack);
-    //             } else {
-    //                 reject(new Error(ack.message || "Clear all Redis data operation failed"));
-    //             }
-    //         });
-    //     });
-    // }
 }
 
 export const socketServiceInstance = SocketService.getInstance();

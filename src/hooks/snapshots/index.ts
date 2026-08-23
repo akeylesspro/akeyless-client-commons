@@ -1,3 +1,4 @@
+import { SubscribeCollectionsOptions } from "akeyless-types-commons";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { auth, get_document_by_id, snapshot, snapshotDocument, socketServiceInstance } from "src/helpers";
 import { OnSnapshotConfig, OnSnapshotConfigDocument } from "src/types";
@@ -13,6 +14,7 @@ interface UseDbSnapshotsSettings {
     worker?: UseWebWorkerOptions;
     socket?: {
         getSocket?: (socket: typeof socketServiceInstance) => void;
+        subscribeOptions?: Omit<SubscribeCollectionsOptions, "conditions">;
     };
 }
 
@@ -232,7 +234,7 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
                     cleanupSubscriptionsRef.current = [];
                 }
                 if (configs.length === 0) return;
-                const disposer = socketServiceInstance.subscribeToCollections(configsToUse(configs));
+                const disposer = socketServiceInstance.subscribeToCollections(configsToUse(configs), settings?.socket?.subscribeOptions);
                 cleanupSubscriptionsRef.current.push(disposer);
                 activeCollectionsRef.current = new Set(desiredNames);
                 activeSubscriptionKeyRef.current = key;
@@ -248,7 +250,7 @@ export const useSocketSnapshots = (configs: OnSnapshotConfig[], label?: string, 
             }
 
             const configsToAdd = configs.filter((c) => toAdd.includes(c.collectionName));
-            const disposer = socketServiceInstance.subscribeToCollections(configsToUse(configsToAdd));
+            const disposer = socketServiceInstance.subscribeToCollections(configsToUse(configsToAdd), settings?.socket?.subscribeOptions);
             cleanupSubscriptionsRef.current.push(disposer);
             toAdd.forEach((n) => activeCollectionsRef.current.add(n));
             activeSubscriptionKeyRef.current = JSON.stringify(Array.from(activeCollectionsRef.current).sort());

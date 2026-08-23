@@ -1,5 +1,4 @@
-import ExcelJS, { Alignment } from "exceljs";
-import { saveAs } from "file-saver";
+import type { Alignment } from "exceljs";
 import { Direction } from "src/types";
 
 interface ExcelColumn {
@@ -18,6 +17,10 @@ interface ExportExcelOptions<T> {
 }
 
 export const exportToExcel = async <T,>({ columns, data, headline, fileName, cellStyle, direction }: ExportExcelOptions<T>): Promise<void> => {
+    /// exceljs is roughly 1.8MB. loading it here instead of at module scope keeps it out of the
+    /// initial bundle of every screen that renders a Table, at the cost of a pause on first export
+    const [{ default: ExcelJS }, { saveAs }] = await Promise.all([import("exceljs"), import("file-saver")]);
+
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Report");
     worksheet.views = [{ rightToLeft: direction === "rtl" }];
