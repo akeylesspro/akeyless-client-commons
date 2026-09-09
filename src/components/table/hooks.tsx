@@ -110,9 +110,9 @@ export const useDisplayToggle = () => {
 //     return { searchQuery, handleSearch, clearSearch, isPending, deferredSearchQuery };
 // };
 
-export const useSearch = (debounceDelay = 300) => {
-    const [searchQuery, setSearchQuery] = useState<string>("");
-    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>("");
+export const useSearch = (debounceDelay = 300, initialQuery = "") => {
+    const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>(initialQuery);
 
     const debouncedUpdate = useMemo(
         () =>

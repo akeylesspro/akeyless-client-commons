@@ -34,6 +34,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         // search
         searchInputClassName = "",
         includeSearch,
+        defaultSearchQuery,
         searchPlaceHolder,
         autoFocus = true,
         // sort
@@ -63,7 +64,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
 
     const { sortColumn, sortOrder, handleSort, clearSort } = useSort();
     const { displayAllRows, setDisplayAllRows } = useDisplayToggle();
-    const { searchQuery, handleSearch, debouncedSearchQuery } = useSearch();
+    const { searchQuery, handleSearch, debouncedSearchQuery } = useSearch(300, defaultSearchQuery);
     const { filters, filterPopupsDisplay, filterOptions, handleFilterChange, handleFilterClick, closeFilterWindow, clearFilter } = useFilter({
         data,
         filterableColumns,
