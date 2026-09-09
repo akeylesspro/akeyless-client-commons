@@ -27,6 +27,7 @@ export interface TableProviderType {
     displayAllRows: boolean;
     setDisplayAllRows: (value: boolean) => void;
     clearFilter: () => void;
+    scrollElementRef: React.RefObject<HTMLDivElement>;
 }
 export interface UseFilterProps {
     data: Record<string, any>[];

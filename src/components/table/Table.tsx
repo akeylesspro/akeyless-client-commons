@@ -1,12 +1,11 @@
-import React, { createContext, useMemo } from "react";
+import React, { createContext, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { ExportToExcel, Search, Summary, TableHead, TableBody, MaxRowsLabel, DisplayAllRowsButton } from "./components";
 import { TableProps, TableProviderType } from "./types";
 import { useFilter, useSort, useSearch, useDisplayToggle } from "./hooks";
 import { cn } from "@/lib/utils";
-import { isEqual } from "lodash";
 export const TableContext = createContext<(TableProps & TableProviderType) | null>(null);
 
-export const TableProvider = (props: TableProps & { children: React.ReactNode }) => {
+export const TableProvider = (props: TableProps & { children: React.ReactNode; scrollElementRef: React.RefObject<HTMLDivElement> }) => {
     const {
         // basic props
         data,
@@ -103,8 +102,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         }
         // sort
         if (sortColumn !== null && sortOrder !== null && sortKeys?.length > 0) {
-            console.log("sorting ...");
-            filtered = filtered.sort((a, b) => {
+            filtered = [...filtered].sort((a, b) => {
                 const aValue = a[sortKeys[sortColumn]];
                 const bValue = b[sortKeys[sortColumn]];
                 if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
@@ -115,7 +113,7 @@ export const TableProvider = (props: TableProps & { children: React.ReactNode })
         const renderedData = !displayAllRows && filtered.length > maxRows ? filtered.slice(0, maxRows) : filtered;
 
         return { renderedData, filtered };
-    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows, noneSearchKeys, filterableColumns, filterPopupsDisplay]);
+    }, [debouncedSearchQuery, sortColumn, sortOrder, filters, data, displayAllRows, noneSearchKeys, filterableColumns, maxRows, sortKeys, includeSearch, allKeys]);
 
     const providerValues = {
         ...props,
@@ -172,8 +170,10 @@ const TableBase = (props: TableProps) => {
         maxRowsLabel2,
         searchContainerClassName,
     } = props;
+    const scrollElementRef = useRef<HTMLDivElement>(null);
+    const columnWidths = useLockedColumnWidths(scrollElementRef, props.headers, props.data.length > 0);
     return (
-        <TableProvider {...props}>
+        <TableProvider {...props} scrollElementRef={scrollElementRef}>
             {/* container header */}
             <div style={{ direction: direction }} className={cn("flex justify-between items-center gap-2", containerHeaderClassName || "")}>
                 <div className={cn("flex justify-start items-center gap-2", searchContainerClassName)}>
@@ -191,10 +191,21 @@ const TableBase = (props: TableProps) => {
             </div>
             {/* table */}
             <div
+                ref={scrollElementRef}
                 style={{ ...(tableContainerStyle || {}), direction: direction }}
                 className={cn(`animate-slide-in-up overflow-y-auto`, tableContainerClass || "")}
             >
-                <table style={tableStyle} className="min-w-full text-sm relative">
+                <table
+                    style={{ ...tableStyle, ...(columnWidths ? { tableLayout: "fixed", width: sum(columnWidths) } : {}) }}
+                    className="min-w-full text-sm relative"
+                >
+                    {columnWidths && (
+                        <colgroup>
+                            {columnWidths.map((width, index) => (
+                                <col key={index} style={{ width }} />
+                            ))}
+                        </colgroup>
+                    )}
                     <TableHead />
                     <TableBody />
                 </table>
@@ -204,7 +215,42 @@ const TableBase = (props: TableProps) => {
         </TableProvider>
     );
 };
-const areEqual = (prevProps: TableProps, nextProps: TableProps) => isEqual(prevProps, nextProps);
+const sum = (values: number[]) => values.reduce((total, value) => total + value, 0);
+
+// Virtualized rows change on every scroll; with auto table layout the column widths would follow them and the
+// sticky header would shift. Measure the auto layout once per (headers, container width, first data) and pin it.
+const useLockedColumnWidths = (scrollElementRef: React.RefObject<HTMLDivElement>, headers: string[], hasData: boolean) => {
+    const [columnWidths, setColumnWidths] = useState<number[] | null>(null);
+    const [containerWidth, setContainerWidth] = useState(0);
+    const headersKey = headers.join(" ");
+
+    useLayoutEffect(() => {
+        const element = scrollElementRef.current;
+        if (!element || typeof ResizeObserver === "undefined") return;
+        const observer = new ResizeObserver(() => setContainerWidth(element.clientWidth));
+        observer.observe(element);
+        return () => observer.disconnect();
+    }, [scrollElementRef]);
+
+    useLayoutEffect(() => {
+        setColumnWidths(null);
+    }, [headersKey, containerWidth, hasData]);
+
+    useLayoutEffect(() => {
+        if (columnWidths || !hasData) return;
+        const headerCells = scrollElementRef.current?.querySelectorAll("thead th");
+        if (!headerCells?.length) return;
+        setColumnWidths(Array.from(headerCells, (cell) => cell.getBoundingClientRect().width));
+    }, [columnWidths, hasData, scrollElementRef]);
+
+    return columnWidths;
+};
+
+const areEqual = (prevProps: TableProps, nextProps: TableProps) => {
+    const prevKeys = Object.keys(prevProps) as (keyof TableProps)[];
+    const nextKeys = Object.keys(nextProps) as (keyof TableProps)[];
+    return prevKeys.length === nextKeys.length && prevKeys.every((key) => Object.is(prevProps[key], nextProps[key]));
+};
 
 const Table = React.memo(TableBase, areEqual);
 Table.displayName = "Table";

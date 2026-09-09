@@ -17,10 +17,14 @@ export const useFilter = ({ data, filterableColumns }: UseFilterProps) => {
     const [filters, setFilters] = useState<TObject<string[]>>(initFilter);
     const [filterPopupsDisplay, setFilterPopupsDisplay] = useState<string>("");
 
-    const filterOptions = filterableColumns.reduce((acc: Record<string, any[]>, col) => {
-        acc[col.dataKey] = Array.from(new Set(data.map((item) => item[col.dataKey])));
-        return acc;
-    }, {});
+    const filterOptions = useMemo(
+        () =>
+            filterableColumns.reduce((acc: Record<string, any[]>, col) => {
+                acc[col.dataKey] = Array.from(new Set(data.map((item) => item[col.dataKey])));
+                return acc;
+            }, {}),
+        [data, filterableColumns]
+    );
 
     const handleFilterChange = (dataKey: string, value: string) => {
         const newFilters = { ...filters };

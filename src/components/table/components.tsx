@@ -1,5 +1,6 @@
-import { memo, ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import { memo, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { emptyFilterSvg, exportToExcelSvg, RedXSvg2, slashFilterSvg, sortSvg } from "../../assets";
 import { FilterProps } from "./types";
 import { Geo, TObject } from "akeyless-types-commons";
@@ -291,18 +292,59 @@ export const TableHead = memo(() => {
 }, renderOnce);
 
 /// table body
+const ESTIMATED_ROW_HEIGHT_PX = 28;
+const VIRTUAL_OVERSCAN_ROWS = 15;
+
 export const TableBody = memo(() => {
-    const { dataToRender, tableBodyClassName } = useTableContext();
+    const { dataToRender, tableBodyClassName, keysToRender, scrollElementRef } = useTableContext();
+    const rows = dataToRender.renderedData;
+    const measuredRowHeightRef = useRef<number | null>(null);
+    const rowVirtualizer = useVirtualizer({
+        count: rows.length,
+        getScrollElement: () => scrollElementRef.current,
+        estimateSize: () => measuredRowHeightRef.current ?? ESTIMATED_ROW_HEIGHT_PX,
+        overscan: VIRTUAL_OVERSCAN_ROWS,
+        initialRect: { width: 0, height: typeof window === "undefined" ? 0 : window.innerHeight },
+    });
+    rowVirtualizer.shouldAdjustScrollPositionOnItemSizeChange = () => false;
+    const measureRow = useCallback(
+        (element: HTMLTableRowElement | null) => {
+            if (element && measuredRowHeightRef.current === null) {
+                measuredRowHeightRef.current = element.getBoundingClientRect().height;
+            }
+            rowVirtualizer.measureElement(element);
+        },
+        [rowVirtualizer]
+    );
+    const virtualRows = rowVirtualizer.getVirtualItems();
+    const paddingTop = virtualRows.length ? virtualRows[0].start : 0;
+    const paddingBottom = rowVirtualizer.getTotalSize() - (virtualRows.length ? virtualRows[virtualRows.length - 1].end : 0);
     return (
         <tbody className={cn("divide-y divide-gray-600", tableBodyClassName)}>
-            {dataToRender.renderedData.map((item, index) => (
-                <TableRow key={index} item={item} index={index} />
+            {paddingTop > 0 && <SpacerRow height={paddingTop} colSpan={keysToRender.length} />}
+            {virtualRows.map((virtualRow) => (
+                <TableRow key={virtualRow.index} item={rows[virtualRow.index]} index={virtualRow.index} measureRef={measureRow} />
             ))}
+            {paddingBottom > 0 && <SpacerRow height={paddingBottom} colSpan={keysToRender.length} />}
         </tbody>
     );
 }, renderOnce);
 
-export const TableRow = ({ item, index }: { item: TObject<any>; index: number }) => {
+const SpacerRow = ({ height, colSpan }: { height: number; colSpan: number }) => (
+    <tr aria-hidden style={{ height }}>
+        <td colSpan={colSpan} className="p-0 border-0" />
+    </tr>
+);
+
+export const TableRow = memo(function TableRow({
+    item,
+    index,
+    measureRef,
+}: {
+    item: TObject<any>;
+    index: number;
+    measureRef?: (element: HTMLTableRowElement | null) => void;
+}) {
     const { rowStyles, rowClassName = "", keysToRender, onRowClick, zebraStriping, selectedRow, rowClassNameFunction } = useTableContext();
     const zebraClassName = zebraStriping
         ? index % 2 === 0
@@ -311,6 +353,8 @@ export const TableRow = ({ item, index }: { item: TObject<any>; index: number })
         : "";
     return (
         <tr
+            ref={measureRef}
+            data-index={index}
             className={cn(
                 "hover:bg-[#808080] hover:text-[#fff]",
                 zebraClassName,
@@ -329,7 +373,7 @@ export const TableRow = ({ item, index }: { item: TObject<any>; index: number })
             ))}
         </tr>
     );
-};
+});
 
 export const TableCell = ({ value }: { value: any }) => {
     const { cellStyle, cellClassName } = useTableContext();
