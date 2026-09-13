@@ -1,4 +1,4 @@
-import { CountryOptions, Geo, LanguageOptions, NxUser, TObject } from "akeyless-types-commons";
+import { Car, CountryOptions, Geo, LanguageOptions, NxUser, TObject } from "akeyless-types-commons";
 import { WhereCondition } from "../types";
 import axios from "axios";
 import { isEqual } from "lodash";
@@ -113,4 +113,11 @@ export const checkConditions = (document: TObject<any>, conditions?: WhereCondit
                 return false;
         }
     });
+};
+
+export const isBackupCar = (car: Car | string): boolean => {
+    const carNumber = typeof car === "string" ? car : car.carId || "";
+    const regex = / ?[B-G]$/;
+    const result = regex.test(carNumber);
+    return result;
 };
