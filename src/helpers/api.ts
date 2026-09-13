@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { auth } from "./firebase";
 import { TObject } from "akeyless-types-commons";
 import { isLocal, mode } from "./global";
@@ -34,7 +34,13 @@ interface ErrorDetails {
     error: any;
 }
 
-export const nxApiCall = async <T = any>(serverName: ServerName, method: Method, url: string, data?: TObject<any>): Promise<T | ErrorDetails> => {
+export interface nxApiCallData {
+    [key: string]: any;
+    ignoreAuth?: boolean;
+    axiosOptions?: AxiosRequestConfig;
+}
+
+export const nxApiCall = async <T = any>(serverName: ServerName, method: Method, url: string, data?: nxApiCallData): Promise<T | ErrorDetails> => {
     const fixedUrl = url.startsWith("/") ? url.slice(1) : url;
     try {
         let urlResult: string = `${devicesDomain}/${fixedUrl}`;
@@ -74,6 +80,10 @@ export const nxApiCall = async <T = any>(serverName: ServerName, method: Method,
         const headers = {
             authorization: data?.ignoreAuth ? undefined : "bearer " + (await auth?.currentUser?.getIdToken()),
         };
+        const axiosOptions: AxiosRequestConfig = { ...(data?.axiosOptions || {}) };
+        if (data?.axiosOptions) {
+            delete data.axiosOptions;
+        }
         if (data?.ignoreAuth) {
             delete data.ignoreAuth;
         }
@@ -82,6 +92,7 @@ export const nxApiCall = async <T = any>(serverName: ServerName, method: Method,
             url: urlResult,
             headers,
             data,
+            ...axiosOptions,
         });
 
         return response?.data || null;
