@@ -433,6 +433,7 @@ export const snapshot: Snapshot = (config, snapshotsFirstTime, settings) => {
         (error) => {
             console.error(`Error listening to collection: ${config.collectionName}`, error);
             resolvePromise();
+            config.onError?.(error, config);
         },
     );
 
@@ -493,6 +494,7 @@ export const snapshotDocument: SnapshotDocument = (config, snapshotsFirstTime) =
         (error) => {
             console.error(`Error listening to document in ${config.collectionName}:`, error);
             resolvePromise();
+            config.onError?.(error, config);
         },
     );
 

@@ -1,6 +1,7 @@
 import { Unsubscribe, WhereFilterOp } from "firebase/firestore";
 
 export type OnSnapshotCallback = (documents: any[], config: OnSnapshotConfig) => void;
+export type OnSnapshotErrorCallback<TConfig> = (error: Error, config: TConfig) => void;
 
 export interface OnSnapshotParsers {
     onFirstTime?: OnSnapshotCallback;
@@ -20,12 +21,14 @@ export interface OnSnapshotConfig extends OnSnapshotParsers {
     orderBy?: { fieldName: string; direction: "asc" | "desc" }[];
     parseAs?: "object" | "array";
     subscribeTo?: "cache" | "db";
+    onError?: OnSnapshotErrorCallback<OnSnapshotConfig>;
 }
 export interface OnSnapshotConfigDocument extends Omit<OnSnapshotParsers, "onAdd"> {
     collectionName: string;
     documentId: string;
     extraParsers?: Omit<OnSnapshotParsers, "onAdd">[];
     conditions?: WhereCondition[];
+    onError?: OnSnapshotErrorCallback<OnSnapshotConfigDocument>;
 }
 
 export interface SnapshotResult {

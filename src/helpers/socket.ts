@@ -275,7 +275,8 @@ class SocketService {
             if (callback.success) {
                 console.log(`Successfully subscribed to: ${collectionsNames.join(", ")}`);
             } else {
-                console.error(`Failed to subscribe to ${config.join(", ")}: ${callback.message}`);
+                console.error(`Failed to subscribe to ${collectionsNames.join(", ")}: ${callback.message}`);
+                config.forEach((c) => c.onError?.(new Error(callback.message || "Subscription failed"), c));
             }
         };
         /// options go out on their own event, and subscribe_collections keeps its original
